@@ -2,6 +2,10 @@ let gl, glProg, glBuf
 let canvas
 let lastTime
 
+const env = {
+    time: 0,
+}
+
 function log(msg) {
     console.log('>' + msg)
 }
@@ -17,7 +21,7 @@ function expandCanvas() {
     gl.viewportWidth = canvas.width
     gl.viewportHeight = canvas.height
 
-    draw(0)
+    draw()
 }
 
 function compileShader(id, type) {
@@ -50,23 +54,24 @@ function setupShaders() {
     }
 }
 
-function setupBuffers() {
+function fixBuffers() {
     // TODO load or proceduraly generate our geometry
+    const shift = 1 - env.time % 1
     const vertices = new Float32Array([
         // left triangle
-         -1,   1,  .0,
+         -1,   shift,  .0,
          .0,  .0,  .0,
-         -1,  -1,  .0,
+         -1,  -shift,  .0,
 
         // right triangle
-         1,    1,  .0,
+         shift,    1,  .0,
         .0,   .0,  .0,
-         1,   -1,  .0,
+         shift,   -1,  .0,
     ])
 
     glBuf = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, glBuf)
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW)
 }
 
 function setup() {
@@ -81,19 +86,21 @@ function setup() {
     //gl.clear(gl.COLOR_BUFFER_BIT)
 
     setupShaders()
-    setupBuffers()
 
     expandCanvas()
     lastTime = Date.now()
+    cycle()
 }
 
-function evo() {
+function evo(dt) {
 }
 
-function draw(dt) {
+function draw() {
     // TODO maybe change ONLY when resize happens?
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    fixBuffers()
 
     const vertexPositionAttribute = gl.getAttribLocation(glProg, 'aVertexPosition')
     gl.enableVertexAttribArray(vertexPositionAttribute)
@@ -103,6 +110,23 @@ function draw(dt) {
 }
 
 function cycle() {
+    const now = Date.now()
+    let dt = (now - lastTime) / 1000
+
+    // TODO handle inputs
+    // ...
+    if (dt > .3) dt = .3
+    env.time += dt
+    while (dt > .05) {
+        evo(.05)
+        dt -= .05
+    }
+    evo(dt)
+
+    draw()
+
+    lastTime = now
+    requestAnimationFrame(cycle)
 }
 
 
