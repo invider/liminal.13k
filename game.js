@@ -78,6 +78,7 @@ function fixBuffers() {
          sh2,   -1,  .0,
     ])
 
+    // TODO do we need to recreate buffers all the time?
     glBuf = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, glBuf)
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW)
@@ -85,7 +86,7 @@ function fixBuffers() {
 
 function setup() {
     canvas = document.getElementById('canvas')
-    gl = canvas.getContext('webgl', {
+    gl = canvas.getContext('webgl2', {
         alpha: false,
     })
     hcanvas = document.getElementById('hcanvas')
@@ -109,12 +110,28 @@ function evo(dt) {
 function drawHUD() {
     ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
 
-    const bx = hcanvas.width - 140
     ctx.fillStyle = '#ffff00'
     ctx.textBaseline = 'top'
     ctx.textAlign = 'left'
     ctx.font = "24px monospace"
-    ctx.fillText(`FPS: ${env.fps}`, bx, 20)
+
+    const bx = hcanvas.width - 160
+    let by = 20
+    ctx.fillText(`FPS: ${env.fps}`, bx, by)
+    by += 30
+    ctx.fillText(`Time: ${env.time << 0}`, bx, by)
+}
+
+function drawScene() {
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    fixBuffers()
+
+    const vertexPositionAttribute = gl.getAttribLocation(glProg, 'aVertexPosition')
+    gl.enableVertexAttribArray(vertexPositionAttribute)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glBuf)
+    gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0)
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
 }
 
 function draw(dt) {
@@ -127,17 +144,7 @@ function draw(dt) {
         }
     }
 
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-
-    fixBuffers()
-
-    const vertexPositionAttribute = gl.getAttribLocation(glProg, 'aVertexPosition')
-    gl.enableVertexAttribArray(vertexPositionAttribute)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glBuf)
-    gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0)
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
-
-
+    drawScene()
     drawHUD()
 }
 
@@ -148,6 +155,7 @@ function cycle() {
 
     // TODO handle inputs
     // ...
+
     if (dt > .3) dt = .3
     env.time += dt
     while (dt > .05) {
