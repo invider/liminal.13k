@@ -1,0 +1,17 @@
+#!/bin/sh
+
+./clean
+
+mkdir dist
+cp *.html ./dist
+cp *.js   ./dist
+
+cd dist
+zip game.zip *
+cd ..
+
+du -shb ./dist/*.js
+
+echo '-------------------------------'
+du -shb ./dist/*.zip
+echo '-------------------------------'

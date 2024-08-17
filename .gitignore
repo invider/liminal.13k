@@ -1,0 +1,6 @@
+# tools
+node_modules
+
+# build artifacts
+dist
+
