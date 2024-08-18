@@ -1,6 +1,13 @@
-let gl, glProg, glBuf
+let gl, glProg
 let canvas, hcanvas
 let lastTime
+
+// DEBUG
+let _position, _color
+let _mMatrix, _vMatrix, _pMatrix
+let cubeVCBuffer, cubeFBuffer
+let glDynamicBuffer
+let mxAngle = 0, myAngle = 0, mzAngle = 0
 
 let nfps = 0
 const ifps = []
@@ -56,10 +63,26 @@ function setupShaders() {
     gl.linkProgram(glProg)
 
     if (gl.getProgramParameter(glProg, gl.LINK_STATUS)) {
-        gl.useProgram(glProg)
+        // all fine!
+        return
     } else {
+        // TODO show the link error
         log('unable to link the GL program!')
     }
+}
+
+function setupBuffers() {
+    cubeVBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, cubeVertices, gl.STATIC_DRAW)
+
+    cubeCBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeCBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, cubeColors, gl.STATIC_DRAW)
+
+    cubeFBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeFBuffer)
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, cubeFaces, gl.STATIC_DRAW)
 }
 
 function fixBuffers() {
@@ -79,9 +102,15 @@ function fixBuffers() {
     ])
 
     // TODO do we need to recreate buffers all the time?
-    glBuf = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, glBuf)
+    glDynamicBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, glDynamicBuffer)
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.DYNAMIC_DRAW)
+}
+
+function setupUniforms() {
+    _mMatrix = gl.getUniformLocation(glProg, 'mMatrix')
+    _vMatrix = gl.getUniformLocation(glProg, 'vMatrix')
+    _pMatrix = gl.getUniformLocation(glProg, 'pMatrix')
 }
 
 function setup() {
@@ -94,10 +123,25 @@ function setup() {
 
     if (!gl) alert('No WebGL!')
 
-    gl.clearColor(0.0, 0.0, 0.0, 1.0)
+    gl.clearColor(0.2, 0.2, 0.2, 1.0)
     //gl.clear(gl.COLOR_BUFFER_BIT)
 
+    setupBuffers()
     setupShaders()
+    setupUniforms()
+
+    // bind buffers to attributes
+    _position = gl.getAttribLocation(glProg, 'aVertexPosition')
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVBuffer)
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 0, 0)
+    gl.enableVertexAttribArray(_position)
+
+    _color = gl.getAttribLocation(glProg, 'aVertexColor')
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeCBuffer)
+    gl.vertexAttribPointer(_color,    3, gl.FLOAT, false, 0, 0)
+    gl.enableVertexAttribArray(_color)
+
+    gl.useProgram(glProg)
 
     expandCanvas()
     lastTime = Date.now()
@@ -105,6 +149,9 @@ function setup() {
 }
 
 function evo(dt) {
+    mxAngle += 20 * DEG_TO_RAD * dt
+    myAngle += 40 * DEG_TO_RAD * dt
+    mzAngle += 5  * DEG_TO_RAD * dt
 }
 
 function drawHUD() {
@@ -123,15 +170,39 @@ function drawHUD() {
 }
 
 function drawScene() {
+    const pMatrix = mat4.projection(70, canvas.width/canvas.height, 1, 1000)
+    //const pMatrix = mat4.identity()
+    const vMatrix = mat4.identity()
+    const mMatrix = mat4.identity()
+
+    vMatrix[12] -= 0  // translate x
+    vMatrix[13] -= 0  // translate y
+    vMatrix[14] -= 4  // translate z
+
+    mat4.mul(mMatrix, mat4.rotX(mxAngle))
+        .mul(mMatrix, mat4.rotY(myAngle))
+        .mul(mMatrix, mat4.rotZ(mzAngle))
+
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.enable(gl.DEPTH_TEST)
+    gl.depthFunc(gl.LEQUAL)
+    gl.clearDepth(1.0)
 
+    gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
+    gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
+    gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeFBuffer)
+    gl.drawElements(gl.TRIANGLES, cubeFaces.length, gl.UNSIGNED_SHORT, 0)
+
+    /*
     fixBuffers()
-
     const vertexPositionAttribute = gl.getAttribLocation(glProg, 'aVertexPosition')
     gl.enableVertexAttribArray(vertexPositionAttribute)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glBuf)
+    gl.bindBuffer(gl.ARRAY_BUFFER, glDynamicBuffer)
     gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0)
     gl.drawArrays(gl.TRIANGLES, 0, 6)
+    */
 }
 
 function draw(dt) {
