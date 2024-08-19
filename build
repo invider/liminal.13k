@@ -1,17 +1,24 @@
 #!/bin/sh
 
+SRC=./src
+DIST=./dist
+
 ./clean
 
-mkdir dist
-cp *.html ./dist
-cp *.js   ./dist
+mkdir $DIST
+cp $SRC/*.html $DIST
 
-cd dist
-zip game.zip *
+mkdir $DIST/js
+cp $SRC/js/*.js   $DIST/js/
+
+du -shb $DIST/js/*.js
+
+echo "Creating the zip archive..."
+cd $DIST
+zip -r game.zip *
 cd ..
 
-du -shb ./dist/*.js
 
 echo '-------------------------------'
-du -shb ./dist/*.zip
+du -shb $DIST/*.zip
 echo '-------------------------------'

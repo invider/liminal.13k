@@ -1,0 +1,6 @@
+#!/bin/sh
+
+URL=./src/index.html
+
+nohup xdg-open $URL &>/dev/null &
+
