@@ -1,0 +1,24 @@
+{
+  "name": "liminal.13k",
+  "version": "0.1.0",
+  "description": "js13k entry",
+  "main": "index.js",
+  "scripts": {
+    "minify": "node ./tools/minify.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/invider/liminal.13k.git"
+  },
+  "author": "Igor Khotin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/invider/liminal.13k/issues"
+  },
+  "homepage": "https://github.com/invider/liminal.13k#readme",
+  "devDependencies": {
+    "html-minifier-terser": "^7.2.0",
+    "terser": "^5.31.6"
+  }
+}
