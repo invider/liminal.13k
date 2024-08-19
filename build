@@ -2,23 +2,46 @@
 
 SRC=./src
 DIST=./dist
+STAGE=$DIST/stage
+TAR=$DIST/target
+ZIP=game.zip
 
+echo "Cleaning..."
 ./clean
 
-mkdir $DIST
-cp $SRC/*.html $DIST
+mkdir -p $DIST
+mkdir -p $STAGE
+cp --verbose $SRC/html/*.html $STAGE/
 
-mkdir $DIST/js
-cp $SRC/js/*.js   $DIST/js/
+mkdir $STAGE/js
+cp --verbose $SRC/js/*.js   $STAGE/js/
 
-du -shb $DIST/js/*.js
+#du -shb $STAGE/*.html
+#du -shb $STAGE/js/*.js
 
-echo "Creating the zip archive..."
-cd $DIST
-zip -r game.zip *
-cd ..
+# minify
+echo "=============="
+echo "=   Minify   ="
+echo "=============="
+mkdir -p $TAR
+node ./tools/minify.js $STAGE $TAR
 
+# just copy html fo now
+# TODO minify .html and .css files
+cp --verbose $STAGE/*.html $TAR
+
+
+echo "============="
+echo "=    ZIP    ="
+echo "============="
+echo "Creating the archive from [$TAR]..."
+cd $TAR
+pwd
+zip -r $ZIP *
+mv --verbose $ZIP ../
+cd -
 
 echo '-------------------------------'
 du -shb $DIST/*.zip
+du -sh --apparent-size $DIST/*.zip
 echo '-------------------------------'

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liminal</title>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                overflow: hidden;
+                background-color: #000000;
+            }
+            canvas {
+                border: 0px;
+                position: absolute;
+                display: block;
+            }
+        </style>
+
+        <script id="v-shader" type="x-shader/x-vertex">
+            uniform mat4 mMatrix;
+            uniform mat4 vMatrix;
+            uniform mat4 pMatrix;
+
+            attribute vec3 aVertexPosition;
+            attribute vec3 aVertexColor;
+
+            varying vec3 vColor;
+
+            void main(void) {
+                //gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
+                gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
+                vColor = aVertexColor;
+            }
+        </script>
+
+        <script id="f-shader" type="x-shader/x-fragment">
+            precision mediump float;
+            varying vec3 vColor;
+
+            void main(void) {
+                //gl_FragColor = vec4(1.0, 1.0, 0, 1.0);
+                gl_FragColor = vec4(vColor, 1.0);
+            }
+        </script>
+
+        <script src="game.js"></script>
+    </head>
+
+    <body>
+        <canvas id="canvas"></canvas>
+        <canvas id="hcanvas"></canvas>
+    </body>
+</html>
