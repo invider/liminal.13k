@@ -16,7 +16,10 @@ function evo(dt) {
     myAngle += 40 * DEG_TO_RAD * dt
     mzAngle += 5  * DEG_TO_RAD * dt
 
-    cxAngle += 2 * dt
+    let w = ((env.time/8) % 2) - 1
+    if (w < 0) w = -1 * w
+    const wobble = .7
+    cxAngle = PI - .4 + w * wobble
 }
 
 function drawHUD() {
@@ -37,13 +40,18 @@ function drawHUD() {
 function drawScene() {
     const pMatrix = mat4.projection(70, canvas.width/canvas.height, 1, 1000)
     //const pMatrix = mat4.identity()
-    const vMatrix = mat4.identity()
+    //const vMatrix = mat4.identity()
+    const vMatrix = mat4.lookAt(
+        vec3.create(-5, -5, -6),
+        vec3.create(0, 10, 0),
+        vec3.create(0.2, 1, 0),
+    )
     const mMatrix = mat4.identity()
 
-    mat4.mul(vMatrix, mat4.rotX(cxAngle))
-    vMatrix[12] += 1  // translate x
-    vMatrix[13] -= 1  // translate y
-    vMatrix[14] -= 10  // translate z
+    //mat4.mul(vMatrix, mat4.rotX(cxAngle))
+    //vMatrix[12] += 1  // translate x
+    //vMatrix[13] -= 1  // translate y
+    //vMatrix[14] -= 10  // translate z
 
     mat4.invert(vMatrix)
 

@@ -1,5 +1,48 @@
-const DEG_TO_RAD = Math.PI/180
-const RAD_TO_DEG = 180/Math.PI
+const PI = Math.PI
+const DEG_TO_RAD = PI/180
+const RAD_TO_DEG = 180/PI
+const EPSILON = 0.001
+
+const vec3 = {
+
+    create: function(x, y, z) {
+        const m = new Float32Array(3)
+        m[0] = x
+        m[1] = y
+        m[2] = z
+        return m
+    },
+
+    normalize: function(v) {
+        const l = Math.hypot(v[0], v[1], v[2])
+        if (l === 0) return v
+        const il = 1/l
+        v[0] = v[0] * il
+        v[1] = v[1] * il
+        v[2] = v[2] * il
+        return v
+    },
+
+    isub: function(v, w) {
+        return this.create(
+            v[0] - w[0],
+            v[1] - w[1],
+            v[2] - w[2]
+        )
+    },
+
+    dot: function(a, b) {
+        return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
+    },
+
+    icross: function(a, b) {
+        return this.create(
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0]
+        )
+    },
+}
 
 const mat4 = {
 
@@ -8,6 +51,30 @@ const mat4 = {
         m[0]  = 1
         m[5]  = 1
         m[10] = 1
+        m[15] = 1
+        return m
+    },
+
+    copy: function(a) {
+        const o = new Float32Array(16)
+        for (let i = 0; i < 16; i++) o[i] = a[i]
+        return o
+    },
+
+    createV3: function(v1, v2, v3, v4) {
+        const m = new Float32Array(16)
+        m[0] = v1[0]
+        m[1] = v1[1]
+        m[2] = v1[2]
+        m[4] = v2[0]
+        m[5] = v2[1]
+        m[6] = v2[2]
+        m[8] = v3[0]
+        m[9] = v3[1]
+        m[10] = v3[2]
+        m[12] = v4[0]
+        m[13] = v4[1]
+        m[14] = v4[2]
         m[15] = 1
         return m
     },
@@ -30,6 +97,16 @@ const mat4 = {
             0,      0,    e33,   -1,
             0,      0,    e34,    0,
         ])
+    },
+
+    lookAt: function(cam, tar, up) {
+        const zAxis = vec3.normalize( vec3.isub(cam, tar) )
+
+        const ixAxis = vec3.icross(up, zAxis)
+        const xAxis = vec3.normalize( vec3.icross(up, zAxis) )
+        const yAxis = vec3.normalize( vec3.icross(zAxis, xAxis) )
+
+        return this.createV3(xAxis, yAxis, zAxis, cam)
     },
 
     // TODO combine rot matrices into a single 3-axis rotation
@@ -86,12 +163,6 @@ const mat4 = {
         }
 
         return this
-    },
-
-    copy: function(a) {
-        const o = new Float32Array(16)
-        for (let i = 0; i < 16; i++) o[i] = a[i]
-        return o
     },
 
     // invert a 4D matrix
