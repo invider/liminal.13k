@@ -2,24 +2,9 @@ let gl, glProg
 let canvas, hcanvas
 let lastTime
 
-// DEBUG
-let cubeVCBuffer, cubeFBuffer
-let glDynamicBuffer
-let mxAngle = 0, myAngle = 0, mzAngle = 0
-let cxAngle = 0
-
 function evo(dt) {
+    if (env.pause) return
     lab.evo(dt)
-
-    // DEBUG - rotate our fixed cube
-    mxAngle += 20 * DEG_TO_RAD * dt
-    myAngle += 40 * DEG_TO_RAD * dt
-    mzAngle += 5  * DEG_TO_RAD * dt
-
-    let w = ((env.time/8) % 2) - 1
-    if (w < 0) w = -1 * w
-    const wobble = .7
-    cxAngle = PI - .4 + w * wobble
 }
 
 function drawScene() {
@@ -36,35 +21,12 @@ function drawScene() {
     const pMatrix = mat4.projection(lab.cam.vfov, canvas.width/canvas.height, 1, 1024)
     const vMatrix = lab.cam.viewMatrix()
 
-    //mat4.mul(vMatrix, mat4.rotX(cxAngle))
     // TODO merge view and projection into the pv matrix
     gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
     gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
 
     // draw the scene graph
     lab.draw()
-
-    /*
-    // draw the cube
-    const mMatrix = mat4.identity()
-    mat4
-        .translate(mMatrix, vec3(-4, 2, 0))
-        .rotX(mMatrix, mxAngle)
-        .rotY(mMatrix, myAngle)
-        .rotZ(mMatrix, mzAngle)
-        .scale(mMatrix, vec3(.5, 4, 1))
-
-    gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf.cubeV)
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 0, 0)
-
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf.cubeC)
-    gl.vertexAttribPointer(_color,    3, gl.FLOAT, false, 0, 0)
-
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.cubeF)
-    gl.drawElements(gl.TRIANGLES, cubeFaces.length, gl.UNSIGNED_SHORT, 0)
-    */
 }
 
 function drawHUD() {
@@ -80,6 +42,13 @@ function drawHUD() {
     ctx.fillText(`FPS: ${env.fps}`, bx, by)
     by += 30
     ctx.fillText(`Time: ${env.time << 0}`, bx, by)
+
+    if (env.status) {
+        ctx.textBaseline = 'bottom'
+        ctx.textAlign = 'right'
+        by = hcanvas.height - 20
+        ctx.fillText(env.status, bx, by)
+    }
 }
 
 

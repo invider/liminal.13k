@@ -2,6 +2,9 @@ const PI = Math.PI
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
 
+const cos = Math.cos
+const sin = Math.sin
+
 const rnd = Math.random
 
 const vec3 = function(x, y, z) {
@@ -10,6 +13,18 @@ const vec3 = function(x, y, z) {
     m[1] = y
     m[2] = z
     return m
+}
+
+vec3.copy = function(v) {
+    const m = new Float32Array(3)
+    m[0] = v[0]
+    m[1] = v[1]
+    m[2] = v[2]
+    return m
+}
+
+vec3.len = function(v) {
+    return Math.hypot(v[0], v[1], v[2])
 }
 
 vec3.normalize = function(v) {
@@ -28,6 +43,27 @@ vec3.isub = function(v, w) {
         v[1] - w[1],
         v[2] - w[2]
     )
+}
+
+vec3.add = function(v, w) {
+    v[0] += w[0]
+    v[1] += w[1]
+    v[2] += w[2]
+    return this
+}
+
+vec3.mul = function(v, w) {
+    v[0] *= w[0]
+    v[1] *= w[1]
+    v[2] *= w[2]
+    return this
+}
+
+vec3.scale = function(v, s) {
+    v[0] *= s
+    v[1] *= s
+    v[2] *= s
+    return this
 }
 
 vec3.dot = function(a, b) {
@@ -63,7 +99,8 @@ const tsm4 = tempM4[0], // for scaling
       ttm4 = tempM4[1], // for translation
       txm4 = tempM4[2], // for x-axis rotation
       tym4 = tempM4[3], // for y-axis rotation
-      tzm4 = tempM4[4]  // for z-axis rotation
+      tzm4 = tempM4[4], // for z-axis rotation
+      trm4 = tempM4[5]  // for zyx rotation
 
 const mat4 = {
 
@@ -137,10 +174,10 @@ const mat4 = {
     // @param {number} theta - the rotation angle in radians
     // @return {object/lib} the mat4 library object
     rotX: function(m, theta) {
-        txm4[0 ] =  Math.cos(theta)
-        txm4[2 ] = -Math.sin(theta)
-        txm4[8 ] =  Math.sin(theta)
-        txm4[10] =  Math.cos(theta)
+        txm4[0 ] =  cos(theta)
+        txm4[2 ] = -sin(theta)
+        txm4[8 ] =  sin(theta)
+        txm4[10] =  cos(theta)
         this.mul(m, txm4)
         return this
     },
@@ -151,10 +188,10 @@ const mat4 = {
     // @param {number} theta - the rotation angle in radians
     // @return {object/lib} the mat4 library object
     rotY: function(m, theta) {
-        tym4[5 ] =  Math.cos(theta)
-        tym4[6 ] =  Math.sin(theta)
-        tym4[9 ] = -Math.sin(theta)
-        tym4[10] =  Math.cos(theta)
+        tym4[5 ] =  cos(theta)
+        tym4[6 ] =  sin(theta)
+        tym4[9 ] = -sin(theta)
+        tym4[10] =  cos(theta)
         this.mul(m, tym4)
         return this
     },
@@ -165,11 +202,32 @@ const mat4 = {
     // @param {number} theta - the rotation angle in radians
     // @return {object/lib} the mat4 library object
     rotZ: function(m, theta) {
-        tzm4[0] =  Math.cos(theta)
-        tzm4[1] =  Math.sin(theta)
-        tzm4[4] = -Math.sin(theta)
-        tzm4[5] =  Math.cos(theta)
+        tzm4[0] =  cos(theta)
+        tzm4[1] =  sin(theta)
+        tzm4[4] = -sin(theta)
+        tzm4[5] =  cos(theta)
         this.mul(m, tzm4)
+        return this
+    },
+
+    rot: function(m, v) {
+        const 
+            cx = cos(v[0]), sx = sin(v[0]),
+            cy = cos(v[1]), sy = sin(v[1]),
+            cz = cos(v[2]), sz = sin(v[2])
+        trm4[0] = cy * cz
+        trm4[1] = sx * sy * cz + cx * sz
+        trm4[2] = -cx * sy * cz + sx * sz
+
+        trm4[4] = -cy * sz
+        trm4[5] = -sx * sy * sz + cx * cz
+        trm4[6] = cx * sy * sz + sx * cz
+
+        trm4[8] =  sy
+        trm4[9] =  -sx * cy
+        trm4[10] =  cx * cy
+
+        this.mul(m, trm4)
         return this
     },
 

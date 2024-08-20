@@ -4,13 +4,24 @@ class Camera {
         extend(this, st)
     }
 
+    evo() {}
+
     viewMatrix() {
-        const m = mat4.lookAt(
-            this.pos,
-            this.lookAt,
-            this.up,
-        )
-        mat4.invert(m)
+        let m
+        if (this.lookAt) {
+            m = mat4.lookAt(
+                this.pos,
+                this.lookAt,
+                this.up,
+            )
+            mat4.invert(m)
+        } else {
+            // TODO do we need that at all?
+            m = mat4.identity()
+            mat4.rot(m, this.rot)
+            mat4.translate(m, this.pos)
+        }
+
         return m
     }
 }
