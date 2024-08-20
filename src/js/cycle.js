@@ -43,7 +43,7 @@ function drawScene() {
     //const vMatrix = mat4.identity()
     const vMatrix = mat4.lookAt(
         vec3.create(-5, -5, -6),
-        vec3.create(0, 10, 0),
+        vec3.create(0, 0, 0),
         vec3.create(0.2, 1, 0),
     )
     const mMatrix = mat4.identity()
@@ -55,9 +55,12 @@ function drawScene() {
 
     mat4.invert(vMatrix)
 
-    mat4.mul(mMatrix, mat4.rotX(mxAngle))
-        .mul(mMatrix, mat4.rotY(myAngle))
-        .mul(mMatrix, mat4.rotZ(mzAngle))
+    mat4
+        .translate(mMatrix, -4, 2, 0)
+        .rotX(mMatrix, mxAngle)
+        .rotY(mMatrix, myAngle)
+        .rotZ(mMatrix, mzAngle)
+        .scale(mMatrix, .5, 4, 1)
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.enable(gl.DEPTH_TEST)

@@ -1,7 +1,6 @@
 const PI = Math.PI
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
-const EPSILON = 0.001
 
 const vec3 = {
 
@@ -44,25 +43,45 @@ const vec3 = {
     },
 }
 
+// turn a zero 4D matrix into an identity one
+// @param {array/mat4} - a zero 4D matrix to set identity to
+function setMat4Identity(m) {
+    m[0]  = 1
+    m[5]  = 1
+    m[10] = 1
+    m[15] = 1
+    return m
+}
+
+function newMat4() {
+    return new Float32Array(16)
+}
+
+// generate buffer matrices used to speed up calculations
+const tempM4 = []
+for (let i = 0; i < 8; i++) tempM4[i] = setMat4Identity(newMat4())
+const tsm4 = tempM4[0], // for scaling
+      ttm4 = tempM4[1], // for translation
+      txm4 = tempM4[2], // for x-axis rotation
+      tym4 = tempM4[3], // for y-axis rotation
+      tzm4 = tempM4[4]  // for z-axis rotation
+
 const mat4 = {
 
     identity: function() {
-        const m = new Float32Array(16)
-        m[0]  = 1
-        m[5]  = 1
-        m[10] = 1
-        m[15] = 1
+        const m = newMat4()
+        setMat4Identity(m)
         return m
     },
 
     copy: function(a) {
-        const o = new Float32Array(16)
+        const o = newMat4()
         for (let i = 0; i < 16; i++) o[i] = a[i]
         return o
     },
 
     createV3: function(v1, v2, v3, v4) {
-        const m = new Float32Array(16)
+        const m = newMat4()
         m[0] = v1[0]
         m[1] = v1[1]
         m[2] = v1[2]
@@ -79,30 +98,32 @@ const mat4 = {
         return m
     },
 
-    // generates a perspective projection 4D matrix
+    // generates a perspective projection 4x4 matrix
+    //
     // @param {number/degrees} fovy - the vertical field of view
     // @param {number} aspectRate - the viewport width-to-height aspect ratio
     // @param {number} zNear - the z coordinate of the near clipping plane
     // @param {number} zFar - the z coordinate of the far clipping plane
     projection: function(fovy, aspectRate, zNear, zFar) {
+        const m = newMat4()
         const tan = Math.tan(fovy * DEG_TO_RAD * .5)
-        const e11 = .5/tan
-        const e22 = .5 * aspectRate/tan
-        const e33 = -(zFar + zNear) / (zFar - zNear)
-        const e34 = (-2 * zFar * zNear)/(zFar - zNear)
+        m[0]  = .5/tan
+        m[5]  = .5 * aspectRate/tan
+        m[10] = -(zFar + zNear) / (zFar - zNear)
+        m[11] = (-2 * zFar * zNear)/(zFar - zNear)
+        m[14] = -1
 
-        return new Float32Array([
-            e11,    0,    0,      0,
-            0,      e22,  0,      0,
-            0,      0,    e33,   -1,
-            0,      0,    e34,    0,
-        ])
+        return m
     },
 
+    // generates camera look at matrix
+    //
+    // @param {array/vec3} car - the camera coordinates 3D vector
+    // @param {array/vec3} tar - the target coordinates 3D vector
+    // @param {array/vec3} up - the up camera orientation 3D vector (tilt)
+    // @return {array/mat4} the look-at 4x4 matrix
     lookAt: function(cam, tar, up) {
         const zAxis = vec3.normalize( vec3.isub(cam, tar) )
-
-        const ixAxis = vec3.icross(up, zAxis)
         const xAxis = vec3.normalize( vec3.icross(up, zAxis) )
         const yAxis = vec3.normalize( vec3.icross(zAxis, xAxis) )
 
@@ -110,43 +131,83 @@ const mat4 = {
     },
 
     // TODO combine rot matrices into a single 3-axis rotation
-    // TODO turn into -> mat4 * rotMat4
-    rotX: function(theta) {
-        // return the rotation matrix
-        const m = this.identity()
-        m[0]  = Math.cos(theta)
-        m[2]  = -Math.sin(theta)
-        m[8]  = Math.sin(theta)
-        m[10] = Math.cos(theta)
-        return m
+
+    // rotate a matrix around the x-axis
+    //
+    // @param {array/mat4} m - the 4x4 matrix to rotate
+    // @param {number} theta - the rotation angle in radians
+    // @return {object/lib} the mat4 library object
+    rotX: function(m, theta) {
+        txm4[0 ] =  Math.cos(theta)
+        txm4[2 ] = -Math.sin(theta)
+        txm4[8 ] =  Math.sin(theta)
+        txm4[10] =  Math.cos(theta)
+        this.mul(m, txm4)
+        return this
     },
 
-    // TODO turn into -> mat4 * rotMat4
-    rotY: function(theta) {
-        // return the rotation matrix
-        const m = this.identity()
-        m[5] = Math.cos(theta)
-        m[6] = Math.sin(theta)
-        m[9] = -Math.sin(theta)
-        m[10] = Math.cos(theta)
-        return m
+    // rotate a matrix around the y-axis
+    //
+    // @param {array/mat4} m - the 4x4 matrix to rotate
+    // @param {number} theta - the rotation angle in radians
+    // @return {object/lib} the mat4 library object
+    rotY: function(m, theta) {
+        tym4[5 ] =  Math.cos(theta)
+        tym4[6 ] =  Math.sin(theta)
+        tym4[9 ] = -Math.sin(theta)
+        tym4[10] =  Math.cos(theta)
+        this.mul(m, tym4)
+        return this
     },
 
-    // TODO turn into -> mat4 * rotMat4
-    rotZ: function(theta) {
-        // return the rotation matrix
-        const m = this.identity()
-        m[0] = Math.cos(theta)
-        m[1] = Math.sin(theta)
-        m[4] = -Math.sin(theta)
-        m[5] = Math.cos(theta)
-        return m
+    // rotate a matrix around the z-axis
+    //
+    // @param {array/mat4} m - the 4x4 matrix to rotate
+    // @param {number} theta - the rotation angle in radians
+    // @return {object/lib} the mat4 library object
+    rotZ: function(m, theta) {
+        tzm4[0] =  Math.cos(theta)
+        tzm4[1] =  Math.sin(theta)
+        tzm4[4] = -Math.sin(theta)
+        tzm4[5] =  Math.cos(theta)
+        this.mul(m, tzm4)
+        return this
     },
+
+    // translate a 4x4 matrix to the specified coordinates
+    //
+    // @param {array/mat4} m - the 4x4 matrix to translate
+    // @param {number} x
+    // @param {number} y
+    // @param {number} z
+    // @return {object/lib} the mat4 library object
+    translate: function(m, x, y, z) {
+        ttm4[12] = x
+        ttm4[13] = y
+        ttm4[14] = z
+        this.mul(m, ttm4)
+        return this
+    },
+
+    // scale a 4x4 matrix by the specified values across each axis
+    //
+    // @param {array/mat4} m - the 4x4 matrix to scale
+    // @param {number} x - the scale factor along the x-axis
+    // @param {number} y - the scale factor along the y-axis
+    // @param {number} z - the scale factor along the z-axis
+    // @return {object/lib} the mat4 library object
+    scale: function(m, x, y, z) {
+        tsm4[0 ] = x
+        tsm4[5 ] = y
+        tsm4[10] = z
+        this.mul(m, tsm4)
+        return this
+    }, 
 
     // multiply 2 4D matrices
     // @param {array/mat4} a - the first operand the result receiver
     // @param {array/mat4} b - the second operand (immutable)
-    // @returns {object} - the math utilities object
+    // @return {object/lib} the mat4 library object
     mul: function(a, b) {
         const a1x = a[0],  a1y = a[1],  a1z = a[2],  a1w = a[3],
               a2x = a[4],  a2y = a[5],  a2z = a[6],  a2w = a[7],
@@ -165,8 +226,9 @@ const mat4 = {
         return this
     },
 
-    // invert a 4D matrix
+    // invert a 4x4 matrix
     // @param {array/mat4} t - the source and receiving 4D matrix 
+    // @return {object/lib} the mat4 library object
     invert: function(t) {
         const m = this.copy(t)
         const
@@ -216,4 +278,3 @@ const mat4 = {
         return this
     }
 }
-

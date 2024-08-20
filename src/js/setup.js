@@ -78,7 +78,7 @@ function setup() {
 
     if (!gl) alert('No WebGL!')
 
-    gl.clearColor(0.2, 0.2, 0.2, 1.0)
+    gl.clearColor(0.12, .07, .14, 1.0)
     //gl.clear(gl.COLOR_BUFFER_BIT)
 
     setupBuffers()
