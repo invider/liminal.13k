@@ -1,21 +1,3 @@
-function expandCanvas() {
-    const newWidth = window.innerWidth
-    const newHeight = window.innerHeight
-
-    canvas.width = newWidth
-    canvas.height = newHeight
-    canvas.style.width = newWidth + 'px'
-    canvas.style.height = newHeight + 'px'
-    gl.viewport(0, 0, canvas.width, canvas.height)
-
-    hcanvas.width = newWidth
-    hcanvas.height = newHeight
-    hcanvas.style.width = newWidth + 'px'
-    hcanvas.style.height = newHeight + 'px'
-
-    draw()
-}
-
 function compileShader(id, type) {
     const src = document.getElementById(id).innerHTML
     const shader = gl.createShader(type? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER)
@@ -25,8 +7,7 @@ function compileShader(id, type) {
 
     if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader
     else {
-        log('shader error!')
-        log(gl.getShaderInfoLog(shader))
+        err(gl.getShaderInfoLog(shader))
     }
 }
 
@@ -39,12 +20,9 @@ function setupShaders() {
     gl.attachShader(glProg, f)
     gl.linkProgram(glProg)
 
-    if (gl.getProgramParameter(glProg, gl.LINK_STATUS)) {
-        // all fine!
-        return
-    } else {
+    if (!gl.getProgramParameter(glProg, gl.LINK_STATUS)) {
         // TODO show the link error
-        log('unable to link the GL program!')
+        err(gl.getProgramInfoLog(glProg))
     }
 }
 

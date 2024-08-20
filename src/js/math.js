@@ -12,6 +12,11 @@ const mat4 = {
         return m
     },
 
+    // generates a perspective projection 4D matrix
+    // @param {number/degrees} fovy - the vertical field of view
+    // @param {number} aspectRate - the viewport width-to-height aspect ratio
+    // @param {number} zNear - the z coordinate of the near clipping plane
+    // @param {number} zFar - the z coordinate of the far clipping plane
     projection: function(fovy, aspectRate, zNear, zFar) {
         const tan = Math.tan(fovy * DEG_TO_RAD * .5)
         const e11 = .5/tan
@@ -27,6 +32,8 @@ const mat4 = {
         ])
     },
 
+    // TODO combine rot matrices into a single 3-axis rotation
+    // TODO turn into -> mat4 * rotMat4
     rotX: function(theta) {
         // return the rotation matrix
         const m = this.identity()
@@ -37,6 +44,7 @@ const mat4 = {
         return m
     },
 
+    // TODO turn into -> mat4 * rotMat4
     rotY: function(theta) {
         // return the rotation matrix
         const m = this.identity()
@@ -47,6 +55,7 @@ const mat4 = {
         return m
     },
 
+    // TODO turn into -> mat4 * rotMat4
     rotZ: function(theta) {
         // return the rotation matrix
         const m = this.identity()
@@ -57,6 +66,10 @@ const mat4 = {
         return m
     },
 
+    // multiply 2 4D matrices
+    // @param {array/mat4} a - the first operand the result receiver
+    // @param {array/mat4} b - the second operand (immutable)
+    // @returns {object} - the math utilities object
     mul: function(a, b) {
         const a1x = a[0],  a1y = a[1],  a1z = a[2],  a1w = a[3],
               a2x = a[4],  a2y = a[5],  a2z = a[6],  a2w = a[7],
