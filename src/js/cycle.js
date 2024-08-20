@@ -8,12 +8,15 @@ let _mMatrix, _vMatrix, _pMatrix
 let cubeVCBuffer, cubeFBuffer
 let glDynamicBuffer
 let mxAngle = 0, myAngle = 0, mzAngle = 0
+let cxAngle = 0
 
 
 function evo(dt) {
     mxAngle += 20 * DEG_TO_RAD * dt
     myAngle += 40 * DEG_TO_RAD * dt
     mzAngle += 5  * DEG_TO_RAD * dt
+
+    cxAngle += 2 * dt
 }
 
 function drawHUD() {
@@ -37,9 +40,12 @@ function drawScene() {
     const vMatrix = mat4.identity()
     const mMatrix = mat4.identity()
 
-    vMatrix[12] -= 0  // translate x
-    vMatrix[13] -= 0  // translate y
-    vMatrix[14] -= 4  // translate z
+    mat4.mul(vMatrix, mat4.rotX(cxAngle))
+    vMatrix[12] += 1  // translate x
+    vMatrix[13] -= 1  // translate y
+    vMatrix[14] -= 10  // translate z
+
+    mat4.invert(vMatrix)
 
     mat4.mul(mMatrix, mat4.rotX(mxAngle))
         .mul(mMatrix, mat4.rotY(myAngle))
@@ -49,6 +55,9 @@ function drawScene() {
     gl.enable(gl.DEPTH_TEST)
     gl.depthFunc(gl.LEQUAL)
     gl.clearDepth(1.0)
+    // TODO figure the geometry and normals
+    //gl.enable(gl.CULL_FACE)
+    //gl.cullFace(gl.FRONT)
 
     gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
     gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
