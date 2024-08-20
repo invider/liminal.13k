@@ -1,3 +1,7 @@
+// shader attributes
+let _position, _color
+let _mMatrix, _vMatrix, _pMatrix
+
 function compileShader(id, type) {
     const src = document.getElementById(id).innerHTML
     const shader = gl.createShader(type? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER)
@@ -40,6 +44,7 @@ function setupBuffers() {
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, cubeFaces, gl.STATIC_DRAW)
 }
 
+// DEBUG x2 triangles buffer
 function fixBuffers() {
     // TODO load or proceduraly generate our geometry
     const shift = 1 - env.time % 1
@@ -103,3 +108,7 @@ function setup() {
     cycle()
 }
 
+window.onload = setup
+window.onresize = function() {
+    expandCanvas()
+}

@@ -3,15 +3,15 @@ let canvas, hcanvas
 let lastTime
 
 // DEBUG
-let _position, _color
-let _mMatrix, _vMatrix, _pMatrix
 let cubeVCBuffer, cubeFBuffer
 let glDynamicBuffer
 let mxAngle = 0, myAngle = 0, mzAngle = 0
 let cxAngle = 0
 
-
 function evo(dt) {
+    lab.evo(dt)
+
+    // DEBUG
     mxAngle += 20 * DEG_TO_RAD * dt
     myAngle += 40 * DEG_TO_RAD * dt
     mzAngle += 5  * DEG_TO_RAD * dt
@@ -20,6 +20,47 @@ function evo(dt) {
     if (w < 0) w = -1 * w
     const wobble = .7
     cxAngle = PI - .4 + w * wobble
+}
+
+function drawScene() {
+    // prepare the framebuffer and the drawing context
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.enable(gl.DEPTH_TEST)
+    gl.depthFunc(gl.LEQUAL)
+    gl.clearDepth(1.0)
+    // TODO figure the geometry and normals
+    //gl.enable(gl.CULL_FACE)
+    //gl.cullFace(gl.FRONT)
+
+    // setup up the view and projection transformations
+    const pMatrix = mat4.projection(70, canvas.width/canvas.height, 1, 1000)
+    const vMatrix = mat4.lookAt(
+        vec3(-5, -5, -6),
+        vec3(0, 0, 0),
+        vec3(0.2, 1, 0),
+    )
+    //mat4.mul(vMatrix, mat4.rotX(cxAngle))
+    mat4.invert(vMatrix)
+    // TODO merge view and projection into the pv matrix
+    gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
+    gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
+
+    // draw the scene graph
+    lab.draw()
+
+    // draw the cube
+    const mMatrix = mat4.identity()
+    mat4
+        .translate(mMatrix, vec3(-4, 2, 0))
+        .rotX(mMatrix, mxAngle)
+        .rotY(mMatrix, myAngle)
+        .rotZ(mMatrix, mzAngle)
+        .scale(mMatrix, vec3(.5, 4, 1))
+
+    gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeFBuffer)
+    gl.drawElements(gl.TRIANGLES, cubeFaces.length, gl.UNSIGNED_SHORT, 0)
 }
 
 function drawHUD() {
@@ -37,55 +78,6 @@ function drawHUD() {
     ctx.fillText(`Time: ${env.time << 0}`, bx, by)
 }
 
-function drawScene() {
-    const pMatrix = mat4.projection(70, canvas.width/canvas.height, 1, 1000)
-    //const pMatrix = mat4.identity()
-    //const vMatrix = mat4.identity()
-    const vMatrix = mat4.lookAt(
-        vec3.create(-5, -5, -6),
-        vec3.create(0, 0, 0),
-        vec3.create(0.2, 1, 0),
-    )
-    const mMatrix = mat4.identity()
-
-    //mat4.mul(vMatrix, mat4.rotX(cxAngle))
-    //vMatrix[12] += 1  // translate x
-    //vMatrix[13] -= 1  // translate y
-    //vMatrix[14] -= 10  // translate z
-
-    mat4.invert(vMatrix)
-
-    mat4
-        .translate(mMatrix, -4, 2, 0)
-        .rotX(mMatrix, mxAngle)
-        .rotY(mMatrix, myAngle)
-        .rotZ(mMatrix, mzAngle)
-        .scale(mMatrix, .5, 4, 1)
-
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-    gl.enable(gl.DEPTH_TEST)
-    gl.depthFunc(gl.LEQUAL)
-    gl.clearDepth(1.0)
-    // TODO figure the geometry and normals
-    //gl.enable(gl.CULL_FACE)
-    //gl.cullFace(gl.FRONT)
-
-    gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
-    gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
-    gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
-
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeFBuffer)
-    gl.drawElements(gl.TRIANGLES, cubeFaces.length, gl.UNSIGNED_SHORT, 0)
-
-    /*
-    fixBuffers()
-    const vertexPositionAttribute = gl.getAttribLocation(glProg, 'aVertexPosition')
-    gl.enableVertexAttribArray(vertexPositionAttribute)
-    gl.bindBuffer(gl.ARRAY_BUFFER, glDynamicBuffer)
-    gl.vertexAttribPointer(vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0)
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
-    */
-}
 
 function draw(dt) {
     if (dt > .013) {

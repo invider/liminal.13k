@@ -1,3 +1,11 @@
+// extend the target with up to two provided extension objects
+function extend(e, s, x) {
+    for (let p in s) {
+        e[p] = s[p]
+    }
+    if (x) extend(e, x)
+}
+
 function expandCanvas() {
     const newWidth = window.innerWidth
     const newHeight = window.innerHeight
