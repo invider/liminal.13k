@@ -33,14 +33,10 @@ function drawScene() {
     //gl.cullFace(gl.FRONT)
 
     // setup up the view and projection transformations
-    const pMatrix = mat4.projection(70, canvas.width/canvas.height, 1, 1000)
-    const vMatrix = mat4.lookAt(
-        vec3(-5, -5, -35),
-        vec3(0, 0, 0),
-        vec3(0.2, 1, 0),
-    )
+    const pMatrix = mat4.projection(lab.cam.vfov, canvas.width/canvas.height, 1, 1024)
+    const vMatrix = lab.cam.viewMatrix()
+
     //mat4.mul(vMatrix, mat4.rotX(cxAngle))
-    mat4.invert(vMatrix)
     // TODO merge view and projection into the pv matrix
     gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
     gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
@@ -48,6 +44,7 @@ function drawScene() {
     // draw the scene graph
     lab.draw()
 
+    /*
     // draw the cube
     const mMatrix = mat4.identity()
     mat4
@@ -67,6 +64,7 @@ function drawScene() {
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.cubeF)
     gl.drawElements(gl.TRIANGLES, cubeFaces.length, gl.UNSIGNED_SHORT, 0)
+    */
 }
 
 function drawHUD() {

@@ -1,3 +1,20 @@
+class Camera {
+
+    constructor(st) {
+        extend(this, st)
+    }
+
+    viewMatrix() {
+        const m = mat4.lookAt(
+            this.pos,
+            this.lookAt,
+            this.up,
+        )
+        mat4.invert(m)
+        return m
+    }
+}
+
 class Cube {
 
     constructor(st) {
