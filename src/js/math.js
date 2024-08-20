@@ -2,45 +2,42 @@ const PI = Math.PI
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
 
-const vec3 = {
+const vec3 = function(x, y, z) {
+    const m = new Float32Array(3)
+    m[0] = x
+    m[1] = y
+    m[2] = z
+    return m
+}
 
-    create: function(x, y, z) {
-        const m = new Float32Array(3)
-        m[0] = x
-        m[1] = y
-        m[2] = z
-        return m
-    },
+vec3.normalize = function(v) {
+    const l = Math.hypot(v[0], v[1], v[2])
+    if (l === 0) return v
+    const il = 1/l
+    v[0] = v[0] * il
+    v[1] = v[1] * il
+    v[2] = v[2] * il
+    return v
+}
 
-    normalize: function(v) {
-        const l = Math.hypot(v[0], v[1], v[2])
-        if (l === 0) return v
-        const il = 1/l
-        v[0] = v[0] * il
-        v[1] = v[1] * il
-        v[2] = v[2] * il
-        return v
-    },
+vec3.isub = function(v, w) {
+    return vec3(
+        v[0] - w[0],
+        v[1] - w[1],
+        v[2] - w[2]
+    )
+}
 
-    isub: function(v, w) {
-        return this.create(
-            v[0] - w[0],
-            v[1] - w[1],
-            v[2] - w[2]
-        )
-    },
+vec3.dot = function(a, b) {
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
+}
 
-    dot: function(a, b) {
-        return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
-    },
-
-    icross: function(a, b) {
-        return this.create(
-            a[1] * b[2] - a[2] * b[1],
-            a[2] * b[0] - a[0] * b[2],
-            a[0] * b[1] - a[1] * b[0]
-        )
-    },
+vec3.icross = function(a, b) {
+    return vec3(
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0]
+    )
 }
 
 // turn a zero 4D matrix into an identity one
@@ -181,10 +178,10 @@ const mat4 = {
     // @param {number} y
     // @param {number} z
     // @return {object/lib} the mat4 library object
-    translate: function(m, x, y, z) {
-        ttm4[12] = x
-        ttm4[13] = y
-        ttm4[14] = z
+    translate: function(m, v) {
+        ttm4[12] = v[0]
+        ttm4[13] = v[1]
+        ttm4[14] = v[2]
         this.mul(m, ttm4)
         return this
     },
@@ -196,10 +193,10 @@ const mat4 = {
     // @param {number} y - the scale factor along the y-axis
     // @param {number} z - the scale factor along the z-axis
     // @return {object/lib} the mat4 library object
-    scale: function(m, x, y, z) {
-        tsm4[0 ] = x
-        tsm4[5 ] = y
-        tsm4[10] = z
+    scale: function(m, v) {
+        tsm4[0 ] = v[0]
+        tsm4[5 ] = v[1]
+        tsm4[10] = v[2]
         this.mul(m, tsm4)
         return this
     }, 
