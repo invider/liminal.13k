@@ -112,3 +112,6 @@ window.onload = setup
 window.onresize = function() {
     expandCanvas()
 }
+
+window.onkeydown = keyDown
+window.onkeyup = keyUp
