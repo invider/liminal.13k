@@ -103,4 +103,17 @@ lab.attach( new Camera({
     stop: function() {
         this.push = 0
     },
+
+    turn: function(dx, dy) {
+        const nl = vec3.copy(this.lookAt)
+        vec3.normalize(nl)
+
+        const rad = dx * 0.01
+        const res = vec3(
+            nl[0],
+            nl[1] * cos(rad) - nl[2] * sin(rad),
+            nl[1] * sin(rad) + nl[2] * cos(rad)
+        )
+        this.lookAt = res
+    },
 }))

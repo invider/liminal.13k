@@ -115,3 +115,4 @@ window.onresize = function() {
 
 window.onkeydown = keyDown
 window.onkeyup = keyUp
+window.onmousemove = mouseMove

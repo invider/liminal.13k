@@ -44,3 +44,8 @@ function keyUp(e) {
             break
     }
 }
+
+function mouseMove(e) {
+    const dx = e.movementX, dy = e.movementY
+    lab.cam.turn(dx, dy)
+}
