@@ -2,6 +2,8 @@ const PI = Math.PI
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
 
+const rnd = Math.random
+
 const vec3 = function(x, y, z) {
     const m = new Float32Array(3)
     m[0] = x

@@ -30,17 +30,19 @@ function setupShaders() {
     }
 }
 
+const buf = {}
 function setupBuffers() {
-    cubeVBuffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVBuffer)
+    buf.cubeV = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.cubeV)
+    // TODO ask geo for mesh data, e.g. give me cube geometry etc...
     gl.bufferData(gl.ARRAY_BUFFER, cubeVertices, gl.STATIC_DRAW)
 
-    cubeCBuffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, cubeCBuffer)
+    buf.cubeC = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.cubeC)
     gl.bufferData(gl.ARRAY_BUFFER, cubeColors, gl.STATIC_DRAW)
 
-    cubeFBuffer = gl.createBuffer()
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeFBuffer)
+    buf.cubeF = gl.createBuffer()
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.cubeF)
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, cubeFaces, gl.STATIC_DRAW)
 }
 
@@ -92,14 +94,12 @@ function setup() {
 
     // bind buffers to attributes
     _position = gl.getAttribLocation(glProg, 'aVertexPosition')
-    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVBuffer)
-    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(_position)
 
+
     _color = gl.getAttribLocation(glProg, 'aVertexColor')
-    gl.bindBuffer(gl.ARRAY_BUFFER, cubeCBuffer)
-    gl.vertexAttribPointer(_color,    3, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(_color)
+
 
     gl.useProgram(glProg)
 

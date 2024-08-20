@@ -18,7 +18,7 @@ class Frame {
         for (let i = 0; i < this._ls.length; i++) {
             const e = this._ls[i]
             if (e && !e.ghost) {
-                e.evo(dt)
+                e.draw()
             }
         }
     }
@@ -30,4 +30,19 @@ class Frame {
 }
 
 const lab = new Frame()
+
+for (let i = 0; i < 1024; i++) {
+    const B = 60
+    const H = B/2
+    lab.attach( new Cube({
+        pos: vec3(
+            H - B*rnd(),
+            H - B*rnd(),
+            H - B*rnd()
+        ),
+        rot: vec3(0, 0, 0),
+        scale: vec3(1, 1, 1)
+    }))
+}
+
 

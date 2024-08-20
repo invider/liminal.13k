@@ -11,7 +11,7 @@ let cxAngle = 0
 function evo(dt) {
     lab.evo(dt)
 
-    // DEBUG
+    // DEBUG - rotate our fixed cube
     mxAngle += 20 * DEG_TO_RAD * dt
     myAngle += 40 * DEG_TO_RAD * dt
     mzAngle += 5  * DEG_TO_RAD * dt
@@ -35,7 +35,7 @@ function drawScene() {
     // setup up the view and projection transformations
     const pMatrix = mat4.projection(70, canvas.width/canvas.height, 1, 1000)
     const vMatrix = mat4.lookAt(
-        vec3(-5, -5, -6),
+        vec3(-5, -5, -35),
         vec3(0, 0, 0),
         vec3(0.2, 1, 0),
     )
@@ -59,7 +59,13 @@ function drawScene() {
 
     gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
 
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeFBuffer)
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.cubeV)
+    gl.vertexAttribPointer(_position, 3, gl.FLOAT, false, 0, 0)
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.cubeC)
+    gl.vertexAttribPointer(_color,    3, gl.FLOAT, false, 0, 0)
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.cubeF)
     gl.drawElements(gl.TRIANGLES, cubeFaces.length, gl.UNSIGNED_SHORT, 0)
 }
 
