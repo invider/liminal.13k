@@ -1,6 +1,7 @@
 const PI = Math.PI
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
+const EPSILON = 0.001
 
 const cos = Math.cos
 const sin = Math.sin
@@ -13,6 +14,13 @@ const vec3 = function(x, y, z) {
     m[1] = y
     m[2] = z
     return m
+}
+
+vec3.set = function(v, x, y, z) {
+    v[0] = x
+    v[1] = y
+    v[2] = z
+    return this
 }
 
 vec3.copy = function(v) {
@@ -76,6 +84,43 @@ vec3.icross = function(a, b) {
         a[2] * b[0] - a[0] * b[2],
         a[0] * b[1] - a[1] * b[0]
     )
+}
+
+vec3.fromSpherical = function(r, theta, phi) {
+    const v = new Float32Array(3)
+    v[0] = r * sin(theta) * cos(phi)
+    v[1] = r * sin(theta) * sin(phi)
+    v[2] = r * cos(theta)
+    return v
+}
+
+vec3.toSpherical = function(v) {
+    const w = new Float32Array(3), x = v[0], y = v[1], z = [2]
+    w[0] = vec3.len(v)
+    w[1] = Math.atan2(v[2], v[0])
+    w[2] = Math.atan2(v[1], v[2])
+    return w
+}
+
+// rotate 3D vector counterclockwise around x-axis
+vec3.rotX = function(v, theta) {
+    const x = v[0], y = v[1], z = v[2]
+    v[1] = y * cos(theta) - z * sin(theta)
+    v[2] = y * sin(theta) + z * cos(theta)
+}
+
+// rotate 3D vector counterclockwise around y-axis
+vec3.rotY = function(v, theta) {
+    const x = v[0], y = v[1], z = v[2]
+    v[0] = z * sin(theta) + x * cos(theta)
+    v[2] = z * cos(theta) - x * sin(theta)
+}
+
+// rotate 3D vector counterclockwise around z-axis
+vec3.rotZ = function(v, theta) {
+    const x = v[0], y = v[1], z = v[2]
+    v[1] = x * cos(theta) - y * sin(theta)
+    v[2] = x * sin(theta) + y * cos(theta)
 }
 
 // turn a zero 4D matrix into an identity one

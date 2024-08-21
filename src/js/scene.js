@@ -54,29 +54,26 @@ lab.attach( new Camera({
     lookAt: vec3(0, 0, -5),
     up: vec3(0, 1, 0),
     push: 0,
+    speed: 20,
 
     evo: function(dt) {
-        const p = this.pos, l = this.lookAt
-        let cx = Math.round(p[0]),
-            cy = Math.round(p[1]),
-            cz = Math.round(p[2])
-            lx = Math.round(l[0]),
-            ly = Math.round(l[1]),
-            lz = Math.round(l[2])
 
-        env.status = `cam: ${cx}:${cy}:${cz} => ${lx}:${ly}:${lz}`
+        let dir, len
 
-        if (!this.push) return
+        if (this.lookAt) {
+            dir = vec3.isub(this.lookAt, this.pos)
+            len = vec3.len(dir)
+            vec3.normalize(dir)
+        } else {
+            // free roaming camera
+            dir = vec3.fromSpherical(1, -this.rot[1], this.rot[0])
+        }
 
-        const SPEED = 20
-        const dir = vec3.isub(this.lookAt, this.pos)
-        const len = vec3.len(dir)
-        vec3.normalize(dir)
-        vec3.scale(dir, SPEED * dt)
-
+        this.dir = dir
+        vec3.scale(dir, this.speed * dt)
         switch(this.push) {
             case 1:
-                if (len > 2) {
+                if (!this.lookAt || len > 2) {
                     vec3.add(this.pos, dir)
                 }
                 break
@@ -85,6 +82,30 @@ lab.attach( new Camera({
                 vec3.add(this.pos, dir)
                 break
         }
+
+        if (debug) {
+            const p = this.pos, l = this.lookAt
+
+            let cx = Math.round(p[0]),
+                cy = Math.round(p[1]),
+                cz = Math.round(p[2])
+            const sPos = `@${cx}:${cy}:${cz}`
+
+            const pdir = vec3.toSpherical(this.dir)
+            const sDir = ' ^' + Math.round(pdir[1] * RAD_TO_DEG) + '*'
+                              + Math.round(pdir[2] * RAD_TO_DEG) + '*'
+
+            let sLookAt = ''
+            if (l) {
+                let lx = Math.round(l[0] * 100)/100,
+                    ly = Math.round(l[1] * 100)/100,
+                    lz = Math.round(l[2] * 100)/100
+                sLookAt = ` => ${lx}:${ly}:${lz}`
+            }
+
+            env.status = 'cam: ' + sPos + sDir + sLookAt
+        }
+
     },
 
     jumpNext: function() {
@@ -93,7 +114,10 @@ lab.attach( new Camera({
         this.lookAt = next.pos
     },
     looseIt: function() {
-        this.lookAt = vec3(0, 0, -10)
+        //this.lookAt = vec3(0, 0, -10)
+        this.lookAt = 0
+        vec3.set(this.pos, 0, 0, 0)
+        vec3.set(this.rot, 0, 0, 0)
     },
 
     move: function(d) {
@@ -105,6 +129,10 @@ lab.attach( new Camera({
     },
 
     turn: function(dx, dy) {
+        const S = 0.01
+        this.rot[1] += dx * S
+        this.rot[0] += dy * S
+        /*
         const nl = vec3.copy(this.lookAt)
         vec3.normalize(nl)
 
@@ -115,5 +143,6 @@ lab.attach( new Camera({
             nl[1] * sin(rad) + nl[2] * cos(rad)
         )
         this.lookAt = res
+        */
     },
 }))

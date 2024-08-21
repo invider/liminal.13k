@@ -37,17 +37,30 @@ function drawHUD() {
     ctx.textAlign = 'left'
     ctx.font = "24px monospace"
 
-    const bx = hcanvas.width - 160
+    let bx = 20
     let by = 20
     ctx.fillText(`FPS: ${env.fps}`, bx, by)
     by += 30
     ctx.fillText(`Time: ${env.time << 0}`, bx, by)
+    if (env.dump) {
+        Object.keys(env.dump).forEach(name => {
+            const line = env.dump[name]
+            by += 30
+            ctx.fillText(name + ': ' + line, bx, by)
+        })
+    }
 
     if (env.status) {
         ctx.textBaseline = 'bottom'
-        ctx.textAlign = 'right'
+        ctx.textAlign = 'left'
         by = hcanvas.height - 20
         ctx.fillText(env.status, bx, by)
+    }
+
+    if (env.tag) {
+        bx = canvas.width - 20
+        ctx.textAlign = 'right'
+        ctx.fillText(env.tag, bx, by)
     }
 }
 

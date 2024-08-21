@@ -18,6 +18,7 @@ class Camera {
         } else {
             // TODO do we need that at all?
             m = mat4.identity()
+
             mat4.rot(m, this.rot)
             mat4.translate(m, this.pos)
         }
