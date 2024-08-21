@@ -96,11 +96,21 @@ function setup() {
 
     gl.useProgram(glProg)
 
-    if (_.onStart) _.onStart()
+    start()
 
     expandCanvas()
     lastTime = Date.now()
     cycle()
+}
+
+function start() {
+    if (debug) {
+        if (location.hash.startsWith('#box')) {
+            _[location.hash.substring(1)]()
+            return
+        }
+    }
+    if (_.onStart) _.onStart()
 }
 
 window.onload = setup
@@ -111,3 +121,7 @@ window.onresize = function() {
 window.onkeydown = keyDown
 window.onkeyup = keyUp
 window.onmousemove = mouseMove
+
+window.onhashchange = () => {
+    start()
+}
