@@ -1,5 +1,6 @@
+const _ = {}
+
 // shader attributes
-let _position, _color
 let _mMatrix, _vMatrix, _pMatrix
 
 function compileShader(id, type) {
@@ -92,16 +93,10 @@ function setup() {
     setupShaders()
     setupUniforms()
 
-    // bind buffers to attributes
-    _position = gl.getAttribLocation(glProg, 'aVertexPosition')
-    gl.enableVertexAttribArray(_position)
-
-
-    _color = gl.getAttribLocation(glProg, 'aVertexColor')
-    gl.enableVertexAttribArray(_color)
-
 
     gl.useProgram(glProg)
+
+    if (_.onStart) _.onStart()
 
     expandCanvas()
     lastTime = Date.now()

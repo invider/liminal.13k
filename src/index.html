@@ -25,24 +25,24 @@
             uniform mat4 pMatrix;
 
             attribute vec3 aVertexPosition;
-            attribute vec3 aVertexColor;
+            //attribute vec3 aVertexColor;
 
-            varying vec3 vColor;
+            //varying vec3 vColor;
 
             void main(void) {
                 //gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
                 gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
-                vColor = aVertexColor;
+                //vColor = aVertexColor;
             }
         </script>
 
         <script id="f-shader" type="x-shader/x-fragment">
             precision mediump float;
-            varying vec3 vColor;
+            //varying vec3 vColor;
 
             void main(void) {
-                //gl_FragColor = vec4(1.0, 1.0, 0, 1.0);
-                gl_FragColor = vec4(vColor, 1.0);
+                gl_FragColor = vec4(1.0, 1.0, 0, 1.0);
+                //gl_FragColor = vec4(vColor, 1.0);
             }
         </script>
 

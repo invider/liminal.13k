@@ -24,3 +24,38 @@ const cubeFaces = new Uint16Array([
     16,17,18,       16,18,19,
     20,21,22,       20,22,23,
 ])
+
+
+let _g
+const geo = {
+    gen: function() {
+        _g = {
+            vertices: [],
+            normals:  [],
+            faces: [],
+            color: [],
+        }
+        return this
+    },
+
+    plane: function() {
+        _g.vertices = _g.vertices.concat([
+            -1, 0,-1,  1, 0, 1,  1, 0,-1,    
+            -1, 0,-1, -1, 0, 1,  1, 0, 1
+        ])
+        return this
+    },
+
+    scale: function(s) {
+        _g.vertices = _g.vertices.map(n => n * s)
+        return this
+    },
+
+    get: function() {
+        // normalize
+        _g.vertCount = _g.vertices.length / 3
+        _g.vertices = new Float32Array(_g.vertices)
+        // TODO create other Float32 as well!
+        return _g
+    },
+}
