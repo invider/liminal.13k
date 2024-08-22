@@ -330,7 +330,6 @@ const mat4 = {
 
     // invert a 4x4 matrix
     // @param {array/mat4} t - the source and receiving 4D matrix 
-    // @return {object/lib} the mat4 library object
     invert: function(t) {
         const m = this.copy(t)
         const
@@ -376,7 +375,5 @@ const mat4 = {
         t[3*4 + 1] = idet *   ( m[0*4 + 0] * A1223 - m[0*4 + 1] * A0223 + m[0*4 + 2] * A0123 )
         t[3*4 + 2] = idet * - ( m[0*4 + 0] * A1213 - m[0*4 + 1] * A0213 + m[0*4 + 2] * A0113 )
         t[3*4 + 3] = idet *   ( m[0*4 + 0] * A1212 - m[0*4 + 1] * A0212 + m[0*4 + 2] * A0112 )
-
-        return this
     }
 }

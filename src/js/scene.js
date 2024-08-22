@@ -1,37 +1,3 @@
-class Frame {
-
-    constructor(st) {
-        this._ls = []
-        extend(this, st)
-    }
-
-    evo(dt) {
-        for (let i = 0; i < this._ls.length; i++) {
-            const e = this._ls[i]
-            if (e && !e.dead) {
-                e.evo(dt)
-            }
-        }
-    }
-
-    draw() {
-        for (let i = 0; i < this._ls.length; i++) {
-            const e = this._ls[i]
-            if (e && !e.ghost) {
-                e.draw()
-            }
-        }
-    }
-
-    attach(node) {
-        this._ls.push(node)
-        if (node.name) this[node.name] = node
-        node.__ = this
-        if (!node.evo) node.dead = true
-        if (!node.draw) node.ghost = true
-    }
-}
-
 const lab = new Frame()
 
 lab.attach( new Camera({
@@ -39,10 +5,41 @@ lab.attach( new Camera({
     vfov: 45,
     pos: vec3(0, 0, 0),
     rot: vec3(1, 0, 0),
-    dir: vec3(0, 1, 0),
-    up: vec3(0, 1, 0),
-    push: 0,
+
+    dir:  vec3(0, 0, 1),
+    up:   vec3(0, 1, 0),
+    left: vec3(1, 0, 0),
+
+    pushers: [],
     speed: 20,
+
+    init: function() {
+        lab.broker = this
+    },
+
+    push: function(action, factor, dt) {
+        const speed = this.speed
+        switch(action) {
+            case FORWARD:
+                this.moveZ(-speed * dt)
+                break
+            case LEFT:
+                this.moveX(-speed * dt)
+                break
+            case BACKWARD:
+                this.moveZ(speed * dt)
+                break
+            case RIGHT:
+                this.moveX(speed * dt)
+                break
+            case UP:
+                this.moveY(speed * dt)
+                break
+            case DOWN:
+                this.moveY(-speed * dt)
+                break
+        }
+    },
 
     evo: function(dt) {
 
@@ -57,6 +54,12 @@ lab.attach( new Camera({
             dir = vec3.fromSpherical(1, -this.rot[1], this.rot[0])
         }
 
+        for (let i = 0; i < this.pushers.length; i++) {
+            const f = this.pushers[i]
+            if (f) this.push(i, f, dt)
+        }
+
+        /*
         this.dir = dir
         vec3.scale(dir, this.speed * dt)
         switch(this.push) {
@@ -70,6 +73,7 @@ lab.attach( new Camera({
                 vec3.add(this.pos, dir)
                 break
         }
+        */
 
         if (debug) {
             const p = this.pos, l = this.lookAt
@@ -108,14 +112,6 @@ lab.attach( new Camera({
         vec3.set(this.rot, 0, 0, 0)
     },
 
-    move: function(d) {
-        this.push = d
-    },
-
-    stop: function() {
-        this.push = 0
-    },
-
     turn: function(dx, dy) {
         const S = 0.01
 
@@ -133,6 +129,14 @@ lab.attach( new Camera({
         )
         this.lookAt = res
         */
+    },
+
+    activate(action) {
+        this.pushers[action] = 1
+    },
+
+    stop(action) {
+        this.pushers[action] = 0
     },
 }))
 
