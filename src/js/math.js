@@ -6,7 +6,19 @@ const EPSILON = 0.001
 const cos = Math.cos
 const sin = Math.sin
 
-const rnd = Math.random
+// LCG
+function LNGSource(seed) {
+    let M = 0xFFFFFFFF, a = 1664525, c = 1013904223
+
+    function nextv() {
+        seed = (a * seed + c) % M
+        return seed
+    }
+
+    return () => nextv()/M
+}
+const rnd = LNGSource(1)
+
 
 const vec3 = function(x, y, z) {
     const m = new Float32Array(3)
