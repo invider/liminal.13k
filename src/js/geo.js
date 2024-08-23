@@ -20,7 +20,7 @@ function calcNormals(v) {
 }
 
 let _g,
-    _gSpherePrecision = 15
+    _gSpherePrecision = 25
 
 const geo = {
     gen: function() {
@@ -72,7 +72,7 @@ const geo = {
     sphere: function() {
         const v = [], w = []
 
-        for (let lat = 0; lat < _gSpherePrecision; lat++) {
+        for (let lat = 0; lat <= _gSpherePrecision; lat++) {
             let theta = (lat * PI) / _gSpherePrecision,
                 cost = cos(theta),
                 sint = sin(theta)
@@ -92,9 +92,8 @@ const geo = {
         for (let lat = 0; lat < _gSpherePrecision; lat++) {
             for (let lon = 0; lon < _gSpherePrecision; lon++) {
                 
-
                 let base = lat * _gSpherePrecision
-                    base2 = ((lat + 1) % _gSpherePrecision) * _gSpherePrecision
+                    base2 = ((lat + 1)) * _gSpherePrecision
                     nextLon = (lon + 1) % _gSpherePrecision
                     at = (base + lon) * 3,
                     at2 = (base + nextLon) * 3
@@ -112,18 +111,6 @@ const geo = {
                     v[at4], v[at4+1], v[at4+2],
 
                 )
-
-                /*
-                w.push(
-                    v[at], v[at+1], v[at+2],
-                    v[at3], v[at3+1], v[at3+2],
-                    v[at2], v[at2+1], v[at2+2],
-
-                    v[at2], v[at2+1], v[at2+2],
-                    v[at3], v[at3+1], v[at3+2],
-                    v[at4], v[at4+1], v[at4+2],
-                )
-                */
             }
         }
 
