@@ -12,6 +12,7 @@ lab.attach( new Camera({
 
     pushers: [],
     speed: 20,
+    turnSpeed: 2,
 
     init: function() {
         lab.broker = this
@@ -19,6 +20,7 @@ lab.attach( new Camera({
 
     push: function(action, factor, dt) {
         const speed = this.speed
+        const turnSpeed = this.turnSpeed
         switch(action) {
             case FORWARD:
                 this.moveZ(-speed * dt)
@@ -38,22 +40,39 @@ lab.attach( new Camera({
             case DOWN:
                 this.moveY(-speed * dt)
                 break
+
+            case LOOK_LEFT:
+                this.yaw(turnSpeed * dt)
+                break
+            case LOOK_RIGHT:
+                this.yaw(-turnSpeed * dt)
+                break
+            case LOOK_UP:
+                this.pitch(-turnSpeed * dt)
+                break
+            case LOOK_DOWN:
+                this.pitch(turnSpeed * dt)
+                break
+            case ROLL_LEFT:
+                this.roll(turnSpeed * dt)
+                break
+            case ROLL_RIGHT:
+                this.roll(-turnSpeed * dt)
+                break
         }
     },
 
     evo: function(dt) {
-
         let dir, len
 
         if (this.lookAt) {
+            // fix the camera on the target coordinates
             dir = vec3.isub(this.lookAt, this.pos)
             len = vec3.len(dir)
             vec3.normalize(dir)
-        } else {
-            // free roaming camera
-            dir = vec3.fromSpherical(1, -this.rot[1], this.rot[0])
         }
 
+        // activate pushers
         for (let i = 0; i < this.pushers.length; i++) {
             const f = this.pushers[i]
             if (f) this.push(i, f, dt)

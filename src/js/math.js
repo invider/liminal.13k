@@ -161,7 +161,7 @@ const mat4 = {
         return o
     },
 
-    createV3: function(v1, v2, v3, v4) {
+    from4V3: function(v1, v2, v3, v4) {
         const m = newMat4()
         m[0] = v1[0]
         m[1] = v1[1]
@@ -375,5 +375,14 @@ const mat4 = {
         t[3*4 + 1] = idet *   ( m[0*4 + 0] * A1223 - m[0*4 + 1] * A0223 + m[0*4 + 2] * A0123 )
         t[3*4 + 2] = idet * - ( m[0*4 + 0] * A1213 - m[0*4 + 1] * A0213 + m[0*4 + 2] * A0113 )
         t[3*4 + 3] = idet *   ( m[0*4 + 0] * A1212 - m[0*4 + 1] * A0212 + m[0*4 + 2] * A0112 )
+    },
+
+    extractV3: (m, i) => {
+        i *= 4
+        return vec3(
+            m[i],
+            m[i+1],
+            m[i+2],
+        )
     }
 }

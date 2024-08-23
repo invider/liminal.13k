@@ -16,20 +16,14 @@ class Camera {
             )
             mat4.invert(m)
         } else {
+            vec3.normalize( this.up )
+            vec3.normalize( this.dir )
+            this.left = vec3.normalize( vec3.icross(this.up, this.dir) ),
 
-            const dir = vec3.normalize(this.dir)
-            const up = vec3.normalize(this.up)
-            const left = vec3.normalize( vec3.icross(up, dir) )
-            //const zAxis = vec3.normalize( vec3.isub(cam, tar) )
-            //const xAxis = vec3.normalize( vec3.icross(up, zAxis) )
-            //const yAxis = vec3.normalize( vec3.icross(dir, left) )
-
-            m = mat4.createV3(left, up, dir, this.pos)
+            m = mat4.from4V3( this.left, this.up, this.dir, this.pos )
             mat4.invert(m)
-            //m = mat4.identity()
-
-            //mat4.rot(m, this.rot)
-            //mat4.translate(m, this.pos)
+            //m = mat4.identity() // DEBUG use identity in case something goes wrong
+            //m[14] = -10         //       with the view tranformations
         }
 
         return m
@@ -51,6 +45,29 @@ class Camera {
         const mv = vec3.copy(this.dir)
         vec3.scale(mv, span)
         vec3.add(this.pos, mv)
+    }
+
+    yaw(theta) {
+        const rm = mat4.from4V3( this.left, this.up, this.dir, vec3(0, 0, 0) )
+        mat4.rotX(rm, theta)
+        this.left = mat4.extractV3(rm, 0)
+        this.dir = mat4.extractV3(rm, 2)
+        //this.up = vec3.normalize( vec3.icross(this.left, this.dir) )
+    }
+
+    pitch(theta) {
+        const rm = mat4.from4V3( this.left, this.up, this.dir, vec3(0, 0, 0) )
+        mat4.rotY(rm, theta)
+        this.up = mat4.extractV3(rm, 1)
+        this.dir = mat4.extractV3(rm, 2)
+        //this.left = vec3.normalize( vec3.icross(this.up, this.dir) )
+    }
+
+    roll(theta) {
+        const rm = mat4.from4V3( this.left, this.up, this.dir, vec3(0, 0, 0) )
+        mat4.rotZ(rm, theta)
+        this.left = mat4.extractV3(rm, 0)
+        this.up = mat4.extractV3(rm, 1)
     }
 
 }
