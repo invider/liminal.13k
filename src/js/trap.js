@@ -3,7 +3,7 @@ function trap(eventName, st) {
     if (fn) fn(st)
 }
 
-function keyDown(e) {
+window.onkeydown = (e) => {
     if (e.repeat) return
 
     flags[e.code] = 1
@@ -21,7 +21,7 @@ function keyDown(e) {
     }
 }
 
-function keyUp(e) {
+window.onkeyup = (e) => {
     flags[e.code] = 0
     trap('keyUp', e)
 
@@ -31,7 +31,15 @@ function keyUp(e) {
     }
 }
 
-function mouseMove(e) {
-    const dx = e.movementX, dy = e.movementY
-    lab.cam.turn(dx, dy)
+window.onclick = (e) => {
+}
+
+window.onmousemove = (e) => {
+    if (lab.broker) lab.broker.onMouseMove(e)
+}
+
+window.onresize = expandCanvas
+
+window.onhashchange = () => {
+    start()
 }

@@ -4,6 +4,7 @@ let nfps = 0
 const ifps = []
 
 const flags = {},
+    // keyboard controls
     FORWARD    = 1,
     LEFT       = 2,
     BACKWARD   = 3,
@@ -15,7 +16,11 @@ const flags = {},
     LOOK_DOWN  = 9,
     LOOK_RIGHT = 10,
     ROLL_LEFT  = 11,
-    ROLL_RIGHT = 12
+    ROLL_RIGHT = 12,
+    // mouse controls
+    SHIFT_YAW   = 21,
+    SHIFT_PITCH = 22,
+    SHIFT_ROLL  = 23
 
 const env = {
     time: 0,

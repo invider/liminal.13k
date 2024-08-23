@@ -76,7 +76,7 @@ function setupUniforms() {
     _pMatrix = gl.getUniformLocation(glProg, 'pMatrix')
 }
 
-function setup() {
+window.onload = () => {
     canvas = document.getElementById('canvas')
     gl = canvas.getContext('webgl2', {
         alpha: false,
@@ -113,15 +113,3 @@ function start() {
     if (_.onStart) _.onStart()
 }
 
-window.onload = setup
-window.onresize = function() {
-    expandCanvas()
-}
-
-window.onkeydown = keyDown
-window.onkeyup = keyUp
-window.onmousemove = mouseMove
-
-window.onhashchange = () => {
-    start()
-}

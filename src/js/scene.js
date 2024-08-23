@@ -10,9 +10,9 @@ lab.attach( new Camera({
     up:   vec3(0, 1, 0),
     left: vec3(1, 0, 0),
 
-    pushers: [],
+    pushers: new Float32Array(SHIFT_ROLL+1),
     speed: 20,
-    turnSpeed: 2,
+    turnSpeed: .5,
 
     init: function() {
         lab.broker = this
@@ -59,6 +59,16 @@ lab.attach( new Camera({
             case ROLL_RIGHT:
                 this.roll(-turnSpeed * dt)
                 break
+
+            case SHIFT_YAW:
+                this.yaw(turnSpeed * factor * dt)
+                break
+            case SHIFT_PITCH:
+                this.pitch(turnSpeed * factor * dt)
+                break
+            case SHIFT_ROLL:
+                this.roll(turnSpeed * factor * dt)
+                break
         }
     },
 
@@ -75,24 +85,11 @@ lab.attach( new Camera({
         // activate pushers
         for (let i = 0; i < this.pushers.length; i++) {
             const f = this.pushers[i]
-            if (f) this.push(i, f, dt)
+            if (f) {
+                this.push(i, f, dt)
+                if (i > 20) this.pushers[i] = 0 // reset the mouse movement accumulation buffers
+            }
         }
-
-        /*
-        this.dir = dir
-        vec3.scale(dir, this.speed * dt)
-        switch(this.push) {
-            case 1:
-                if (!this.lookAt || len > 2) {
-                    vec3.add(this.pos, dir)
-                }
-                break
-            case 3:
-                vec3.scale(dir, -1)
-                vec3.add(this.pos, dir)
-                break
-        }
-        */
 
         if (debug) {
             const p = this.pos, l = this.lookAt
@@ -157,6 +154,25 @@ lab.attach( new Camera({
     stop(action) {
         this.pushers[action] = 0
     },
+
+    onMouseMove(e) {
+        if (e.buttons != 1) return
+        const dx = e.movementX, dy = e.movementY
+
+        if (dx) {
+            if (e.shiftKey) {
+                // accumulate mouse roll
+                this.pushers[SHIFT_ROLL] += dx
+            } else {
+                // accumulate horizontal mouse movement
+                this.pushers[SHIFT_YAW] += dx
+            }
+        }
+        if (dy) {
+            // accumulate vertical mouse movement
+            this.pushers[SHIFT_PITCH] += dy
+        }
+    }
 }))
 
 
