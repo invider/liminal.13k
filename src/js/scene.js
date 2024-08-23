@@ -171,12 +171,15 @@ _.onStart = () => {
         const H = B/2
 
         let g
-        switch( Math.floor(rnd()*1) ) {
+        switch( Math.floor(rnd()*3) ) {
             case 0:
                 g = geo.gen().plane().scale(.5 + rnd() * 2).bake()
                 break
             case 1:
                 g = geo.gen().cube().scale(.5 + rnd() * 2).bake()
+                break
+            case 2:
+                g = geo.gen().sphere().scale(.5 + rnd() * 2).bake()
                 break
         }
 

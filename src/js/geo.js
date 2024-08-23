@@ -19,7 +19,9 @@ function calcNormals(v) {
     return n
 }
 
-let _g
+let _g,
+    _gSpherePrecision = 15
+
 const geo = {
     gen: function() {
         _g = {
@@ -41,21 +43,91 @@ const geo = {
     cube: function() {
         _g.vertices = _g.vertices.concat([
             // top face
-            -1,-1,-1,   1,-1, 1,   1,-1,-1,    
-            -1,-1,-1,  -1,-1, 1,   1,-1, 1,
+            -1, 1,-1,  -1, 1, 1,   1, 1, 1,
+            -1, 1,-1,   1, 1, 1,   1, 1,-1,   
 
             // back face
-             1,-1,-1,   1, 1,-1,  -1,-1,-1,
-            //-1,-1,-1,  -1, 1,-1,   1, 1,-1,
+            -1,-1,-1,  -1, 1,-1,   1, 1,-1,
+            -1,-1,-1,   1, 1,-1,   1,-1,-1,
 
             // left face
-            -1, 1, 1,  -1, 1,-1,  -1,-1, 1,
-            -1,-1, 1,  -1, 1,-1,  -1,-1,-1,
+            -1,-1,-1,  -1,-1, 1,  -1, 1, 1,
+            -1,-1,-1,  -1, 1, 1,  -1, 1,-1,
+
+            // front face
+            -1,-1, 1,   1,-1, 1,   1, 1, 1,
+            -1,-1, 1,   1, 1, 1,  -1, 1, 1,
+
+            // right face
+            1,-1,-1,   1, 1,-1,   1, 1, 1,
+            1,-1,-1,   1, 1, 1,   1,-1, 1,
 
             // bottom face
-            -1,  1,-1,  1, 1, 1,   1, 1,-1,    
-            -1,  1,-1, -1, 1, 1,   1, 1, 1,
+            -1,-1,-1,  1,-1,-1,   1,-1, 1,
+            -1,-1,-1,  1,-1, 1,  -1,-1, 1,
         ])
+        return this
+    },
+
+    sphere: function() {
+        const v = [], w = []
+
+        for (let lat = 0; lat < _gSpherePrecision; lat++) {
+            let theta = (lat * PI) / _gSpherePrecision,
+                cost = cos(theta),
+                sint = sin(theta)
+
+            for (let lon = 0; lon < _gSpherePrecision; lon++) {
+                let phi = (lon * 2 * PI) / _gSpherePrecision,
+                    cosp = cos(phi),
+                    sinp = sin(phi)
+                    v.push(
+                        cosp * sint,  // x
+                        cost,         // y
+                        sinp * sint   // z
+                    )
+            }
+        }
+
+        for (let lat = 0; lat < _gSpherePrecision; lat++) {
+            for (let lon = 0; lon < _gSpherePrecision; lon++) {
+                
+
+                let base = lat * _gSpherePrecision
+                    base2 = ((lat + 1) % _gSpherePrecision) * _gSpherePrecision
+                    nextLon = (lon + 1) % _gSpherePrecision
+                    at = (base + lon) * 3,
+                    at2 = (base + nextLon) * 3
+                    at3 = (base2 + lon) * 3
+                    at4 = (base2 + nextLon) * 3
+
+                const s = 0.1
+                w.push(
+                    v[at], v[at+1], v[at+2],
+                    v[at3], v[at3+1], v[at3+2],
+                    v[at2], v[at2+1], v[at2+2],
+
+                    v[at2], v[at2+1], v[at2+2],
+                    v[at3], v[at3+1], v[at3+2],
+                    v[at4], v[at4+1], v[at4+2],
+
+                )
+
+                /*
+                w.push(
+                    v[at], v[at+1], v[at+2],
+                    v[at3], v[at3+1], v[at3+2],
+                    v[at2], v[at2+1], v[at2+2],
+
+                    v[at2], v[at2+1], v[at2+2],
+                    v[at3], v[at3+1], v[at3+2],
+                    v[at4], v[at4+1], v[at4+2],
+                )
+                */
+            }
+        }
+
+        _g.vertices = _g.vertices.concat(w)
         return this
     },
 
