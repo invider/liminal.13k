@@ -21,27 +21,41 @@
 
         <script id="v-shader" type="x-shader/x-vertex">
             uniform mat4 mMatrix;
+            uniform mat4 nMatrix;
             uniform mat4 vMatrix;
             uniform mat4 pMatrix;
 
             attribute vec3 aVertexPosition;
+            attribute vec3 aVertexNormal;
             //attribute vec3 aVertexColor;
 
             //varying vec3 vColor;
+            varying vec3 vLight;
 
             void main(void) {
+                // setup lights
+                vec3 ambientLight = vec3(.4, .4, .4);
+                vec3 diffuseLightColor = vec3(.3, .3, .3);
+                vec3 directionalLightPosition = normalize( vec3(1, 1, 1) );
+
+                vec3 worldNormal = vec3( nMatrix * vec4(aVertexNormal, 0) );
+                float diffuseLightFactor = max( dot(worldNormal, directionalLightPosition), 0.0 );
+
                 //gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
                 gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
                 //vColor = aVertexColor;
+                vLight = ambientLight + (diffuseLightColor * diffuseLightFactor);
             }
         </script>
 
         <script id="f-shader" type="x-shader/x-fragment">
             precision mediump float;
             //varying vec3 vColor;
+            varying vec3 vLight;
 
             void main(void) {
-                gl_FragColor = vec4(1.0, 1.0, 0, 1.0);
+                vec4 color = vec4( vec3(0.45, .4, .47) * vLight, 1.0);
+                gl_FragColor = color;
                 //gl_FragColor = vec4(vColor, 1.0);
             }
         </script>

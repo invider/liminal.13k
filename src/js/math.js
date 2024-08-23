@@ -43,6 +43,14 @@ vec3.copy = function(v) {
     return m
 }
 
+vec3.fromArray = (buf, i) => {
+    return vec3(
+        buf[i],
+        buf[i+1],
+        buf[i+2],
+    )
+}
+
 vec3.len = function(v) {
     return Math.hypot(v[0], v[1], v[2])
 }

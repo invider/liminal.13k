@@ -1,7 +1,7 @@
 const _ = {}
 
 // shader attributes
-let _mMatrix, _vMatrix, _pMatrix
+let _mMatrix, _nMatrix, _vMatrix, _pMatrix
 
 function compileShader(id, type) {
     const src = document.getElementById(id).innerHTML
@@ -72,6 +72,7 @@ function fixBuffers() {
 
 function setupUniforms() {
     _mMatrix = gl.getUniformLocation(glProg, 'mMatrix')
+    _nMatrix = gl.getUniformLocation(glProg, 'nMatrix')
     _vMatrix = gl.getUniformLocation(glProg, 'vMatrix')
     _pMatrix = gl.getUniformLocation(glProg, 'pMatrix')
 }

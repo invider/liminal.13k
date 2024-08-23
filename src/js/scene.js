@@ -4,11 +4,6 @@ lab.attach( new Camera({
     name: 'cam',
     vfov: 45,
     pos: vec3(0, 0, 0),
-    rot: vec3(1, 0, 0),
-
-    dir:  vec3(0, 0, 1),
-    up:   vec3(0, 1, 0),
-    left: vec3(1, 0, 0),
 
     pushers: new Float32Array(SHIFT_ROLL+1),
     speed: 20,
@@ -122,29 +117,8 @@ lab.attach( new Camera({
         this.lookAt = next.pos
     },
     looseIt: function() {
-        //this.lookAt = vec3(0, 0, -10)
         this.lookAt = 0
         vec3.set(this.pos, 0, 0, 0)
-        vec3.set(this.rot, 0, 0, 0)
-    },
-
-    turn: function(dx, dy) {
-        const S = 0.01
-
-        this.rot[1] += dx * S
-        this.rot[0] += dy * S
-        /*
-        const nl = vec3.copy(this.lookAt)
-        vec3.normalize(nl)
-
-        const rad = dx * 0.01
-        const res = vec3(
-            nl[0],
-            nl[1] * cos(rad) - nl[2] * sin(rad),
-            nl[1] * sin(rad) + nl[2] * cos(rad)
-        )
-        this.lookAt = res
-        */
     },
 
     activate(action) {
@@ -195,15 +169,33 @@ _.onStart = () => {
     for (let i = 0; i < 128; i++) {
         const B = 60
         const H = B/2
+
+        let g
+        switch( Math.floor(rnd()*1) ) {
+            case 0:
+                g = geo.gen().plane().scale(.5 + rnd() * 2).bake()
+                break
+            case 1:
+                g = geo.gen().cube().scale(.5 + rnd() * 2).bake()
+                break
+        }
+
+
         lab.attach( new Mesh({
             pos: vec3(
                 H - B*rnd(),
                 H - B*rnd(),
                 H - B*rnd()
             ),
-            rot: vec3(0, 0, 0),
+            rot:   vec3(0, 0, 0),
             scale: vec3(1, 1, 1),
-            geo: geo.gen().plane().scale(.5 + rnd() * 2).get(),
+            geo: g,
+
+            evo: function(dt) {
+                this.rot[0] += 1 * dt
+                this.rot[2] += 1 * dt
+                //this.rot[1] += 1 * dt
+            },
         }))
     }
 

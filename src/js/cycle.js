@@ -15,13 +15,14 @@ function drawScene() {
     gl.clearDepth(1.0)
     // TODO figure the geometry and normals
     //gl.enable(gl.CULL_FACE)
-    //gl.cullFace(gl.FRONT)
+    //gl.cullFace(gl.BACK)
 
     // setup up the view and projection transformations
+    // TODO get it from the camera maybe?
     const pMatrix = mat4.projection(lab.cam.vfov, canvas.width/canvas.height, 1, 1024)
     const vMatrix = lab.cam.viewMatrix()
 
-    // TODO merge view and projection into the pv matrix
+    // TODO merge view and projection into the pv matrix and get it from the camera
     gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
     gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
 
