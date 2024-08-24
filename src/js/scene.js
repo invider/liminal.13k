@@ -211,10 +211,10 @@ _.onStart = () => {
             mat: {
                 Ka: vec3(.5, .6, .7),
                 Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
-                Ks: vec3(1, 1, 1),
+                Ks: vec3(1, 0, 0),
                 Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .8, .5, 0),
-                Ns: 21,
+                Lv: vec4(.1, .1, .8, 0),
+                Ns: 10,
             },
 
             init() {

@@ -33,12 +33,14 @@
             varying vec3 vWorldPosition;
             varying vec3 vNormal;
             varying vec3 vWorldNormal;
+            varying vec3 vCamNormal;
 
             void main(void) {
                 vPosition = aVertexPosition;
                 vWorldPosition = (mMatrix * vec4(aVertexPosition, 1.0)).xyz;
                 vNormal = aVertexNormal;
                 vWorldNormal = (nMatrix * vec4(aVertexNormal, 1.0)).xyz;
+                vCamNormal = (vMatrix * mMatrix * vec4(aVertexNormal, 1.0)).xyz;
 
                 /*
                 // DEBUG hardcode for now
@@ -87,6 +89,7 @@
             varying vec3 vWorldPosition;
             varying vec3 vNormal;
             varying vec3 vWorldNormal;
+            varying vec3 vCamNormal;
 
             void main(void) {
                 // DEBUG material props
@@ -106,23 +109,44 @@
                     0.0
                 ) * uDirectionalLightColorI.w;
 
-                // do one spotlight
-                highp vec3 lightDirection = normalize(uPointLightPosition - vWorldPosition);
+                // do one point light
+                highp vec3 pointLightDirection = normalize(uPointLightPosition - vWorldPosition);
                 highp float diffusePointLambert = max(
-                    dot(worldNormal, lightDirection),
+                    dot(worldNormal, pointLightDirection),
                     0.0
                 ) * uPointLightColorI.w;
 
                 // mix directional and point lights factors
                 highp float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
+
+                // specular
+                highp mat4 pvm = pMatrix * vMatrix * mMatrix;
+                highp mat4 vm = vMatrix * mMatrix;
                 
+                /*
+                highp vec3 vtxCamPos = vec3( vm * vec4(vPosition, 1.0) );
+                highp vec3 camPointLightPos = vec3( vMatrix * vec4(uPointLightPosition, 1.0) );
+                highp vec3 toLight = normalize(camPointLightPos - vtxCamPos); // ??? light -> cam coords?
+                highp vec3 toCam = normalize(-vtxCamPos); // V
+
+                // R
+                highp vec3 reflection = normalize( 2.0
+                    * dot(normalize(vCamNormal), toLight) * normalize(vCamNormal) - toLight
+                );
+                highp float specular = pow(
+                    max( dot(reflection, toCam), 0.0 ), 100.0//uShininess
+                ) * uPointLightColorI.w;
+                */
+
+                highp vec3 sPointLightDirection = normalize(uPointLightPosition - vPosition);
+                highp vec3 l = normalize( vec3(pvm * vec4(sPointLightDirection, 1.0)) );
+                highp vec3 n = normalize( vec3(nMatrix * vec4( normalize(vNormal), 1.0)) );
+                highp vec3 v = normalize( -vec3(pvm * vec4(vPosition, 1.0)) );
+                highp vec3 r = reflect(l, n);
+
+                highp float specular = pow( max(0.0, dot(r, v)), uShininess) * uPointLightColorI.w;
 
                 /*
-                highp vec3 pointLightDirection = vec3(
-                    pointLightPosition.xyz - vPosition.xyz);
-
-                highp mat4 mvp = pMatrix * vMatrix * mMatrix;
-
                 highp vec3 l = normalize( vec3(mvp * vec4(pointLightDirection, 1.0)) );
                 highp vec3 v = normalize( -vec3(mvp * vec4(vPosition, 1.0)) );
 
@@ -135,14 +159,12 @@
                 highp float diffuseLambert = max(
                     dot(vWorldNormal, normalize(directionalLightPosition)), 0.0 );
 
-                highp vec3 R = reflect(l, n);
-                highp float specular = pow( max(0.0, dot(R, v)), shininess);
                 */
 
                 gl_FragColor = vec4(
                     uAmbientColor * uLightIntensities.x
-                    + uDiffuseColor * diffuseLambert * uLightIntensities.y, 
-                    //+ specularColor * specular * specularIntensity,
+                    + uDiffuseColor * diffuseLambert * uLightIntensities.y
+                    + uSpecularColor * specular * uLightIntensities.z,
                     opacity);
             }
         </script>
