@@ -1,7 +1,7 @@
 const PI = Math.PI
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
-const EPSILON = 0.001
+const EPSILON = 0.00001
 
 const cos = Math.cos
 const sin = Math.sin
@@ -395,6 +395,23 @@ const mat4 = {
         t[3*4 + 1] = idet *   ( m[0*4 + 0] * A1223 - m[0*4 + 1] * A0223 + m[0*4 + 2] * A0123 )
         t[3*4 + 2] = idet * - ( m[0*4 + 0] * A1213 - m[0*4 + 1] * A0213 + m[0*4 + 2] * A0113 )
         t[3*4 + 3] = idet *   ( m[0*4 + 0] * A1212 - m[0*4 + 1] * A0212 + m[0*4 + 2] * A0112 )
+    },
+
+    itranspose(m) {
+        const t = this.identity()
+        for (let v = 0; v < 4; v++) {
+            for (let c = 0; c < 4; c++) {
+                t[v*4 + c] = m[c*4 + v]
+            }
+        }
+        return t
+    },
+
+    equals(m1, m2) {
+        for (let i = 0; i < 16; i++) {
+            if (Math.abs(m1[i] - m2[i]) > EPSILON) return false
+        }
+        return true
     },
 
     extractV3: (m, i) => {

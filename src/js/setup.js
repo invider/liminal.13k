@@ -12,7 +12,7 @@ function compileShader(id, type) {
 
     if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader
     else {
-        err(gl.getShaderInfoLog(shader))
+        err(`#${id}: ` + gl.getShaderInfoLog(shader))
     }
 }
 

@@ -29,11 +29,17 @@ class Mesh {
 
         gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
 
-        mMatrix[12] = 0
-        mMatrix[13] = 0
-        mMatrix[14] = 0
-        mat4.invert(mMatrix)
-        gl.uniformMatrix4fv(_nMatrix, false, mMatrix)
+        const imMatrix = mat4.copy(mMatrix)
+        mat4.invert(imMatrix)
+
+        const checkMatrix = mat4.copy(mMatrix)
+        mat4.mul(checkMatrix, imMatrix)
+        const identityMatrix = mat4.identity()
+        if (!mat4.equals(checkMatrix, identityMatrix)) debugger
+
+        const nMatrix = mat4.itranspose(imMatrix)
+
+        gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
         // -------------------------------------
 
         // bind our geometry and materials

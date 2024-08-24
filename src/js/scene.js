@@ -182,7 +182,7 @@ _.onStart = () => {
                 g = geo.gen().sphere().scale(.5 + rnd() * 2).bake()
                 break
         }
-
+        const spin = (rnd()*4) < 1? 0 : 1
 
         lab.attach( new Mesh({
             pos: vec3(
@@ -191,13 +191,19 @@ _.onStart = () => {
                 H - B*rnd()
             ),
             rot:   vec3(0, 0, 0),
+            rotSpeed: vec3(0, 0, 0),
             scale: vec3(1, 1, 1),
             geo: g,
 
+            init() {
+                this.rotSpeed[0] += (rnd() < .5? -1 : 1) * (.5 + rnd()*3) * spin
+                this.rotSpeed[1] += (rnd() < .5? -1 : 1) * (.2 + rnd()*1.5) * spin
+            },
+
             evo: function(dt) {
-                this.rot[0] += 1 * dt
-                this.rot[2] += 1 * dt
-                //this.rot[1] += 1 * dt
+                this.rot[0] += this.rotSpeed[0] * dt
+                this.rot[1] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[1] * dt 
             },
         }))
     }

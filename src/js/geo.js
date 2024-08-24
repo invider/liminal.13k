@@ -103,12 +103,12 @@ const geo = {
                 const s = 0.1
                 w.push(
                     v[at], v[at+1], v[at+2],
-                    v[at3], v[at3+1], v[at3+2],
                     v[at2], v[at2+1], v[at2+2],
+                    v[at3], v[at3+1], v[at3+2],
 
                     v[at2], v[at2+1], v[at2+2],
-                    v[at3], v[at3+1], v[at3+2],
                     v[at4], v[at4+1], v[at4+2],
+                    v[at3], v[at3+1], v[at3+2],
 
                 )
             }

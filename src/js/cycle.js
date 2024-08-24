@@ -13,8 +13,8 @@ function drawScene() {
     gl.enable(gl.DEPTH_TEST)
     gl.depthFunc(gl.LEQUAL)
     gl.clearDepth(1.0)
-    //gl.enable(gl.CULL_FACE)
-    //gl.cullFace(gl.BACK)
+    gl.enable(gl.CULL_FACE)
+    gl.cullFace(gl.BACK)
 
     // setup up the view and projection transformations
     // TODO get it from the camera maybe?

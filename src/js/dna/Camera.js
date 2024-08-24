@@ -17,17 +17,16 @@ class Camera {
                 this.lookAt,
                 this.up,
             )
-            mat4.invert(m)
         } else {
             vec3.normalize( this.up )
             vec3.normalize( this.dir )
             this.left = vec3.normalize( vec3.icross(this.up, this.dir) ),
 
             m = mat4.from4V3( this.left, this.up, this.dir, this.pos )
-            mat4.invert(m)
             //m = mat4.identity() // DEBUG use identity in case something goes wrong
             //m[14] = -10         //       with the view tranformations
         }
+        mat4.invert(m)
 
         return m
     }
