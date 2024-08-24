@@ -46,11 +46,20 @@ vec3.set = function(v, x, y, z) {
 }
 
 vec3.copy = function(v) {
-    const m = new Float32Array(3)
-    m[0] = v[0]
-    m[1] = v[1]
-    m[2] = v[2]
-    return m
+    const w = new Float32Array(3)
+    w[0] = v[0]
+    w[1] = v[1]
+    w[2] = v[2]
+    return w
+}
+
+vec4.copy = function(v) {
+    const w = new Float32Array(4)
+    w[0] = v[0]
+    w[1] = v[1]
+    w[2] = v[2]
+    w[3] = v[3]
+    return w
 }
 
 vec3.fromArray = (buf, i) => {

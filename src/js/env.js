@@ -45,8 +45,14 @@ const env = {
         // ...
     ],
 
-    //directionalLightVector: vec3(-1, -1, -1),
-    directionalLightVector: vec3(0, 0, 1),
+    directionalLightVector: vec3(-1, -1, -1),
+    directionalLightColorI: vec4(1, 1, 1, .2),
+    //directionalLightVector: vec4(0, 0, 1, 1),
+    
+    pointLightPosition: vec3(0, 10, 0),
+    pointLightColorI: vec4(1, 1, 1, 1),
+
+    backfaces: true,
 
     status: '',
     tag: 'debug',

@@ -13,8 +13,12 @@ function drawScene() {
     gl.enable(gl.DEPTH_TEST)
     gl.depthFunc(gl.LEQUAL)
     gl.clearDepth(1.0)
-    gl.enable(gl.CULL_FACE)
-    gl.cullFace(gl.BACK)
+    if (env.backfaces) {
+        gl.disable(gl.CULL_FACE)
+    } else {
+        gl.enable(gl.CULL_FACE)
+        gl.cullFace(gl.BACK)
+    }
 
     // setup up the view and projection transformations
     // TODO get it from the camera maybe?
@@ -30,6 +34,10 @@ function drawScene() {
     vec3.normalize(rnv)
 
     gl.uniform3fv(_uDirectionalLightVector, rnv)
+    gl.uniform4fv(_uDirectionalLightColorI, env.directionalLightColorI)
+
+    gl.uniform3fv(_uPointLightPosition, env.pointLightPosition)
+    gl.uniform4fv(_uPointLightColorI, env.pointLightColorI)
 
     // draw the scene graph
     lab.draw()

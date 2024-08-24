@@ -36,9 +36,9 @@
 
             void main(void) {
                 vPosition = aVertexPosition;
-                vWorldPosition = (mMatrix * vec4(aVertexPosition, 0)).xyz;
+                vWorldPosition = (mMatrix * vec4(aVertexPosition, 1.0)).xyz;
                 vNormal = aVertexNormal;
-                vWorldNormal = (nMatrix * vec4(aVertexNormal, 0)).xyz;
+                vWorldNormal = (nMatrix * vec4(aVertexNormal, 1.0)).xyz;
 
                 /*
                 // DEBUG hardcode for now
@@ -62,14 +62,19 @@
         <script id="f-shader" type="x-shader/x-fragment">
             precision mediump float;
 
+            // matrices
             uniform highp mat4 mMatrix;
             uniform highp mat4 nMatrix;
             uniform highp mat4 vMatrix;
             uniform highp mat4 pMatrix;
 
+            // environment
             uniform highp vec3 uDirectionalLightVector;
+            uniform highp vec4 uDirectionalLightColorI;
+            uniform highp vec3 uPointLightPosition;
+            uniform highp vec4 uPointLightColorI;
 
-            // material uniforms
+            // material
             uniform highp vec3 uAmbientColor;
             uniform highp vec3 uDiffuseColor;
             uniform highp vec3 uSpecularColor;
@@ -79,38 +84,38 @@
             uniform highp float uShininess;
 
             varying vec3 vPosition;
+            varying vec3 vWorldPosition;
             varying vec3 vNormal;
             varying vec3 vWorldNormal;
 
             void main(void) {
                 // DEBUG material props
-
-                //highp float ambientIntensity = 0.2;
-                //highp vec3 diffuseLightIntensity = vec3(0.9, 0.9, 0.9);
-                highp float specularIntensity = 0.5;
-
-                //highp vec3 ambientColor = vec3(.5, .6, .7);
-                //highp vec3 diffuseColor = vec3(.7, .7, .3);
-                highp vec3 specularColor = vec3(1, 1, 1);
-                highp float shininess = 128.0;
-
                 highp float opacity = 1.0;
                 highp float roughness = 1.0;
-
-                // light sources
-                highp vec3 pointLightPosition = vec3(15, 15, 5);
-
                 // <<<--- must be set by uniforms
 
                 highp vec3 normal = normalize(vNormal);
                 highp vec3 worldNormal = normalize(vWorldNormal);
 
-                highp vec3 lWorldNormal = (nMatrix * vec4(normal, 0)).xyz;
-                // apply dot product with a hard-coded directional light vector
-                highp float diffuseLambert = max(
-                    dot(lWorldNormal, uDirectionalLightVector),
+                // just take it from the vertex shader
+                //highp vec3 lWorldNormal = (nMatrix * vec4(normal, 0)).xyz;
+
+                // TODO expand into a 3-component vector with dir light colors included
+                highp float diffuseDirectionalLambert = max(
+                    dot(worldNormal, uDirectionalLightVector),
                     0.0
-                );
+                ) * uDirectionalLightColorI.w;
+
+                // do one spotlight
+                highp vec3 lightDirection = normalize(uPointLightPosition - vWorldPosition);
+                highp float diffusePointLambert = max(
+                    dot(worldNormal, lightDirection),
+                    0.0
+                ) * uPointLightColorI.w;
+
+                // mix directional and point lights factors
+                highp float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
+                
 
                 /*
                 highp vec3 pointLightDirection = vec3(
