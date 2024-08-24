@@ -6,8 +6,8 @@ lab.attach( new Camera({
     pos: vec3(0, 0, 0),
 
     pushers: new Float32Array(SHIFT_ROLL+1),
-    speed: 20,
-    turnSpeed: .5,
+    speed: 30,
+    turnSpeed: 2,
 
     init: function() {
         lab.broker = this

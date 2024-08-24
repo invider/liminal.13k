@@ -67,6 +67,8 @@
             uniform highp mat4 vMatrix;
             uniform highp mat4 pMatrix;
 
+            uniform highp vec3 uDirectionalLightVector;
+
             varying vec3 vPosition;
             varying vec3 vNormal;
             varying vec3 vWorldNormal;
@@ -83,12 +85,11 @@
                 highp vec3 diffuseColor = vec3(.7, .7, .3);
                 highp vec3 specularColor = vec3(1, 1, 1);
 
+                highp float opacity = 1.0;
+
                 // light sources
-                highp vec3 directionalLightVector = vec3(1, 1, 1);
-                highp vec3 reversedDirectionalLightVector = normalize(-directionalLightVector);
                 highp vec3 pointLightPosition = vec3(15, 15, 5);
 
-                highp float opacity = 1.0;
                 // <<<--- must be set by uniforms
 
                 highp vec3 normal = normalize(vNormal);
@@ -97,9 +98,7 @@
                 highp vec3 lWorldNormal = (nMatrix * vec4(normal, 0)).xyz;
                 // apply dot product with a hard-coded directional light vector
                 highp float diffuseLambert = max(
-                    dot(
-                        lWorldNormal,
-                        normalize(vec3(1, 1, 1))), // directional light
+                    dot(lWorldNormal, uDirectionalLightVector),
                     0.0
                 );
 

@@ -45,6 +45,8 @@ const env = {
         // ...
     ],
 
+    directionalLightVector: vec3(0, 0, 1),
+
     status: '',
     tag: 'debug',
     dump: {},

@@ -25,6 +25,12 @@ function drawScene() {
     gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
     gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
 
+    const rnv = vec3.copy(env.directionalLightVector)
+    vec3.scale(rnv, -1)
+    vec3.normalize(rnv)
+
+    gl.uniform3fv(_uDirectionalLightVector, rnv)
+
     // draw the scene graph
     lab.draw()
 }

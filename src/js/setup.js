@@ -1,7 +1,7 @@
 const _ = {}
 
 // shader attributes
-let _mMatrix, _nMatrix, _vMatrix, _pMatrix
+let _mMatrix, _nMatrix, _vMatrix, _pMatrix, _uDirectionalLightVector
 
 function compileShader(id, type) {
     const src = document.getElementById(id).innerHTML
@@ -75,6 +75,8 @@ function setupUniforms() {
     _nMatrix = gl.getUniformLocation(glProg, 'nMatrix')
     _vMatrix = gl.getUniformLocation(glProg, 'vMatrix')
     _pMatrix = gl.getUniformLocation(glProg, 'pMatrix')
+
+    _uDirectionalLightVector = gl.getUniformLocation(glProg, 'uDirectionalLightVector')
 }
 
 window.onload = () => {
