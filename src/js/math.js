@@ -1,4 +1,5 @@
 const PI = Math.PI
+const PI2 = PI*2
 const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
 const EPSILON = 0.00001

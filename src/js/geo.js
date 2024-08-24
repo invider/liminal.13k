@@ -69,6 +69,16 @@ const geo = {
         return this
     },
 
+    tetrahedron: function() {
+        _g.vertices = _g.vertices.concat([
+            -1, 1,-1,   -1,-1, 1,   1, 1, 1,
+             1, 1, 1,    1,-1,-1,  -1, 1,-1, 
+            -1,-1, 1,    1,-1,-1,   1, 1, 1,
+            -1, 1,-1,    1,-1,-1,  -1,-1, 1,
+        ])
+        return this
+    },
+
     sphere: function() {
         const v = [], w = []
 
@@ -78,7 +88,7 @@ const geo = {
                 sint = sin(theta)
 
             for (let lon = 0; lon < _gSpherePrecision; lon++) {
-                let phi = (lon * 2 * PI) / _gSpherePrecision,
+                let phi = (lon * PI2) / _gSpherePrecision,
                     cosp = cos(phi),
                     sinp = sin(phi)
                     v.push(
@@ -100,7 +110,6 @@ const geo = {
                     at3 = (base2 + lon) * 3
                     at4 = (base2 + nextLon) * 3
 
-                const s = 0.1
                 w.push(
                     v[at], v[at+1], v[at+2],
                     v[at2], v[at2+1], v[at2+2],
@@ -112,6 +121,139 @@ const geo = {
 
                 )
             }
+        }
+
+        _g.vertices = _g.vertices.concat(w)
+        return this
+    },
+
+    cylinder() {
+        const v = [], w = []
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / _gSpherePrecision,
+                c = cos(phi),
+                s = sin(phi)
+            v.push(c, 1, s)
+        }
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+
+                let at = lon * 3,
+                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+
+                w.push(
+                    v[at],   1,  v[at+2],
+                    v[at2],  1,  v[at2+2],
+                    v[at],  -1,  v[at+2],
+
+                    v[at2],  1,  v[at2+2],
+                    v[at2], -1,  v[at2+2],
+                    v[at],  -1,  v[at+2],
+
+                    v[at],   1,  v[at+2],
+                    0,       1,  0,
+                    v[at2],  1,  v[at2+2],
+
+                    v[at2], -1,  v[at2+2],
+                    0,      -1,  0,
+                    v[at],  -1,  v[at+2]
+                )
+        }
+
+        _g.vertices = _g.vertices.concat(w)
+        return this
+    },
+    
+    cone() {
+        const v = [], w = []
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / _gSpherePrecision,
+                c = cos(phi),
+                s = sin(phi)
+            v.push(c, 1, s)
+        }
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+
+                let at = lon * 3,
+                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+
+                w.push(
+                    0,  1,  0,
+                    v[at2], -1,  v[at2+2],
+                    v[at],  -1,  v[at+2],
+
+                    v[at2], -1,  v[at2+2],
+                    0,      -1,  0,
+                    v[at],  -1,  v[at+2]
+                )
+        }
+
+        _g.vertices = _g.vertices.concat(w)
+        return this
+    },
+
+    circle: function() {
+        const v = [], w = []
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / _gSpherePrecision,
+                c = cos(phi),
+                s = sin(phi)
+            v.push(c, 1, s)
+        }
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+                let at = lon * 3,
+                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+
+                w.push(
+                    v[at2], 0,  v[at2+2],
+                    0,      0,  0,
+                    v[at],  0,  v[at+2]
+                )
+        }
+
+        _g.vertices = _g.vertices.concat(w)
+        return this
+    },
+    
+    ring(ir) {
+        const v = [], w = []
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / _gSpherePrecision,
+                c = cos(phi),
+                s = sin(phi)
+            v.push(c, 1, s)
+        }
+
+        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+
+                let at = lon * 3,
+                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+
+                w.push(
+                    v[at2],    0,  v[at2+2],
+                    v[at],     0,  v[at+2], 
+                    v[at2]*ir, 0,  v[at2+2]*ir,
+
+                    v[at],     0,  v[at+2],
+                    v[at]*ir,  0,  v[at+2]*ir,
+                    v[at2]*ir, 0,  v[at2+2]*ir
+
+                    /*
+                    v[at]*ir,  0,  v[at]*ir,
+                    v[at],     0,  v[at],
+                    v[at2]*ir, 0,  v[at2]*ir,
+
+                    v[at2]*ir, 0,  v[at2]*ir,
+                    v[at],     0,  v[at],
+                    v[at2],    0,  v[at2]
+                    */
+                )
         }
 
         _g.vertices = _g.vertices.concat(w)

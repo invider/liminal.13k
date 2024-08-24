@@ -152,26 +152,24 @@ lab.attach( new Camera({
 
 _.onStart = () => {
 
-    for (let i = 0; i < 0; i++) {
-        const B = 60
-        const H = B/2
-        lab.attach( new Cube({
-            pos: vec3(
-                H - B*rnd(),
-                H - B*rnd(),
-                H - B*rnd()
-            ),
-            rot: vec3(0, 0, 0),
-            scale: vec3(1, 1, 1)
-        }))
-    }
+    const meshColors = [
+        vec3(.8, .2, .2),
+        vec3(.7, .8, .2),
+        vec3(.1, .8, .2),
+        vec3(.1, .8, .9),
+        vec3(.1, .2, .9),
+        vec3(.3, .5, .9),
+        vec3(.5, .2, .8),
+        vec3(.8, .7, .8),
+        vec3(1, 1, 1),
+    ]
 
-    for (let i = 0; i < 128; i++) {
-        const B = 60
+    for (let i = 0; i < 256; i++) {
+        const B = 100
         const H = B/2
 
         let g
-        switch( Math.floor(rnd()*3) ) {
+        switch( Math.floor(rnd()*8) ) {
             case 0:
                 g = geo.gen().plane().scale(.5 + rnd() * 2).bake()
                 break
@@ -180,6 +178,21 @@ _.onStart = () => {
                 break
             case 2:
                 g = geo.gen().sphere().scale(.5 + rnd() * 2).bake()
+                break
+            case 3:
+                g = geo.gen().cylinder().scale(.5 + rnd() * 2).bake()
+                break
+            case 4:
+                g = geo.gen().cone().scale(.5 + rnd() * 2).bake()
+                break
+            case 5:
+                g = geo.gen().circle().scale(.5 + rnd() * 2).bake()
+                break
+            case 6:
+                g = geo.gen().ring(.75).scale(.5 + rnd() * 2).bake()
+                break
+            case 7:
+                g = geo.gen().tetrahedron().scale(.5 + rnd() * 2).bake()
                 break
         }
         const spin = (rnd()*4) < 1? 0 : 1
@@ -193,7 +206,16 @@ _.onStart = () => {
             rot:   vec3(0, 0, 0),
             rotSpeed: vec3(0, 0, 0),
             scale: vec3(1, 1, 1),
+
             geo: g,
+            mat: {
+                Ka: vec3(.5, .6, .7),
+                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Ks: vec3(1, 1, 1),
+                Ke: vec3(1, 1, 1),
+                Lv: vec4(.2, .8, .5, 0),
+                Ns: 21,
+            },
 
             init() {
                 this.rotSpeed[0] += (rnd() < .5? -1 : 1) * (.5 + rnd()*3) * spin
