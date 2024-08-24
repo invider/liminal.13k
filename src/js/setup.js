@@ -1,7 +1,14 @@
 const _ = {}
 
 // shader attributes
-let _mMatrix, _nMatrix, _vMatrix, _pMatrix, _uDirectionalLightVector
+let _mMatrix, _nMatrix, _vMatrix, _pMatrix,
+    _uDirectionalLightVector,
+    _uAmbientColor,
+    _uDiffuseColor,
+    _uSpecularColor,
+    _uEmissionColor,
+    _uLightIntensities,
+    _uShininess
 
 function compileShader(id, type) {
     const src = document.getElementById(id).innerHTML
@@ -77,6 +84,12 @@ function setupUniforms() {
     _pMatrix = gl.getUniformLocation(glProg, 'pMatrix')
 
     _uDirectionalLightVector = gl.getUniformLocation(glProg, 'uDirectionalLightVector')
+    _uAmbientColor = gl.getUniformLocation(glProg, 'uAmbientColor')
+    _uDiffuseColor = gl.getUniformLocation(glProg, 'uDiffuseColor')
+    _uSpecularColor = gl.getUniformLocation(glProg, 'uSpecularColor')
+    _uEmissionColor = gl.getUniformLocation(glProg, 'uEmissionColor')
+    _uLightIntensities = gl.getUniformLocation(glProg, 'uLightIntensities')
+    _uShininess = gl.getUniformLocation(glProg, 'uShininess')
 }
 
 window.onload = () => {

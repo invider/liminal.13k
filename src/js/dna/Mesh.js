@@ -1,7 +1,18 @@
+const df = {
+    mat: {
+        Ka: vec3(.5, .6, .7),
+        Kd: vec3(.7, .8, .3),
+        Ks: vec3(1, 1, 1),
+        Ke: vec3(1, 1, 1),
+        Lv: vec4(.2, .8, .5, 0),
+        Ns: 21,
+    }
+}
+
 class Mesh {
 
     constructor(st) {
-        extend(this, st)
+        extend(this, df, st)
 
         // create buffers
         const geo = this.geo
@@ -32,14 +43,18 @@ class Mesh {
         const imMatrix = mat4.copy(mMatrix)
         mat4.invert(imMatrix)
 
-        const checkMatrix = mat4.copy(mMatrix)
-        mat4.mul(checkMatrix, imMatrix)
-        const identityMatrix = mat4.identity()
-        if (!mat4.equals(checkMatrix, identityMatrix)) debugger
-
         const nMatrix = mat4.itranspose(imMatrix)
-
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
+
+        gl.uniform3fv(_uAmbientColor, this.mat.Ka)
+        gl.uniform3fv(_uDiffuseColor, this.mat.Kd)
+        gl.uniform3fv(_uSpecularColor, this.mat.Ks)
+        gl.uniform3fv(_uEmissionColor, this.mat.Ke)
+        gl.uniform4fv(_uLightIntensities, this.mat.Lv)
+        gl.uniform3fv(_uShininess, this.mat.Ns)
+
+        // set the material
+
         // -------------------------------------
 
         // bind our geometry and materials

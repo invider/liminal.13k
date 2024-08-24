@@ -69,23 +69,33 @@
 
             uniform highp vec3 uDirectionalLightVector;
 
+            // material uniforms
+            uniform highp vec3 uAmbientColor;
+            uniform highp vec3 uDiffuseColor;
+            uniform highp vec3 uSpecularColor;
+            uniform highp vec3 uEmissionColor;
+
+            uniform highp vec4 uLightIntensities;
+            uniform highp float uShininess;
+
             varying vec3 vPosition;
             varying vec3 vNormal;
             varying vec3 vWorldNormal;
 
             void main(void) {
                 // DEBUG material props
-                highp float roughness = 1.0;
+
                 highp float ambientIntensity = 0.2;
                 highp vec3 diffuseLightIntensity = vec3(0.9, 0.9, 0.9);
                 highp float specularIntensity = 0.5;
-                highp float shininess = 128.0;
 
                 highp vec3 ambientColor = vec3(.5, .6, .7);
                 highp vec3 diffuseColor = vec3(.7, .7, .3);
                 highp vec3 specularColor = vec3(1, 1, 1);
+                highp float shininess = 128.0;
 
                 highp float opacity = 1.0;
+                highp float roughness = 1.0;
 
                 // light sources
                 highp vec3 pointLightPosition = vec3(15, 15, 5);

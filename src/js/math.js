@@ -21,11 +21,20 @@ const rnd = LNGSource(1)
 
 
 const vec3 = function(x, y, z) {
-    const m = new Float32Array(3)
-    m[0] = x
-    m[1] = y
-    m[2] = z
-    return m
+    const v = new Float32Array(3)
+    v[0] = x
+    v[1] = y
+    v[2] = z
+    return v
+}
+
+const vec4 = function(x, y, z, w) {
+    const v = new Float32Array(4)
+    v[0] = x
+    v[1] = y
+    v[2] = z
+    v[3] = w
+    return v
 }
 
 vec3.set = function(v, x, y, z) {
