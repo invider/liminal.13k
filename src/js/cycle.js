@@ -27,6 +27,7 @@ function drawScene() {
 
     // TODO merge view and projection into the pv matrix and get it from the camera
     gl.uniformMatrix4fv(_vMatrix, false, vMatrix)
+    gl.uniform3fv(_uCamPos, lab.cam.pos)
     gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
 
     const rnv = vec3.copy(env.directionalLightVector)
