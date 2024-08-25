@@ -17,8 +17,8 @@ mkdir -p $DIST
 mkdir -p $STAGE
 cp --verbose $SRC/html/*.html $STAGE/
 
-mkdir $STAGE/js
-cp --verbose -r $SRC/js/  $STAGE/js/
+cp --verbose -r $SRC/dry  $STAGE/
+cp --verbose -r $SRC/zap  $STAGE/
 
 #du -shb $STAGE/*.html
 #du -shb $STAGE/js/*.js
