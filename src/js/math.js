@@ -20,21 +20,21 @@ function LNGSource(seed) {
 }
 const rnd = LNGSource(1)
 
+function clamp(v, m, x) {
+    return Math.min(Math.max(v, m), x)
+}
+
+function lerp(start, end, amt) {
+    return start + amt * (end - start)
+}
+
+// === 3D vector ops ===
 
 const vec3 = function(x, y, z) {
     const v = new Float32Array(3)
     v[0] = x
     v[1] = y
     v[2] = z
-    return v
-}
-
-const vec4 = function(x, y, z, w) {
-    const v = new Float32Array(4)
-    v[0] = x
-    v[1] = y
-    v[2] = z
-    v[3] = w
     return v
 }
 
@@ -50,15 +50,6 @@ vec3.copy = function(v) {
     w[0] = v[0]
     w[1] = v[1]
     w[2] = v[2]
-    return w
-}
-
-vec4.copy = function(v) {
-    const w = new Float32Array(4)
-    w[0] = v[0]
-    w[1] = v[1]
-    w[2] = v[2]
-    w[3] = v[3]
     return w
 }
 
@@ -161,6 +152,28 @@ vec3.rotZ = function(v, theta) {
     v[1] = x * cos(theta) - y * sin(theta)
     v[2] = x * sin(theta) + y * cos(theta)
 }
+
+
+// === 4D vector ===
+const vec4 = function(x, y, z, w) {
+    const v = new Float32Array(4)
+    v[0] = x
+    v[1] = y
+    v[2] = z
+    v[3] = w
+    return v
+}
+
+vec4.copy = function(v) {
+    const w = new Float32Array(4)
+    w[0] = v[0]
+    w[1] = v[1]
+    w[2] = v[2]
+    w[3] = v[3]
+    return w
+}
+
+// === 4x4 matrix ops ===
 
 // turn a zero 4D matrix into an identity one
 // @param {array/mat4} - a zero 4D matrix to set identity to

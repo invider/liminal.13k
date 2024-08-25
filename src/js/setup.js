@@ -14,22 +14,22 @@ let _mMatrix, _nMatrix, _vMatrix, _pMatrix,
     _uLightIntensities,
     _uShininess
 
-function compileShader(id, type) {
-    const src = document.getElementById(id).innerHTML
-    const shader = gl.createShader(type? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER)
+function compileShader(src, type) {
+    //const src = document.getElementById(id).innerHTML
+    const shader = gl.createShader(type? gl.FRAGMENT_SHADER: gl.VERTEX_SHADER)
 
     gl.shaderSource(shader, src)
     gl.compileShader(shader)
 
     if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader
     else {
-        err(`#${id}: ` + gl.getShaderInfoLog(shader))
+        err(`#${type?'frag':'vert'}: ` + gl.getShaderInfoLog(shader))
     }
 }
 
 function setupShaders() {
-    const v = compileShader('v-shader', 1)
-    const f = compileShader('f-shader', 0)
+    const v = compileShader(_vshader, 0)
+    const f = compileShader(_fshader, 1)
 
     glProg = gl.createProgram()
     gl.attachShader(glProg, v)

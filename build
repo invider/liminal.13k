@@ -9,12 +9,13 @@ ZIP=game.zip
 echo "Cleaning..."
 ./clean
 
+echo "Staging the Package..."
 mkdir -p $DIST
 mkdir -p $STAGE
 cp --verbose $SRC/html/*.html $STAGE/
 
 mkdir $STAGE/js
-cp --verbose $SRC/js/*.js   $STAGE/js/
+cp --verbose -r $SRC/js/  $STAGE/js/
 
 #du -shb $STAGE/*.html
 #du -shb $STAGE/js/*.js
