@@ -4,6 +4,7 @@ function extend(e, s, x) {
         e[p] = s[p]
     }
     if (x) extend(e, x)
+    return e
 }
 
 function expandCanvas() {
