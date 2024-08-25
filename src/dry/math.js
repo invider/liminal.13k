@@ -153,6 +153,10 @@ vec3.rotZ = function(v, theta) {
     v[2] = x * sin(theta) + y * cos(theta)
 }
 
+vec3.equals = function(a, b) {
+    return (a[0] === b[0] && a[1] === b[1] && a[2] === b[2])
+}
+
 
 // === 4D vector ===
 const vec4 = function(x, y, z, w) {

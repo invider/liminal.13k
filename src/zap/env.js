@@ -29,17 +29,17 @@ const env = {
     bind: [
         '',
         // movement controls
-        'KeyW', 
+        'KeyW',        // 1
         'KeyA',
         'KeyS',
         'KeyD',
         'KeyE',
         'KeyC',
         'ArrowUp',
-        'ArrowLeft',
+        'ArrowLeft',   // 8
         'ArrowDown',
         'ArrowRight',
-        'PageUp',
+        'PageUp',      // 11
         'PageDown',
 
         // ...

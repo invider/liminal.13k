@@ -1,5 +1,33 @@
 function calcNormals(v) {
-    const n = []
+    const n = [], w = [], gn = [], gN = []
+
+    function indexVertex(vx, j, nv) {
+        let o = -1, i = 0
+        while(o < 0 && i < j) {
+            vw = vec3.fromArray(v, i)
+            if (vec3.equals(vx, vw)) {
+                // found the leading vertex!
+                o = i/3
+            }
+            i += 3
+        }
+
+        let wj = j/3
+        w[wj] = o
+        if (o < 0) o = wj
+
+        if (gn[o]) {
+            gn[o].push(nv)
+        } else gn[o] = [nv]
+    }
+
+    function avgNormal(nlist) {
+        const v = vec3(0, 0, 0)
+        nlist.forEach(w => vec3.add(v, w))
+        vec3.scale(v, 1/nlist.length)
+        vec3.normalize(v)
+        return v
+    }
 
     for (let i = 0; i < v.length; i+=9) {
         let
@@ -10,17 +38,44 @@ function calcNormals(v) {
             v13 = vec3.isub(v1, v3),
             nv = vec3.normalize( vec3.icross(v12, v13) )
 
+        if (_gSmooth) {
+            indexVertex(v1, i,     nv)
+            indexVertex(v2, i + 3, nv)
+            indexVertex(v3, i + 6, nv)
+        }
+
         // push the same normal for all 3 vertices
         n.push(nv[0], nv[1], nv[2])
         n.push(nv[0], nv[1], nv[2])
         n.push(nv[0], nv[1], nv[2])
     }
 
+    if (_gSmooth) {
+        // TODO smooth the normals
+        for (let i = 0; i < w.length; i++) {
+            const leadIndex = w[i]
+
+            let an
+            if (leadIndex < 0) {
+                an = avgNormal(gn[i]) 
+                gN[i] = an
+            } else {
+                an = gN[leadIndex]
+            }
+
+            n[i*3]   = an[0]
+            n[i*3+1] = an[1]
+            n[i*3+2] = an[2]
+        }
+    }
+
     return n
 }
 
+// === geo state ===
 let _g,
-    _gSpherePrecision = 25
+    _gSpherePrecision = 25,
+    _gSmooth
 
 const geo = {
     gen: function() {
@@ -34,6 +89,16 @@ const geo = {
 
     precision: function(v) {
         _gSpherePrecision = v
+        return this
+    },
+
+    smooth: function() {
+        _gSmooth = 1
+        return this
+    },
+
+    sharp: function() {
+        _gSmooth = 0
         return this
     },
 
@@ -123,7 +188,6 @@ const geo = {
                     v[at2], v[at2+1], v[at2+2],
                     v[at4], v[at4+1], v[at4+2],
                     v[at3], v[at3+1], v[at3+2],
-
                 )
             }
         }
@@ -281,34 +345,3 @@ const geo = {
         return _g
     },
 }
-
-
-
-// DEBUG test cube
-const cubeVertices = new Float32Array([
-    -1,-1,-1,    1,-1,-1,   1, 1,-1,  -1, 1,-1,
-    -1,-1, 1,    1,-1, 1,   1, 1, 1,  -1, 1, 1,
-    -1,-1,-1,   -1, 1,-1,  -1, 1, 1,  -1,-1, 1,
-     1,-1,-1,    1, 1,-1,   1, 1, 1,   1,-1, 1,
-    -1,-1,-1,   -1,-1, 1,   1,-1, 1,   1,-1,-1,
-    -1, 1,-1,   -1, 1, 1,   1, 1, 1,   1, 1,-1,
-])
-
-const cubeColors = new Float32Array([
-    5,3,7,  5,3,7,  5,3,7,  5,3,7,
-    1,1,3,  1,1,3,  1,1,3,  1,1,3,
-    0,0,1,  0,0,1,  0,0,1,  0,0,1,
-    1,0,0,  1,0,0,  1,0,0,  1,0,0,
-    1,1,0,  1,1,0,  1,1,0,  1,1,0,
-    0,1,0,  0,1,0,  0,1,0,  0,1,0,
-])
-
-const cubeFaces = new Uint16Array([
-    0, 1, 2,        0, 2, 3,
-    4, 5, 6,        4, 6, 7,
-    8, 9, 10,       8, 10,11,
-    12,13,14,       12,14,15,
-    16,17,18,       16,18,19,
-    20,21,22,       20,22,23,
-])
-

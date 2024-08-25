@@ -13,7 +13,7 @@ class AttitudePod {
             moveZ: this.moveZ,
             yaw:   this.yaw,
             pitch: this.pitch,
-            roll:  this.yaw,
+            roll:  this.roll,
         })
     }
 

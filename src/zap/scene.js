@@ -293,7 +293,7 @@ _.onStart = () => {
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(0, .2, 0),
         scale: vec3(1, 1, 1),
-        geo: geo.gen().precision(150).sphere().scale(35).bake(),
+        geo: geo.gen().precision(25).smooth().sphere().scale(35).bake(),
         mat: {
             Ka: vec3(.8, .4, .7),
             Kd: vec3(.6, .25, .8),
