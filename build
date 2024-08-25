@@ -9,6 +9,9 @@ ZIP=game.zip
 echo "Cleaning..."
 ./clean
 
+echo "Indexing source files..."
+./index
+
 echo "Staging the Package..."
 mkdir -p $DIST
 mkdir -p $STAGE
