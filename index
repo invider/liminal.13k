@@ -5,7 +5,7 @@ STAGE=./.stage.tmp
 TARGET=./index.html
 
 cd $SRC
-find . -name *.js | awk '{ printf "        <script src=\""; printf $1; print "\"></script>"; }' > .index.tmp
+find . -name *.js | awk '{ printf "        <script src=\""; printf $1; print "\"></script>"; }' | sort > .index.tmp
 
 cat index.html | grep -v '<script' | grep . > .preHTML.tmp
 

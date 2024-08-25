@@ -1,5 +1,3 @@
-const _ = {}
-
 // shader attributes
 let _mMatrix, _nMatrix, _vMatrix, _pMatrix,
     _uCamPos,
