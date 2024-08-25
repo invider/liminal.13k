@@ -32,6 +32,11 @@ const geo = {
         return this
     },
 
+    precision: function(v) {
+        _gSpherePrecision = v
+        return this
+    },
+
     plane: function() {
         _g.vertices = _g.vertices.concat([
             -1, 0,-1,  1, 0, 1,  1, 0,-1,    

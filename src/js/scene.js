@@ -228,62 +228,108 @@ _.onStart = () => {
                 this.rot[2] += this.rotSpeed[1] * dt 
             },
         }))
-
-        // huge plane
-        lab.attach( new Mesh({
-            pos: vec3(0, -50, 0),
-            rot: vec3(0, 0, 0),
-            rotSpeed: vec3(3, 0, 0),
-            scale: vec3(1, 1, 1),
-            geo: geo.gen().plane().scale(30).bake(),
-            mat: {
-                Ka: vec3(.5, .5, .5),
-                Kd: vec3(.5, .5, .5),
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.1, .4, .9, 0),
-                Ns: 21,
-            },
-        }))
-
-        lab.attach( new Mesh({
-            pos: vec3(0, 50, 0),
-            rot: vec3(0, 0, 0),
-            rotSpeed: vec3(3, 0, 0),
-            scale: vec3(1, 1, 1),
-            geo: geo.gen().plane().scale(30).bake(),
-            mat: {
-                Ka: vec3(.5, .5, .5),
-                Kd: vec3(.5, .5, .5),
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .8, 0, 0),
-                Ns: 21,
-            },
-        }))
-
-        // THE SUN!!!
-        lab.attach( new Mesh({
-            pos: env.pointLightPosition,
-            rot: vec3(0, 0, 0),
-            rotSpeed: vec3(3, 0, 0),
-            scale: vec3(1, 1, 1),
-            geo: geo.gen().sphere().scale(1).bake(),
-            mat: {
-                Ka: vec3(1, 1, .5),
-                Kd: vec3(1, 1, 1),
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(1, 0, 0, 0),
-                Ns: 21,
-            },
-
-            evo: function(dt) {
-                this.rot[0] += this.rotSpeed[0] * dt
-                this.rot[1] += this.rotSpeed[1] * dt 
-                this.rot[2] += this.rotSpeed[1] * dt 
-            },
-        }))
     }
 
+
+    // huge plane
+    lab.attach( new Mesh({
+        pos: vec3(0, -50, 0),
+        rot: vec3(0, 0, 0),
+        rotSpeed: vec3(3, 0, 0),
+        scale: vec3(1, 1, 1),
+        geo: geo.gen().plane().scale(30).bake(),
+        mat: {
+            Ka: vec3(.5, .5, .5),
+            Kd: vec3(.5, .5, .5),
+            Ks: vec3(1, 1, 1),
+            Ke: vec3(1, 1, 1),
+            Lv: vec4(.1, .4, .9, 0),
+            Ns: 21,
+        },
+    }))
+
+    lab.attach( new Mesh({
+        pos: vec3(0, 50, 0),
+        rot: vec3(0, 0, 0),
+        rotSpeed: vec3(3, 0, 0),
+        scale: vec3(1, 1, 1),
+        geo: geo.gen().plane().scale(30).bake(),
+        mat: {
+            Ka: vec3(.5, .5, .5),
+            Kd: vec3(.5, .5, .5),
+            Ks: vec3(1, 1, 1),
+            Ke: vec3(1, 1, 1),
+            Lv: vec4(.2, .8, 0, 0),
+            Ns: 21,
+        },
+    }))
+
+    // THE SUN!!!
+    lab.attach( new Mesh({
+        pos: env.pointLightPosition,
+        rot: vec3(0, 0, 0),
+        rotSpeed: vec3(3, 0, 0),
+        scale: vec3(1, 1, 1),
+        geo: geo.gen().sphere().scale(1).bake(),
+        mat: {
+            Ka: vec3(1, 1, .5),
+            Kd: vec3(1, 1, 1),
+            Ks: vec3(1, 1, 1),
+            Ke: vec3(1, 1, 1),
+            Lv: vec4(1, 0, 0, 0),
+            Ns: 21,
+        },
+
+        evo: function(dt) {
+            this.rot[0] += this.rotSpeed[0] * dt
+            this.rot[1] += this.rotSpeed[1] * dt 
+            this.rot[2] += this.rotSpeed[1] * dt 
+        },
+    }))
+
+    // planetoid
+    lab.attach( new Mesh({
+        pos: vec3(80, -20, -40),
+        rot: vec3(0, 0, 0),
+        rotSpeed: vec3(0, .2, 0),
+        scale: vec3(1, 1, 1),
+        geo: geo.gen().precision(150).sphere().scale(35).bake(),
+        mat: {
+            Ka: vec3(.8, .4, .7),
+            Kd: vec3(.6, .25, .8),
+            Ks: vec3(1, 1, 1),
+            Ke: vec3(1, 1, 1),
+            Lv: vec4(.2, .6, .8, 0),
+            Ns: 10,
+        },
+
+        evo: function(dt) {
+            this.rot[0] += this.rotSpeed[0] * dt
+            this.rot[1] += this.rotSpeed[1] * dt 
+            this.rot[2] += this.rotSpeed[2] * dt 
+        },
+    }))
+
+    lab.attach( new Mesh({
+        pos: vec3(80, -20, -40),
+        rot: vec3(0, 0, 0),
+        rotSpeed: vec3(0, .15, 0),
+        scale: vec3(1, 1, 1),
+        geo: geo.gen().ring(.85).scale(75).bake(),
+        mat: {
+            Ka: vec3(.6, .4, .8),
+            Kd: vec3(.4, .4, .6),
+            Ks: vec3(1, 1, 1),
+            Ke: vec3(1, 1, 1),
+            Lv: vec4(.6, .4, 1, 0),
+            Ns: 10,
+        },
+
+        evo: function(dt) {
+            this.rot[0] += this.rotSpeed[0] * dt
+            this.rot[1] += this.rotSpeed[1] * dt 
+            this.rot[2] += this.rotSpeed[2] * dt 
+        },
+    }))
+    geo.precision(5)
 }

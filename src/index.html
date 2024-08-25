@@ -86,11 +86,20 @@
                 ) * uDirectionalLightColorI.w;
 
                 // do one point light
-                highp vec3 pointLightDirection = normalize(uPointLightPosition - vWorldPosition);
+                vec3 pointLightDirection = uPointLightPosition - vWorldPosition;
+                float pointLightDistance = length(pointLightDirection);
+                pointLightDirection /= pointLightDistance;
+
+                // attenuation (TODO make a property of the point(spot?) light
+                float attenuation = 1.0 / (
+                    .2 // constant component for infinite dist
+                    + 0.001 * pointLightDistance * pointLightDistance // quadratic factor
+                );
+
                 highp float diffusePointLambert = max(
                     dot(worldNormal, pointLightDirection),
                     0.0
-                ) * uPointLightColorI.w;
+                ) * uPointLightColorI.w * attenuation;
 
                 // mix directional and point lights factors
                 highp float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
@@ -101,7 +110,7 @@
 
                 highp float specular = pow(
                     max( dot(worldNormal, halfVector), 0.0 ), uShininess
-                ) * uPointLightColorI.w;
+                ) * uPointLightColorI.w * attenuation;
 
                 gl_FragColor = vec4(
                     uAmbientColor * uLightIntensities.x
