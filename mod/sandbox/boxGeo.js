@@ -13,6 +13,8 @@ _.boxGeo = function() {
         vec3(1, 1, 1),
     ]
 
+    geo.precision(25)
+
     for (let i = 0; i < 256; i++) {
         const B = 100
         const H = B/2

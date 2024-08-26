@@ -45,6 +45,8 @@ window.onmousemove = (e) => {
 
 window.onresize = expandCanvas
 
+/*
 window.onhashchange = () => {
     start()
 }
+*/

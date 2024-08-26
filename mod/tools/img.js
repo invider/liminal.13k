@@ -82,6 +82,7 @@ const img = {
 }
 
 trap.register('start', () => {
+    if (env.started) return
 
     const screenshotController = lab.attach({
         name: 'screenshotController',
