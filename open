@@ -1,6 +1,6 @@
 #!/bin/sh
 
-URL=./src/index.html
+URL=./mod/index.html
 
 nohup xdg-open $URL &>/dev/null &
 

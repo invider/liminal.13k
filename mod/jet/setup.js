@@ -60,8 +60,8 @@ function setupUniforms() {
 }
 
 window.onload = () => {
-    canvas = document.getElementById('canvas')
-    gl = canvas.getContext('webgl2', {
+    gcanvas = document.getElementById('gcanvas')
+    gl = gcanvas.getContext('webgl2', {
         alpha: false,
     })
     hcanvas = document.getElementById('hcanvas')
@@ -78,6 +78,7 @@ window.onload = () => {
     gl.useProgram(glProg)
 
     start()
+    trap('start')
 
     expandCanvas()
     lastTime = Date.now()

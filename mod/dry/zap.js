@@ -14,9 +14,17 @@ class Frame {
     }
 
     evo(dt) {
-        for (let i = 0; i < this._ls.length; i++) {
-            const e = this._ls[i]
-            if (e && !e.dead) {
+        const ls = this._ls
+        for (let i = 0; i < ls.length; i++) {
+            const e = ls[i]
+
+            if (e.dead) {
+                const j = i
+                defer(() => {
+                    if (e.onKill) e.onKill()
+                    ls.splice(j, 1)
+                })
+            } else if (!e.zombie) {
                 e.evo(dt)
             }
         }
@@ -35,8 +43,9 @@ class Frame {
         this._ls.push(node)
         if (node.name) this[node.name] = node
         node.__ = this                          // link to the parent frame
-        if (!node.evo) node.dead = true
+        if (!node.evo) node.zombie = true
         if (!node.draw) node.ghost = true
         if (node.init) node.init()
+        return node
     }
 }

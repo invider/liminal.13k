@@ -1,25 +1,28 @@
 #!/bin/sh
 
-SRC=./src
+SRC=./mod
 DIST=./dist
 STAGE=$DIST/stage
 TAR=$DIST/target
 ZIP=game.zip
 
-echo "Cleaning..."
-./clean
-
 echo "Indexing source files..."
 ./index
+
+echo "Cleaning..."
+./clean
 
 echo "Staging the Package..."
 mkdir -p $DIST
 mkdir -p $STAGE
+cp --verbose $SRC/*.css $STAGE/
 cp --verbose $SRC/html/*.html $STAGE/
 
 cp --verbose -r $SRC/dry  $STAGE/
+cp --verbose -r $SRC/jet  $STAGE/
 cp --verbose -r $SRC/zap  $STAGE/
 
+# initial size estimates
 #du -shb $STAGE/*.html
 #du -shb $STAGE/js/*.js
 
@@ -33,6 +36,7 @@ node ./tools/minify.js $STAGE $TAR
 # just copy html fo now
 # TODO minify .html and .css files
 cp --verbose $STAGE/*.html $TAR
+cp --verbose $STAGE/*.css $TAR
 
 
 echo "============="

@@ -1,5 +1,5 @@
 let gl, glProg
-let canvas, hcanvas
+let gcanvas, hcanvas
 let lastTime
 
 function evo(dt) {
@@ -22,7 +22,7 @@ function drawScene() {
 
     // setup up the view and projection transformations
     // TODO get it from the camera maybe?
-    const pMatrix = mat4.projection(lab.cam.vfov, canvas.width/canvas.height, 1, 1024)
+    const pMatrix = mat4.projection(lab.cam.vfov, gcanvas.width/gcanvas.height, 1, 1024)
     const vMatrix = lab.cam.viewMatrix()
 
     // TODO merge view and projection into the pv matrix and get it from the camera
@@ -42,8 +42,10 @@ function drawScene() {
 
     // draw the scene graph
     lab.draw()
+
 }
 
+// TODO refactor into a lab node
 function drawHUD() {
     ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
 
@@ -73,7 +75,7 @@ function drawHUD() {
     }
 
     if (env.tag) {
-        bx = canvas.width - 20
+        bx = hcanvas.width - 20
         ctx.textAlign = 'right'
         ctx.fillText(env.tag, bx, by)
     }

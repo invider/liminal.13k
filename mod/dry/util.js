@@ -7,15 +7,26 @@ function extend(e, s, x) {
     return e
 }
 
+function wrap(fn1, fn2) {
+    return (st) => {
+        fn1(st)
+        fn2(st)
+    }
+}
+
+function defer(fn) {
+    setTimeout(fn, 0)
+}
+
 function expandCanvas() {
     const newWidth = window.innerWidth
     const newHeight = window.innerHeight
 
-    canvas.width = newWidth
-    canvas.height = newHeight
-    canvas.style.width = newWidth + 'px'
-    canvas.style.height = newHeight + 'px'
-    gl.viewport(0, 0, canvas.width, canvas.height)
+    gcanvas.width = newWidth
+    gcanvas.height = newHeight
+    gcanvas.style.width = newWidth + 'px'
+    gcanvas.style.height = newHeight + 'px'
+    gl.viewport(0, 0, gcanvas.width, gcanvas.height)
 
     hcanvas.width = newWidth
     hcanvas.height = newHeight

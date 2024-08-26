@@ -3,6 +3,11 @@ function trap(eventName, st) {
     if (fn) fn(st)
 }
 
+trap.register = function(eventName, fn) {
+    if (!trap[eventName]) trap[eventName] = fn
+    else trap[eventName] = wrap(trap[eventName], fn)
+}
+
 window.onkeydown = (e) => {
     if (e.repeat) return
 

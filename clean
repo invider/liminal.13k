@@ -1,5 +1,5 @@
 #!/bin/sh
 
 rm -rf dist
-rm -rf ./src/.*.tmp
+rm -rf ./mod/.*.tmp
 
