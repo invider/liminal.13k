@@ -1,6 +1,6 @@
 const _ = {}
 
-// Group Node for our scenery
+// Group node for lab
 class Frame {
 
     constructor(st) {
@@ -49,3 +49,5 @@ class Frame {
         return node
     }
 }
+
+const lab = new Frame()

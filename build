@@ -49,6 +49,14 @@ zip -r $ZIP *
 mv --verbose $ZIP ../
 cd -
 
+echo "---------------------------------"
+echo "Test unpackaging of [$ZIP]..."
+cd dist
+mkdir $ZIP.out
+unzip -v $ZIP
+unzip $ZIP -d $ZIP.out
+cd -
+
 echo '-------------------------------'
 du -shb $DIST/*.zip
 du -sh --apparent-size $DIST/*.zip

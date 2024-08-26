@@ -54,8 +54,8 @@ const env = {
 
     backfaces: true,
 
+    // TODO should be set by the HUD node
     status: '',
     tag: 'debug',
     dump: {},
 }
-

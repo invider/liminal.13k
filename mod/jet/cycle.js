@@ -49,7 +49,7 @@ function drawScene() {
 function drawHUD() {
     ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
 
-    ctx.fillStyle = '#ffff00'
+    ctx.fillStyle = '#e06a10'
     ctx.textBaseline = 'top'
     ctx.textAlign = 'left'
     ctx.font = "24px monospace"

@@ -78,7 +78,6 @@ window.onload = () => {
     gl.useProgram(glProg)
 
     start()
-    trap('start')
 
     expandCanvas()
     lastTime = Date.now()
@@ -86,12 +85,17 @@ window.onload = () => {
 }
 
 function start() {
+    let startFn = _.onStart
     if (debug) {
         if (location.hash.startsWith('#box')) {
-            _[location.hash.substring(1)]()
-            return
+            const name = location.hash.substring(1)
+            const fn = _[name]
+            if (!fn) throw `[${name}] is not found!`
+            startFn = fn
         }
     }
-    if (_.onStart) _.onStart()
+    if (startFn) startFn()
+    trap('start')
+    env.started = true
 }
 

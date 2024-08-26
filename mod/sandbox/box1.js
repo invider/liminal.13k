@@ -14,7 +14,7 @@ _.boxOne = function() {
             ),
             rot: vec3(0, 0, 0),
             scale: vec3(1, 1, 1),
-            geo: geo.gen().plane().scale(4 + rnd() * 4).get(),
+            geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
         }))
     }
 }

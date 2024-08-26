@@ -86,7 +86,7 @@ trap.register('start', () => {
     const screenshotController = lab.attach({
         name: 'screenshotController',
 
-        gifDelay:   .2,
+        gifDelay:   .15,
         gifTimer:   0,
         frameTimer: 0,
 
@@ -129,20 +129,12 @@ trap.register('start', () => {
 
                 if (this.gifTimer > 0) {
                     if (this.frameTimer < 0) {
-                        this.gif.addFrame(gcanvas, { delay: this.gifDelay * .001 });
-
-                        // add a image element
-                        //gif.addFrame(imageElement);
-
-                        // or copy the pixels from a canvas context
-                        //gif.addFrame(ctx, {copy: true});
-                        //
+                        this.gif.addFrame(gcanvas, { copy: true, delay: this.gifDelay * 1000 });
                         this.frameTimer = this.gifDelay
                     }
                 } else {
                     this.gifTimer = 0 // we dont here
                     this.gif.render()
-                    delete this.gif
                 }
             }
         },
@@ -161,12 +153,12 @@ trap.register('start', () => {
         switch(e.code) {
             case 'F8':
                 screenshotController.scheduleScreenshot()
-                e.preventDefault = true
+                e.preventDefault()
                 break
             case 'F9':
                 // TODO handle switch - workers work only when hosted and not locally
                 screenshotController.scheduleGif(5)
-                e.preventDefault = true
+                e.preventDefault()
                 break
         }
     })
