@@ -36,7 +36,14 @@ window.onkeyup = (e) => {
     }
 }
 
-window.onclick = (e) => {
+window.onmousedown = (e) => {
+    trap('mdn', e)
+    if (lab.broker) lab.broker.onMouseDown(e)
+}
+
+window.onmouseup = (e) => {
+    trap('mup', e)
+    if (lab.broker) lab.broker.onMouseUp(e)
 }
 
 window.onmousemove = (e) => {

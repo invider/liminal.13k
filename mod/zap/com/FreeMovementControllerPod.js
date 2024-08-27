@@ -90,6 +90,10 @@ class FreeMovementControllerPod {
         this.pushers[action] = 0
     }
 
+    onMouseDown() {}
+
+    onMouseUp() {}
+
     onMouseMove(e) {
         if (e.buttons != 1) return
         const dx = e.movementX, dy = e.movementY

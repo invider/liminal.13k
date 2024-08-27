@@ -17,6 +17,14 @@ class FPSMovementControllerPod {
 
     init() {
         lab.broker = this
+
+        document.onpointerlockchange = (e) => {
+            if (document.pointerLockElement) {
+                env.mouseLock = true
+            } else {
+                env.mouseLock = false
+            }
+        }
     }
 
     push(action, factor, dt) {
@@ -94,10 +102,19 @@ class FPSMovementControllerPod {
         this.pushers[action] = 0
     }
 
-    onMouseMove(e) {
-        if (e.buttons != 1) return
-        const dx = e.movementX, dy = e.movementY
+    onMouseDown(e) {
+        if (e.button == 0) {
+            if (!env.mouseLock) this.capture()
+        }
+    }
 
+    onMouseUp(e) {
+    }
+
+    onMouseMove(e) {
+        if (!env.mouseLock) return
+
+        const dx = e.movementX, dy = e.movementY
         if (dx) {
             if (e.shiftKey) {
                 // accumulate mouse roll
@@ -111,5 +128,9 @@ class FPSMovementControllerPod {
             // accumulate vertical mouse movement
             this.pushers[SHIFT_PITCH] += dy
         }
+    }
+
+    capture() {
+        gcanvas.requestPointerLock()
     }
 }
