@@ -4,6 +4,7 @@ const DEG_TO_RAD = PI/180
 const RAD_TO_DEG = 180/PI
 const EPSILON = 0.00001
 
+const abs = Math.abs
 const cos = Math.cos
 const sin = Math.sin
 
@@ -110,7 +111,7 @@ vec3.scale = function(v, s) {
     return this
 }
 
-vec3.scaleAndAdd = function(v, w, s) {
+vec3.scad = function(v, w, s) {
     v[0] += w[0] * s
     v[1] += w[1] * s
     v[2] += w[2] * s
@@ -458,7 +459,7 @@ const mat4 = {
 
     equals(m1, m2) {
         for (let i = 0; i < 16; i++) {
-            if (Math.abs(m1[i] - m2[i]) > EPSILON) return false
+            if (abs(m1[i] - m2[i]) > EPSILON) return false
         }
         return true
     },

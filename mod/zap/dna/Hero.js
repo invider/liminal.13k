@@ -23,19 +23,32 @@ class Hero extends Frame {
     evo(dt) {
         super.evo(dt)
 
+        const mt = this.momentum
+
         // make some gravity
         if (this.pos[1] - this.hh > 0) {
-            this.momentum[1] -= tune.gravity * dt
+            mt[1] -= tune.gravity * dt
         }
 
+        // apply horizontal friction
+        // TODO should work only when in contact with the ground
+        const fv = vec3.normalize( vec3.clone(mt) )
+        fv[1] = 0 // remove the Y component - applying in horizontal plane only 
+        vec3.scale(fv, tune.friction)
+        if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0]
+        if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
+        vec3.scale(fv, -1)
+        vec3.add(mt, fv)
+
         // apply movement
-        vec3.scaleAndAdd(this.pos, this.momentum, dt)
+        // TODO limit the max speed
+        vec3.scad(this.pos, mt, dt)
 
         // apply restrains
         if (this.pos[1] < 0) {
             // hit the ground
             this.pos[1] = this.hh
-            this.momentum[1] = 0
+            mt[1] = 0
         }
         
         /*

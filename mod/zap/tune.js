@@ -7,4 +7,6 @@ const tune = {
     tiltSpeed: 1.75,
     turnMouseSpeed: .14,
     tiltMouseSpeed: .11,
+
+    friction: .75,
 }

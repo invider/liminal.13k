@@ -1,6 +1,6 @@
 const dfSMCP = {
-    name:      'mover',
-    speed:     20,
+    name:         'mover',
+    acceleration: 60,       // TODO move out to tune maybe?
 }
 
 class FPSMovementControllerPod {
@@ -25,35 +25,37 @@ class FPSMovementControllerPod {
 
     push(action, factor, dt) {
         const __ = this.__
-        const speed     = this.speed
+        const speed = this.acceleration * dt
 
         switch(action) {
             case FORWARD:
-                __.moveZ(-speed * dt)
+                vec3.scad(__.momentum, __.dir, -speed)
                 break
             case STRAFE_LEFT:
-                __.moveX(-speed * dt)
+                vec3.scad(__.momentum, vec3(-__.dir[2], 0, __.dir[0]), speed)
                 break
             case BACKWARD:
-                __.moveZ(speed * dt)
+                vec3.scad(__.momentum, __.dir, speed)
                 break
             case STRAFE_RIGHT:
-                __.moveX(speed * dt)
+                vec3.scad(__.momentum, vec3(__.dir[2], 0, -__.dir[0]), speed)
                 break
 
+            // keyboard look
             case LOOK_LEFT:
                 __.yaw(-tune.turnSpeed * dt)
                 break
             case LOOK_RIGHT:
                 __.yaw(tune.turnSpeed * dt)
                 break
-
             case LOOK_UP:
                 __.tilt(-tune.tiltSpeed * dt)
                 break
             case LOOK_DOWN:
                 __.tilt(tune.tiltSpeed * dt)
                 break
+
+            // mouse look
             case SHIFT_YAW:
                 __.yaw(tune.turnMouseSpeed * factor * dt)
                 break

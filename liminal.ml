@@ -33,6 +33,7 @@
 
 
 === fossil ===
+V momentum vector
 V gravity
 V run and jump
 V hero entity
