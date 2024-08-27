@@ -1,10 +1,6 @@
 const dfSMCP = {
     name:      'mover',
     speed:     20,
-    turnSpeed: 2,
-    tiltSpeed: 2,
-    turnMouseSpeed: .65,
-    tiltMouseSpeed: .25,
 }
 
 class FPSMovementControllerPod {
@@ -30,7 +26,6 @@ class FPSMovementControllerPod {
     push(action, factor, dt) {
         const __ = this.__
         const speed     = this.speed
-        const turnSpeed = this.turnSpeed
 
         switch(action) {
             case FORWARD:
@@ -47,39 +42,24 @@ class FPSMovementControllerPod {
                 break
 
             case LOOK_LEFT:
-                __.yaw(-turnSpeed * dt)
+                __.yaw(-tune.turnSpeed * dt)
                 break
             case LOOK_RIGHT:
-                __.yaw(turnSpeed * dt)
+                __.yaw(tune.turnSpeed * dt)
                 break
 
             case LOOK_UP:
-                __.tilt(-this.tiltSpeed * dt)
+                __.tilt(-tune.tiltSpeed * dt)
                 break
             case LOOK_DOWN:
-                __.tilt(this.tiltSpeed * dt)
+                __.tilt(tune.tiltSpeed * dt)
                 break
-
-            /*
-            case ROLL_LEFT:
-                __.roll(turnSpeed * dt)
-                break
-            case ROLL_RIGHT:
-                __.roll(-turnSpeed * dt)
-                break
-            */
-
             case SHIFT_YAW:
-                __.yaw(this.turnMouseSpeed * factor * dt)
+                __.yaw(tune.turnMouseSpeed * factor * dt)
                 break
             case SHIFT_PITCH:
-                __.tilt(-this.tiltMouseSpeed * factor * dt)
+                __.tilt(-tune.tiltMouseSpeed * factor * dt)
                 break
-            /*
-            case SHIFT_ROLL:
-                __.roll(turnSpeed * factor * dt)
-                break
-            */
         }
     }
 
@@ -98,7 +78,7 @@ class FPSMovementControllerPod {
         this.pushers[action] = 1
 
         if (action === JUMP && this.__.pos[1] - this.__.hh === 0) {
-            this.__.dy = tune.jumpSpeed
+            this.__.momentum[1] += tune.jumpSpeed
         }
     }
 
