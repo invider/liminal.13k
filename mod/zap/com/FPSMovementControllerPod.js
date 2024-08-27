@@ -24,20 +24,14 @@ class FPSMovementControllerPod {
             case FORWARD:
                 __.moveZ(-speed * dt)
                 break
-            case LEFT:
+            case STRAFE_LEFT:
                 __.moveX(-speed * dt)
                 break
             case BACKWARD:
                 __.moveZ(speed * dt)
                 break
-            case RIGHT:
+            case STRAFE_RIGHT:
                 __.moveX(speed * dt)
-                break
-            case UP:
-                __.moveY(speed * dt)
-                break
-            case DOWN:
-                __.moveY(-speed * dt)
                 break
 
             case LOOK_LEFT:
@@ -46,6 +40,8 @@ class FPSMovementControllerPod {
             case LOOK_RIGHT:
                 __.yaw(-turnSpeed * dt)
                 break
+
+            /*
             case LOOK_UP:
                 __.pitch(-turnSpeed * dt)
                 break
@@ -58,16 +54,19 @@ class FPSMovementControllerPod {
             case ROLL_RIGHT:
                 __.roll(-turnSpeed * dt)
                 break
+            */
 
             case SHIFT_YAW:
-                __.yaw(turnSpeed * factor * dt)
+                __.yaw(-turnSpeed * factor * dt)
                 break
+            /*
             case SHIFT_PITCH:
                 __.pitch(turnSpeed * factor * dt)
                 break
             case SHIFT_ROLL:
                 __.roll(turnSpeed * factor * dt)
                 break
+            */
         }
     }
 

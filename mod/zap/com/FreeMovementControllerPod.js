@@ -24,19 +24,19 @@ class FreeMovementControllerPod {
             case FORWARD:
                 __.moveZ(-speed * dt)
                 break
-            case LEFT:
+            case STRAFE_LEFT:
                 __.moveX(-speed * dt)
                 break
             case BACKWARD:
                 __.moveZ(speed * dt)
                 break
-            case RIGHT:
+            case STRAFE_RIGHT:
                 __.moveX(speed * dt)
                 break
-            case UP:
+            case FLY_UP:
                 __.moveY(speed * dt)
                 break
-            case DOWN:
+            case FLY_DOWN:
                 __.moveY(-speed * dt)
                 break
 

@@ -67,7 +67,7 @@ function setupStage() {
             const name = location.hash.substring(1)
             const fn = _[name]
             if (!fn) throw `[${name}] is not found!`
-            startFn = fn
+            stageFn = fn
         }
     }
     if (stageFn) stageFn()

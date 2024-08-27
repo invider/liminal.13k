@@ -5,22 +5,22 @@ const ifps = []
 
 const flags = {},
     // keyboard controls
-    FORWARD    = 1,
-    LEFT       = 2,
-    BACKWARD   = 3,
-    RIGHT      = 4,
-    UP         = 5,
-    DOWN       = 6,
-    LOOK_UP    = 7,
-    LOOK_LEFT  = 8,
-    LOOK_DOWN  = 9,
-    LOOK_RIGHT = 10,
-    ROLL_LEFT  = 11,
-    ROLL_RIGHT = 12,
+    FORWARD      = 1,
+    STRAFE_LEFT  = 2,
+    BACKWARD     = 3,
+    STRAFE_RIGHT = 4,
+    FLY_UP       = 5,
+    FLY_DOWN     = 6,
+    LOOK_UP      = 7,
+    LOOK_LEFT    = 8,
+    LOOK_DOWN    = 9,
+    LOOK_RIGHT   = 10,
+    ROLL_LEFT    = 11,
+    ROLL_RIGHT   = 12,
     // mouse controls
-    SHIFT_YAW   = 21,
-    SHIFT_PITCH = 22,
-    SHIFT_ROLL  = 23
+    SHIFT_YAW    = 21,
+    SHIFT_PITCH  = 22,
+    SHIFT_ROLL   = 23
 
 const env = {
     time: 0,
