@@ -2,7 +2,6 @@ _.preStage = () => {
 
     lab.attach( new Camera({
         name: 'cam',
-        vfov: 45,
 
         _pods: [
             new FreeMovementControllerPod(),

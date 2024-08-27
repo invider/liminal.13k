@@ -1,8 +1,17 @@
 class Camera extends Frame {
 
     constructor(st) {
+        const df = {
+            vfov: 45,
+            zNear: 1,
+            zFar:  512,
+        }
         st._pods = augment(st._pods, [ new AttitudePod() ])
-        super( extend(st))
+        super( extend(df, st) )
+    }
+
+    projectionMatrix() {
+        return mat4.projection(this.vfov, gcanvas.width/gcanvas.height, this.zNear, this.zFar)
     }
 
     viewMatrix() {
