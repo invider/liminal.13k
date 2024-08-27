@@ -7,6 +7,10 @@ function extend(e, s, x) {
     return e
 }
 
+function augment(array, extensions) {
+    return (array || []).concat(extensions)
+}
+
 function wrap(fn1, fn2) {
     return (st) => {
         fn1(st)

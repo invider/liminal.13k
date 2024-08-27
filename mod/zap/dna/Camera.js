@@ -1,21 +1,22 @@
 class Camera extends Frame {
 
     constructor(st) {
-        super( extend({
-            _pods: [ new AttitudePod() ],
-        }, st))
+        st._pods = augment(st._pods, [ new AttitudePod() ])
+        super( extend(st))
     }
-
-    evo() {}
 
     viewMatrix() {
         let m
         if (this.lookAt) {
             m = mat4.lookAt(
-                this.at.pos,
-                this.at.lookAt,
-                this.at.up,
+                this.pos,
+                this.lookAt,
+                this.up,
             )
+            // fix the attitude based on the look up matrix
+            this.left = mat4.extractV3(m, 0)
+            this.up   = mat4.extractV3(m, 1)
+            this.dir  = mat4.extractV3(m, 2)
         } else {
             vec3.normalize( this.up )
             vec3.normalize( this.dir )

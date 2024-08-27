@@ -1,4 +1,4 @@
-const df = {
+const dfMesh = {
     mat: {
         Ka: vec3(.5, .6, .7),
         Kd: vec3(.9, .2, .2),
@@ -12,7 +12,7 @@ const df = {
 class Mesh {
 
     constructor(st) {
-        extend(this, df, st)
+        extend(this, dfMesh, st)
 
         // create buffers
         const geo = this.geo

@@ -46,16 +46,17 @@ const env = {
     ],
 
     directionalLightVector: vec3(-1, -1, -1),
-    directionalLightColorI: vec4(1, 1, 1, .2),
+    directionalLightColorI: vec4(1, 1, 1, .8),
     //directionalLightVector: vec4(0, 0, 1, 1),
     
     pointLightPosition: vec3(0, 10, 0),
-    pointLightColorI: vec4(1, 1, 1, 1),
+    pointLightColorI: vec4(1, 1, 1, 0),
 
     backfaces: true,
 
     // TODO should be set by the HUD node
     status: '',
-    tag: 'debug',
     dump: {},
 }
+
+if (debug) env.tag = 'debug'

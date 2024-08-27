@@ -264,7 +264,7 @@ const mat4 = {
         const xAxis = vec3.normalize( vec3.icross(up, zAxis) )
         const yAxis = vec3.normalize( vec3.icross(zAxis, xAxis) )
 
-        return this.createV3(xAxis, yAxis, zAxis, cam)
+        return this.from4V3(xAxis, yAxis, zAxis, cam)
     },
 
     // TODO combine rot matrices into a single 3-axis rotation

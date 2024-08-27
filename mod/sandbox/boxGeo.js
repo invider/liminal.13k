@@ -76,7 +76,7 @@ _.boxGeo = function() {
             evo: function(dt) {
                 this.rot[0] += this.rotSpeed[0] * dt
                 this.rot[1] += this.rotSpeed[1] * dt 
-                this.rot[2] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[2] * dt 
             },
         }))
     }
@@ -134,7 +134,7 @@ _.boxGeo = function() {
         evo: function(dt) {
             this.rot[0] += this.rotSpeed[0] * dt
             this.rot[1] += this.rotSpeed[1] * dt 
-            this.rot[2] += this.rotSpeed[1] * dt 
+            this.rot[2] += this.rotSpeed[2] * dt 
         },
     }))
 
@@ -161,6 +161,7 @@ _.boxGeo = function() {
         },
     }))
 
+    // the ring
     lab.attach( new Mesh({
         pos: vec3(80, -20, -40),
         rot: vec3(0, 0, 0),
