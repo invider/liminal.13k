@@ -3,7 +3,7 @@ const dfSMCP = {
     speed:     20,
     turnSpeed: 2,
     tiltSpeed: 2,
-    turnMouseSpeed: 1,
+    turnMouseSpeed: .65,
     tiltMouseSpeed: .25,
 }
 
@@ -96,6 +96,10 @@ class FPSMovementControllerPod {
 
     activate(action) {
         this.pushers[action] = 1
+
+        if (action === JUMP && this.__.pos[1] - this.__.hh === 0) {
+            this.__.dy = tune.jumpSpeed
+        }
     }
 
     stop(action) {

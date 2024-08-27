@@ -17,6 +17,7 @@ const flags = {},
     LOOK_RIGHT   = 10,
     ROLL_LEFT    = 11,
     ROLL_RIGHT   = 12,
+    JUMP         = 13,
     // mouse controls
     SHIFT_YAW    = 21,
     SHIFT_PITCH  = 22,
@@ -29,18 +30,19 @@ const env = {
     bind: [
         '',
         // movement controls
-        'KeyW',        // 1
+        'KeyW',        // 1..4 - WASD movements
         'KeyA',
         'KeyS',
         'KeyD',
-        'KeyE',
-        'KeyC',
-        'ArrowUp',
-        'ArrowLeft',   // 8
-        'ArrowDown',
-        'ArrowRight',
-        'Delete',      // 11
-        'PageDown',
+        'KeyE',        // 5-6 - fly up and down 
+        'KeyC',        
+        'ArrowUp',     // 7  - look up
+        'ArrowLeft',   // 8  - turn left
+        'ArrowDown',   // 9  - look down
+        'ArrowRight',  // 10 - turn right
+        'Delete',      // 11 - roll left
+        'PageDown',    // 12 - roll right
+        'Space',       // 13 - jump
 
         // ...
     ],
