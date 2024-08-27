@@ -10,6 +10,7 @@ _.preStage = () => {
                     // customized camera behavior
                     const __ = this.__
 
+                    // TODO move out into a node ouside of the /zap folder (debug node)
                     if (debug) {
                         // show some debug stuff
                         const p = __.pos, l = __.lookAt
