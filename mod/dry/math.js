@@ -110,6 +110,13 @@ vec3.scale = function(v, s) {
     return this
 }
 
+vec3.scaleAndAdd = function(v, w, s) {
+    v[0] += w[0] * s
+    v[1] += w[1] * s
+    v[2] += w[2] * s
+    return this
+}
+
 vec3.dot = function(a, b) {
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
 }
