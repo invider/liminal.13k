@@ -41,10 +41,10 @@ class FreeMovementControllerPod {
                 break
 
             case LOOK_LEFT:
-                __.yaw(turnSpeed * dt)
+                __.yaw(-turnSpeed * dt)
                 break
             case LOOK_RIGHT:
-                __.yaw(-turnSpeed * dt)
+                __.yaw(turnSpeed * dt)
                 break
             case LOOK_UP:
                 __.pitch(-turnSpeed * dt)
@@ -60,7 +60,7 @@ class FreeMovementControllerPod {
                 break
 
             case SHIFT_YAW:
-                __.yaw(turnSpeed * factor * dt)
+                __.yaw(-turnSpeed * factor * dt)
                 break
             case SHIFT_PITCH:
                 __.pitch(turnSpeed * factor * dt)
