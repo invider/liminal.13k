@@ -37,7 +37,7 @@ class AttitudePod {
 
     yaw(theta) {
         const rm = mat4.from4V3( this.left, this.up, this.dir, vec3(0, 0, 0) )
-        mat4.rotX(rm, theta)
+        mat4.rotX(rm, -theta)
         this.left = mat4.extractV3(rm, 0)
         this.dir = mat4.extractV3(rm, 2)
         this.up = vec3.normalize( vec3.icross(this.dir, this.left) )

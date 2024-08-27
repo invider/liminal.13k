@@ -2,6 +2,9 @@ const dfSMCP = {
     name:      'mover',
     speed:     20,
     turnSpeed: 2,
+    tiltSpeed: 2,
+    turnMouseSpeed: 1,
+    tiltMouseSpeed: .25,
 }
 
 class FPSMovementControllerPod {
@@ -20,6 +23,7 @@ class FPSMovementControllerPod {
         const __ = this.__
         const speed     = this.speed
         const turnSpeed = this.turnSpeed
+
         switch(action) {
             case FORWARD:
                 __.moveZ(-speed * dt)
@@ -35,19 +39,20 @@ class FPSMovementControllerPod {
                 break
 
             case LOOK_LEFT:
-                __.yaw(turnSpeed * dt)
+                __.yaw(-turnSpeed * dt)
                 break
             case LOOK_RIGHT:
-                __.yaw(-turnSpeed * dt)
+                __.yaw(turnSpeed * dt)
+                break
+
+            case LOOK_UP:
+                __.tilt(-this.tiltSpeed * dt)
+                break
+            case LOOK_DOWN:
+                __.tilt(this.tiltSpeed * dt)
                 break
 
             /*
-            case LOOK_UP:
-                __.pitch(-turnSpeed * dt)
-                break
-            case LOOK_DOWN:
-                __.pitch(turnSpeed * dt)
-                break
             case ROLL_LEFT:
                 __.roll(turnSpeed * dt)
                 break
@@ -57,12 +62,12 @@ class FPSMovementControllerPod {
             */
 
             case SHIFT_YAW:
-                __.yaw(-turnSpeed * factor * dt)
+                __.yaw(this.turnMouseSpeed * factor * dt)
+                break
+            case SHIFT_PITCH:
+                __.tilt(-this.tiltMouseSpeed * factor * dt)
                 break
             /*
-            case SHIFT_PITCH:
-                __.pitch(turnSpeed * factor * dt)
-                break
             case SHIFT_ROLL:
                 __.roll(turnSpeed * factor * dt)
                 break
