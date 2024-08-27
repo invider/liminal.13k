@@ -83,7 +83,8 @@ const _fshader = `
         // mix directional and point lights factors
         highp float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
 
-        // specular
+        // point specular
+        // TODO make specular spot of the light source color!
         vec3 eyeDirection = normalize(uCamPos - vWorldPosition);
         highp vec3 halfVector = normalize(pointLightDirection + eyeDirection);
 
@@ -91,10 +92,17 @@ const _fshader = `
             max( dot(worldNormal, halfVector), 0.0 ), uShininess
         ) * uPointLightColorI.w * attenuation;
 
+        // directional specular
+        highp vec3 halfVectorD = normalize(uDirectionalLightVector + eyeDirection);
+        highp float specularD = pow(
+            max( dot(worldNormal, halfVectorD), 0.0 ), uShininess
+        ) * uDirectionalLightColorI.w;
+
+
         gl_FragColor = vec4(
             uAmbientColor * uLightIntensities.x
             + uDiffuseColor * diffuseLambert * uLightIntensities.y
-            + uSpecularColor * specular * uLightIntensities.z,
+            + uSpecularColor * (specular + specularD) * uLightIntensities.z,
             opacity);
     }
 `

@@ -9,10 +9,10 @@ _.defaultStage = () => {
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
         scale: vec3(1, 1, 1),
-        geo: geo.gen().plane().scale(100).bake(),
+        geo: geo.gen().plane().scale(150).bake(),
         mat: {
             Ka: vec3(.5, .5, .5),
-            Kd: vec3(.5, .5, .5),
+            Kd: vec3(.2, .4, .7),
             Ks: vec3(1, 1, 1),
             Ke: vec3(1, 1, 1),
             Lv: vec4(.2, .4, .2, 0),
@@ -48,7 +48,8 @@ _.defaultStage = () => {
                 g = geo.gen().sphere().scale(h).bake()
                 break
             case 2:
-                g = geo.gen().cylinder().scale(h).bake()
+                g = geo.gen().cylinder().scale(h).smooth().bake()
+                geo.sharp()
                 break
             case 3:
                 g = geo.gen().cone().scale(h).bake()
@@ -75,7 +76,7 @@ _.defaultStage = () => {
                 Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
                 Ks: vec3(1, 1, 1),
                 Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .5, .8, 0),
+                Lv: vec4(.2, .5, 1, 0),
                 Ns: 10,
             },
 
