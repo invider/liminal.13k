@@ -59,6 +59,21 @@ function setupUniforms() {
     _uShininess = gl.getUniformLocation(glProg, 'uShininess')
 }
 
+function setupStage() {
+    // setup the stage
+    let stageFn = _.defaultStage
+    if (debug) {
+        if (location.hash.startsWith('#box')) {
+            const name = location.hash.substring(1)
+            const fn = _[name]
+            if (!fn) throw `[${name}] is not found!`
+            startFn = fn
+        }
+    }
+    if (stageFn) stageFn()
+    trap('stage')
+}
+
 window.onload = () => {
     gcanvas = document.getElementById('gcanvas')
     gl = gcanvas.getContext('webgl2', {
@@ -77,25 +92,12 @@ window.onload = () => {
 
     gl.useProgram(glProg)
 
-    start()
+    _.preStage()
+    setupStage()
 
     expandCanvas()
-    lastTime = Date.now()
-    cycle()
-}
-
-function start() {
-    let startFn = _.onStart
-    if (debug) {
-        if (location.hash.startsWith('#box')) {
-            const name = location.hash.substring(1)
-            const fn = _[name]
-            if (!fn) throw `[${name}] is not found!`
-            startFn = fn
-        }
-    }
-    if (startFn) startFn()
     trap('start')
-    env.started = true
+    _lastTime = Date.now()
+    cycle()
 }
 

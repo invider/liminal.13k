@@ -39,7 +39,7 @@ const env = {
         'ArrowLeft',   // 8
         'ArrowDown',
         'ArrowRight',
-        'PageUp',      // 11
+        'Delete',      // 11
         'PageDown',
 
         // ...

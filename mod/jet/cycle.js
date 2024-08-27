@@ -1,6 +1,6 @@
 let gl, glProg
 let gcanvas, hcanvas
-let lastTime
+let _lastTime
 
 function evo(dt) {
     if (env.pause) return
@@ -30,7 +30,7 @@ function drawScene() {
     gl.uniform3fv(_uCamPos, lab.cam.pos)
     gl.uniformMatrix4fv(_pMatrix, false, pMatrix)
 
-    const rnv = vec3.copy(env.directionalLightVector)
+    const rnv = vec3.clone(env.directionalLightVector)
     vec3.scale(rnv, -1)
     vec3.normalize(rnv)
 
@@ -98,7 +98,7 @@ function draw(dt) {
 
 function cycle() {
     const now = Date.now()
-    const delta = (now - lastTime) / 1000
+    const delta = (now - _lastTime) / 1000
     let dt = delta
 
     // TODO handle inputs
@@ -114,6 +114,6 @@ function cycle() {
 
     draw(delta)
 
-    lastTime = now
+    _lastTime = now
     requestAnimationFrame(cycle)
 }

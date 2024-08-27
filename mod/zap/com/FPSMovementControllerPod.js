@@ -1,15 +1,19 @@
-const dfMCP = {
+const dfSMCP = {
     name:      'mover',
     speed:     20,
     turnSpeed: 2,
 }
 
-class MovementControllerPod {
+class FPSMovementControllerPod {
 
     constructor(st) {
-        extend(this, dfMCP, st)
+        extend(this, dfSMCP, st)
 
         this.pushers = new Float32Array(SHIFT_ROLL+1)
+    }
+
+    init() {
+        lab.broker = this
     }
 
     push(action, factor, dt) {

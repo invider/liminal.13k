@@ -18,19 +18,19 @@ class AttitudePod {
     }
 
     moveX(span) {
-        const mv = vec3.copy(this.left)
+        const mv = vec3.clone(this.left)
         vec3.scale(mv, span)
         vec3.add(this.pos, mv)
     }
 
     moveY(span) {
-        const mv = vec3.copy(this.up)
+        const mv = vec3.clone(this.up)
         vec3.scale(mv, span)
         vec3.add(this.pos, mv)
     }
 
     moveZ(span) {
-        const mv = vec3.copy(this.dir)
+        const mv = vec3.clone(this.dir)
         vec3.scale(mv, span)
         vec3.add(this.pos, mv)
     }
@@ -40,7 +40,7 @@ class AttitudePod {
         mat4.rotX(rm, theta)
         this.left = mat4.extractV3(rm, 0)
         this.dir = mat4.extractV3(rm, 2)
-        //this.up = vec3.normalize( vec3.icross(this.left, this.dir) )
+        this.up = vec3.normalize( vec3.icross(this.dir, this.left) )
     }
 
     pitch(theta) {
@@ -48,7 +48,7 @@ class AttitudePod {
         mat4.rotY(rm, theta)
         this.up = mat4.extractV3(rm, 1)
         this.dir = mat4.extractV3(rm, 2)
-        //this.left = vec3.normalize( vec3.icross(this.up, this.dir) )
+        this.left = vec3.normalize( vec3.icross(this.up, this.dir) )
     }
 
     roll(theta) {
@@ -56,5 +56,6 @@ class AttitudePod {
         mat4.rotZ(rm, theta)
         this.left = mat4.extractV3(rm, 0)
         this.up = mat4.extractV3(rm, 1)
+        this.dir = vec3.normalize( vec3.icross(this.left, this.up) )
     }
 }

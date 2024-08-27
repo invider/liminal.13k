@@ -45,12 +45,18 @@ vec3.set = function(v, x, y, z) {
     return this
 }
 
-vec3.copy = function(v) {
+vec3.clone = function(v) {
     const w = new Float32Array(3)
     w[0] = v[0]
     w[1] = v[1]
     w[2] = v[2]
     return w
+}
+
+vec3.copy = function(v, w) {
+    v[0] = w[0]
+    v[1] = w[1]
+    v[2] = w[2]
 }
 
 vec3.fromArray = (buf, i) => {
@@ -168,7 +174,7 @@ const vec4 = function(x, y, z, w) {
     return v
 }
 
-vec4.copy = function(v) {
+vec4.clone = function(v) {
     const w = new Float32Array(4)
     w[0] = v[0]
     w[1] = v[1]
@@ -211,7 +217,7 @@ const mat4 = {
         return m
     },
 
-    copy: function(a) {
+    clone: function(a) {
         const o = newMat4()
         for (let i = 0; i < 16; i++) o[i] = a[i]
         return o
@@ -387,7 +393,7 @@ const mat4 = {
     // invert a 4x4 matrix
     // @param {array/mat4} t - the source and receiving 4D matrix 
     invert: function(t) {
-        const m = this.copy(t)
+        const m = this.clone(t)
         const
             A2323 = m[2*4 + 2] * m[3*4 + 3] - m[2*4 + 3] * m[3*4 + 2],
             A1323 = m[2*4 + 1] * m[3*4 + 3] - m[2*4 + 3] * m[3*4 + 1],

@@ -32,20 +32,28 @@ class Mesh {
         // TODO move out of mesh - mesh just defines geometry, materials etc... and buffers
         //      the idea is to use a single mesh for multiple objects
         const mMatrix = mat4.identity()
+
+        // TODO refactor out rotation into a container object?
         // TODO refactor orientation to be like in the Camera object - vector-based
         mat4
             .translate(mMatrix, this.pos)
-            .rot(mMatrix, this.rot)
-            .scale(mMatrix, this.scale)
+            .rot(mMatrix,       this.rot)
+            .scale(mMatrix,     this.scale)
 
         gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
 
-        const imMatrix = mat4.copy(mMatrix)
+        const imMatrix = mat4.clone(mMatrix)
         mat4.invert(imMatrix)
 
         const nMatrix = mat4.itranspose(imMatrix)
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
+        // TODO all the matrix majik above should happen outside
 
+
+        // -------------------------------------
+        // bind our geometry and materials
+
+        // set the material
         gl.uniform3fv(_uAmbientColor, this.mat.Ka)
         gl.uniform3fv(_uDiffuseColor, this.mat.Kd)
         gl.uniform3fv(_uSpecularColor, this.mat.Ks)
@@ -53,11 +61,6 @@ class Mesh {
         gl.uniform4fv(_uLightIntensities, this.mat.Lv)
         gl.uniform1f(_uShininess, this.mat.Ns)
 
-        // set the material
-
-        // -------------------------------------
-
-        // bind our geometry and materials
         const _aVertexPosition = gl.getAttribLocation(glProg, 'aVertexPosition')
         gl.enableVertexAttribArray(_aVertexPosition)
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buf.vertices)
@@ -69,8 +72,5 @@ class Mesh {
         gl.vertexAttribPointer(_aVertexNormal, 3, gl.FLOAT, false, 0, 0)
 
         gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
-
-        // lets try to draw triangles
-
     }
 }
