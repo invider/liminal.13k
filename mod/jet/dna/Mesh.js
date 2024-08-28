@@ -35,12 +35,14 @@ class Mesh {
     }
 
     draw() {
+        // adjust to the world coordinates
         // TODO move out of mesh - mesh just defines geometry, materials etc... and buffers
         //      the idea is to use a single mesh for multiple objects
-        const mMatrix = mat4.identity()
 
         // TODO refactor out rotation into a container object?
         // TODO refactor orientation to be like in the Camera object - vector-based
+
+        _.mpush() // save the current model matrix before applying transformations
         mat4
             .translate(mMatrix, this.pos)
             .rot(mMatrix,       this.rot)
@@ -48,12 +50,12 @@ class Mesh {
 
         gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
 
-        const imMatrix = mat4.clone(mMatrix)
-        mat4.invert(imMatrix)
+        mat4.copy(wMatrix, mMatrix)
+        mat4.invert(wMatrix)
 
-        const nMatrix = mat4.itranspose(imMatrix)
+        mat4.transpose(nMatrix, wMatrix)
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
-        // TODO all the matrix majik above should happen outside
+        // TODO ^^^ all the matrix majik above should happen outside
 
         // -------------------------------------
         // bind our geometry and materials
@@ -91,5 +93,6 @@ class Mesh {
             }
         }
 
+        _.mpop()
     }
 }

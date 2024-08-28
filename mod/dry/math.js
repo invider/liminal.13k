@@ -232,7 +232,7 @@ const mat4 = {
     },
 
     copy: function(o, s) {
-        for (let i = 0; i < 16; i++) o[i] = a[i]
+        for (let i = 0; i < 16; i++) o[i] = s[i]
     },
 
     from4V3: function(v1, v2, v3, v4) {
@@ -451,14 +451,12 @@ const mat4 = {
         t[3*4 + 3] = idet *   ( m[0*4 + 0] * A1212 - m[0*4 + 1] * A0212 + m[0*4 + 2] * A0112 )
     },
 
-    itranspose(m) {
-        const t = this.identity()
+    transpose(t, m) {
         for (let v = 0; v < 4; v++) {
             for (let c = 0; c < 4; c++) {
                 t[v*4 + c] = m[c*4 + v]
             }
         }
-        return t
     },
 
     equals(m1, m2) {

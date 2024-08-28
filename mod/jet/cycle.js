@@ -24,6 +24,9 @@ function drawScene() {
         gl.cullFace(gl.BACK)
     }
 
+    // set model matrix to identity
+    mat4.copy(mMatrix, iMatrix)
+
     // setup up the view and projection transformations
     // TODO merge view and projection into the pv matrix and get it from the camera
     gl.uniformMatrix4fv(_pMatrix, false, lab.cam.projectionMatrix())
