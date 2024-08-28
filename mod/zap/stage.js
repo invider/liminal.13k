@@ -92,11 +92,49 @@ _.defaultStage = () => {
         }))
     }
 
-
     // the hero time!
     hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
         cam: lab.cam,
     }))
+
+
+    // and some .obj as well
+    loadRes('res/teapot.obj', (raw) => {
+        const g = parseObj(raw)
+
+        lab.attach( new Mesh({
+            name: 'teapot',
+
+            pos: vec3(
+                0,
+                2,
+                -20,
+            ),
+            rot:      vec3(0, 0, 0),
+            rotSpeed: vec3(0, 0, 0),
+            scale:    vec3(1, 1, 1),
+
+            geo: g,
+            mat: {
+                Ka: vec3(.5, .6, .7),
+                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Ks: vec3(1, 1, 1),
+                Ke: vec3(1, 1, 1),
+                Lv: vec4(.2, .5, 1, 0),
+                Ns: 10,
+            },
+
+            init() {
+                this.rotSpeed[1] = .5
+            },
+
+            evo: function(dt) {
+                this.rot[0] += this.rotSpeed[0] * dt
+                this.rot[1] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[2] * dt 
+            },
+        }))
+    })
 }

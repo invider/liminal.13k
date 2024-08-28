@@ -23,6 +23,12 @@ class Mesh {
         gl.bindBuffer(gl.ARRAY_BUFFER, buf.vertices)
         gl.bufferData(gl.ARRAY_BUFFER, geo.vertices, gl.STATIC_DRAW)
 
+        if (geo.faces) {
+            buf.faces = gl.createBuffer()
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.faces)
+            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geo.faces, gl.STATIC_DRAW)
+        }
+
         buf.normals = gl.createBuffer()
         gl.bindBuffer(gl.ARRAY_BUFFER, buf.normals)
         gl.bufferData(gl.ARRAY_BUFFER, geo.normals, gl.STATIC_DRAW)
@@ -71,6 +77,11 @@ class Mesh {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buf.normals)
         gl.vertexAttribPointer(_aVertexNormal, 3, gl.FLOAT, false, 0, 0)
 
-        gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
+        if (this.buf.faces) {
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
+            gl.drawElements(gl.TRIANGLES, 500, gl.UNSIGNED_SHORT, 0)
+        } else {
+            gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
+        }
     }
 }

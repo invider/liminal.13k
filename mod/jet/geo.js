@@ -102,6 +102,16 @@ const geo = {
         return this
     },
 
+    vertices: function(v) {
+        _g.vertices = _g.vertices.concat(v)
+        return this
+    },
+
+    faces: function(f) {
+        _g.faces = _g.faces.concat(f)
+        return this
+    },
+
     plane: function() {
         _g.vertices = _g.vertices.concat([
             -1, 0,-1,  1, 0, 1,  1, 0,-1,    
@@ -336,8 +346,15 @@ const geo = {
 
     bake: function() {
         // normalize
-        _g.vertCount = _g.vertices.length / 3
         _g.vertices = new Float32Array(_g.vertices)
+        _g.vertCount = _g.vertices.length / 3
+
+        if (_g.faces.length === 0) {
+            _g.faces = null
+        } else {
+            _g.faces = new Uint16Array(_g.faces)
+            _g.facesCount = _g.faces.length
+        }
 
         _g.normals = new Float32Array( calcNormals(_g.vertices) ) 
 

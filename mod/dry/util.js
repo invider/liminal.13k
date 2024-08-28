@@ -48,3 +48,11 @@ function log(msg) {
     console.log(msg)
 }
 
+function loadRes(url, handlerFn) {
+    fetch(url).then(
+        x => x.text()
+    ).then(raw => {
+        handlerFn(raw)
+    })
+}
+
