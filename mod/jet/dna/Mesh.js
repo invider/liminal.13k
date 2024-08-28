@@ -79,7 +79,7 @@ class Mesh {
 
         if (this.buf.faces) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
-            gl.drawElements(gl.TRIANGLES, 500, gl.UNSIGNED_SHORT, 0)
+            gl.drawElements(gl.TRIANGLES, this.geo.facesCount, gl.UNSIGNED_SHORT, 0)
         } else {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
         }

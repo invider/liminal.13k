@@ -56,3 +56,11 @@ function loadRes(url, handlerFn) {
     })
 }
 
+function loadJSON(url, handlerFn) {
+    fetch(url).then(
+        x => x.json()
+    ).then(json => {
+        handlerFn(json)
+    })
+}
+

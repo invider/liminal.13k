@@ -81,8 +81,10 @@ const geo = {
     gen: function() {
         _g = {
             vertices: [],
+            normals:  [],
             faces:    [],
             color:    [],
+            uvs:      [],
         }
         return this
     },
@@ -102,15 +104,25 @@ const geo = {
         return this
     },
 
-    vertices: function(v) {
-        _g.vertices = _g.vertices.concat(v)
+    vertices: function(w) {
+        _g.vertices = _g.vertices.concat(w)
         return this
     },
 
-    faces: function(f) {
-        _g.faces = _g.faces.concat(f)
+    faces: function(fv) {
+        _g.faces = _g.faces.concat(fv)
         return this
     },
+
+    normals: function(nv) {
+        _g.normals = _g.normals.concat(nv)
+        return this
+    },
+
+    uvs: function(uw) {
+        _g.uvs = _g.uvs.concat(uw)
+        return this
+    }, 
 
     plane: function() {
         _g.vertices = _g.vertices.concat([
@@ -344,6 +356,10 @@ const geo = {
         return this
     },
 
+    name: function(n) {
+        _g.name = n
+    },
+
     bake: function() {
         // normalize
         _g.vertices = new Float32Array(_g.vertices)
@@ -356,9 +372,13 @@ const geo = {
             _g.facesCount = _g.faces.length
         }
 
-        _g.normals = new Float32Array( calcNormals(_g.vertices) ) 
+        if (_g.normals.length === 0) {
+            _g.autocalcNormals = true
+            _g.normals = new Float32Array( calcNormals(_g.vertices) ) 
+        } else {
+            _g.normals = new Float32Array(_g.normals) 
+        }
 
-        // TODO create other Float32 as well!
         return _g
     },
 }

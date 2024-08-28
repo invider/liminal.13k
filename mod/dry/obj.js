@@ -1,32 +1,69 @@
 function parseObj(data) {
-    log('trying to parse...')
 
     function doLine(line, args) {
         switch(args[0]) {
+            case 'o':
+                // TODO assume just one object for now
+                geo.name(args[1])
+                break
+
             case 'v':
-                geo.vertices([
+                const x = parseFloat(args[1]),
+                      y = parseFloat(args[2]),
+                      z = parseFloat(args[3])
+                geo.vertices([ x, y, z ])
+                break
+            case 'f':
+                if (args[1].indexOf('/') >= 0) {
+                    for (let i = 1; i < args.length; i++) {
+                        const face = args[i].split('/')
+                        face.forEach(f => geo.faces([ parseInt(f) ]))
+                    }
+                } else {
+                    geo.faces([
+                        parseInt(args[1]),
+                        parseInt(args[2]),
+                        parseInt(args[3])
+                    ])
+                }
+                break
+            case 'vn':
+                geo.normals([
                     parseFloat(args[1]),
                     parseFloat(args[2]),
                     parseFloat(args[3])
                 ])
                 break
-            case 'f':
-                geo.faces([
+
+            case 'vt':
+                geo.uvs([
                     parseInt(args[1]),
                     parseInt(args[2]),
-                    parseInt(args[3])
                 ])
                 break
+
             default:
                 log(`unknown command: [${line}]`)
+                console.dir(args)
         }
     }
 
     geo.gen()
     data.split('\n')
         .map(l => l.trim())
-        .filter(l => !l.startsWith('#') && l.length !== 0)
-        .forEach(line => doLine(line, line.split(' ')))
+        .filter(l => !l.startsWith('#') && l.length !== 0) // filter out comments and empty lines
+        .forEach(line => doLine(line, line.split(/\s+/)))
+
+    return geo.bake()
+}
+
+
+function parseJsonModel(data) {
+    geo.gen()
+    geo.vertices( data.vertexPositions )
+    geo.normals( data.vertexNormals ) // TODO something wrong with how we apply normals
+    geo.uvs( data.vertexTextureCoords )
+    geo.faces( data.indices)
 
     return geo.bake()
 }

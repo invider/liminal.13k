@@ -33,8 +33,9 @@ _.defaultStage = () => {
         vec3(1, 1, 1),
     ]
 
+    const N = 0
     geo.precision(25)
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < N; i++) {
         const B = 100
         const H = B/2
 
@@ -127,6 +128,84 @@ _.defaultStage = () => {
             },
 
             init() {
+                this.rotSpeed[1] = .5
+            },
+
+            evo: function(dt) {
+                this.rot[0] += this.rotSpeed[0] * dt
+                this.rot[1] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[2] * dt 
+            },
+        }))
+    })
+
+    // and some .obj as well
+    loadJSON('res/teapot.json', (raw) => {
+        const g = parseJsonModel(raw)
+
+        lab.attach( new Mesh({
+            name: 'teapoter',
+
+            pos: vec3(
+                -10,
+                2,
+                -20,
+            ),
+            rot:      vec3(0, 0, 0),
+            rotSpeed: vec3(0, 0, 0),
+            scale:    vec3(.2, .2, .2),
+
+            geo: g,
+            mat: {
+                Ka: vec3(.5, .6, .7),
+                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Ks: vec3(1, 1, 1),
+                Ke: vec3(1, 1, 1),
+                Lv: vec4(.2, .7, 1, 0),
+                Ns: 10,
+            },
+
+            init() {
+                this.rotSpeed[0] = .2
+                this.rotSpeed[1] = .5
+            },
+
+            evo: function(dt) {
+                this.rot[0] += this.rotSpeed[0] * dt
+                this.rot[1] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[2] * dt 
+            },
+        }))
+    })
+
+    // and some cube.obj as well
+    loadRes('res/cube.obj', (raw) => {
+        const g = parseObj(raw)
+
+        lab.attach( new Mesh({
+            name: 'cube',
+
+            pos: vec3(
+                10,
+                2,
+                -20,
+            ),
+            rot:      vec3(0, 0, 0),
+            rotSpeed: vec3(0, 0, 0),
+            scale:    vec3(1, 1, 1),
+
+            geo: g,
+            mat: {
+                Ka: vec3(.5, .6, .7),
+                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Ks: vec3(1, 1, 1),
+                Ke: vec3(1, 1, 1),
+                Lv: vec4(.2, .5, 1, 0),
+                Ns: 10,
+            },
+
+            init() {
+                this.rotSpeed[0] = .2
                 this.rotSpeed[1] = .5
             },
 
