@@ -87,7 +87,7 @@ trap.register('start', () => {
     const screenshotController = lab.attach({
         name: 'screenshotController',
 
-        gifDelay:   .15,
+        gifDelay:   .075,
         gifTimer:   0,
         frameTimer: 0,
 
@@ -95,7 +95,7 @@ trap.register('start', () => {
             this.screenshot = true
         },
 
-        scheduleGif(time) {
+        scheduleGif() {
             this.gif = new GIF({
                 workers: 4,
                 quality: 10
@@ -103,8 +103,16 @@ trap.register('start', () => {
             this.gif.on('finished', function(blob) {
                 window.open(URL.createObjectURL(blob));
             });
+            this.capturingGif = true
+        },
 
-            this.gifTimer = time
+        captureGif() {
+            log(`captured GIF for ${this.gifTimer} seconds`)
+
+            this.gif.render()
+
+            this.gifTimer = 0
+            this.capturingGif = false
         },
 
         evo(dt) {
@@ -112,8 +120,8 @@ trap.register('start', () => {
             const i = lab._ls.indexOf(this)
             if (i < lab._ls.length - 1) this.dead = true // reattach itself
 
-            if (this.gifTimer !== 0) {
-                this.gifTimer -= dt
+            if (this.capturingGif) {
+                this.gifTimer += dt
                 this.frameTimer -= dt
             }
         },
@@ -126,17 +134,13 @@ trap.register('start', () => {
                 this.screenshot = false
             }
 
-            if (this.gifTimer !== 0) {
+            if (this.capturingGif) {
 
-                if (this.gifTimer > 0) {
-                    if (this.frameTimer < 0) {
-                        this.gif.addFrame(gcanvas, { copy: true, delay: this.gifDelay * 1000 });
-                        this.frameTimer = this.gifDelay
-                    }
-                } else {
-                    this.gifTimer = 0 // we dont here
-                    this.gif.render()
+                if (this.frameTimer < 0) {
+                    this.gif.addFrame(gcanvas, { copy: true, delay: this.gifDelay * 1000 });
+                    this.frameTimer = this.gifDelay
                 }
+
             }
         },
 
@@ -158,8 +162,17 @@ trap.register('start', () => {
                 break
             case 'F9':
                 // TODO handle switch - workers work only when hosted and not locally
-                screenshotController.scheduleGif(5)
+                screenshotController.scheduleGif()
                 e.preventDefault()
+                break
+        }
+    })
+
+    trap.register('keyUp', (e) => {
+        switch(e.code) {
+            case 'F9':
+                // stop gif capture
+                screenshotController.captureGif()
                 break
         }
     })
