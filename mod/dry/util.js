@@ -1,7 +1,7 @@
 // extend the target with up to two provided extension objects
 function extend(e, s, x) {
     for (let p in s) {
-        e[p] = s[p]
+        if (!p.startsWith('__')) e[p] = s[p]
     }
     if (x) extend(e, x)
     return e

@@ -27,10 +27,16 @@ class Frame {
         const $ = this
         $._ls = []
 
+        extend($, st)
+
+        // install trails
+        if (st && st._traits) st._traits.forEach(t => {
+            extend($, t)
+            if (t.__onTrait) t.__onTrait.call($)
+        })
+
         // install all the pods if available
         if (st && st._pods) st._pods.forEach(p => $.attach(p))
-
-        extend($, st)
     }
 
     evo(dt) {

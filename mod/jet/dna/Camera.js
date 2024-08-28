@@ -6,7 +6,7 @@ class Camera extends Frame {
             zNear: 1,
             zFar:  512,
         }
-        st._pods = augment(st._pods, [ new AttitudePod() ])
+        st._traits = augment(st._traits, [ AttitudeTrait ])
         super( extend(df, st) )
     }
 

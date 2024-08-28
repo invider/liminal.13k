@@ -13,7 +13,8 @@ class Hero extends Frame {
             momentum: vec3(0, 0, 0),
         }
         
-        st._pods = augment(st._pods, [ new AttitudePod(), new FPSMovementControllerPod() ])
+        st._pods = augment(st._pods, [ new FPSMovementControllerPod() ])
+        st._traits = augment(st._traits, [ AttitudeTrait ])
         super( extend(df, st) )
 
         // adjust for the height
