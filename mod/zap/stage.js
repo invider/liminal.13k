@@ -91,7 +91,8 @@ _.defaultStage = () => {
                         Lv: vec4(.2, .5, 1, 0),
                         Ns: 10,
                     },
-                })
+                }),
+                new SolidBoxPod({}),
             ],
 
             init() {

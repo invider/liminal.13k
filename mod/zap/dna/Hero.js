@@ -13,12 +13,29 @@ class Hero extends Frame {
             momentum: vec3(0, 0, 0),
         }
         
-        st._pods = augment(st._pods, [ new FPSMovementControllerPod() ])
+        st._pods = augment(st._pods, [ new FPSMovementControllerPod(), new SolidSpherePod() ])
         st._traits = augment(st._traits, [ AttitudeTrait ])
         super( extend(df, st) )
 
         // adjust for the height
         this.pos[1] = this.hh * 10
+    }
+
+    onImpact(src) {
+        this._impact = true
+        env.dump.Impact = 'Yes!'
+    }
+
+    collide(dt) {
+        env.dump.Impact = 'None'
+
+        const ls = this.__._ls
+        const ln = ls.length
+        this.solid.place()
+        for (let i = ln - 1; i >= 0; --i) {
+            const t = ls[i]
+            if (this !== t && t.solid) t.solid.touch(this.solid)
+        }
     }
 
     evo(dt) {
@@ -43,7 +60,11 @@ class Hero extends Frame {
 
         // apply movement
         // TODO limit the max speed
+        this._pos = vec3.clone(this.pos) // TODO keep a buffer
         vec3.scad(this.pos, mt, dt)
+
+        // do the collision and rewinds across x/y/z
+        if (!vec3.equals(this.pos, this._pos)) this.collide(dt)
 
         // apply restrains
         if (this.pos[1] < 0) {
