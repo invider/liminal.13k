@@ -6,7 +6,7 @@ _.boxOne = function() {
     for (let i = 0; i < 20; i++) {
         const B = 100
         const H = B/2
-        lab.attach( new Mesh({
+        lab.attach( new Body({
             pos: vec3(
                 H - B*rnd(),
                 H - B*rnd(),
@@ -14,7 +14,12 @@ _.boxOne = function() {
             ),
             rot: vec3(0, 0, 0),
             scale: vec3(1, 1, 1),
-            geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
+
+            _pods: [
+                new Mesh({
+                    geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
+                }),
+            ],
         }))
     }
 }

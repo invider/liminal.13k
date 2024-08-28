@@ -42,20 +42,22 @@ class Mesh {
         // TODO refactor out rotation into a container object?
         // TODO refactor orientation to be like in the Camera object - vector-based
 
+        /*
         _.mpush() // save the current model matrix before applying transformations
         mat4
             .translate(mMatrix, this.pos)
             .rot(mMatrix,       this.rot)
             .scale(mMatrix,     this.scale)
+        */
 
+        // set current model matrix
         gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
 
+        // calculate the normal matrix out of the model one (=> invert => transpose)
         mat4.copy(wMatrix, mMatrix)
         mat4.invert(wMatrix)
-
         mat4.transpose(nMatrix, wMatrix)
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
-        // TODO ^^^ all the matrix majik above should happen outside
 
         // -------------------------------------
         // bind our geometry and materials
@@ -79,20 +81,18 @@ class Mesh {
         gl.vertexAttribPointer(_aVertexNormal, 3, gl.FLOAT, false, 0, 0)
 
         if (this.buf.faces) {
+            // TODO can't support multiple indexes at once,
+            //      so obj models MUST be repacked to be index by a sinlge index array
+            //      and multiple data buffers
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
             gl.drawElements(gl.TRIANGLES, this.geo.facesCount, gl.UNSIGNED_SHORT, 0)
 
-            if (debug) {
-                env.stat.polygons += this.geo.facesCount / 3
-            }
+            if (debug) env.stat.polygons += this.geo.facesCount / 3
         } else {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
-
-            if (debug) {
-                env.stat.polygons += this.geo.vertCount / 3
-            }
+            if (debug) env.stat.polygons += this.geo.vertCount / 3
         }
 
-        _.mpop()
+        //_.mpop()
     }
 }

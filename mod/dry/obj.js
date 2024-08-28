@@ -14,6 +14,8 @@ function parseObj(data) {
                 geo.vertices([ x, y, z ])
                 break
             case 'f':
+                // .obj support not only triangles
+                // so need to repackage if we have more vertices indexed (e.g. for a quad)
                 if (args[1].indexOf('/') >= 0) {
                     for (let i = 1; i < args.length; i++) {
                         const face = args[i].split('/')

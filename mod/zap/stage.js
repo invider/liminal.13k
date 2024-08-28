@@ -6,24 +6,30 @@ _.defaultStage = () => {
     lab.cam.pos[1] = 2
 
     // giant plane
-    lab.attach( new Mesh({
-        pos: vec3(0, 0, 0),
-        rot: vec3(0, 0, 0),
-        rotSpeed: vec3(3, 0, 0),
+    lab.attach( new Body({
+        pos:   vec3(0, 0, 0),
+        rot:   vec3(0, 0, 0),
         scale: vec3(1, 1, 1),
-        geo: geo.gen().plane().scale(150).bake(),
-        mat: {
-            Ka: vec3(.5, .5, .5),
-            Kd: vec3(.2, .4, .7),
-            Ks: vec3(1, 1, 1),
-            Ke: vec3(1, 1, 1),
-            Lv: vec4(.2, .4, .2, 0),
-            Ns: 21,
-        },
+
+        _pods: [
+            new Mesh({
+                geo: geo.gen().plane().scale(150).bake(),
+                mat: {
+                    Ka: vec3(.5, .5, .5),
+                    Kd: vec3(.2, .4, .7),
+                    Ks: vec3(1, 1, 1),
+                    Ke: vec3(1, 1, 1),
+                    Lv: vec4(.2, .4, .2, 0),
+                    Ns: 21,
+                }
+            })
+        ],
     }))
 
-    // some meshes
-    const meshColors = [
+    // === populate ===
+    // create some bodies
+
+    const colors = [
         vec3(.8, .2, .2),
         vec3(.7, .8, .2),
         vec3(.1, .8, .2),
@@ -41,6 +47,7 @@ _.defaultStage = () => {
         const B = 100
         const H = B/2
 
+        // generate a random geometry
         let g
         let h = .5 + rnd() * 2
         switch( Math.floor(rnd()*5) ) {
@@ -63,7 +70,7 @@ _.defaultStage = () => {
         }
         const spin = (rnd()*4) < 1? 0 : 1
 
-        lab.attach( new Mesh({
+        lab.attach( new Body({
             pos: vec3(
                 H - B*rnd(),
                 h,
@@ -73,15 +80,19 @@ _.defaultStage = () => {
             rotSpeed: vec3(0, 0, 0),
             scale:    vec3(1, 1, 1),
 
-            geo: g,
-            mat: {
-                Ka: vec3(.5, .6, .7),
-                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .5, 1, 0),
-                Ns: 10,
-            },
+            _pods: [
+                new Mesh({
+                    geo: g,
+                    mat: {
+                        Ka: vec3(.5, .6, .7),
+                        Kd: colors[ Math.floor(rnd() * colors.length) ],
+                        Ks: vec3(1, 1, 1),
+                        Ke: vec3(1, 1, 1),
+                        Lv: vec4(.2, .5, 1, 0),
+                        Ns: 10,
+                    },
+                })
+            ],
 
             init() {
                 this.rotSpeed[1] += (rnd() < .5? -1 : 1) * (.2 + rnd()*1.5) * spin
