@@ -1,3 +1,5 @@
+env.title = 'Implementing Scene Graph...'
+
 _.defaultStage = () => {
     log('setting up the default stage')
 

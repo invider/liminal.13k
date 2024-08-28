@@ -55,10 +55,8 @@ const env = {
     pointLightColorI: vec4(1, 1, 1, 0),
 
     backfaces: true,
-
-    // TODO should be set by the HUD node
-    status: '',
-    dump: {},
 }
 
-if (debug) env.tag = 'debug'
+if (debug) {
+    env.stat = {}
+}

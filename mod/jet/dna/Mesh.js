@@ -83,13 +83,13 @@ class Mesh {
             gl.drawElements(gl.TRIANGLES, this.geo.facesCount, gl.UNSIGNED_SHORT, 0)
 
             if (debug) {
-                env.dump.polygons += this.geo.facesCount / 3
+                env.stat.polygons += this.geo.facesCount / 3
             }
         } else {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
 
             if (debug) {
-                env.dump.polygons += this.geo.vertCount / 3
+                env.stat.polygons += this.geo.vertCount / 3
             }
         }
 

@@ -10,7 +10,8 @@ function evo(dt) {
 function drawScene() {
     // TODO move out to a debug node?
     if (debug) {
-        env.dump.polygons = 0
+        env.stat.lastPolygons = env.stat.polygons
+        env.stat.polygons = 0
     }
     // prepare the framebuffer and the drawing context
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
