@@ -3,9 +3,6 @@ const AttitudeTrait = {
     __name: 'attitude', // DEBUG
 
     __onTrait: function() {
-        log('declaring attitude trait for ' + this.name)
-        console.dir(this)
-
         extend(this, {
             pos:   vec3(0, 0, 0),
             dir:   vec3(0, 0, 1),

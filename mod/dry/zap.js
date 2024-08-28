@@ -59,7 +59,7 @@ class Frame {
     draw() {
         for (let i = 0; i < this._ls.length; i++) {
             const e = this._ls[i]
-            if (e && !e.ghost) {
+            if (!e.ghost) {
                 e.draw()
             }
         }
