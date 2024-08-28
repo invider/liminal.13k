@@ -55,7 +55,6 @@ class Mesh {
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
         // TODO all the matrix majik above should happen outside
 
-
         // -------------------------------------
         // bind our geometry and materials
 
@@ -80,8 +79,17 @@ class Mesh {
         if (this.buf.faces) {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
             gl.drawElements(gl.TRIANGLES, this.geo.facesCount, gl.UNSIGNED_SHORT, 0)
+
+            if (debug) {
+                env.dump.polygons += this.geo.facesCount / 3
+            }
         } else {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
+
+            if (debug) {
+                env.dump.polygons += this.geo.vertCount / 3
+            }
         }
+
     }
 }

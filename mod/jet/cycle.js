@@ -8,6 +8,10 @@ function evo(dt) {
 }
 
 function drawScene() {
+    // TODO move out to a debug node?
+    if (debug) {
+        env.dump.polygons = 0
+    }
     // prepare the framebuffer and the drawing context
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.enable(gl.DEPTH_TEST)
@@ -41,45 +45,10 @@ function drawScene() {
     lab.draw()
 }
 
-// TODO refactor into a lab node
-function drawHUD() {
-    ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
-
-    ctx.fillStyle = '#e06a10'
-    ctx.textBaseline = 'top'
-    ctx.textAlign = 'left'
-    ctx.font = "24px monospace"
-
-    let bx = 20
-    let by = 20
-    ctx.fillText(`FPS: ${env.fps}`, bx, by)
-    by += 30
-    ctx.fillText(`Time: ${env.time << 0}`, bx, by)
-    if (env.dump) {
-        Object.keys(env.dump).forEach(name => {
-            const line = env.dump[name]
-            by += 30
-            ctx.fillText(name + ': ' + line, bx, by)
-        })
-    }
-
-    if (env.status) {
-        ctx.textBaseline = 'bottom'
-        ctx.textAlign = 'left'
-        by = hcanvas.height - 20
-        ctx.fillText(env.status, bx, by)
-    }
-
-    if (env.tag) {
-        bx = hcanvas.width - 20
-        ctx.textAlign = 'right'
-        ctx.fillText(env.tag, bx, by)
-    }
-}
-
 
 function draw(dt) {
-    if (dt > .013) {
+    if (dt > .01) {
+        // accumulate FPS
         ifps[nfps++] = 1/dt
         if (nfps > 59) {
             nfps = 0
@@ -89,7 +58,6 @@ function draw(dt) {
     }
 
     drawScene()
-    drawHUD()
 }
 
 function cycle() {
@@ -97,14 +65,11 @@ function cycle() {
     const delta = (now - _lastTime) / 1000
     let dt = delta
 
-    // TODO handle inputs
-    // ...
-
     if (dt > .3) dt = .3
     env.time += dt
-    while (dt > .05) {
-        evo(.05)
-        dt -= .05
+    while (dt > .2) {
+        evo(.2)
+        dt -= .2
     }
     evo(dt)
 

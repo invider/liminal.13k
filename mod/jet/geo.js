@@ -365,6 +365,15 @@ const geo = {
         _g.vertices = new Float32Array(_g.vertices)
         _g.vertCount = _g.vertices.length / 3
 
+        // DEBUG vertex stat
+        if (debug) {
+            if (!this._vertexCount) this._vertexCount = 0
+            this._vertexCount += _g.vertCount
+
+            if (!this._polygonCount) this._polygonCount = 0
+            this._polygonCount += _g.vertCount / 3
+        }
+
         if (_g.faces.length === 0) {
             _g.faces = null
         } else {

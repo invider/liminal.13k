@@ -17,13 +17,15 @@ function parseObj(data) {
                 if (args[1].indexOf('/') >= 0) {
                     for (let i = 1; i < args.length; i++) {
                         const face = args[i].split('/')
-                        face.forEach(f => geo.faces([ parseInt(f) ]))
+                        face.forEach(f => geo.faces([ parseInt(f) - 1 ]))
+                        // TODO parse only the first one for now
+                        //geo.faces([ parseInt(face[0]) - 1 ])
                     }
                 } else {
                     geo.faces([
-                        parseInt(args[1]),
-                        parseInt(args[2]),
-                        parseInt(args[3])
+                        parseInt(args[1]) - 1,
+                        parseInt(args[2]) - 1,
+                        parseInt(args[3]) - 1
                     ])
                 }
                 break

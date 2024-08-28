@@ -61,4 +61,8 @@ _.preStage = () => {
             vec3.set(this.pos, 0, 0, 0)
         },
     }))
+
+    if (debug) {
+        lab.attach( new HUD() )
+    }
 }

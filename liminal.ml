@@ -8,10 +8,13 @@
 > autorun
 
 === zap framework ===
-> tweening
-> scene complexity stat
-> wireframe rendering mode
+> mat4.copy
+> mat4 stack - push and pop current model matrix
+> scenegraph
 > bounding volumes
+> scene complexity stat
+> tweening
+> wireframe rendering mode
 > show collision boxes
 > objects pick up
 > complex transformations in geo generator
