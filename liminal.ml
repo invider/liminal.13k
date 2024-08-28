@@ -8,7 +8,7 @@
 > autorun
 
 === zap framework ===
-> mat4.copy
+V mat4.copy
 > mat4 stack - push and pop current model matrix
 > scenegraph
 > bounding volumes

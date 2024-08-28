@@ -231,6 +231,10 @@ const mat4 = {
         return o
     },
 
+    copy: function(o, s) {
+        for (let i = 0; i < 16; i++) o[i] = a[i]
+    },
+
     from4V3: function(v1, v2, v3, v4) {
         const m = newMat4()
         m[0] = v1[0]
