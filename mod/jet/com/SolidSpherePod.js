@@ -2,7 +2,7 @@ class SolidSpherePod {
 
     constructor(st) {
         extend(this, {
-            r: 1,
+            r: 4,
             pos: vec3(0, 0, 0),
         }, st)
     }
@@ -12,7 +12,7 @@ class SolidSpherePod {
     }
 
     impact(src) {
-        this.__.onImpact(src)
+        this.__.onImpact(src.__)
     }
 
     place() {

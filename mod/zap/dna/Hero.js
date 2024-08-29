@@ -24,6 +24,7 @@ class Hero extends Frame {
     onImpact(src) {
         this._impact = true
         env.dump.Impact = 'Yes!'
+        this._lastImpactor = src
     }
 
     collide(dt) {

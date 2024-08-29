@@ -36,10 +36,10 @@ class HUD {
         }
 
         if (env.title) {
-            ctx.fillStyle = '#a469d1'
+            ctx.fillStyle = '#54d9e1'
             ctx.textBaseline = 'top'
-            ctx.textAlign = 'right'
-            bx = hcanvas.width - 20
+            ctx.textAlign = 'center'
+            bx = hcanvas.width * .5
             by = 20
             ctx.fillText(env.title, bx, by)
         }

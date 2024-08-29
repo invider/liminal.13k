@@ -1,7 +1,12 @@
-env.title = 'Implementing Scene Graph...'
+
+// =========================================
+env.title = 'Physics - collision resolution'
+// =========================================
 
 _.defaultStage = () => {
     log('setting up the default stage')
+
+    const R = 256
 
     // giant plane
     lab.attach( new Body({
@@ -11,7 +16,7 @@ _.defaultStage = () => {
 
         _pods: [
             new Mesh({
-                geo: geo.gen().plane().scale(150).bake(),
+                geo: geo.gen().plane().scale(R).bake(),
                 mat: {
                     Ka: vec3(.5, .5, .5),
                     Kd: vec3(.2, .4, .7),
@@ -39,10 +44,10 @@ _.defaultStage = () => {
         vec3(1, 1, 1),
     ]
 
-    const N = 50
+    const N = 160
     geo.precision(25)
     for (let i = 0; i < N; i++) {
-        const B = 100
+        const B = R
         const H = B/2
 
         // generate a random geometry
@@ -90,7 +95,9 @@ _.defaultStage = () => {
                         Ns: 10,
                     },
                 }),
-                new SolidBoxPod({}),
+                new SolidBoxPod({
+                    hsize: vec3(h, h, h), 
+                }),
             ],
 
             init() {

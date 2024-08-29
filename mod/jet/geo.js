@@ -403,4 +403,11 @@ const geo = {
 
         return _g
     },
+
+    bakeWires: function() {
+        _g.wires = new Float32Array(_g.vertices)
+        _g.wires.vertCount = _g.vertices.length / 3
+        delete _g.vertices
+        return _g
+    },
 }
