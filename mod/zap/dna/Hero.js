@@ -25,6 +25,7 @@ class Hero extends Frame {
     }
 
     collide(dt) {
+        let hit = false
         env.dump.Impact = 'None'
 
         const ls = this.__._ls
@@ -33,9 +34,13 @@ class Hero extends Frame {
         for (let i = ln - 1; i >= 0; --i) {
             const t = ls[i]
             if (this !== t && t.solid) {
-                if (t.solid.touch(this.solid)) this.onImpact(t)
+                if (t.solid.touch(this.solid)) {
+                    hit = true
+                    this.onImpact(t)
+                }
             }
         }
+        return hit
     }
 
     evo(dt) {
@@ -64,7 +69,12 @@ class Hero extends Frame {
         vec3.scad(this.pos, mt, dt)
 
         // do the collision and rewinds across x/y/z
-        if (!vec3.equals(this.pos, this._pos)) this.collide(dt)
+        if (!vec3.equals(this.pos, this._pos)) {
+            if (this.collide(dt)) {
+                this.pos = this._pos
+                vec3.scale(mt, 0)
+            }
+        }
 
         // apply restrains
         if (this.pos[1] < 0) {
