@@ -141,7 +141,7 @@ _.defaultStage = () => {
     hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
-        pos:  vec3(0, 0, -5),
+        pos:  vec3(0, 1, 0),
         _pods: [ lab.cam ],
     }))
 

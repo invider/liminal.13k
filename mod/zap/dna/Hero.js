@@ -16,9 +16,6 @@ class Hero extends Frame {
         st._pods = augment(st._pods, [ new FPSMovementControllerPod(), new SolidSpherePod() ])
         st._traits = augment(st._traits, [ AttitudeTrait ])
         super( extend(df, st) )
-
-        // adjust for the height
-        this.pos[1] = this.hh * 10
     }
 
     onImpact(src) {
@@ -35,7 +32,9 @@ class Hero extends Frame {
         this.solid.place()
         for (let i = ln - 1; i >= 0; --i) {
             const t = ls[i]
-            if (this !== t && t.solid) t.solid.touch(this.solid)
+            if (this !== t && t.solid) {
+                if (t.solid.touch(this.solid)) this.onImpact(t)
+            }
         }
     }
 

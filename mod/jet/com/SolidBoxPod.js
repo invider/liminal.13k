@@ -1,3 +1,27 @@
+function checkSqDist(pn, bmin, bmax) {
+    let out = 0
+
+    if (pn < bmin) {
+        // the point is on the left
+        let d = (bmin - pn)
+        out += d*d
+    }
+    if (pn > bmax) {
+        // the point is on the right
+        let d = (pn - bmax)
+        out += d*d
+    }
+    return out
+}
+
+function squareDistPoint(p, min, max) {
+    let sq = 0
+    sq += checkSqDist(p[0], min[0], max[0])
+    sq += checkSqDist(p[1], min[1], max[1])
+    sq += checkSqDist(p[2], min[2], max[2])
+    return sq
+}
+
 class SolidBoxPod {
 
     constructor(st) {
@@ -97,11 +121,11 @@ class SolidBoxPod {
 
     touch(sphere) {
         this.place()
-        const c = this.closestPoint( sphere.wpos )
-        const d = vec3.len( vec3.isub(c, sphere.wpos) )
-        if (d < sphere.r) sphere.impact(this)
+        const sdist = squareDistPoint(sphere.wpos, this.min, this.max)
+        return (sdist <= sphere.r * sphere.r)
     }
 
+    // ray intersection
     hit(p, d) {
         let tmin = 0,
             tmax = 99999

@@ -11,10 +11,6 @@ class SolidSpherePod {
         this.__.solid = this
     }
 
-    impact(src) {
-        this.__.onImpact(src.__)
-    }
-
     place() {
         // TODO apply parent model matrix on .pos
         this.wpos = vec3.clone(this.pos)
