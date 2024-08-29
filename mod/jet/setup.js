@@ -1,5 +1,6 @@
 // shader attributes
 let _mMatrix, _nMatrix, _vMatrix, _pMatrix,
+    _uOpt,
     _uCamPos,
     _uDirectionalLightVector,
     _uDirectionalLightColorI,
@@ -46,6 +47,7 @@ function setupUniforms() {
     _vMatrix = gl.getUniformLocation(glProg, 'vMatrix')
     _pMatrix = gl.getUniformLocation(glProg, 'pMatrix')
 
+    _uOpt = gl.getUniformLocation(glProg, 'uOpt')
     _uCamPos = gl.getUniformLocation(glProg, 'uCamPos')
     _uDirectionalLightVector = gl.getUniformLocation(glProg, 'uDirectionalLightVector')
     _uDirectionalLightColorI = gl.getUniformLocation(glProg, 'uDirectionalLightColorI')

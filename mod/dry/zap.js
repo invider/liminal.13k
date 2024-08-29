@@ -1,4 +1,3 @@
-
 // model matrix stack
 let _mPtr = 0
 const _mStack = []

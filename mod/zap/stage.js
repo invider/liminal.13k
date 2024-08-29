@@ -3,8 +3,6 @@ env.title = 'Implementing Scene Graph...'
 _.defaultStage = () => {
     log('setting up the default stage')
 
-    lab.cam.pos[1] = 2
-
     // giant plane
     lab.attach( new Body({
         pos:   vec3(0, 0, 0),
@@ -65,7 +63,7 @@ _.defaultStage = () => {
                 g = geo.gen().cone().scale(h).bake()
                 break
             case 4:
-                g = geo.gen().tetrahedron().scale(h).bake()
+                g = geo.gen().name('tetrahedron').tetrahedron().scale(h).bake()
                 break
         }
         const spin = (rnd()*4) < 1? 0 : 1
@@ -112,6 +110,7 @@ _.defaultStage = () => {
         name: 'hero',
         type: 'superhero',
         cam: lab.cam,
+        pos:  vec3(0, 0, 4),
     }))
 
 }

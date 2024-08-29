@@ -358,6 +358,7 @@ const geo = {
 
     name: function(n) {
         _g.name = n
+        return this
     },
 
     bake: function() {
@@ -365,14 +366,17 @@ const geo = {
         _g.vertices = new Float32Array(_g.vertices)
         _g.vertCount = _g.vertices.length / 3
 
-        // DEBUG vertex stat
-        if (debug) {
-            if (!this._vertexCount) this._vertexCount = 0
-            this._vertexCount += _g.vertCount
-
-            if (!this._polygonCount) this._polygonCount = 0
-            this._polygonCount += _g.vertCount / 3
+        // wireframe points
+        _g.wires = []
+        for (let i = 0; i < _g.vertices.length; i += 9) {
+            let v1 = vec3.fromArray(_g.vertices, i),
+                v2 = vec3.fromArray(_g.vertices, i+3),
+                v3 = vec3.fromArray(_g.vertices, i+6)
+            vec3.push(_g.wires, v1).push(_g.wires, v2)
+                .push(_g.wires, v2).push(_g.wires, v3)
+                .push(_g.wires, v3).push(_g.wires, v1)
         }
+        _g.wires = new Float32Array(_g.wires)
 
         if (_g.faces.length === 0) {
             _g.faces = null
@@ -386,6 +390,15 @@ const geo = {
             _g.normals = new Float32Array( calcNormals(_g.vertices) ) 
         } else {
             _g.normals = new Float32Array(_g.normals) 
+        }
+
+        // DEBUG vertex stat
+        if (debug) {
+            if (!this._vertexCount) this._vertexCount = 0
+            this._vertexCount += _g.vertCount
+
+            if (!this._polygonCount) this._polygonCount = 0
+            this._polygonCount += _g.vertCount / 3
         }
 
         return _g

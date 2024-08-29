@@ -6,16 +6,18 @@ const _vshader = `
 
     attribute vec3 aVertexPosition;
     attribute vec3 aVertexNormal;
-    //attribute vec3 aVertexColor;
+    attribute vec3 aVertexColor;
 
     varying vec3 vWorldPosition;
     varying vec3 vNormal;
     varying vec3 vWorldNormal;
+    varying vec3 vColor;
 
     void main(void) {
         vWorldPosition = (mMatrix * vec4(aVertexPosition, 1.0)).xyz;
         vNormal = aVertexNormal;
         vWorldNormal = (nMatrix * vec4(aVertexNormal, 1.0)).xyz;
+        vColor = aVertexColor;
 
         gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
     }
@@ -31,6 +33,7 @@ const _fshader = `
     uniform highp mat4 pMatrix;
 
     // environment
+    uniform vec4 uOpt;
     uniform vec3 uCamPos;
     uniform highp vec3 uDirectionalLightVector;
     uniform highp vec4 uDirectionalLightColorI;
@@ -49,13 +52,14 @@ const _fshader = `
     varying vec3 vWorldPosition;
     varying vec3 vNormal;
     varying vec3 vWorldNormal;
+    varying vec3 vColor;
 
     void main(void) {
         // DEBUG material props
         highp float opacity = 1.0;
         highp float roughness = 1.0;
         // <<<--- must be set by uniforms
-
+        
         highp vec3 worldNormal = normalize(vWorldNormal);
 
         // TODO expand into a 3-component vector with dir light colors included
@@ -98,11 +102,11 @@ const _fshader = `
             max( dot(worldNormal, halfVectorD), 0.0 ), uShininess
         ) * uDirectionalLightColorI.w;
 
-
         gl_FragColor = vec4(
-            uAmbientColor * uLightIntensities.x
-            + uDiffuseColor * diffuseLambert * uLightIntensities.y
-            + uSpecularColor * (specular + specularD) * uLightIntensities.z,
-            opacity);
+                uAmbientColor * uLightIntensities.x
+                + uDiffuseColor * diffuseLambert * uLightIntensities.y
+                + uSpecularColor * (specular + specularD) * uLightIntensities.z,
+                opacity) * uOpt.x                // shaded component
+            + vec4(uDiffuseColor * uOpt.y, 1.0); // wireframe component
     }
 `

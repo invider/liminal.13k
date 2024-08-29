@@ -1,54 +1,48 @@
-const dfMesh = {
-    mat: {
-        Ka: vec3(.5, .6, .7),
-        Kd: vec3(.9, .2, .2),
-        Ks: vec3(1, 1, 1),
-        Ke: vec3(1, 1, 1),
-        Lv: vec4(.2, 1, .5, 0),
-        Ns: 12,
-    }
-}
-
+// Mesh combines the geometry data and materials to create
+// a renderable entity.
 class Mesh {
 
     constructor(st) {
-        extend(this, dfMesh, st)
+        extend(this, {
+            name: 'mesh',
+            renderOptions: vec4(1, 0, 0, 0),
+            mat: {
+                Ka: vec3(.5, .6, .7),
+                Kd: vec3(.9, .2, .2),
+                Ks: vec3(1, 1, 1),
+                Ke: vec3(1, 1, 1),
+                Lv: vec4(.2, 1, .5, 0),
+                Ns: 12,
+            },
+            buf: {},
+        }, st)
 
         // create buffers
-        const geo = this.geo
-        const buf = {}
-        this.buf = buf
+        this.buf.vertices = this.createBuffer(this.geo.vertices)
+        this.buf.normals = this.createBuffer(this.geo.normals)
+        this.buf.wires = this.createBuffer(this.geo.wires)
+        this.buf.colors = this.createBuffer(this.geo.colors)
+        this.buf.faces = this.createBuffer(this.geo.faces, gl.ELEMENT_ARRAY_BUFFER)
+    }
 
-        buf.vertices = gl.createBuffer()
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf.vertices)
-        gl.bufferData(gl.ARRAY_BUFFER, geo.vertices, gl.STATIC_DRAW)
+    createBuffer(data, type) {
+        if (!data) return
+        const buf = gl.createBuffer()
+        gl.bindBuffer(type || gl.ARRAY_BUFFER, buf)
+        gl.bufferData(type || gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
+        return buf
+    }
 
-        if (geo.faces) {
-            buf.faces = gl.createBuffer()
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.faces)
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geo.faces, gl.STATIC_DRAW)
-        }
-
-        buf.normals = gl.createBuffer()
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf.normals)
-        gl.bufferData(gl.ARRAY_BUFFER, geo.normals, gl.STATIC_DRAW)
+    bindAttribute(buf, name) {
+        if (!buf) return
+        const _attr = gl.getAttribLocation(glProg, name)
+        gl.enableVertexAttribArray(_attr)
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf)
+        gl.vertexAttribPointer(_attr, 3, gl.FLOAT, false, 0, 0)
     }
 
     draw() {
         // adjust to the world coordinates
-        // TODO move out of mesh - mesh just defines geometry, materials etc... and buffers
-        //      the idea is to use a single mesh for multiple objects
-
-        // TODO refactor out rotation into a container object?
-        // TODO refactor orientation to be like in the Camera object - vector-based
-
-        /*
-        _.mpush() // save the current model matrix before applying transformations
-        mat4
-            .translate(mMatrix, this.pos)
-            .rot(mMatrix,       this.rot)
-            .scale(mMatrix,     this.scale)
-        */
 
         // set current model matrix
         gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
@@ -58,6 +52,9 @@ class Mesh {
         mat4.invert(wMatrix)
         mat4.transpose(nMatrix, wMatrix)
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
+
+        // rendering options
+        gl.uniform4fv(_uOpt, this.renderOptions)
 
         // -------------------------------------
         // bind our geometry and materials
@@ -70,17 +67,17 @@ class Mesh {
         gl.uniform4fv(_uLightIntensities, this.mat.Lv)
         gl.uniform1f(_uShininess, this.mat.Ns)
 
-        const _aVertexPosition = gl.getAttribLocation(glProg, 'aVertexPosition')
-        gl.enableVertexAttribArray(_aVertexPosition)
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.buf.vertices)
-        gl.vertexAttribPointer(_aVertexPosition, 3, gl.FLOAT, false, 0, 0)
+        // set the shader attributes 
+        this.bindAttribute(this.buf.vertices, 'aVertexPosition')
+        this.bindAttribute(this.buf.normals, 'aVertexNormal')
+        this.bindAttribute(this.buf.colors, 'aVertexColors')
 
-        const _aVertexNormal = gl.getAttribLocation(glProg, 'aVertexNormal')
-        gl.enableVertexAttribArray(_aVertexNormal)
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.buf.normals)
-        gl.vertexAttribPointer(_aVertexNormal, 3, gl.FLOAT, false, 0, 0)
-
-        if (this.buf.faces) {
+        if (this.renderOptions[1]) {
+            // render wireframes
+            gl.lineWidth(2)
+            this.bindAttribute(this.buf.wires, 'aVertexPosition')
+            gl.drawArrays(gl.LINES, 0, this.geo.wires.length / 3) 
+        } else if (this.buf.faces) {
             // TODO can't support multiple indexes at once,
             //      so obj models MUST be repacked to be index by a sinlge index array
             //      and multiple data buffers
@@ -92,7 +89,5 @@ class Mesh {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
             if (debug) env.stat.polygons += this.geo.vertCount / 3
         }
-
-        //_.mpop()
     }
 }
