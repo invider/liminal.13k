@@ -68,6 +68,11 @@ vec3.fromArray = (buf, i) => {
     )
 }
 
+vec3.push = function(buf, v) {
+    buf.push(v[0], v[1], v[2])
+    return this
+}
+
 vec3.len = function(v) {
     return Math.hypot(v[0], v[1], v[2])
 }
