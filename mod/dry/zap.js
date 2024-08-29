@@ -74,6 +74,15 @@ class Frame {
         if (node.init) node.init()
         return node
     }
+
+    apply(fn, collector) {
+        for (let i = 0; i < this._ls.length; i++) {
+            const e = this._ls[i]
+            fn(e, collector)
+            if (e.apply) e.apply(fn, collector)
+        }
+        return collector
+    }
 }
 
 const lab = new Frame()
