@@ -82,6 +82,9 @@ class FPSMovementControllerPod {
         if (action === JUMP && this.__.pos[1] - this.__.hh === 0) {
             this.__.momentum[1] += tune.jumpSpeed
         }
+        if (action === USE) {
+            this.__.use()
+        }
     }
 
     stop(action) {
@@ -91,6 +94,8 @@ class FPSMovementControllerPod {
     onMouseDown(e) {
         if (e.button == 0) {
             if (!env.mouseLock) this.capture()
+        } else if (e.button == 2) {
+            this.__.use()
         }
     }
 

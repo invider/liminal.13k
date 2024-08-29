@@ -69,6 +69,17 @@ class SolidBoxPod {
         // TODO apply the cached model matrix from the parent
         this.wpos = vec3.clone(this.pos)
         vec3.add(this.wpos, this.__.pos)
+
+        const min = [], max = [],
+              wp = this.wpos, h = this.hsize
+        for (let i = 0; i < 3; i++) {
+            const v1 = wp[i] - h[i],
+                  v2 = wp[i] + h[i]
+            min[i] = v1 < v2? v1 : v2
+            max[i] = v1 > v2? v1 : v2
+        }
+        this.min = min
+        this.max = max
     }
 
     closestPoint(p) {
@@ -89,5 +100,46 @@ class SolidBoxPod {
         const c = this.closestPoint( sphere.wpos )
         const d = vec3.len( vec3.isub(c, sphere.wpos) )
         if (d < sphere.r) sphere.impact(this)
+    }
+
+    hit(p, d) {
+        let tmin = 0,
+            tmax = 99999
+
+        this.place()
+        const w = this.wpos,
+              h = this.hsize,
+              min = this.min,
+              max = this.max
+
+        for (let i = 0; i < 3; i++) {
+            if (abs(d[i]) < EPSILON) {
+                // the ray runs parallel to the slab
+                // no hit if the origin is outside the slab
+                if (p[i] < min[i] || p[i] > max[i]) return
+            } else {
+                const ood = 1/d[i]
+                let t1 = (min[i] - p[i]) * ood,
+                    t2 = (max[i] - p[i]) * ood
+                if (t1 > t2) {
+                    t2 += t1
+                    t1 = t2 - t1
+                    t2 -= t1
+                }
+                tmin = Math.max(tmin, t1)
+                tmax = Math.min(tmax, t2)
+                if (tmin > tmax) return
+            }
+        }
+        // the ray intersects with all 3 slabs
+        const hp = vec3.clone(d)
+        vec3.scale(hp, tmin)
+        vec3.add(hp, p)
+
+        return {
+            __:       this.__,
+            dist:     tmin,
+            hitPoint: hp,
+        }
     }
 }

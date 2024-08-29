@@ -40,4 +40,19 @@ class Camera extends Frame {
         return m
     }
 
+    pick() {
+        // calculate the proper ray vector
+        const cdir = vec3.clone(this.dir)
+        vec3.scale(cdir, -1)
+        const pos = this.pos
+        const ignored = this.__
+
+        return lab.apply((e, collector) => {
+            if (e !== ignored && e.solid) {
+                const hit = e.solid.hit(pos, cdir)
+                if (hit) collector.push(hit)
+            }
+        }, [])
+    }
+
 }

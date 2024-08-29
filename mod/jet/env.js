@@ -18,6 +18,8 @@ const flags = {},
     ROLL_LEFT    = 11,
     ROLL_RIGHT   = 12,
     JUMP         = 13,
+    // special
+    USE          = 14,
     // mouse controls
     SHIFT_YAW    = 21,
     SHIFT_PITCH  = 22,
@@ -43,6 +45,8 @@ const env = {
         'Delete',      // 11 - roll left
         'PageDown',    // 12 - roll right
         'Space',       // 13 - jump
+
+        'Enter',       // 14 - use
 
         // ...
     ],

@@ -2,7 +2,7 @@ class SolidSpherePod {
 
     constructor(st) {
         extend(this, {
-            r: 4,
+            r: 1,
             pos: vec3(0, 0, 0),
         }, st)
     }

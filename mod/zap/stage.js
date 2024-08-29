@@ -6,7 +6,8 @@ env.title = 'Physics - collision resolution'
 _.defaultStage = () => {
     log('setting up the default stage')
 
-    const R = 256
+    const R = 64   // stage size
+    const N = 0  // meshes to spawn
 
     // giant plane
     lab.attach( new Body({
@@ -44,7 +45,6 @@ _.defaultStage = () => {
         vec3(1, 1, 1),
     ]
 
-    const N = 160
     geo.precision(25)
     for (let i = 0; i < N; i++) {
         const B = R
@@ -111,13 +111,38 @@ _.defaultStage = () => {
             },
         }))
     }
+    
+    let h = 2
+    lab.attach( new Body({
+        name: 'cuboid',
+        pos: vec3(0, 2, 0),
+        rot: vec3(0, 0, 0),
+        scale: vec3(1, 1, 1),
+
+        _pods: [
+            new Mesh({
+                geo: geo.gen().cube().scale(h).bake(),
+                mat: {
+                    Ka: vec3(.5, .6, .7),
+                    Kd: vec3(.1, .8, .9),
+                    Ks: vec3(1, 1, 1),
+                    Ke: vec3(1, 1, 1),
+                    Lv: vec4(.2, .5, .8, 0),
+                    Ns: 50,
+                },
+            }),
+            new SolidBoxPod({
+                hsize: vec3(h, h, h), 
+            }),
+        ],
+    }))
 
     // the hero time!
     hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
-        cam: lab.cam,
-        pos:  vec3(0, 0, 4),
+        pos:  vec3(0, 0, -5),
+        _pods: [ lab.cam ],
     }))
 
 }

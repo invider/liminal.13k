@@ -93,4 +93,9 @@ class Hero extends Frame {
         this.tiltAngle = clamp(this.tiltAngle + phi, this.minTilt, this.maxTilt)
     }
 
+    use() {
+        const hits = this.cam.pick()
+        hits.forEach(hit => log(hit.__.name))
+    }
+
 }
