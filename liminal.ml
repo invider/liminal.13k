@@ -1,41 +1,43 @@
 
 === liminal gap tracer ===
 
-> terrace-like play field
 > fall off a cliff
 > sample props
 > collision detection with props
 > items pick up
 
+> make jumps the function of speed - run fast to jump higher
 > limit the max speed
 > allow forward movement when hit a wall and jumping on the next level
 
 > autorun
 > gamepad support
 
+
 === zap framework ===
 > complex transformations in geo generator
-> scene complexity stat
 > tweening
 > uv support in geo
 > textures
 > bump mapping
 > noise
-> spotlight
 > multiple lights support
+> spotlight
 > fog
 > smog (like fog, only below, after certain DY shift)
 > 3d mini-font
+> orbiting camera
 > indexed faces & elem array support
 > .obj loader
 > .mtl loader
-> orbiting camera
 
 > figure out point light diffuse dark spots (when turn?)
 > handle WebGL lost context issue 
 
 
 === fossil ===
+V scene complexity stat
+V terrace-like play field
 V wireframe rendering mode
 V show collision boxes
 V objects pick up

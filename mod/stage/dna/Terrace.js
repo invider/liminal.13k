@@ -5,7 +5,21 @@ class Terrace extends Frame {
         super(st)
         this.shape()
 
-        if (debug) this.attach( genHitboxMesh(this.pos, this.hsize) )
+        // custom collidable trait install
+        this.collideWithin = collidableTrait.collide
+
+        // custom hitbox install
+        this.attach( new SolidBoxPod({
+            name: 'porous',
+            hsize: this.hsize,
+        }))
+
+        //if (debug) this.attach( genHitboxMesh(this.pos, this.hsize) )
+    }
+
+    collide(impactor) {
+        if (!this.porous.touch(impactor)) return // the impactor is outside the range
+        return this.collideWithin(impactor)
     }
 
     shape() {
@@ -32,7 +46,7 @@ class Terrace extends Frame {
                 const yShift = floor(rnd() * 2)
 
                 let h = .5
-                lab.attach( new Body({
+                this.attach( new Body({
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
                     _pods: [

@@ -1,4 +1,4 @@
-const AttitudeTrait = {
+const attitudeTrait = {
 
     __name: 'attitude', // DEBUG
 

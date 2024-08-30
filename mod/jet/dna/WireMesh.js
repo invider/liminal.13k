@@ -1,4 +1,10 @@
+_wmId = 0
 class WireMesh extends Mesh {
+
+    constructor(st) {
+        super(st)
+        this.id = ++_wmId
+    }
 
     draw() {
         if (!env.showHitboxes) return

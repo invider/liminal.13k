@@ -33,7 +33,6 @@ _.defaultStage = () => {
 
     // === populate ===
     // create some bodies
-
     const colors = [
         vec3(.8, .2, .2),
         vec3(.7, .8, .2),
@@ -139,8 +138,11 @@ _.defaultStage = () => {
         ],
     }))
 
+    extend(lab, collidableTrait)
+
     // our first terrace
     lab.attach( new Terrace({
+        name: 'terrace1',
         seed:  101,
         pos:   vec3(0,  4, 0),
         hsize: vec3(64, 4, 64),

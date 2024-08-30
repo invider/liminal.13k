@@ -64,7 +64,7 @@ function genHitboxVertices(p, h) {
     ]
 }
 
-function genHitboxMesh(p, h) {
+function genHitBoxMesh(p, h) {
     const g = geo.gen().name('hitBox').vertices( genHitboxVertices(p, h) ).bakeWires()
     return new WireMesh({
         name: 'hitboxMesh',

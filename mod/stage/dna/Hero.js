@@ -22,9 +22,12 @@ class Hero extends Frame {
             new FPSMovementControllerPod(),
             new SolidBoxPod({
                 hsize: vec3(.7, 1, .7), 
+                onImpact: function(t) {
+                    this.__.onImpact(t)
+                }
             }),
         ])
-        st._traits = augment(st._traits, [ AttitudeTrait ])
+        st._traits = augment(st._traits, [ attitudeTrait ])
         super( extend(df, st) )
     }
 
@@ -34,23 +37,11 @@ class Hero extends Frame {
         this._lastImpactor = src
     }
 
-    collide(dt) {
-        let hit = false
+    isCollided() {
         env.dump.Impact = 'None'
 
-        const ls = this.__._ls
-        const ln = ls.length
         this.solid.place()
-        for (let i = ln - 1; i >= 0; --i) {
-            const t = ls[i]
-            if (this !== t && t.solid) {
-                if (t.solid.touch(this.solid)) {
-                    hit = true
-                    this.onImpact(t)
-                }
-            }
-        }
-        return hit
+        return lab.collide(this.solid)
     }
 
     evo(dt) {
@@ -93,7 +84,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mty, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.collide(dt)) {
+            if (this.isCollided()) {
                 if (mt[1] < 0) this.grounded = true
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
                 // TODO do a feedback or hit recoil when land on the ground?
@@ -106,7 +97,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mtx, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.collide(dt)) {
+            if (this.isCollided()) {
                 vec3.copy(this.pos, this._pos) // rewind the x-motion
                 // TODO do a feedback or hit recoil like in dronepolis?
                 //mt[0] = 0 // reset x momentum
@@ -117,7 +108,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mtz, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.collide(dt)) {
+            if (this.isCollided()) {
                 vec3.copy(this.pos, this._pos)
                 // TODO do a feedback or hit recoil like in dronepolis?
                 //mt[2] = 0 // reset y momentum

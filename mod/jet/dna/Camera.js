@@ -6,7 +6,7 @@ class Camera extends Frame {
             zNear: 1,
             zFar:  512,
         }
-        st._traits = augment(st._traits, [ AttitudeTrait ])
+        st._traits = augment(st._traits, [ attitudeTrait ])
         super( extend(df, st) )
     }
 

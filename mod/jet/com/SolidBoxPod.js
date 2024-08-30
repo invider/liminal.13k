@@ -37,6 +37,7 @@ class SolidBoxPod {
 
     constructor(st) {
         extend(this, {
+            name:  'solid',
             type:  HIT_BOX,
             pos:   vec3(0, 0, 0),
             hsize: vec3(1, 1, 1),
@@ -44,21 +45,9 @@ class SolidBoxPod {
     }
 
     init() {
-        this.__.solid = this
-
         if (debug) {
-            /*
-            this.geo = geo.gen().name('hitBox').vertices( genHitboxVertices(this.pos, this.hsize) ).bakeWires()
-            const wmesh = new WireMesh({
-                name: 'hitboxMesh',
-                geo: this.geo,
-                renderOptions: vec4(0, 1, 0, 0),
-            })
-            this.__.attach(wmesh)
-            */
-            this.__.attach( genHitboxMesh(this.pos, this.hsize) )
+            this.__.attach( genHitBoxMesh(this.pos, this.hsize) )
         }
-
     }
 
     place() {
@@ -96,12 +85,12 @@ class SolidBoxPod {
         this.place()
 
         switch(solid.type) {
-            case HIT_SPHERE:
-                const sdist = squareDistPoint(solid.wpos, this.min, this.max)
-                return (sdist <= solid.r * solid.r)
             case HIT_BOX:
                 solid.place()
                 return intersectHitboxes(this, solid)
+            case HIT_SPHERE:
+                const sdist = squareDistPoint(solid.wpos, this.min, this.max)
+                return (sdist <= solid.r * solid.r)
         }
     }
 
