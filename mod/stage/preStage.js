@@ -34,5 +34,7 @@ _.preStage = () => {
 
     if (debug) {
         lab.attach( new HUD() )
+        lab.attach( _.playerStateDump )
+        lab.attach( _.stageStat )
     }
 }

@@ -1,4 +1,4 @@
-lab.attach({
+_.playerStateDump = {
     name: 'playerStateDump',
 
     evo(dt) {
@@ -37,4 +37,4 @@ lab.attach({
 
         env.status = 'hero: ' + sDir + sPos + ' speed: ' + floor(vec3.len(__.momentum))
     }
-})
+}

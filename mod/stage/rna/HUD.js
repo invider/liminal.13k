@@ -1,22 +1,32 @@
 
 class HUD {
 
+    constructor(st) {
+        extend(this, {
+            name: 'hud',
+        }, st)
+    }
+
     init() {
         env.dump = {}
         env.status = ''
         if (debug) {
             env.tag = '=== debug ==='
         }
+
+        // make a screenshot on F8
+        const __ = this
+        trap.register('keyDown', (e) => {
+            switch(e.code) {
+                case 'F10':
+                    __.ghost = !__.ghost
+                    e.preventDefault()
+                    break
+            }
+        })
     }
 
     draw() {
-        if (env.stat) {
-            const polygons = env.stat.lastPolygons
-            env.dump['Polygons'] = `${polygons} (${polygons * env.fps}/s)`
-        }
-
-        ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
-
         ctx.fillStyle = '#e06a10'
         ctx.textBaseline = 'top'
         ctx.textAlign = 'left'

@@ -61,6 +61,9 @@ function draw(dt) {
         }
     }
 
+    // clear 2D canvas
+    ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
+
     drawScene()
 }
 

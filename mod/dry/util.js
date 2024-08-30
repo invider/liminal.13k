@@ -48,6 +48,7 @@ function log(msg) {
     console.log(msg)
 }
 
+// DEBUG?
 function loadRes(url, handlerFn) {
     fetch(url).then(
         x => x.text()
@@ -56,6 +57,7 @@ function loadRes(url, handlerFn) {
     })
 }
 
+// DEBUG?
 function loadJSON(url, handlerFn) {
     fetch(url).then(
         x => x.json()
