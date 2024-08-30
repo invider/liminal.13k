@@ -26,6 +26,7 @@ class SolidBoxPod {
 
     constructor(st) {
         extend(this, {
+            type:  HIT_BOX,
             pos:   vec3(0, 0, 0),
             hsize: vec3(1, 1, 1),
         }, st)
@@ -79,14 +80,15 @@ class SolidBoxPod {
                 p[0] + h[0], p[1] - h[1], p[2] - h[2],
                 p[0] + h[0], p[1] - h[1], p[2] + h[2],
             ]).bakeWires()
+
+            const wmesh = new WireMesh({
+                name: 'hitboxMesh',
+                geo: this.geo,
+                renderOptions: vec4(0, 1, 0, 0),
+            })
+            this.__.attach(wmesh)
         }
 
-        const wmesh = new WireMesh({
-            name: 'hitboxMesh',
-            geo: this.geo,
-            renderOptions: vec4(0, 1, 0, 0),
-        })
-        this.__.attach(wmesh)
     }
 
     place() {
@@ -119,10 +121,16 @@ class SolidBoxPod {
         )
     }
 
-    touch(sphere) {
+    touch(solid) {
         this.place()
-        const sdist = squareDistPoint(sphere.wpos, this.min, this.max)
-        return (sdist <= sphere.r * sphere.r)
+
+        switch(solid.type) {
+            case HIT_SPHERE:
+                const sdist = squareDistPoint(solid.wpos, this.min, this.max)
+                return (sdist <= solid.r * solid.r)
+            case HIT_BOX:
+                return false
+        }
     }
 
     // ray intersection

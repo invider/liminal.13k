@@ -23,7 +23,11 @@ const flags = {},
     // mouse controls
     SHIFT_YAW    = 21,
     SHIFT_PITCH  = 22,
-    SHIFT_ROLL   = 23
+    SHIFT_ROLL   = 23,
+
+    // colliders
+    HIT_BOX       = 1,
+    HIT_SPHERE    = 2
 
 const env = {
     time: 0,

@@ -3,9 +3,10 @@ class Hero extends Frame {
     constructor(st) {
 
         const df = {
+            strangeSolid: true,
             hh: 1,
 
-            eyesShiftY: 1,
+            eyesShiftY: .7,
             tiltAngle: 0,
             minTilt: -1,
             maxTilt:  1,
@@ -13,14 +14,19 @@ class Hero extends Frame {
             momentum: vec3(0, 0, 0),
         }
         
-        st._pods = augment(st._pods, [ new FPSMovementControllerPod(), new SolidSpherePod() ])
+        st._pods = augment(st._pods, [
+            new FPSMovementControllerPod(),
+            new SolidBoxPod({
+                hsize: vec3(.5, 1, .5), 
+            }),
+        ])
         st._traits = augment(st._traits, [ AttitudeTrait ])
         super( extend(df, st) )
     }
 
     onImpact(src) {
         this._impact = true
-        env.dump.Impact = 'Yes!'
+        env.dump.Impact = 'Impact!'
         this._lastImpactor = src
     }
 
@@ -71,8 +77,8 @@ class Hero extends Frame {
         // do the collision and rewinds across x/y/z
         if (!vec3.equals(this.pos, this._pos)) {
             if (this.collide(dt)) {
-                this.pos = this._pos
-                vec3.scale(mt, 0)
+                //this.pos = this._pos
+                //vec3.scale(mt, 0)
             }
         }
 

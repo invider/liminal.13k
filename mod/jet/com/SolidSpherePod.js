@@ -2,6 +2,7 @@ class SolidSpherePod {
 
     constructor(st) {
         extend(this, {
+            type: HIT_SPHERE,
             r: 1,
             pos: vec3(0, 0, 0),
         }, st)
