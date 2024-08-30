@@ -94,7 +94,9 @@ window.onload = () => {
 
     gl.useProgram(glProg)
 
-    _.preStage()
+    // run zaps
+    for (prop in window) if (prop.startsWith('zap')) window[prop]()
+
     setupStage()
 
     expandCanvas()
