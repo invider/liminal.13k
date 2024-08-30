@@ -11,13 +11,17 @@ class Hero extends Frame {
             minTilt: -1,
             maxTilt:  1,
 
-            momentum: vec3(0, 0, 0),
+            _pos:     vec3z(),
+            momentum: vec3z(),
+            mtx:      vec3z(),
+            mty:      vec3z(),
+            mtz:      vec3z(),
         }
         
         st._pods = augment(st._pods, [
             new FPSMovementControllerPod(),
             new SolidBoxPod({
-                hsize: vec3(.5, 1, .5), 
+                hsize: vec3(.7, 1, .7), 
             }),
         ])
         st._traits = augment(st._traits, [ AttitudeTrait ])
@@ -52,7 +56,10 @@ class Hero extends Frame {
     evo(dt) {
         super.evo(dt)
 
-        const mt = this.momentum
+        const mt = this.momentum,
+              mtx = this.mtx,
+              mty = this.mty,
+              mtz = this.mtz
 
         // make some gravity
         if (this.pos[1] - this.hh > 0) {
@@ -71,18 +78,47 @@ class Hero extends Frame {
 
         // apply movement
         // TODO limit the max speed
-        this._pos = vec3.clone(this.pos) // TODO keep a buffer
-        vec3.scad(this.pos, mt, dt)
 
-        // do the collision and rewinds across x/y/z
+        // deconstruct momentum into axis-components
+        vec3.set(mtx,  mt[0], 0,     0    )
+        vec3.set(mty,  0,     mt[1], 0    )
+        vec3.set(mtz,  0,     0,     mt[2])
+        
+        // === move x ===
+        // store current pos
+        vec3.copy(this._pos, this.pos)
+        vec3.scad(this.pos, mtx, dt)
         if (!vec3.equals(this.pos, this._pos)) {
             if (this.collide(dt)) {
-                //this.pos = this._pos
-                //vec3.scale(mt, 0)
+                vec3.copy(this.pos, this._pos)
+                // TODO do a feedback or hit recoil like in dronepolis?
+                mt[0] = 0 // reset x momentum
             }
         }
 
-        // apply restrains
+        // === move z ===
+        vec3.copy(this._pos, this.pos)
+        vec3.scad(this.pos, mtz, dt)
+        if (!vec3.equals(this.pos, this._pos)) {
+            if (this.collide(dt)) {
+                vec3.copy(this.pos, this._pos)
+                // TODO do a feedback or hit recoil like in dronepolis?
+                mt[2] = 0 // reset y momentum
+            }
+        }
+
+        // === move y ===
+        vec3.copy(this._pos, this.pos)
+        vec3.scad(this.pos, mty, dt)
+        if (!vec3.equals(this.pos, this._pos)) {
+            if (this.collide(dt)) {
+                vec3.copy(this.pos, this._pos)
+                // TODO do a feedback or hit recoil when land on the ground?
+                mt[1] = 0 // reset y momentum
+            }
+        }
+
+        // apply global restrains (DEBUG)
         if (this.pos[1] < 0) {
             // hit the ground
             this.pos[1] = this.hh
@@ -106,6 +142,11 @@ class Hero extends Frame {
 
     tilt(phi) {
         this.tiltAngle = clamp(this.tiltAngle + phi, this.minTilt, this.maxTilt)
+    }
+
+    jump() {
+        //this.__.pos[1] - this.__.hh === 0 // jump only from the ground
+        this.momentum[1] += tune.jumpSpeed
     }
 
     use() {

@@ -31,6 +31,10 @@ function lerp(start, end, amt) {
 
 // === 3D vector ops ===
 
+const vec3z = function() {
+    return new Float32Array(3)
+}
+
 const vec3 = function(x, y, z) {
     const v = new Float32Array(3)
     v[0] = x

@@ -79,8 +79,8 @@ class FPSMovementControllerPod {
     activate(action) {
         this.pushers[action] = 1
 
-        if (action === JUMP && this.__.pos[1] - this.__.hh === 0) {
-            this.__.momentum[1] += tune.jumpSpeed
+        if (action === JUMP) {
+            this.__.jump()
         }
         if (action === USE) {
             this.__.use()

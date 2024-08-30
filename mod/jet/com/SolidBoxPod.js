@@ -22,6 +22,17 @@ function squareDistPoint(p, min, max) {
     return sq
 }
 
+function intersectHitboxes(a, b) {
+    return (
+        a.min[0] <= b.max[0] &&
+        a.max[0] >= b.min[0] &&
+        a.min[1] <= b.max[1] &&
+        a.max[1] >= b.min[1] &&
+        a.min[2] <= b.max[2] &&
+        a.max[2] >= b.min[2]
+    )
+}
+
 class SolidBoxPod {
 
     constructor(st) {
@@ -130,7 +141,8 @@ class SolidBoxPod {
                 const sdist = squareDistPoint(solid.wpos, this.min, this.max)
                 return (sdist <= solid.r * solid.r)
             case HIT_BOX:
-                return false
+                solid.place()
+                return intersectHitboxes(this, solid)
         }
     }
 
