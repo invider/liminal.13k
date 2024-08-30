@@ -18,9 +18,9 @@ mkdir -p $STAGE
 cp --verbose $SRC/*.css $STAGE/
 cp --verbose $SRC/html/*.html $STAGE/
 
-cp --verbose -r $SRC/dry  $STAGE/
-cp --verbose -r $SRC/jet  $STAGE/
-cp --verbose -r $SRC/zap  $STAGE/
+cp --verbose -r $SRC/dry   $STAGE/
+cp --verbose -r $SRC/jet   $STAGE/
+cp --verbose -r $SRC/stage $STAGE/
 
 # initial size estimates
 #du -shb $STAGE/*.html
