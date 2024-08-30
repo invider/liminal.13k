@@ -1,4 +1,6 @@
+
 === liminal gap tracer ===
+
 > terrace-like play field
 > fall off a cliff
 > sample props
@@ -9,16 +11,12 @@
 > allow forward movement when hit a wall and jumping on the next level
 
 > autorun
+> gamepad support
 
 === zap framework ===
-> scenegraph
-> bounding volumes
+> complex transformations in geo generator
 > scene complexity stat
 > tweening
-> wireframe rendering mode
-> show collision boxes
-> objects pick up
-> complex transformations in geo generator
 > uv support in geo
 > textures
 > bump mapping
@@ -34,9 +32,15 @@
 > orbiting camera
 
 > figure out point light diffuse dark spots (when turn?)
+> handle WebGL lost context issue 
 
 
 === fossil ===
+V wireframe rendering mode
+V show collision boxes
+V objects pick up
+V scenegraph
+V bounding volumes
 V basic collision detection with box geometry
 V mat4.copy
 V mat4 stack - push and pop current model matrix

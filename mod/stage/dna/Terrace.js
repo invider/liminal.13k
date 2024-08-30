@@ -14,9 +14,12 @@ class Terrace extends Frame {
 
         let count = 0
 
-        const s = 2
+        const gapChance = .2
+        const s = 4 // block half-size
         for (let z = np[2], iz = 0; z < xp[2]; z += s*2, iz++) {
             for (let x = np[0], ix = 0; x < xp[0]; x += s*2, ix++) {
+                if (rnd() < gapChance) continue // got a gap
+
                 // sky block
 
                 // checkboard pattern
@@ -28,7 +31,7 @@ class Terrace extends Frame {
 
                 const yShift = floor(rnd() * 2)
 
-                let h = .25
+                let h = .5
                 lab.attach( new Body({
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 

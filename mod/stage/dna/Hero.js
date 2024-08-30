@@ -69,15 +69,19 @@ class Hero extends Frame {
         if (this.grounded) {
             const fv = vec3.normalize( vec3.clone(mt) )
             fv[1] = 0 // remove the Y component - applying in horizontal plane only 
-            vec3.scale(fv, tune.friction)
-            if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0]
+            const ms2 = tune.maxSpeed * tune.maxSpeed
+            const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
+            const speedF = 1 + speedOverflow2 * tune.overspeedFactor
+            vec3.scale(fv, tune.friction * speedF)
+            if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
             if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
             vec3.scale(fv, -1)
             vec3.add(mt, fv)
         }
 
-        // apply movement
+        // === apply movement ===
         // TODO limit the max speed
+        //const speed2 = mt[0]*m[0] + mt[2]*m[2]
 
         // deconstruct momentum into axis-components
         vec3.set(mtx,  mt[0], 0,     0    )
@@ -96,7 +100,7 @@ class Hero extends Frame {
                 mt[1] = 0 // reset y momentum
             }
         }
-        
+
         // === move x ===
         // store current pos
         vec3.copy(this._pos, this.pos)
@@ -105,7 +109,7 @@ class Hero extends Frame {
             if (this.collide(dt)) {
                 vec3.copy(this.pos, this._pos) // rewind the x-motion
                 // TODO do a feedback or hit recoil like in dronepolis?
-                mt[0] = 0 // reset x momentum
+                //mt[0] = 0 // reset x momentum
             }
         }
 
@@ -116,7 +120,7 @@ class Hero extends Frame {
             if (this.collide(dt)) {
                 vec3.copy(this.pos, this._pos)
                 // TODO do a feedback or hit recoil like in dronepolis?
-                mt[2] = 0 // reset y momentum
+                //mt[2] = 0 // reset y momentum
             }
         }
 

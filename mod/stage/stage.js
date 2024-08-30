@@ -8,6 +8,7 @@ _.defaultStage = () => {
     const R = 128   // stage size
     const N = 0     // meshes to spawn
 
+    /*
     // giant plane
     lab.attach( new Body({
         pos:   vec3(0, 0, 0),
@@ -28,6 +29,7 @@ _.defaultStage = () => {
             })
         ],
     }))
+    */
 
     // === populate ===
     // create some bodies
@@ -140,7 +142,7 @@ _.defaultStage = () => {
     // our first terrace
     lab.attach( new Terrace({
         seed:  101,
-        pos:   vec3(0,  4,-70),
+        pos:   vec3(0,  4, 0),
         hsize: vec3(64, 4, 64),
     }))
 
@@ -148,7 +150,7 @@ _.defaultStage = () => {
     hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
-        pos:  vec3(0, 1, 5),
+        pos:  vec3(0, 10, 5),
         _pods: [ lab.cam ],
     }))
 

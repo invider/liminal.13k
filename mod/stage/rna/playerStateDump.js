@@ -1,25 +1,3 @@
-function normalAngle(a) {
-    a = a % PI2
-    if (a < 0) a += PI2
-    return a
-}
-
-function lpad(s, N) {
-    const n = N - s.length
-    for (let i = 0; i < n; i++) {
-        s = ' ' + s
-    }
-    return s
-}
-
-function rpad(s, N) {
-    const n = N - s.length
-    for (let i = 0; i < n; i++) {
-        s += ' '
-    }
-    return s
-}
-
 lab.attach({
     name: 'playerStateDump',
 
@@ -57,6 +35,6 @@ lab.attach({
         const sDir = ' ^' + rpad(w, 2) + ' '
             + lpad('' + Math.round(heading * RAD_TO_DEG), 3) + '* '
 
-        env.status = 'hero: ' + sDir + sPos
+        env.status = 'hero: ' + sDir + sPos + ' speed: ' + floor(vec3.len(__.momentum))
     }
 })
