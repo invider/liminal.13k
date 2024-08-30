@@ -49,8 +49,8 @@ class Camera extends Frame {
 
         return lab.apply((e, collector) => {
             if (e !== ignored && e.solid) {
-                const hit = e.solid.hit(pos, cdir)
-                if (hit) collector.push(hit)
+                const rayHit = e.solid.touchRay(pos, cdir)
+                if (rayHit) collector.push(rayHit)
             }
         }, [])
     }

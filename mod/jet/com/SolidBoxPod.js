@@ -92,6 +92,7 @@ class SolidBoxPod {
     }
 
     place() {
+        // TODO keep precalculated for static models
         // TODO apply the cached model matrix from the parent
         this.wpos = vec3.clone(this.pos)
         vec3.add(this.wpos, this.__.pos)
@@ -134,7 +135,7 @@ class SolidBoxPod {
     }
 
     // ray intersection
-    hit(p, d) {
+    touchRay(p, d) {
         let tmin = 0,
             tmax = 99999
 
