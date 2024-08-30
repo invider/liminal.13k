@@ -1,13 +1,12 @@
-
 // =========================================
-env.title = 'Physics - collision resolution'
+env.title = 'Sky Terraces'
 // =========================================
 
 _.defaultStage = () => {
     log('setting up the default stage')
 
     const R = 128   // stage size
-    const N = 128   // meshes to spawn
+    const N = 0     // meshes to spawn
 
     // giant plane
     lab.attach( new Body({
@@ -111,11 +110,12 @@ _.defaultStage = () => {
             },
         }))
     }
-    
+
+    // a box
     let h = 2
     lab.attach( new Body({
         name: 'cuboid',
-        pos: vec3(0, 2, 0),
+        pos: vec3(-8, 2, -4),
         rot: vec3(0, 0, 0),
         scale: vec3(1, 1, 1),
 
@@ -135,6 +135,13 @@ _.defaultStage = () => {
                 hsize: vec3(h, h, h), 
             }),
         ],
+    }))
+
+    // our first terrace
+    lab.attach( new Terrace({
+        seed:  101,
+        pos:   vec3(0,  4,-70),
+        hsize: vec3(64, 4, 64),
     }))
 
     // the hero time!

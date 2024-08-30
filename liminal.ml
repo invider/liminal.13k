@@ -5,6 +5,9 @@
 > collision detection with props
 > items pick up
 
+> limit the max speed
+> allow forward movement when hit a wall and jumping on the next level
+
 > autorun
 
 === zap framework ===

@@ -7,6 +7,7 @@ const EPSILON = 0.001
 const abs = Math.abs
 const cos = Math.cos
 const sin = Math.sin
+const floor = Math.floor
 
 // LCG
 function LNGSource(seed) {
@@ -91,12 +92,20 @@ vec3.normalize = function(v) {
     return v
 }
 
-vec3.isub = function(v, w) {
+function _iadd(v, w, f) {
     return vec3(
-        v[0] - w[0],
-        v[1] - w[1],
-        v[2] - w[2]
+        v[0] + f*w[0],
+        v[1] + f*w[1],
+        v[2] + f*w[2]
     )
+}
+
+vec3.isub = (v, w) => {
+    return _iadd(v, w, -1)
+}
+
+vec3.iadd = (v, w) => {
+    return _iadd(v, w, 1)
 }
 
 vec3.add = function(v, w) {

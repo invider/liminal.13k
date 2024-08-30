@@ -33,6 +33,9 @@ const env = {
     time: 0,
     fps: 60,
 
+    // DEBUG
+    //showHitboxes: true,
+
     bind: [
         '',
         // movement controls

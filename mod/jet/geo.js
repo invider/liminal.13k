@@ -356,6 +356,13 @@ const geo = {
         return this
     },
 
+    stretch : function(t, s) {
+        for (let i = 0; i < _g.vertices.length; i += 3) {
+            _g.vertices[i + t] *= s
+        }
+        return this
+    },
+
     name: function(n) {
         _g.name = n
         return this

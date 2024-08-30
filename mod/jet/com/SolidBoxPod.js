@@ -47,57 +47,16 @@ class SolidBoxPod {
         this.__.solid = this
 
         if (debug) {
-            const p = this.pos,
-                  h = this.hsize
-
-            this.geo = geo.gen().name('hitBox').vertices([
-                // top face
-                p[0] + h[0], p[1] + h[1], p[2] - h[2],
-                p[0] - h[0], p[1] + h[1], p[2] - h[2],
-
-                p[0] - h[0], p[1] + h[1], p[2] - h[2],
-                p[0] - h[0], p[1] + h[1], p[2] + h[2],
-
-                p[0] + h[0], p[1] + h[1], p[2] + h[2],
-                p[0] - h[0], p[1] + h[1], p[2] + h[2],
-
-                p[0] + h[0], p[1] + h[1], p[2] - h[2],
-                p[0] + h[0], p[1] + h[1], p[2] + h[2],
-
-                // sides
-                p[0] + h[0], p[1] + h[1], p[2] - h[2],
-                p[0] + h[0], p[1] - h[1], p[2] - h[2],
-
-                p[0] - h[0], p[1] + h[1], p[2] - h[2],
-                p[0] - h[0], p[1] - h[1], p[2] - h[2],
-
-                p[0] + h[0], p[1] + h[1], p[2] + h[2],
-                p[0] + h[0], p[1] - h[1], p[2] + h[2],
-
-                p[0] - h[0], p[1] + h[1], p[2] + h[2],
-                p[0] - h[0], p[1] - h[1], p[2] + h[2],
-
-
-                // bottom face
-                p[0] + h[0], p[1] - h[1], p[2] - h[2],
-                p[0] - h[0], p[1] - h[1], p[2] - h[2],
-
-                p[0] - h[0], p[1] - h[1], p[2] - h[2],
-                p[0] - h[0], p[1] - h[1], p[2] + h[2],
-
-                p[0] + h[0], p[1] - h[1], p[2] + h[2],
-                p[0] - h[0], p[1] - h[1], p[2] + h[2],
-
-                p[0] + h[0], p[1] - h[1], p[2] - h[2],
-                p[0] + h[0], p[1] - h[1], p[2] + h[2],
-            ]).bakeWires()
-
+            /*
+            this.geo = geo.gen().name('hitBox').vertices( genHitboxVertices(this.pos, this.hsize) ).bakeWires()
             const wmesh = new WireMesh({
                 name: 'hitboxMesh',
                 geo: this.geo,
                 renderOptions: vec4(0, 1, 0, 0),
             })
             this.__.attach(wmesh)
+            */
+            this.__.attach( genHitboxMesh(this.pos, this.hsize) )
         }
 
     }
