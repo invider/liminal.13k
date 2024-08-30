@@ -1,16 +1,13 @@
 === liminal gap tracer ===
-> basic collision detection with box geometry
-> sample props
-> collision detection with props
 > terrace-like play field
 > fall off a cliff
-
+> sample props
+> collision detection with props
 > items pick up
+
 > autorun
 
 === zap framework ===
-V mat4.copy
-V mat4 stack - push and pop current model matrix
 > scenegraph
 > bounding volumes
 > scene complexity stat
@@ -37,6 +34,9 @@ V mat4 stack - push and pop current model matrix
 
 
 === fossil ===
+V basic collision detection with box geometry
+V mat4.copy
+V mat4 stack - push and pop current model matrix
 V momentum vector
 V gravity
 V run and jump
