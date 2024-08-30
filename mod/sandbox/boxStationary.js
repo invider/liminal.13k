@@ -1,13 +1,10 @@
+_.boxStationary = () => {
+    log('setting up a bunch of stationary grounded objects')
 
-// =========================================
-env.title = 'Physics - collision resolution'
-// =========================================
+    const R = 96   // stage size
+    const N = 32   // meshes to spawn
 
-_.defaultStage = () => {
-    log('setting up the default stage')
-
-    const R = 128   // stage size
-    const N = 128   // meshes to spawn
+    for (let i = 0; i < 21; i++) rnd() // shift the seed
 
     // giant plane
     lab.attach( new Body({
@@ -45,6 +42,7 @@ _.defaultStage = () => {
         vec3(1, 1, 1),
     ]
 
+
     geo.precision(25)
     for (let i = 0; i < N; i++) {
         const B = R
@@ -52,23 +50,20 @@ _.defaultStage = () => {
 
         // generate a random geometry
         let g
-        let h = .5 + rnd() * 2
-        switch( Math.floor(rnd()*5) ) {
+        let h = 1.5 + rnd() * 2
+        switch( Math.floor(rnd()*4) ) {
             case 0:
-                g = geo.gen().cube().scale(h).bake()
+                g = geo.gen().cube().scale(h).sharp().bake()
                 break
             case 1:
-                g = geo.gen().sphere().scale(h).bake()
+                g = geo.gen().sphere().scale(h).smooth().bake()
                 break
             case 2:
-                g = geo.gen().cylinder().scale(h).smooth().bake()
+                g = geo.gen().cylinder().scale(h).sharp().bake()
                 geo.sharp()
                 break
             case 3:
-                g = geo.gen().cone().scale(h).bake()
-                break
-            case 4:
-                g = geo.gen().name('tetrahedron').tetrahedron().scale(h).bake()
+                g = geo.gen().cone().scale(h).smooth().bake()
                 break
         }
         const spin = (rnd()*4) < 1? 0 : 1
@@ -99,44 +94,9 @@ _.defaultStage = () => {
                     hsize: vec3(h, h, h), 
                 }),
             ],
-
-            init() {
-                this.rotSpeed[1] += (rnd() < .5? -1 : 1) * (.2 + rnd()*1.5) * spin
-            },
-
-            evo: function(dt) {
-                this.rot[0] += this.rotSpeed[0] * dt
-                this.rot[1] += this.rotSpeed[1] * dt 
-                this.rot[2] += this.rotSpeed[2] * dt 
-            },
         }))
     }
     
-    let h = 2
-    lab.attach( new Body({
-        name: 'cuboid',
-        pos: vec3(0, 2, 0),
-        rot: vec3(0, 0, 0),
-        scale: vec3(1, 1, 1),
-
-        _pods: [
-            new Mesh({
-                geo: geo.gen().cube().scale(h).bake(),
-                mat: {
-                    Ka: vec3(.5, .6, .7),
-                    Kd: vec3(.1, .8, .9),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.2, .5, .8, 0),
-                    Ns: 50,
-                },
-            }),
-            new SolidBoxPod({
-                hsize: vec3(h, h, h), 
-            }),
-        ],
-    }))
-
     // the hero time!
     hero = lab.attach( new Hero({
         name: 'hero',

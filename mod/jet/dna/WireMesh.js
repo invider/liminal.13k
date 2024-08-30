@@ -2,6 +2,7 @@ class WireMesh extends Mesh {
 
     draw() {
         if (!env.showHitboxes) return
+        if (this.__.strangeSolid) return
 
         _.mpush()
         if (this.__.strangeSolid) {
