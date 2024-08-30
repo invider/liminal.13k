@@ -1,5 +1,5 @@
 // =========================================
-env.title = 'Sky Terraces'
+env.title = 'Sky Terraces - 15min AFK'
 // =========================================
 
 _.defaultStage = () => {
@@ -148,6 +148,10 @@ _.defaultStage = () => {
         hsize: vec3(64, 4, 64),
     }))
 
+    lab.attach( new Prop({
+        pos:   vec3(0, 3, 0),
+    }))
+
     // the hero time!
     hero = lab.attach( new Hero({
         name: 'hero',
@@ -155,5 +159,9 @@ _.defaultStage = () => {
         pos:  vec3(0, 10, 5),
         _pods: [ lab.cam ],
     }))
+
+    if (debug) {
+        lab.attach( _.playerStateDump )
+    }
 
 }
