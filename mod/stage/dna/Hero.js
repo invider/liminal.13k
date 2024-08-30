@@ -60,21 +60,21 @@ class Hero extends Frame {
               mtx = this.mtx,
               mty = this.mty,
               mtz = this.mtz
-        this.grounded = false
 
 
         // make some gravity
         mt[1] -= tune.gravity * dt
 
         // apply horizontal friction
-        // TODO should work only when in contact with the ground
-        const fv = vec3.normalize( vec3.clone(mt) )
-        fv[1] = 0 // remove the Y component - applying in horizontal plane only 
-        vec3.scale(fv, tune.friction)
-        if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0]
-        if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
-        vec3.scale(fv, -1)
-        vec3.add(mt, fv)
+        if (this.grounded) {
+            const fv = vec3.normalize( vec3.clone(mt) )
+            fv[1] = 0 // remove the Y component - applying in horizontal plane only 
+            vec3.scale(fv, tune.friction)
+            if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0]
+            if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
+            vec3.scale(fv, -1)
+            vec3.add(mt, fv)
+        }
 
         // apply movement
         // TODO limit the max speed
@@ -85,6 +85,7 @@ class Hero extends Frame {
         vec3.set(mtz,  0,     0,     mt[2])
 
         // === move y ===
+        this.grounded = false
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mty, dt)
         if (!vec3.equals(this.pos, this._pos)) {

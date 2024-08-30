@@ -29,16 +29,16 @@ class FPSMovementControllerPod {
 
         switch(action) {
             case FORWARD:
-                vec3.scad(__.momentum, __.dir, -speed)
+                if (__.grounded) vec3.scad(__.momentum, __.dir, -speed)
                 break
             case STRAFE_LEFT:
-                vec3.scad(__.momentum, vec3(-__.dir[2], 0, __.dir[0]), speed)
+                if (__.grounded) vec3.scad(__.momentum, vec3(-__.dir[2], 0, __.dir[0]), speed)
                 break
             case BACKWARD:
-                vec3.scad(__.momentum, __.dir, speed)
+                if (__.grounded) vec3.scad(__.momentum, __.dir, speed)
                 break
             case STRAFE_RIGHT:
-                vec3.scad(__.momentum, vec3(__.dir[2], 0, -__.dir[0]), speed)
+                if (__.grounded) vec3.scad(__.momentum, vec3(__.dir[2], 0, -__.dir[0]), speed)
                 break
 
             // keyboard look
