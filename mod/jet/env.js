@@ -36,7 +36,8 @@ const env = {
     fps: 60,
 
     // DEBUG
-    //showHitboxes: true,
+    //groundLevel:    1,
+    //showHitboxes:   1,
 
     bind: [
         '',

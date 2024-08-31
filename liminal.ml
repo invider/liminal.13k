@@ -2,7 +2,6 @@
 === liminal gap tracer ===
 
 # phase I - gameplay prototype
-> fall off a cliff
 > procedural terrace section generation
 > autogenerate map along the run
 
@@ -37,6 +36,7 @@
 
 
 === fossil ===
+V fall off a cliff
 V allow forward movement when hit a wall and jumping on the next level
 V limit the max speed
 V sample props

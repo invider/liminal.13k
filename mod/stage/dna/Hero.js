@@ -26,6 +26,15 @@ class Hero extends Frame {
         ])
         st._traits = augment(st._traits, [ attitudeTrait ])
         super( extend(df, st) )
+
+        this._initialPos = vec3.clone(this.pos)
+    }
+
+    reset() {
+        log('player reset')
+        vec3.copy(this.pos, this._initialPos)
+        // reset the momentum so we are no longer in the terminal fall!
+        this.momentum[1] = 0
     }
 
     onImpact(src) {
@@ -52,7 +61,17 @@ class Hero extends Frame {
 
 
         // make some gravity
+        /*
+        mt[1] = Math.max(mt[1] - tune.gravity * dt, -tune.terminalVelocity)
+        if (mt[1] === -tune.terminalVelocity) {
+        }
+        */
+
         mt[1] -= tune.gravity * dt
+        if (mt[1] < -tune.terminalVelocity) {
+            mt[1] = -tune.terminalVelocity
+            trap('terminalFall')
+        }
 
         // apply horizontal friction
         if (this.grounded) {
@@ -114,7 +133,7 @@ class Hero extends Frame {
         }
 
         // apply global restrains (DEBUG)
-        if (this.pos[1] < this.hh) {
+        if (env.groundLevel && this.pos[1] < this.hh) {
             // hit the ground
             this.pos[1] = this.hh
             mt[1] = 0

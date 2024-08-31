@@ -1,5 +1,5 @@
 // =========================================
-env.title = 'Sky Terraces - 15min AFK'
+env.title = 'Terminal Velocity - AKF 15 mins'
 // =========================================
 
 _.defaultStage = () => {
@@ -165,6 +165,10 @@ _.defaultStage = () => {
         pos:  vec3(0, 10, 5),
         _pods: [ lab.cam ],
     }))
+
+    trap.register('terminalFall', () => {
+        hero.reset()
+    })
 
     if (debug) {
         lab.attach( _.playerStateDump )
