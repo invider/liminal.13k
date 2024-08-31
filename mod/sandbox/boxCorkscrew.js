@@ -1,9 +1,32 @@
 _screwing = true
 
+function createSomeBoxes() {
+    for (let i = 0; i < 70; i++) {
+        const B = 200
+        const H = B/2
+        lab.attach( new Body({
+            pos: vec3(
+                H - B*rnd(),
+                H - B*rnd(),
+                H - B*rnd()
+            ),
+            rot: vec3(0, 0, 0),
+            scale: vec3(1, 1, 1),
+
+            _pods: [
+                new Mesh({
+                    geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
+                }),
+            ],
+        }))
+    }
+}
+
+
 _.boxCorkscrew = function() {
     log('Setting up editing mode...')
 
-    lab.attach( new Body({
+    const box = lab.attach( new Body({
         pos: vec3(
             0,
             0,
@@ -27,6 +50,8 @@ _.boxCorkscrew = function() {
 
     }))
 
+    createSomeBoxes()
+
     // move camera back a little
     lab.cam.pos[1] = 0
     lab.cam.pos[2] = 7
@@ -36,7 +61,9 @@ _.boxCorkscrew = function() {
     }
     kill(lab.cam.mover)
 
-    env.directionalLightVector = vec3(1, 1, 1)
+    lab.cam.attach( new OrbitalControllerPod() )
+    lab.cam.lookAt = box.pos
 
+    env.directionalLightVector = vec3(1, 1, 1)
     env.pointLightPosition = vec3(5, -4, -5)
 }
