@@ -1,4 +1,5 @@
 #!/bin/sh
 
+./index
 ./index termit.html
 

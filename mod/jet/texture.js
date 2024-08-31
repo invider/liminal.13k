@@ -31,13 +31,14 @@ function loadTexture(name, url) {
 }
 
 function noise() {
-    const W = 160, rgba = []
+    const nbx = 17, nby = 21, nbz = 2, nfq = .01
+    const W = 640, rgba = []
     for (let y = 0; y < W; y++) {
         for (let x = 0; x < W; x++) {
             rgba.push(
-                Math.floor(rnd() * 256),
-                Math.floor(rnd() * 256),
-                Math.floor(rnd() * 256),
+                Math.floor(snoise(nbx + x*nfq, nby + y*nfq, nbz) * 256),
+                Math.floor(snoise(nbx + x*nfq, nby + y*nfq, nbz) * 256),
+                Math.floor(snoise(nbx + x*nfq, nby + y*nfq, nbz) * 256),
                 0xff,
             )
         }
