@@ -1,6 +1,4 @@
 function zapPreStage() {
-    log('setting up camera...')
-
     lab.attach( new Camera({
         name: 'cam',
 

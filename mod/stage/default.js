@@ -187,6 +187,12 @@ _.defaultStage = () => {
         }
     }))
 
+    lab.freeCam = lab.cam
+    // create hero cam
+    lab.attach( new Camera({
+        name: 'cam',
+    }))
+
     // the hero time!
     hero = lab.attach( new Hero({
         name: 'hero',
@@ -201,6 +207,18 @@ _.defaultStage = () => {
 
     if (debug) {
         lab.attach( _.playerStateDump )
+
+        trap.register('keyDown', (e) => {
+            if (e.code === 'F2') {
+                if (lab.cam === lab.hero.cam) {
+                    lab.cam = lab.freeCam
+                    lab.cam.mover.capture()
+                } else {
+                    lab.cam = lab.hero.cam
+                    lab.hero.mover.capture()
+                }
+            }
+        })
     }
 }
 

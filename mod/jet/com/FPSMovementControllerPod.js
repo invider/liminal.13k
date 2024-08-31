@@ -11,8 +11,12 @@ class FPSMovementControllerPod {
         this.pushers = new Float32Array(SHIFT_ROLL+1)
     }
 
-    init() {
+    capture() {
         lab.broker = this
+    }
+
+    init() {
+        this.capture()
 
         document.onpointerlockchange = (e) => {
             if (document.pointerLockElement) {
@@ -93,7 +97,7 @@ class FPSMovementControllerPod {
 
     onMouseDown(e) {
         if (e.button == 0) {
-            if (!env.mouseLock) this.capture()
+            if (!env.mouseLock) this.captureMouse()
         } else if (e.button == 2) {
             this.__.use()
         }
@@ -121,7 +125,7 @@ class FPSMovementControllerPod {
         }
     }
 
-    capture() {
+    captureMouse() {
         gcanvas.requestPointerLock()
     }
 }

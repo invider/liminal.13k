@@ -14,19 +14,18 @@
 
 
 === zap framework ===
-> noise
 > complex transformations in geo generator
 > tweening
-> bump mapping
-> multiple lights support
-> spotlight
 > fog
+> multiple lights support
+> bump mapping
+> spotlight
 > smog (like fog, only below, after certain DY shift)
 > 3d mini-font
 > orbiting camera
 > indexed faces & elem array support
-> .obj loader
-> .mtl loader
+> .obj loader #tooling
+> .mtl loader #tooling
 
 > figure out point light diffuse dark spots (when turn?)
 > handle "the user has exited the lock before this request was completed"
@@ -34,6 +33,7 @@
 
 
 === fossil ===
+V noise
 V uv support in geo
 V textures
 V fall off a cliff

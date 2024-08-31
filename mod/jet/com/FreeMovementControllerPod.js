@@ -12,8 +12,12 @@ class FreeMovementControllerPod {
         this.pushers = new Float32Array(SHIFT_ROLL+1)
     }
 
-    init() {
+    capture() {
         lab.broker = this
+    }
+
+    init() {
+        this.capture()
     }
 
     push(action, factor, dt) {
