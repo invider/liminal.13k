@@ -7,6 +7,7 @@ let mMatrix = mat4.identity(),
     iMatrix = mat4.identity()
 
 const _ = {
+    tex: {},
 
     mpush: () => {
         if (!_mStack[_mPtr]) _mStack[_mPtr++] = mat4.clone(mMatrix)
@@ -16,7 +17,6 @@ const _ = {
     mpop: () => {
         mat4.copy(mMatrix, _mStack[--_mPtr])
     },
-
 }
 
 function kill(e) {

@@ -7,17 +7,20 @@ const _vshader = `
     attribute vec3 aVertexPosition;
     attribute vec3 aVertexNormal;
     attribute vec3 aVertexColor;
+    attribute vec2 aVertexUV;
 
     varying vec3 vWorldPosition;
     varying vec3 vNormal;
     varying vec3 vWorldNormal;
     varying vec3 vColor;
+    varying vec2 vUV;
 
     void main(void) {
         vWorldPosition = (mMatrix * vec4(aVertexPosition, 1.0)).xyz;
         vNormal = aVertexNormal;
         vWorldNormal = (nMatrix * vec4(aVertexNormal, 1.0)).xyz;
         vColor = aVertexColor;
+        vUV = aVertexUV;
 
         gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
     }
@@ -35,24 +38,26 @@ const _fshader = `
     // environment
     uniform vec4 uOpt;
     uniform vec3 uCamPos;
-    uniform highp vec3 uDirectionalLightVector;
-    uniform highp vec4 uDirectionalLightColorI;
-    uniform highp vec3 uPointLightPosition;
-    uniform highp vec4 uPointLightColorI;
+    uniform vec3 uDirectionalLightVector;
+    uniform vec4 uDirectionalLightColorI;
+    uniform vec3 uPointLightPosition;
+    uniform vec4 uPointLightColorI;
 
     // material
-    uniform highp vec3 uAmbientColor;
-    uniform highp vec3 uDiffuseColor;
-    uniform highp vec3 uSpecularColor;
-    uniform highp vec3 uEmissionColor;
+    uniform vec3 uAmbientColor;
+    uniform vec3 uDiffuseColor;
+    uniform vec3 uSpecularColor;
+    uniform vec3 uEmissionColor;
 
-    uniform highp vec4 uLightIntensities;
-    uniform highp float uShininess;
+    uniform vec4 uLightIntensities;
+    uniform float uShininess;
+    uniform sampler2D uTexture;
 
     varying vec3 vWorldPosition;
     varying vec3 vNormal;
     varying vec3 vWorldNormal;
     varying vec3 vColor;
+    varying vec2 vUV;
 
     void main(void) {
         // DEBUG material props
@@ -104,7 +109,8 @@ const _fshader = `
 
         gl_FragColor = vec4(
                 uAmbientColor * uLightIntensities.x
-                + uDiffuseColor * diffuseLambert * uLightIntensities.y
+                + (texture2D(uTexture, vUV).xyz * uOpt.z
+                   + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
                 + uSpecularColor * (specular + specularD) * uLightIntensities.z,
                 opacity) * uOpt.x                // shaded component
             + vec4(uDiffuseColor * uOpt.y, 1.0); // wireframe component

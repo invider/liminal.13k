@@ -22,6 +22,7 @@ class Mesh {
         this.buf.normals = this.createBuffer(this.geo.normals)
         this.buf.wires = this.createBuffer(this.geo.wires)
         this.buf.colors = this.createBuffer(this.geo.colors)
+        this.buf.uvs = this.createBuffer(this.geo.uvs)
         this.buf.faces = this.createBuffer(this.geo.faces, gl.ELEMENT_ARRAY_BUFFER)
     }
 
@@ -33,12 +34,12 @@ class Mesh {
         return buf
     }
 
-    bindAttribute(buf, name) {
+    bindAttribute(buf, name, n) {
         if (!buf) return
         const _attr = gl.getAttribLocation(glProg, name)
         gl.enableVertexAttribArray(_attr)
         gl.bindBuffer(gl.ARRAY_BUFFER, buf)
-        gl.vertexAttribPointer(_attr, 3, gl.FLOAT, false, 0, 0)
+        gl.vertexAttribPointer(_attr, n || 3, gl.FLOAT, false, 0, 0)
     }
 
     draw() {
@@ -54,6 +55,7 @@ class Mesh {
         gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
 
         // rendering options
+        if (this.tex) this.renderOptions[2] = 1
         gl.uniform4fv(_uOpt, this.renderOptions)
 
         // -------------------------------------
@@ -67,10 +69,18 @@ class Mesh {
         gl.uniform4fv(_uLightIntensities, this.mat.Lv)
         gl.uniform1f(_uShininess, this.mat.Ns)
 
+        if (this.tex) {
+            // bind texture
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, this.tex);
+            gl.uniform1i(_uTexture, 0);
+        }
+
         // set the shader attributes 
         this.bindAttribute(this.buf.vertices, 'aVertexPosition')
         this.bindAttribute(this.buf.normals, 'aVertexNormal')
-        this.bindAttribute(this.buf.colors, 'aVertexColors')
+        this.bindAttribute(this.buf.colors, 'aVertexColor')
+        this.bindAttribute(this.buf.uvs, 'aVertexUV', 2)
 
         if (this.renderOptions[1]) {
             // render wireframes

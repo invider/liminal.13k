@@ -11,7 +11,8 @@ let _mMatrix, _nMatrix, _vMatrix, _pMatrix,
     _uSpecularColor,
     _uEmissionColor,
     _uLightIntensities,
-    _uShininess
+    _uShininess,
+    _uTexture
 
 function compileShader(src, type) {
     //const src = document.getElementById(id).innerHTML
@@ -59,6 +60,7 @@ function setupUniforms() {
     _uEmissionColor = gl.getUniformLocation(glProg, 'uEmissionColor')
     _uLightIntensities = gl.getUniformLocation(glProg, 'uLightIntensities')
     _uShininess = gl.getUniformLocation(glProg, 'uShininess')
+    _uTexture = gl.getUniformLocation(glProg, 'uTexture')
 }
 
 function setupStage() {

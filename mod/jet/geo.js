@@ -75,7 +75,8 @@ function calcNormals(v) {
 // === geo state ===
 let _g,
     _gSpherePrecision = 25,
-    _gSmooth
+    _gSmooth,
+    _gUV = 0
 
 const geo = {
     gen: function() {
@@ -83,7 +84,7 @@ const geo = {
             vertices: [],
             normals:  [],
             faces:    [],
-            color:    [],
+            colors:   [],
             uvs:      [],
         }
         return this
@@ -158,6 +159,18 @@ const geo = {
             -1,-1,-1,  1,-1,-1,   1,-1, 1,
             -1,-1,-1,  1,-1, 1,  -1,-1, 1,
         ])
+
+        if (_gUV) {
+            _g.uvs = _g.uvs.concat([
+                0, 0,   1, 0,   0, 1,
+                0, 0,   0, 1,   1, 1,
+            ])
+            for (let j = 0; j < 12; j++) {
+                for (let i = 0; i < 12; i++) {
+                    _g.uvs.push(_g.uvs[i])
+                }
+            }
+        }
         return this
     },
 
@@ -384,6 +397,18 @@ const geo = {
                 .push(_g.wires, v3).push(_g.wires, v1)
         }
         _g.wires = new Float32Array(_g.wires)
+
+        if (_g.uvs.length > 0) {
+            _g.uvs = new Float32Array(_g.uvs)
+        } else {
+            _g.uvs = null
+        }
+
+        if (_g.colors.length > 0) {
+            _g.colors = new Float32Array(_g.colors)
+        } else {
+            _g.colors = null
+        }
 
         if (_g.faces.length === 0) {
             _g.faces = null

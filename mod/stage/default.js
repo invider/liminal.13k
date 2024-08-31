@@ -1,5 +1,5 @@
 // =========================================
-env.title = 'Terminal Velocity - AKF 15 mins'
+env.title = 'Textures and Noise'
 // =========================================
 
 _.defaultStage = () => {
@@ -112,8 +112,11 @@ _.defaultStage = () => {
         }))
     }
 
-    // a box
+    // a sample box
+    _gUV = 1
     let h = 2
+    const cubeGeo = geo.gen().cube().scale(h).bake()
+
     lab.attach( new Body({
         name: 'cuboid',
         pos: vec3(-8, 2, -4),
@@ -122,7 +125,7 @@ _.defaultStage = () => {
 
         _pods: [
             new Mesh({
-                geo: geo.gen().cube().scale(h).bake(),
+                geo: cubeGeo,
                 mat: {
                     Ka: vec3(.5, .6, .7),
                     Kd: vec3(.1, .8, .9),
@@ -131,12 +134,14 @@ _.defaultStage = () => {
                     Lv: vec4(.2, .5, .8, 0),
                     Ns: 50,
                 },
+                tex: _.tex['rusty']
             }),
             new SolidBoxPod({
                 hsize: vec3(h, h, h), 
             }),
         ],
     }))
+    _gUV = 0
 
     extend(lab, collidableTrait)
 
@@ -173,5 +178,5 @@ _.defaultStage = () => {
     if (debug) {
         lab.attach( _.playerStateDump )
     }
-
 }
+

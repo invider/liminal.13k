@@ -166,7 +166,16 @@ class Hero extends Frame {
 
     use() {
         const hits = this.cam.pick()
-        hits.forEach(hit => log(hit.__.name))
+        hits.sort((a, b) => {
+            if (a.dist < b.dist) return -1
+            else if (a.dist > b.dist) return 1
+            return 0
+        })
+        const hit = hits[0]
+        if (hit) {
+            if (hit.__.name) log(hit.__.name)
+            console.dir(hit.__)
+        }
     }
 
 }
