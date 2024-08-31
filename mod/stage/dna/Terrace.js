@@ -3,6 +3,7 @@ class Terrace extends Frame {
 
     constructor(st) {
         super(st)
+        this.geoform()
         this.shape()
 
         // custom collidable trait install
@@ -20,6 +21,16 @@ class Terrace extends Frame {
     collide(impactor) {
         if (!this.porous.touch(impactor)) return // the impactor is outside the range
         return this.collideWithin(impactor)
+    }
+
+    geoform() {
+        const s =  4, // block half-size
+              h = .5
+        this._cube = geo.gen().cube()
+            .stretch(0, s)
+            .stretch(1, h)
+            .stretch(2, s)
+            .bake()
     }
 
     shape() {
@@ -51,11 +62,14 @@ class Terrace extends Frame {
 
                     _pods: [
                         new Mesh({
+                            geo: this._cube,
+                            /*
                             geo: geo.gen().cube()
                                 .stretch(0, s)
                                 .stretch(1, h)
                                 .stretch(2, s)
                                 .bake(),
+                            */
                             mat: {
                                 Ka: vec3(.5, .6, .7),
                                 Kd: colors[icolor],

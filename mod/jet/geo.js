@@ -406,6 +406,11 @@ const geo = {
 
             if (!this._polygonCount) this._polygonCount = 0
             this._polygonCount += _g.vertCount / 3
+
+            if (!this._geoCount) this._geoCount = 0
+            this._geoCount ++
+
+            env.dump['Geometry Library'] = `${this._geoCount} (${this._polygonCount} polygons)`
         }
 
         return _g

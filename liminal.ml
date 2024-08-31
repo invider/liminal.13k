@@ -1,25 +1,25 @@
 
 === liminal gap tracer ===
 
-# phase I - gameplay prototype
+--- phase I - gameplay prototype ---
 > procedural terrace section generation
 > autogenerate map along the run
 
-# phase II - advanced features and procedural generation
+--- phase II - advanced features and procedural generation ---
 > make jumps the function of speed - run fast to jump higher
 > autorun
 > gamepad support
 
-# phase III - polish
+--- phase III - polish ---
 
 
 === zap framework ===
-> complex transformations in geo generator
-> tweening
+> noise
 > uv support in geo
 > textures
+> complex transformations in geo generator
+> tweening
 > bump mapping
-> noise
 > multiple lights support
 > spotlight
 > fog
