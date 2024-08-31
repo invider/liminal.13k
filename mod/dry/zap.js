@@ -45,18 +45,20 @@ class Frame {
 
     evo(dt) {
         const ls = this._ls
+        let soul
         for (let i = 0; i < ls.length; i++) {
             const e = ls[i]
 
-            if (e.dead) {
-                const j = i
-                defer(() => {
-                    if (e.onKill) e.onKill()
-                    ls.splice(j, 1)
-                })
-            } else if (!e.zombie) {
+            if (e.dead) soul = e
+            else if (!e.zombie) {
                 e.evo(dt)
             }
+        } 
+        // grim reaper
+        if (soul) {
+            ls.splice(ls.indexOf(soul), 1)
+            if (e.onKill) e.onKill()
+            if (e.name && this[e.name] === e) delete this[e.name]
         }
     }
 
