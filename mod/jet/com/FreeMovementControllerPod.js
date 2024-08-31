@@ -94,26 +94,31 @@ class FreeMovementControllerPod {
         this.pushers[action] = 0
     }
 
-    onMouseDown() {}
+    onMouseDown(e) {
+        if (e.button == 0) {
+            if (!env.mouseLock) captureMouse()
+        }
+    }
 
-    onMouseUp() {}
+    onMouseUp(e) {}
 
     onMouseMove(e) {
-        if (e.buttons != 1) return
+        if (!env.mouseLock) return
+
         const dx = e.movementX, dy = e.movementY
 
         if (dx) {
             if (e.shiftKey) {
                 // accumulate mouse roll
-                this.pushers[SHIFT_ROLL] += dx
+                this.pushers[SHIFT_ROLL] += dx * .1
             } else {
                 // accumulate horizontal mouse movement
-                this.pushers[SHIFT_YAW] += dx
+                this.pushers[SHIFT_YAW] -= dx * .1
             }
         }
         if (dy) {
             // accumulate vertical mouse movement
-            this.pushers[SHIFT_PITCH] += dy
+            this.pushers[SHIFT_PITCH] += dy * 0.075
         }
     }
 }

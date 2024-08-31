@@ -72,3 +72,11 @@ function genHitBoxMesh(p, h) {
         renderOptions: vec4(0, 1, 0, 0),
     })
 }
+
+function captureMouse() {
+    // calculate a safe delay to avoid capture lock DOM exception
+    const t = 1000 - Math.min(abs((env.pointerReleaseTime || 0) - Date.now()), 1000)
+    setTimeout(() => {
+        gcanvas.requestPointerLock()
+    }, t * 2.5)
+}

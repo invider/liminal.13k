@@ -63,3 +63,12 @@ window.onhashchange = () => {
     start()
 }
 */
+
+document.onpointerlockchange = (e) => {
+    if (document.pointerLockElement) {
+        env.mouseLock = true
+    } else {
+        env.mouseLock = false
+        env.pointerReleaseTime = Date.now()
+    }
+}
