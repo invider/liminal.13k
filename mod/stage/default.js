@@ -115,7 +115,6 @@ _.defaultStage = () => {
     // a sample box
     _gUV = 1
     let h = 2
-    const cubeGeo = geo.gen().cube().scale(h).bake()
 
     lab.attach( new Body({
         name: 'cuboid',
@@ -125,7 +124,7 @@ _.defaultStage = () => {
 
         _pods: [
             new Mesh({
-                geo: cubeGeo,
+                geo: geo.gen().cube().scale(h).bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),
                     Kd: vec3(.1, .8, .9),
@@ -134,7 +133,7 @@ _.defaultStage = () => {
                     Lv: vec4(.2, .5, .8, 0),
                     Ns: 50,
                 },
-                tex: _.tex['rusty']
+                tex: _.tex['simple']
             }),
             new SolidBoxPod({
                 hsize: vec3(h, h, h), 
