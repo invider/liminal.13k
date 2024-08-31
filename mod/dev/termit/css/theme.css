@@ -1,0 +1,53 @@
+:root {
+    --primary-font:     "operator";
+    --primary-font-size: 22px;
+    --primary-color:    #222222;
+    --background-color: #fafac8;
+    --track-color:      #aaaa88;
+    --thumb-color:      #606050;
+
+    --border-color:     #808080;
+    --link-color:       blue;
+    --visited-color:    purple;
+    --hover-color:      orange;
+    --active-color:     red;
+
+    --status-color:      #c0c0c0;
+    --status-background: #707070;
+}
+
+[data-theme="solar"] {
+    --primary-color:    #586e75;
+    --background-color: #eee8d5;
+    --track-color:      #b58900;
+}
+
+[data-theme="eclipse"] {
+    --primary-color:    #93a1a1;
+    --background-color: #073642;
+    --track-color:      #b58900;
+    --thumb-color:      #655900;
+
+    --border-color:     #002b36;
+    --link-color:       #268bd2;
+    --visited-color:    #6c71c4;
+    --hover-color:      #b58900;
+    --active-color:     #dc322f;
+    --status-color:      #93a1a1;
+    --status-background: #073642;
+}
+
+[data-theme="dark"] {
+    --primary-color:    #dedede;
+    --background-color: #1a1a18;
+    --track-color:      #2a2a2f;
+    --thumb-color:      #4a4a4a;
+
+    --link-color:       #268bd2;
+    --visited-color:    #6c71c4;
+    --hover-color:      #b58900;
+    --active-color:     #dc322f;
+
+    --status-color:      #93a1a1;
+    --status-background: #38384b;
+}

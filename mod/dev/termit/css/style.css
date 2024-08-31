@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'operator';
+    src: url('../fnt/pixel-operator-mono.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    background-color: var(--background-color);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    scrollbar-color: #87ceeb #ff5621;
+}
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--track-color);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--thumb-color);
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid var(--track-color);  /* creates padding around scroll thumb */
+  //outline: 1px solid slategrey;
+}
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: blue orange;
+}
+
+#termit {
+    width: 90%;
+    height: 90%;
+    border: 0px;
+    position: absolute;
+    overflow: scroll;
+    overflow-x: hidden;
+    display: block;
+    font-family: var(--primary-font);
+    font-size:   var(--primary-font-size);
+    color:       var(--primary-color);
+    white-space: pre-wrap;
+    word-break:  break-all;
+    word-wrap:   break-word;
+
+    background-color: var(--background-color);
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.0;
+    }
+}
+@-webkit-keyframes blink {
+    50% {
+        opacity: 0.0;
+    }
+}
+.blink {
+    animation: blink 1s step-start 0s infinite;
+    -webkit-animation: blink 1s step-start 0s infinite;
+}

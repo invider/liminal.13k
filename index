@@ -2,12 +2,12 @@
 
 SRC=./mod
 STAGE=./.stage.tmp
-TARGET=./index.html
+TARGET=${1:-./index.html}
 
 cd $SRC
 find . -name "*.js" | awk '{ printf "        <script src=\""; printf $1; print "\"></script>"; }' | sort > .index.tmp
 
-cat index.html | grep -v '<script' | grep . > .preHTML.tmp
+cat $TARGET | grep -v '<script' | grep . > .preHTML.tmp
 
 cat .preHTML.tmp | awk '
 /DOCTYPE/{f=1}

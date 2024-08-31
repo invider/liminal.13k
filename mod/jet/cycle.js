@@ -3,7 +3,7 @@ let gcanvas, hcanvas
 let _lastTime
 
 function evo(dt) {
-    if (env.pause) return
+    if (env.paused) return
     lab.evo(dt)
 }
 

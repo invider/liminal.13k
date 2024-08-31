@@ -11,18 +11,21 @@ trap.register = function(eventName, fn) {
 window.onkeydown = (e) => {
     if (e.repeat) return
 
-    flags[e.code] = 1
+    switch(e.code) {
+        case 'KeyP':
+            env.paused = !env.paused
+            break
+    }
+    if (env.paused) return
+
     trap('keyDown', e)
 
+    if (env.paused || env.disabled) return
+
+    flags[e.code] = 1
     let action = env.bind.indexOf(e.code)
     if (action > 0 && lab.broker) {
         lab.broker.activate(action)
-    }
-
-    switch(e.code) {
-        case 'KeyP':
-            env.pause = !env.pause
-            break
     }
 }
 
@@ -37,16 +40,19 @@ window.onkeyup = (e) => {
 }
 
 window.onmousedown = (e) => {
+    if (env.paused || env.disabled) return
     trap('mdn', e)
     if (lab.broker) lab.broker.onMouseDown(e)
 }
 
 window.onmouseup = (e) => {
+    if (env.paused || env.disabled) return
     trap('mup', e)
     if (lab.broker) lab.broker.onMouseUp(e)
 }
 
 window.onmousemove = (e) => {
+    if (env.paused || env.disabled) return
     if (lab.broker) lab.broker.onMouseMove(e)
 }
 
