@@ -13,7 +13,7 @@ window.onkeydown = (e) => {
 
     switch(e.code) {
         case 'KeyP':
-            env.paused = !env.paused
+            if (!env.disabled) env.paused = !env.paused
             break
     }
     if (env.paused) return

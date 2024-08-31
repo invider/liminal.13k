@@ -27,6 +27,7 @@ function zapTermitTrap() {
         }
     })
 
+    // move out to dev tools setup or something?
     trap.register('keyDown', (e) => {
         switch(e.code) {
             case 'F4':
@@ -36,6 +37,14 @@ function zapTermitTrap() {
                     env.termit = true
                     env.disabled = true
                     showTermit()
+                }
+                break
+
+            case 'F2':
+                if (corkscrew.env.enabled) {
+                    corkscrew.hide()
+                } else {
+                    corkscrew.show()
                 }
                 break
         }

@@ -2,7 +2,7 @@
  * Web Terminal Emulator
  * License: MIT
  */
-var term = (function(window) {
+let term = (function(window) {
 
 'use strict'
 
@@ -215,7 +215,7 @@ function unfocus(e) {
 }
 
 window.addEventListener('keydown', function(e) {
-    if (term.disabled) return
+    if (!term || term.disabled) return
     if (e.metaKey || e.altKey) return true
 
     if (focus) {

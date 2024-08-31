@@ -57,8 +57,8 @@ class Frame {
         // grim reaper
         if (soul) {
             ls.splice(ls.indexOf(soul), 1)
-            if (e.onKill) e.onKill()
-            if (e.name && this[e.name] === e) delete this[e.name]
+            if (soul.onKill) soul.onKill()
+            if (soul.name && this[soul.name] === soul) delete this[soul.name]
         }
     }
 

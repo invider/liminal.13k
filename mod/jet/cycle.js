@@ -8,6 +8,7 @@ function evo(dt) {
 }
 
 function drawScene() {
+    if (!lab.cam) return
     // TODO move out to a debug node?
     if (debug) {
         env.stat.lastPolygons = env.stat.polygons

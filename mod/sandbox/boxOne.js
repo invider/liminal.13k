@@ -20,6 +20,12 @@ _.boxOne = function() {
                     geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
                 }),
             ],
+
+            evo: function(dt) {
+                this.rot[0] += this.rotSpeed[0] * dt
+                this.rot[1] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[2] * dt 
+            },
         }))
     }
 }
