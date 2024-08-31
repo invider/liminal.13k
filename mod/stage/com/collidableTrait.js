@@ -14,8 +14,8 @@ const collidableTrait = {
                     if (t.solid.kind) {
                         hit = true // got a hard collision
                     }
-                    if (t.solid.onTouch) t.solid.onTouch(impactor)
-                    if (t.solid.__.reactive && impactor.onImpact) impactor.onImpact(t)
+                    if (t.onTouch) t.onTouch(impactor.__)
+                    if (t.reactive && impactor.__.onImpact) impactor.__.onImpact(t)
                 }
             }
         }

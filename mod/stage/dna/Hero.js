@@ -22,9 +22,6 @@ class Hero extends Frame {
             new FPSMovementControllerPod(),
             new SolidBoxPod({
                 hsize: vec3(.7, 1, .7), 
-                onImpact: function(t) {
-                    this.__.onImpact(t)
-                }
             }),
         ])
         st._traits = augment(st._traits, [ attitudeTrait ])
