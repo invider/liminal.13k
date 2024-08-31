@@ -3,6 +3,7 @@
 
 function hideTermit() {
     const termit = document.getElementById('termit')
+    if (!termit) return
     termit.disabled = true
     termit.style.display = 'none'
 }

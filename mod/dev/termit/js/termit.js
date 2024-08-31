@@ -42,7 +42,9 @@ const actions = {
     adjust: function() {
         var c = document.getElementById(env.id)
         if (!c) {
-            throw `The element id="${env.id}" MUST be present in the document!`
+            //throw `The element id="${env.id}" MUST be present in the document!`
+            term = null
+            return
         }
         var newWidth = window.innerWidth
         var newHeight = window.innerHeight * .5
@@ -84,6 +86,7 @@ window.addEventListener('resize', adjust, false)
 
 window.addEventListener('load', () => {
     term = document.getElementById('termit')
+    if (!term) return
     adjust()
     prompt()
 
@@ -93,7 +96,7 @@ window.addEventListener('load', () => {
 
 // cursor blink updater
 setInterval(function() {
-    if (blinking) return
+    if (!term || blinking) return
     if ((Date.now() - lastUpdate) > BLINK) {
         bcur(buffer)
     }
@@ -199,6 +202,7 @@ function ignoreEvent(e) {
 }
 
 function focus(e) {
+    if (!term) return
     focused = true
     blinking = true
     sync()
