@@ -8,10 +8,14 @@ const collidableTrait = {
             const t = ls[i]
             if (t.collide) {
                 if (t.collide(impactor)) hit = true
-            } else if (t.solid && t.solid !== impactor) {
+            } else if (!t.dead && t.solid && t.solid !== impactor) {
                 if (t.solid.touch(impactor)) {
-                    hit = true // TODO some object are transient and shouldn't raise that flag
-                    if (impactor.onImpact) impactor.onImpact(t)
+                    // test if the touch is hard or ephemeral
+                    if (t.solid.kind) {
+                        hit = true // got a hard collision
+                    }
+                    if (t.solid.onTouch) t.solid.onTouch(impactor)
+                    if (t.solid.__.reactive && impactor.onImpact) impactor.onImpact(t)
                 }
             }
         }

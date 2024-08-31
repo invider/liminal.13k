@@ -10,7 +10,7 @@ class Terrace extends Frame {
 
         // custom hitbox install
         this.attach( new SolidBoxPod({
-            name: 'porous',
+            name:  'porous',
             hsize: this.hsize,
         }))
 

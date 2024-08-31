@@ -19,6 +19,10 @@ const _ = {
 
 }
 
+function kill(e) {
+    e.dead = true
+}
+
 // Group node for lab
 class Frame {
 

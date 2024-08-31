@@ -149,7 +149,13 @@ _.defaultStage = () => {
     }))
 
     lab.attach( new Prop({
+        name:  'superprop',
         pos:   vec3(0, 3, 0),
+        reactive: 1,
+
+        onKill: function() {
+            log('consumed')
+        }
     }))
 
     // the hero time!

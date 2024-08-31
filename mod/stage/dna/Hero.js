@@ -32,9 +32,10 @@ class Hero extends Frame {
     }
 
     onImpact(src) {
-        this._impact = true
-        env.dump.Impact = 'Impact!'
-        this._lastImpactor = src
+        if (src instanceof Prop) {
+            kill(src)
+            log(src.name + ' is killed')
+        }
     }
 
     isCollided() {

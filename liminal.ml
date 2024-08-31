@@ -1,17 +1,17 @@
 
 === liminal gap tracer ===
 
+# phase I - gameplay prototype
 > fall off a cliff
-> sample props
-> collision detection with props
-> items pick up
+> procedural terrace section generation
+> autogenerate map along the run
 
+# phase II - advanced features and procedural generation
 > make jumps the function of speed - run fast to jump higher
-> limit the max speed
-> allow forward movement when hit a wall and jumping on the next level
-
 > autorun
 > gamepad support
+
+# phase III - polish
 
 
 === zap framework ===
@@ -32,10 +32,16 @@
 > .mtl loader
 
 > figure out point light diffuse dark spots (when turn?)
+> handle "the user has exited the lock before this request was completed"
 > handle WebGL lost context issue 
 
 
 === fossil ===
+V allow forward movement when hit a wall and jumping on the next level
+V limit the max speed
+V sample props
+V collision detection with props
+V items pick up
 V scene complexity stat
 V terrace-like play field
 V wireframe rendering mode

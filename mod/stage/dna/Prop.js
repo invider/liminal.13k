@@ -21,6 +21,7 @@ class Prop extends Body {
                     },
                 }),
                 new SolidBoxPod({
+                    kind:  EPHEMERAL,
                     hsize: vec3(s, s, w), 
                 }),
             ],

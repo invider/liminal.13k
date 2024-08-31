@@ -27,7 +27,9 @@ const flags = {},
 
     // colliders
     HIT_BOX       = 1,
-    HIT_SPHERE    = 2
+    HIT_SPHERE    = 2,
+    EPHEMERAL     = 0,
+    HARD          = 1
 
 const env = {
     time: 0,

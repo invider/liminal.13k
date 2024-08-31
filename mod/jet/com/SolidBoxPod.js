@@ -39,6 +39,7 @@ class SolidBoxPod {
         extend(this, {
             name:  'solid',
             type:  HIT_BOX,
+            kind:  HARD,
             pos:   vec3(0, 0, 0),
             hsize: vec3(1, 1, 1),
         }, st)
