@@ -15,8 +15,6 @@
 
 === zap framework ===
 > noise
-> uv support in geo
-> textures
 > complex transformations in geo generator
 > tweening
 > bump mapping
@@ -36,6 +34,8 @@
 
 
 === fossil ===
+V uv support in geo
+V textures
 V fall off a cliff
 V allow forward movement when hit a wall and jumping on the next level
 V limit the max speed

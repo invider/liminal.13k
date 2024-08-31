@@ -30,7 +30,25 @@ function loadTexture(name, url) {
     img.src = url
 }
 
-function genTextures() {
+function noise() {
+    const W = 160, rgba = []
+    for (let y = 0; y < W; y++) {
+        for (let x = 0; x < W; x++) {
+            rgba.push(
+                Math.floor(rnd() * 256),
+                Math.floor(rnd() * 256),
+                Math.floor(rnd() * 256),
+                0xff,
+            )
+        }
+    }
+
+    const idata = new ImageData(new Uint8ClampedArray(rgba), W, W)
+    idata.name = 'noise'
+    bindTexture(idata)
+}
+
+function checkboard() {
     const idata = new ImageData(new Uint8ClampedArray([
         0xff, 0xff, 0xff, 0xff,
         0x00, 0x00, 0x00, 0x00,
@@ -39,6 +57,34 @@ function genTextures() {
     ]), 2, 2)
     idata.name = 'simple'
     bindTexture(idata)
+}
+
+function billboard() {
+    const W = 160
+    const canvas = document.createElement('canvas')
+    const cx = canvas.getContext('2d')
+    canvas.width  = W
+    canvas.height = W
+
+    cx.rect(0, 0, W, W);
+    cx.fillStyle = '#202530'
+    cx.fill();
+
+    cx.fillStyle = '#FF0000'
+    cx.textBaseline = 'middle'
+    cx.textAlign = 'center'
+    cx.font = "24px monospace"
+    cx.fillText('Procedural', W/2, W/2)
+
+    const idata = cx.getImageData(0, 0, W, W)
+    idata.name = 'billboard'
+    bindTexture(idata)
+}
+
+function genTextures() {
+    checkboard()
+    billboard()
+    noise()
 }
 
 function zapTextures() {

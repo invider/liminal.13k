@@ -12,46 +12,6 @@ const img = {
         a.click()
     },
 
-    // TODO refactor out
-    screenshot: function(filename) {
-        env._screenshot = true
-
-        //if (!filename) filename = 'zap'
-        /*
-        const pixels = new Uint8Array(
-            gl.drawingBufferWidth * gl.drawingBufferHeight * 4,
-        )
-        gl.readPixels(
-              0,
-              0,
-              gl.drawingBufferWidth,
-              gl.drawingBufferHeight,
-              gl.RGBA,
-              gl.UNSIGNED_BYTE,
-              pixels,
-        );
-        console.log(pixels) // Uint8Array
-        ctx.createImageData(gl.drawingBufferWidth, gl.drawingBufferHeight)
-        */
-
-        // open in a new tab
-        // window.open(gcanvas.toDataURL('image/png'));
-        //let dataURL = hcanvas.toDataURL('image/png');
-        //this.downloadDataURL(dataURL, filename)
-    },
-
-    /*
-    // make a screenshot of a screen area
-    screenshotArea: function(filename, x, y, w, h) {
-        if (!filename) filename = 'zap'
-        const idata = gl.getImageData(x, y, w, h)
-        const dataURL= this.imgToDataURL(idata)
-
-        this.downloadDataURL(dataURL, filename)
-    },
-    */
-
-
     // convert image to a canvas with the same size and image content
     imgToCanvas: function(img) {
         const canvas = document.createElement('canvas')

@@ -40,6 +40,28 @@ function expandCanvas() {
     draw()
 }
 
+// convert image to a canvas with the same size and image content
+function imgToCanvas(img) {
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    canvas.width = img.width
+    canvas.height = img.height
+
+    if (img instanceof ImageData) {
+        context.putImageData(img, 0, 0)
+    } else {
+        context.drawImage(img, 0, 0, img.width, img.height)
+    }
+    return canvas
+}
+
+// get image data from a provided image
+function imgData(img) {
+    const canvas = this.imgToCanvas(img)
+    const context = canvas.getContext('2d')
+    return context.getImageData(0, 0, img.width, img.height)
+}
+
 function err(msg) {
     console.error(msg)
 }
