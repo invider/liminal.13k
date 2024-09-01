@@ -18,6 +18,7 @@ let corkscrew = (function(window) {
         const screw = document.getElementById(env.id)
         if (!screw) return
 
+        screw.textContent = lab.control.activeScript()
         screw.style.display = 'block'
         adjust()
         env.enabled = true
@@ -34,7 +35,8 @@ let corkscrew = (function(window) {
         c.style.width = newWidth + 'px'
         c.style.height = newHeight + 'px'
         c.style.padding = '10px'
-        c.setAttribute("contenteditable", true)
+        //c.setAttribute("contenteditable", true)
+        c.setAttribute("contenteditable", "plaintext-only")
         c.focus()
     }
 

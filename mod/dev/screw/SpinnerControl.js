@@ -60,6 +60,11 @@ class SpinnerControl {
         this.createSpinner(g)
     }
 
+    activeScript() {
+        if (!this.active) return 'NO ACTIVE SPINNER'
+        return this.active.getScript()
+    }
+
     push(action, factor, dt) {
         if (!this.active) return
         const __ = this.active

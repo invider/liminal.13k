@@ -231,4 +231,8 @@ class GeoSpinner {
     getActiveShape() {
         return this.shapes[this.target]
     }
+
+    getScript() {
+        return this.gindex.screw || 'Not Available'
+    }
 }
