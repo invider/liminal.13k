@@ -65,21 +65,11 @@ function imgData(img) {
 const err = console.error
 const log = console.log
 
-// DEBUG?
-function loadRes(url, handlerFn) {
-    fetch(url).then(
-        x => x.text()
-    ).then(raw => {
-        handlerFn(raw)
-    })
-}
-
-// DEBUG?
-function loadJSON(url, handlerFn) {
-    fetch(url).then(
-        x => x.json()
-    ).then(json => {
-        handlerFn(json)
-    })
+function captureMouse() {
+    // calculate a safe delay to avoid capture lock DOM exception
+    const t = 1000 - Math.min(abs((env.pointerReleaseTime || 0) - Date.now()), 1000)
+    setTimeout(() => {
+        gcanvas.requestPointerLock()
+    }, t * 2.5)
 }
 

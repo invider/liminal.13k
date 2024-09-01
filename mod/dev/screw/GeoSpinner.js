@@ -20,11 +20,12 @@ class GeoSpinner {
     }
 
     init() {
+        if (this.gindex) this.buildLib()
+        else if (this.glib) this.buildIndex()
         this.geoForm()
     }
 
-    geoForm() {
-        const $ = this
+    buildIndex() {
         const glib = this.glib
         const gindex = this.gindex = []
         // index glib
@@ -33,9 +34,25 @@ class GeoSpinner {
             gindex.push(glib[name])
         }
         log('shapes found in geo: ' + gindex.length)
+    }
 
+    buildLib() {
+        const gindex = this.gindex
+        const glib = this.glib = {}
+
+        let i = 0
+        gindex.forEach(g => {
+            if (g.name) glib[g.name] = g
+            log('registering glib entry: ' + g.name)
+            i++
+        })
+        log('shapes registered in glib: ' + i)
+    }
+
+    geoForm() {
+        const $ = this
         const shapes = this.shapes = []
-        gindex.forEach((g) => {
+        this.gindex.forEach((g) => {
             const shape = $.geoShape(g)
             shape.geo = g
             g.shape = shape

@@ -30,20 +30,19 @@ _.boxCorkscrew = (() => {
 
     return function(args) {
         log('setting up the editing mode...')
+
         console.dir(args)
 
         const ctrl = lab.attach( new SpinnerControl({
             name: 'control',
         }) )
+
+        // create out of official glib
+        ctrl.createSpinner(glib)
+
+        // create out of an unofficial hard-coded screw-up script
         ctrl.screwUp( screwScript )
 
-        /*
-        const g = screw( screwScript )
-        log('screwed geometry:')
-        console.dir(g)
-
-        ctrl.createSpinner(glib)
-        */
 
         setupCameraAndLight()
 

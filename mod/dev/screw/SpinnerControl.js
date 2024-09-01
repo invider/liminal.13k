@@ -24,14 +24,28 @@ class SpinnerControl {
         })
     }
 
+    downgradeSpinners() {
+        this.spinners.forEach(spinner => {
+            spinner.pos[1] -= spinner.r * 1.5
+            spinner.pos[2] += spinner.r * 1.5
+        })
+    }
+
     createSpinner(g) {
+        this.downgradeSpinners()
+
+        let gindex, glib
+        if (Array.isArray(g)) gindex = g
+        else glib = g
+
         // place the geometry lib spinner
         const R = 12
         const spinner = lab.attach( new GeoSpinner({
-            name: 'geoSpinner',
-            glib: g || glib,
-            pos:  vec3(0, 0, R),
-            r:    R,
+            name:    'geoSpinner',
+            glib:    glib,
+            gindex:  gindex,
+            pos:     vec3(0, 0, R),
+            r:       R,
         }))
         this.spinners.push(spinner)
         this.active = spinner
@@ -39,6 +53,7 @@ class SpinnerControl {
 
     screwUp( script ) {
         const g = screw( script )
+        g.screw = script
         log('screwed geometry:')
         console.dir(g)
 
