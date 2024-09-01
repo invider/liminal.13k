@@ -51,6 +51,7 @@ class GeoSpinner {
             shapes.push(shape)
         })
 
+        this.place()
         this.adjust()
     }
 
@@ -119,6 +120,17 @@ class GeoSpinner {
         }))
     }
 
+    place() {
+        const $ = this
+        const sector = $.sector = PI2 / ($.shapes.length)
+        this.shapes.forEach(shape => {
+            const id = $.shapes.indexOf(shape)
+            const ta = normalAngle(-id*sector)
+            shape.angle = ta
+            shape.setTargetAngle(ta)
+        })
+    }
+
     adjust() {
         const $ = this
         const sector = $.sector = PI2 / ($.shapes.length)
@@ -178,5 +190,7 @@ class GeoSpinner {
         this.adjust()
         this.evoShapes(dt)
         this.evoSpin(dt)
+
+        env.status = `Shape: ${this.shapes[this.target].geo.name}`
     }
 }

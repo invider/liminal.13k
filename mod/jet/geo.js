@@ -1,5 +1,5 @@
 // === geo library ===
-const glib = {}
+const glib = {}, gix = []
 
 const geo = (() => {
 
@@ -9,6 +9,8 @@ let _g,
     _gSmooth,
 
     _gUV = 0 // enable UV mapping experiment?
+
+const st = []
 
 // mesh generator
 const $ = {
@@ -23,8 +25,11 @@ const $ = {
         return this
     },
 
+    push: v => st.push(v),
+    pop:  () => st.pop(v),
+
     precision: function(v) {
-        _gSpherePrecision = v
+        _gSpherePrecision = v || st.pop()
         return this
     },
 
@@ -258,6 +263,7 @@ const $ = {
     },
     
     ring(ir) {
+        ir = ir || st.pop()
         const v = [], w = []
 
         for (let lon = 0; lon < _gSpherePrecision; lon++) {
@@ -298,11 +304,14 @@ const $ = {
     },
 
     scale: function(s) {
+        s = s || st.pop()
         _g.vertices = _g.vertices.map(n => n * s)
         return this
     },
 
     stretch : function(t, s) {
+        s = s || st.pop()
+        t = t || st.pop()
         for (let i = 0; i < _g.vertices.length; i += 3) {
             _g.vertices[i + t] *= s
         }
@@ -310,7 +319,7 @@ const $ = {
     },
 
     name: function(n) {
-        _g.name = n
+        _g.name = n || st.pop()
         return this
     },
 
@@ -371,12 +380,17 @@ const $ = {
             env.dump['Geometry Library'] = `${this._geoCount} (${this._polygonCount} polygons)`
         }
 
+        gix.push(_g)
         if (_g.name) glib[_g.name] = _g
         return this
     },
 
     bake: function() {
         this.brew()
+        return _g
+    },
+
+    last: function() {
         return _g
     },
 
@@ -392,13 +406,3 @@ return $
 
 })()
 
-// generate some sample geometry to fill the library
-function zapGeoLib() {
-    geo.gen().cube().scale(1).name('cubeOne').brew()
-        .gen().cube().scale(2).name('cubeTwo').brew()
-        .gen().precision(15).sphere().name('sphereOne').brew()
-        .gen().precision(25).sphere().name('sphereTwo').brew()
-        .gen().precision(25).smooth().sphere().name('sphereTwo').brew()
-        .gen().precision(30).sharp().cylinder().scale(2).name('cilinder').brew()
-        .gen().cone().scale(2).name('cone').brew()
-}

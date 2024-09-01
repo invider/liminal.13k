@@ -62,10 +62,7 @@ function imgData(img) {
     return context.getImageData(0, 0, img.width, img.height)
 }
 
-function err(msg) {
-    console.error(msg)
-}
-
+const err = console.error
 const log = console.log
 
 // DEBUG?
