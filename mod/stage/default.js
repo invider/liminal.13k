@@ -1,5 +1,5 @@
 // =========================================
-env.title = 'Corkscrew 3D Modeler'
+env.title = 'Corkscrew 3D Mesh Editor'
 // =========================================
 
 _.defaultStage = () => {

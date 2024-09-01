@@ -8,7 +8,11 @@ class GeoSpinner {
 
             target:      0,
             spin:        1,
-            spinSpeed:   PI * .4,
+            spinSpeed:   .4*PI,
+
+            shapeStats: {
+                spinSpeed: PI,
+            }
         }, st)
     }
 
@@ -40,9 +44,8 @@ class GeoSpinner {
         log('shapes found in geo: ' + gindex.length)
 
         const shapes = this.shapes = []
-        gindex.forEach((g, id) => {
+        gindex.forEach((g) => {
             const shape = $.geoShape(g)
-            shape.id = id
             shape.geo = g
             g.shape = shape
             shapes.push(shape)
@@ -53,6 +56,11 @@ class GeoSpinner {
 
     geoShape(g) {
         return lab.attach( new Body({
+            angle:       0,
+            targetAngle: 0,
+            spin:        1,
+            stats:       this.shapeStats,
+
             _pods: [
                 new Mesh({
                     geo: g,
@@ -69,10 +77,44 @@ class GeoSpinner {
             ],
 
             rotSpeed: vec3(-.1, .5, 0),
+
+            setTargetAngle: function(ta) {
+                this.targetAngle = ta
+                /*
+                // getermine the shortest spin ???
+                const da = ta - this.angle
+                const rd = da > 0? da : da + PI2
+                const ld = da < 0? abs(da) : this.angle + PI2-ta
+
+                if (rd < .5 || ld < .4) return
+                if (rd < ld) this.spin = -1
+                else this.spin = 1
+                */
+            },
+
+            evoToTargetAngle: function(dt) {
+                const ta = this.targetAngle
+                if (this.angle === ta) return
+
+                // adjust to the target angle
+                const _angle = this.angle
+                this.angle = normalAngle(this.angle + this.spin * this.stats.spinSpeed * dt)
+
+                // fit the target
+                if (this.spin > 0) {
+                    if (_angle <= ta && this.angle >= ta) this.angle = ta
+                } else {
+                    if (_angle >= ta && this.angle <= ta) this.angle = ta
+                }
+            },
+
             evo: function(dt) {
+                // rotate the shape
                 this.rot[0] += this.rotSpeed[0] * dt
                 this.rot[1] += this.rotSpeed[1] * dt 
                 this.rot[2] += this.rotSpeed[2] * dt 
+
+                this.evoToTargetAngle(dt)
             },
         }))
     }
@@ -81,12 +123,8 @@ class GeoSpinner {
         const $ = this
         const sector = $.sector = PI2 / ($.shapes.length)
         this.shapes.forEach(shape => {
-            const ra = -shape.id*sector + $.angle
-            const dx = cos(ra) * $.r
-            const dy = 0
-            const dz = sin(ra) * $.r
-            vec3.set(shape.pos, dx, dy, dz)
-            vec3.add(shape.pos, $.pos)
+            const id = $.shapes.indexOf(shape)
+            shape.setTargetAngle( normalAngle(-id*sector) )
         })
     }
 
@@ -107,7 +145,20 @@ class GeoSpinner {
         if (this.target < 0) this.target = this.shapes.length - 1
     }
 
-    evo(dt) {
+    evoShapes(dt) {
+        const $ = this
+        this.shapes.forEach(shape => {
+            const ra = shape.angle + $.angle
+            const dx = cos(ra) * $.r
+            const dy = 0
+            const dz = sin(ra) * $.r
+            vec3.set(shape.pos, dx, dy, dz)
+            vec3.add(shape.pos, $.pos)
+        })
+    }
+
+    evoSpin(dt) {
+        // turn the geo spinner to target
         const ta = this.targetAngle()
         env.dump['Target Angle'] = Math.round(ta * RAD_TO_DEG) + ' - ' + Math.round(ta * 100)/100
         if (this.angle === ta) return
@@ -117,11 +168,15 @@ class GeoSpinner {
 
         // fit the target
         if (this.spin > 0) {
-            if (_angle < ta && this.angle >= ta) this.angle = ta
+            if (_angle <= ta && this.angle >= ta) this.angle = ta
         } else {
-            if (_angle > ta && this.angle <= ta) this.angle = ta
+            if (_angle >= ta && this.angle <= ta) this.angle = ta
         }
+    }
 
+    evo(dt) {
         this.adjust()
+        this.evoShapes(dt)
+        this.evoSpin(dt)
     }
 }
