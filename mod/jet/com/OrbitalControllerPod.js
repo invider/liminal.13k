@@ -9,7 +9,7 @@ class OrbitalControllerPod {
             maxDist:   3,
         }, st)
 
-        this.pushers = new Float32Array(SHIFT_ROLL+1)
+        this.pushers = new Float32Array(ZOOM_Y + 1) // (!) need to be zeroed for accumulation!
     }
 
     capture() {
@@ -47,36 +47,21 @@ class OrbitalControllerPod {
                 __.moveY(-speed * dt)
                 break
 
-            /*
-            case LOOK_LEFT:
-                __.yaw(-turnSpeed * dt)
-                break
-            case LOOK_RIGHT:
-                __.yaw(turnSpeed * dt)
-                break
-            case LOOK_UP:
-                __.pitch(-turnSpeed * dt)
-                break
-            case LOOK_DOWN:
-                __.pitch(turnSpeed * dt)
-                break
-            case ROLL_LEFT:
-                __.roll(turnSpeed * dt)
-                break
-            case ROLL_RIGHT:
-                __.roll(-turnSpeed * dt)
+            case ZOOM_Y:
+                if (factor > 0 || vec3.dist(__.pos, __.lookAt) > this.maxDist) {
+                    __.moveZ(factor * dt)
+                }
                 break
 
             case SHIFT_YAW:
-                __.yaw(-turnSpeed * factor * dt)
+                __.moveX(speed * factor * dt)
+                //__.yaw(-turnSpeed * factor * dt)
                 break
             case SHIFT_PITCH:
-                __.pitch(turnSpeed * factor * dt)
+                __.moveY(speed * factor * dt)
+                //__.pitch(turnSpeed * factor * dt)
                 break
-            case SHIFT_ROLL:
-                __.roll(turnSpeed * factor * dt)
-                break
-            */
+
         }
     }
 
@@ -110,24 +95,28 @@ class OrbitalControllerPod {
     onMouseUp(e) {}
 
     onMouseMove(e) {
-        /*
-        if (!env.mouseLock) return
+        if (e.buttons & 1) {
+            const dx = e.movementX, dy = e.movementY
 
-        const dx = e.movementX, dy = e.movementY
-
-        if (dx) {
-            if (e.shiftKey) {
-                // accumulate mouse roll
-                this.pushers[SHIFT_ROLL] += dx * .1
-            } else {
+            if (dx) {
                 // accumulate horizontal mouse movement
-                this.pushers[SHIFT_YAW] -= dx * .1
+                this.pushers[SHIFT_YAW] -= dx * .2
             }
+            if (dy) {
+                // accumulate vertical mouse movement
+                this.pushers[SHIFT_PITCH] += dy * 0.2
+            }
+        } else if (e.buttons & 2) {
+            // TODO
         }
+    }
+
+    onMouseWheel(e) {
+        const dx = e.deltaX, dy = e.deltaY
+
         if (dy) {
-            // accumulate vertical mouse movement
-            this.pushers[SHIFT_PITCH] += dy * 0.075
+            // accumulate zoom
+            this.pushers[ZOOM_Y] += dy * .25
         }
-        */
     }
 }

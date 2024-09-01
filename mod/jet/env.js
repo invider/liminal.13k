@@ -24,6 +24,7 @@ const flags = {},
     SHIFT_YAW    = 21,
     SHIFT_PITCH  = 22,
     SHIFT_ROLL   = 23,
+    ZOOM_Y       = 24,
 
     // colliders
     HIT_BOX       = 1,

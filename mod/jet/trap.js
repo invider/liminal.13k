@@ -56,6 +56,11 @@ window.onmousemove = (e) => {
     if (lab.broker) lab.broker.onMouseMove(e)
 }
 
+window.onwheel = (e) => {
+    if (env.paused || env.disabled) return
+    if (lab.broker && lab.broker.onMouseWheel) lab.broker.onMouseWheel(e)
+}
+
 window.onresize = expandCanvas
 
 /*
