@@ -22,10 +22,7 @@ function createSomeBoxes() {
     }
 }
 
-
-_.boxCorkscrew = function() {
-    log('Setting up editing mode...')
-
+function createBox() {
     const box = lab.attach( new Body({
         pos: vec3(
             0,
@@ -49,12 +46,26 @@ _.boxCorkscrew = function() {
         },
 
     }))
+    return box
+}
+
+
+_.boxCorkscrew = function() {
+    log('setting up the editing mode...')
+
+    // place the geometry lib spinner
+    const R = 12
+    lab.attach( new GeoSpinner({
+        name: 'geoSpinner',
+        glib: glib,
+        pos:  vec3(0, 0, R),
+        r:    R,
+    }))
 
     createSomeBoxes()
 
     // move camera back a little
-    lab.cam.pos[1] = 0
-    lab.cam.pos[2] = 7
+    lab.cam.pos = vec3(0, 5, -5)
     lab.cam._mover = lab.cam.mover
     lab.cam.mover.onMouseDown = (e) => {
         log('empty action')
@@ -62,7 +73,7 @@ _.boxCorkscrew = function() {
     kill(lab.cam.mover)
 
     lab.cam.attach( new OrbitalControllerPod() )
-    lab.cam.lookAt = box.pos
+    lab.cam.lookAt = vec3z()
 
     env.directionalLightVector = vec3(1, 1, 1)
     env.pointLightPosition = vec3(5, -4, -5)

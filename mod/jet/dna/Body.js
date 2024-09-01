@@ -2,8 +2,8 @@ class Body extends Frame {
 
     constructor(st) {
         super( extend({
-            pos:   vec3(0, 0, 0),
-            rot:   vec3(0, 0, 0),
+            pos:   vec3z(),
+            rot:   vec3z(),
             scale: vec3(1, 1, 1)
         }, st))
     }

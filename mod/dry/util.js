@@ -66,9 +66,7 @@ function err(msg) {
     console.error(msg)
 }
 
-function log(msg) {
-    console.log(msg)
-}
+const log = console.log
 
 // DEBUG?
 function loadRes(url, handlerFn) {
