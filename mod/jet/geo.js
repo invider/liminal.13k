@@ -1,84 +1,17 @@
-function calcNormals(v) {
-    const n = [], w = [], gn = [], gN = []
+// === geo library ===
+const glib = {}
 
-    function indexVertex(vx, j, nv) {
-        let o = -1, i = 0
-        while(o < 0 && i < j) {
-            vw = vec3.fromArray(v, i)
-            if (vec3.equals(vx, vw)) {
-                // found the leading vertex!
-                o = i/3
-            }
-            i += 3
-        }
-
-        let wj = j/3
-        w[wj] = o
-        if (o < 0) o = wj
-
-        if (gn[o]) {
-            gn[o].push(nv)
-        } else gn[o] = [nv]
-    }
-
-    function avgNormal(nlist) {
-        const v = vec3(0, 0, 0)
-        nlist.forEach(w => vec3.add(v, w))
-        vec3.scale(v, 1/nlist.length)
-        vec3.normalize(v)
-        return v
-    }
-
-    for (let i = 0; i < v.length; i+=9) {
-        let
-            v1 = vec3.fromArray(v, i),
-            v2 = vec3.fromArray(v, i + 3),
-            v3 = vec3.fromArray(v, i + 6),
-            v12 = vec3.isub(v1, v2),
-            v13 = vec3.isub(v1, v3),
-            nv = vec3.normalize( vec3.icross(v12, v13) )
-
-        if (_gSmooth) {
-            indexVertex(v1, i,     nv)
-            indexVertex(v2, i + 3, nv)
-            indexVertex(v3, i + 6, nv)
-        }
-
-        // push the same normal for all 3 vertices
-        n.push(nv[0], nv[1], nv[2])
-        n.push(nv[0], nv[1], nv[2])
-        n.push(nv[0], nv[1], nv[2])
-    }
-
-    if (_gSmooth) {
-        // TODO smooth the normals
-        for (let i = 0; i < w.length; i++) {
-            const leadIndex = w[i]
-
-            let an
-            if (leadIndex < 0) {
-                an = avgNormal(gn[i]) 
-                gN[i] = an
-            } else {
-                an = gN[leadIndex]
-            }
-
-            n[i*3]   = an[0]
-            n[i*3+1] = an[1]
-            n[i*3+2] = an[2]
-        }
-    }
-
-    return n
-}
+const geo = (() => {
 
 // === geo state ===
 let _g,
     _gSpherePrecision = 25,
     _gSmooth,
-    _gUV = 0
 
-const geo = {
+    _gUV = 0 // enable UV mapping experiment?
+
+// mesh generator
+const $ = {
     gen: function() {
         _g = {
             vertices: [],
@@ -381,7 +314,7 @@ const geo = {
         return this
     },
 
-    bake: function() {
+    brew: function() {
         // normalize
         _g.vertices = new Float32Array(_g.vertices)
         _g.vertCount = _g.vertices.length / 3
@@ -419,7 +352,7 @@ const geo = {
 
         if (_g.normals.length === 0) {
             _g.autocalcNormals = true
-            _g.normals = new Float32Array( calcNormals(_g.vertices) ) 
+            _g.normals = new Float32Array( calcNormals(_g.vertices, _gSmooth) ) 
         } else {
             _g.normals = new Float32Array(_g.normals) 
         }
@@ -438,6 +371,12 @@ const geo = {
             env.dump['Geometry Library'] = `${this._geoCount} (${this._polygonCount} polygons)`
         }
 
+        if (_g.name) glib[_g.name] = _g
+        return this
+    },
+
+    bake: function() {
+        this.brew()
         return _g
     },
 
@@ -447,4 +386,19 @@ const geo = {
         delete _g.vertices
         return _g
     },
+}
+
+return $
+
+})()
+
+// generate some sample geometry to fill the library
+function zapGeoLib() {
+    geo.gen().cube().scale(1).name('cubeOne').brew()
+        .gen().cube().scale(2).name('cubeTwo').brew()
+        .gen().precision(15).sphere().name('sphereOne').brew()
+        .gen().precision(25).sphere().name('sphereTwo').brew()
+        .gen().precision(25).smooth().sphere().name('sphereTwo').brew()
+        .gen().precision(30).sharp().cylinder().scale(2).name('cilinder').brew()
+        .gen().cone().scale(2).name('cone').brew()
 }

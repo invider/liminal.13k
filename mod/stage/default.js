@@ -1,5 +1,5 @@
 // =========================================
-env.title = 'Mesh Tooling'
+env.title = 'Corkscrew 3D Modeler'
 // =========================================
 
 _.defaultStage = () => {

@@ -8,11 +8,7 @@ class HUD {
     }
 
     init() {
-        env.dump = {}
         env.status = ''
-        if (debug) {
-            env.tag = '=== debug ==='
-        }
 
         // make a screenshot on F8
         const __ = this

@@ -7,6 +7,7 @@ function hideTermit() {
 
 function showTermit() {
     const termit = document.getElementById('termit')
+    if (!termit) return
     termit.disabled = false
     termit.style.display = 'block'
     term.adjust()

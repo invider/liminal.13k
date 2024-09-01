@@ -73,4 +73,6 @@ const env = {
 
 if (debug) {
     env.stat = {}
+    env.dump = {}
+    env.tag = '=== debug ==='
 }
