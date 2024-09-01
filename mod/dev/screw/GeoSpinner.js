@@ -222,7 +222,10 @@ class GeoSpinner {
         this.evoShapes(dt)
         this.evoSpin(dt)
 
-        env.status = `Shape: ${this.shapes[this.target].geo.name}`
+        const active = this.getActiveShape()
+        if (active) {
+            env.status = `Shape: ${this.shapes[this.target].geo.name}`
+        }
     }
 
     getActiveShape() {
