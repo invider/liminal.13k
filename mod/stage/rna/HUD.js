@@ -65,6 +65,16 @@ class HUD {
             ctx.textAlign = 'right'
             ctx.fillText(env.tag, bx, by)
         }
+
+        if (env.banner && (env.time*.75) % 1 < .5) {
+            ctx.font = "32px monospace"
+            ctx.fillStyle = '#54d9e1'
+            ctx.textBaseline = 'middle'
+            ctx.textAlign = 'center'
+            bx = hcanvas.width * .5
+            by = hcanvas.height * .75
+            ctx.fillText(env.banner, bx, by)
+        }
     }
 
 }

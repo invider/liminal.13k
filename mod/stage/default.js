@@ -1,7 +1,3 @@
-// =========================================
-env.title = 'Corkscrew 3D Mesh Editor'
-// =========================================
-
 _.defaultStage = () => {
     log('setting up the default stage')
 
