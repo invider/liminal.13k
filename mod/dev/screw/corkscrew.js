@@ -1,6 +1,8 @@
 
 let corkscrew = (function(window) {
 
+    let lastScript
+
     const env = {
         id:     'screw',
         enabled: true,
@@ -12,13 +14,20 @@ let corkscrew = (function(window) {
 
         screw.style.display = 'none'
         env.enabled = false
+
+        if (!lastScript || !lab.control) return
+        const updatedScript = screw.textContent
+        if (updatedScript !== lastScript) {
+            lab.control.screwUp( updatedScript )
+        }
     }
 
     function show() {
         const screw = document.getElementById(env.id)
         if (!screw) return
 
-        screw.textContent = lab.control.activeScript()
+        lastScript = lab.control.activeScript()
+        screw.textContent = lastScript
         screw.style.display = 'block'
         adjust()
         env.enabled = true
@@ -28,8 +37,8 @@ let corkscrew = (function(window) {
         let c = document.getElementById(env.id)
         if (!c) return
 
-        let newLeft = window.innerWidth * .75
-        let newWidth = window.innerWidth * .25
+        let newLeft = window.innerWidth * .55
+        let newWidth = window.innerWidth * .45
         let newHeight = window.innerHeight
         c.style.left = newLeft + 'px'
         c.style.width = newWidth + 'px'
