@@ -68,10 +68,17 @@ function setupStage() {
     let stageFn = _.defaultStage
     if (debug) {
         if (location.hash.startsWith('#box')) {
-            const name = location.hash.substring(1)
-            const fn = _[name]
+            const args = location.hash.substring(1).split('/')
+            const name = args[0]
+
+            const fn = _[name] || window[name]
             if (!fn) throw `[${name}] is not found!`
-            stageFn = fn
+            if (args.length > 1) {
+                args.shift()
+                stageFn = () => { fn(args) }
+            } else {
+                stageFn = fn
+            }
         }
     }
     if (stageFn) stageFn()
