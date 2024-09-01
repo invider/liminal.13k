@@ -6,6 +6,7 @@ class OrbitalControllerPod {
             speed:     20,
             turnSpeed: 2,
             r:         10,
+            maxDist:   3,
         }, st)
 
         this.pushers = new Float32Array(SHIFT_ROLL+1)
@@ -26,7 +27,9 @@ class OrbitalControllerPod {
 
         switch(action) {
             case FORWARD:
-                __.moveZ(-speed * dt)
+                if (vec3.dist(__.pos, __.lookAt) > this.maxDist) {
+                    __.moveZ(-speed * dt)
+                }
                 break
             case STRAFE_LEFT:
                 __.moveX(-speed * dt)

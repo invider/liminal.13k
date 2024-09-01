@@ -5,12 +5,27 @@ class GeoSpinner {
             pos:   vec3z(),
             angle: 0,
             r:     12, // maybe dynamic derived from the geo meshes sizes values?
-            spin:  .1,
+
+            target:      0,
+            spin:        1,
+            spinSpeed:   PI * .4,
         }, st)
     }
 
     init() {
         this.geoForm()
+
+        const $ = this
+        trap.register('keyDown', (e) => {
+            switch(e.code) {
+                case 'KeyZ':
+                    $.targetPrev()
+                    break
+                case 'KeyX':
+                    $.targetNext()
+                    break
+            }
+        })
     }
 
     geoForm() {
@@ -66,7 +81,7 @@ class GeoSpinner {
         const $ = this
         const sector = $.sector = PI2 / ($.shapes.length)
         this.shapes.forEach(shape => {
-            const ra = $.angle + shape.id*sector
+            const ra = -shape.id*sector + $.angle
             const dx = cos(ra) * $.r
             const dy = 0
             const dz = sin(ra) * $.r
@@ -75,9 +90,38 @@ class GeoSpinner {
         })
     }
 
-    evo(dt) {
-        this.angle = (this.angle + this.spin * dt) % PI2
-        this.adjust()
+    targetAngle() {
+        const sector = this.sector = PI2 / (this.shapes.length)
+        return normalAngle(this.target*sector - PI/2)
     }
 
+    targetNext() {
+        this.spin = 1
+        this.target ++
+        if (this.target >= this.shapes.length) this.target = 0
+    }
+
+    targetPrev() {
+        this.spin = -1
+        this.target --
+        if (this.target < 0) this.target = this.shapes.length - 1
+    }
+
+    evo(dt) {
+        const ta = this.targetAngle()
+        env.dump['Target Angle'] = Math.round(ta * RAD_TO_DEG) + ' - ' + Math.round(ta * 100)/100
+        if (this.angle === ta) return
+
+        const _angle = this.angle
+        this.angle = normalAngle(this.angle + this.spin * this.spinSpeed * dt)
+
+        // fit the target
+        if (this.spin > 0) {
+            if (_angle < ta && this.angle >= ta) this.angle = ta
+        } else {
+            if (_angle > ta && this.angle <= ta) this.angle = ta
+        }
+
+        this.adjust()
+    }
 }
