@@ -1,0 +1,88 @@
+class SpinnerControl {
+
+    constructor(st) {
+        extend(this, {
+            pos: vec3z(),
+            spinners: [],
+            pushers:  [],
+        }, st)
+    }
+
+    init() {
+        const $ = this
+        trap.register('keyDown', (e) => {
+            if (!$.active || env.disabled) return
+
+            switch(e.code) {
+                case 'KeyZ':
+                    $.active.targetPrev()
+                    break
+                case 'KeyX':
+                    $.active.targetNext()
+                    break
+            }
+        })
+    }
+
+    createSpinner(g) {
+        // place the geometry lib spinner
+        const R = 12
+        const spinner = lab.attach( new GeoSpinner({
+            name: 'geoSpinner',
+            glib: g || glib,
+            pos:  vec3(0, 0, R),
+            r:    R,
+        }))
+        this.spinners.push(spinner)
+        this.active = spinner
+    }
+
+    screwUp( script ) {
+        const g = screw( script )
+        log('screwed geometry:')
+        console.dir(g)
+
+        this.createSpinner(g)
+    }
+
+    push(action, factor, dt) {
+        if (!this.active) return
+        const __ = this.active
+
+        switch(action) {
+            case LOOK_LEFT:
+                break
+            case LOOK_RIGHT:
+                break
+            case LOOK_UP:
+                __.scale(factor)
+                break
+            case LOOK_DOWN:
+                __.scale(-factor)
+                break
+            case ROLL_LEFT:
+                break
+            case ROLL_RIGHT:
+                break
+        }
+    }
+
+    evo(dt) {
+        // activate pushers
+        for (let i = 0; i < this.pushers.length; i++) {
+            const f = this.pushers[i]
+            if (f) {
+                this.push(i, f, dt)
+                if (i > 20) this.pushers[i] = 0 // reset the mouse movement accumulation buffers
+            }
+        }
+    }
+
+    activate(action) {
+        this.pushers[action] = 1
+    }
+
+    stop(action) {
+        this.pushers[action] = 0
+    }
+}

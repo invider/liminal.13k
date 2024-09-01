@@ -7,7 +7,6 @@ let corkscrew = (function(window) {
     }
 
     function hide() {
-        if (!_screwing) return
         const screw = document.getElementById(env.id)
         if (!screw) return
 
@@ -16,7 +15,6 @@ let corkscrew = (function(window) {
     }
 
     function show() {
-        if (!_screwing) return
         const screw = document.getElementById(env.id)
         if (!screw) return
 

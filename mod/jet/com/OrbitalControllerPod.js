@@ -55,11 +55,9 @@ class OrbitalControllerPod {
 
             case SHIFT_YAW:
                 __.moveX(speed * factor * dt)
-                //__.yaw(-turnSpeed * factor * dt)
                 break
             case SHIFT_PITCH:
                 __.moveY(speed * factor * dt)
-                //__.pitch(turnSpeed * factor * dt)
                 break
 
         }

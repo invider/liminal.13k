@@ -12,24 +12,15 @@ class GeoSpinner {
 
             shapeStats: {
                 spinSpeed: PI,
+                scaleSpeed: .1,
+                minScale: 0.2,
+                maxScale: 32,
             }
         }, st)
     }
 
     init() {
         this.geoForm()
-
-        const $ = this
-        trap.register('keyDown', (e) => {
-            switch(e.code) {
-                case 'KeyZ':
-                    $.targetPrev()
-                    break
-                case 'KeyX':
-                    $.targetNext()
-                    break
-            }
-        })
     }
 
     geoForm() {
@@ -157,6 +148,29 @@ class GeoSpinner {
         if (this.target < 0) this.target = this.shapes.length - 1
     }
 
+    scale(s) {
+        const activeShape = this.getActiveShape()
+        if (!activeShape) return
+
+        const sv = activeShape.scale,
+            min = this.shapeStats.minScale,
+            max = this.shapeStats.maxScale,
+            speed = this.shapeStats.scaleSpeed
+        s *= speed
+
+        sv[0] = clamp(sv[0] + s, min, max)
+        sv[1] = clamp(sv[1] + s, min, max)
+        sv[2] = clamp(sv[2] + s, min, max)
+
+        env.dump.NewScale = '' + sv[0]
+    }
+
+    rotateX(dv) {
+    }
+
+    rotateY(dv) {
+    }
+
     evoShapes(dt) {
         const $ = this
         this.shapes.forEach(shape => {
@@ -192,5 +206,9 @@ class GeoSpinner {
         this.evoSpin(dt)
 
         env.status = `Shape: ${this.shapes[this.target].geo.name}`
+    }
+
+    getActiveShape() {
+        return this.shapes[this.target]
     }
 }

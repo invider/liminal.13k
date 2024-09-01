@@ -1,54 +1,54 @@
-_screwing = true
+_.boxCorkscrew = (() => {
 
-_.boxCorkscrew = function() {
-    log('setting up the editing mode...')
+    function setupCameraAndLight() {
+        // === camera and lights ===
 
-    const g = screw( screwScript )
-    log('screwed geometry:')
-    console.dir(g)
+        // move camera back a little
+        lab.cam.pos = vec3(0, 5, -5)
+        lab.cam._mover = lab.cam.mover
+        kill(lab.cam.mover)
 
-    // place the geometry lib spinner
-    const R = 12
-    lab.attach( new GeoSpinner({
-        name: 'geoSpinner',
-        glib: glib,
-        pos:  vec3(0, 0, R),
-        r:    R,
-    }))
+        lab.cam.attach( new OrbitalControllerPod() )
+        lab.cam.lookAt = vec3z()
 
-    createSomeBoxes()
+        extend( lab.cam.mover, {
 
-    // move camera back a little
-    lab.cam.pos = vec3(0, 5, -5)
-    lab.cam._mover = lab.cam.mover
-    kill(lab.cam.mover)
+            activate: function(action) {
+                this.pushers[action] = 1
+                lab.control.activate(action)
+            },
 
-    lab.cam.attach( new OrbitalControllerPod() )
-    lab.cam.lookAt = vec3z()
+            stop: function (action) {
+                this.pushers[action] = 0
+                lab.control.stop(action)
+            },
+        })
 
-    env.directionalLightVector = vec3(1, 1, 1)
-    env.pointLightPosition = vec3(5, -4, -5)
-}
-
-function createSomeBoxes() {
-    for (let i = 0; i < 70; i++) {
-        const B = 200
-        const H = B/2
-        lab.attach( new Body({
-            pos: vec3(
-                H - B*rnd(),
-                H - B*rnd(),
-                H - B*rnd()
-            ),
-            rot: vec3(0, 0, 0),
-            scale: vec3(1, 1, 1),
-
-            _pods: [
-                new Mesh({
-                    geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
-                }),
-            ],
-        }))
+        env.directionalLightVector = vec3(1, 1, 1)
+        env.pointLightPosition = vec3(5, -4, -5)
     }
-}
 
+    return function(args) {
+        log('setting up the editing mode...')
+        console.dir(args)
+
+        const ctrl = lab.attach( new SpinnerControl({
+            name: 'control',
+        }) )
+        ctrl.screwUp( screwScript )
+
+        /*
+        const g = screw( screwScript )
+        log('screwed geometry:')
+        console.dir(g)
+
+        ctrl.createSpinner(glib)
+        */
+
+        setupCameraAndLight()
+
+        // just for spacial reference
+        createSomeBoxes()
+    }
+
+})()
