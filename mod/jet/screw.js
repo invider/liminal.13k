@@ -163,7 +163,7 @@ const screw = (() => {
     }
 
     // === EMU ===
-    const def = {}, brews = []
+    let def = {}, brews = []
 
     function rerr(msg) {
         throw new Error(`Screw Runtime Error: ${msg}`)
@@ -204,6 +204,7 @@ const screw = (() => {
         return rops
     }
 
+    // execute operators
     function screwUp(ops) {
         for (let i = 0; i < ops.length; i++) {
             const op = ops[i]
@@ -231,6 +232,11 @@ const screw = (() => {
         return brews
     }
 
+    function resetEmuState() {
+        defs = {}
+        brews = []
+    }
+
     return (src) => {
         const rawLines = src.split('\n').map(l => l.trim())
 
@@ -241,6 +247,8 @@ const screw = (() => {
             }
         })
         //log( tokens.map(t => dumpToken(t)).join(' ') )
+        
+        resetEmuState()
         return screwUp( defineWords(tokens) )
     }
 })();

@@ -11,6 +11,8 @@ class Camera extends Frame {
     }
 
     projectionMatrix() {
+        env.dump.VFOV = this.vfov
+        env.dump.HFOV = this.vfov * (gcanvas.width/gcanvas.height)
         return mat4.projection(this.vfov, gcanvas.width/gcanvas.height, this.zNear, this.zFar)
     }
 

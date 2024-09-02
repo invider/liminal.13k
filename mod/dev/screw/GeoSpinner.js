@@ -9,6 +9,7 @@ class GeoSpinner {
             target:      0,
             spin:        1,
             spinSpeed:   .4*PI,
+            transitionSpeed: 1,
 
             shapeStats: {
                 spinSpeed: PI,
@@ -20,6 +21,7 @@ class GeoSpinner {
     }
 
     init() {
+        this.anchor = vec3.clone(this.pos)
         if (this.gindex) this.buildLib()
         else if (this.glib) this.buildIndex()
         this.geoForm()
@@ -146,6 +148,14 @@ class GeoSpinner {
             const id = $.shapes.indexOf(shape)
             shape.setTargetAngle( normalAngle(-id*sector) )
         })
+
+        if (this.anchor && !vec3.equals(this.pos, this.anchor)) {
+            if (!this.inTransit) {
+                this.inTransit = true
+                this.transitRate = 0
+                this._pos = vec3.clone(this.pos)
+            }
+        }
     }
 
     targetAngle() {
@@ -217,10 +227,26 @@ class GeoSpinner {
         }
     }
 
+    evoTransition(dt) {
+        if (!this.inTransit) return // nothing to transit
+        this.transitRate += this.transitionSpeed * dt
+        if (this.transitRate >= 1) {
+            // the transit is over
+            vec3.copy(this.pos, this.anchor)
+            this.transitRate = 0
+            this.inTransit = false 
+        } else {
+            this.pos[0] = this._pos[0] + (this.anchor[0] - this._pos[0]) * this.transitRate
+            this.pos[1] = this._pos[1] + (this.anchor[1] - this._pos[1]) * this.transitRate
+            this.pos[2] = this._pos[2] + (this.anchor[2] - this._pos[2]) * this.transitRate
+        }
+    }
+
     evo(dt) {
         this.adjust()
         this.evoShapes(dt)
         this.evoSpin(dt)
+        this.evoTransition(dt)
 
         const active = this.getActiveShape()
         if (active) {

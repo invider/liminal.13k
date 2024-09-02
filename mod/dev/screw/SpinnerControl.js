@@ -26,8 +26,11 @@ class SpinnerControl {
 
     downgradeSpinners() {
         this.spinners.forEach(spinner => {
-            spinner.pos[1] -= spinner.r * 1.5
-            spinner.pos[2] += spinner.r * 1.5
+            spinner.anchor = vec3(
+                spinner.pos[0],
+                spinner.pos[1] - spinner.r * 1.5,
+                spinner.pos[2] + spinner.r * 1.5,
+            )
         })
     }
 
