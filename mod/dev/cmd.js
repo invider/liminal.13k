@@ -51,7 +51,11 @@ function zapTermitTrap() {
                 break
 
             case 'F2':
-                corkscrew.save()
+                if (e.ctrlKey || e.metaKey) {
+                    corkscrew.saveLocal()
+                } else {
+                    corkscrew.save()
+                }
 
                 e.preventDefault()
                 break

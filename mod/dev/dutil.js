@@ -100,6 +100,28 @@ function uploadRes(url, raw, handlerFn) {
             err(`Failed to upload: ${url}`)
             err(`HTTP Response: ${res.status}`)
             console.dir(res)
+        } else {
+            handlerFn(res)
         }
     })
+}
+
+function loadLocalFile(file, handler) {
+	let input = file.target
+
+	let reader = new FileReader()
+    reader.onload = handler
+    /*
+	reader.onload = function(){
+        lab.vm.loadSource(reader.result)
+	};
+    */
+	reader.readAsText(input.files[0]);
+}
+
+function saveLocalFile(name, plainText) {
+    const a = document.createElement('a')
+    a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(plainText)
+    a.download = name
+    a.click()
 }

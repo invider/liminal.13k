@@ -1,3 +1,4 @@
+== some commands
 
 -- test script to try out
 gen cube "simpleCubeOne" name brew
@@ -6,4 +7,3 @@ gen smooth sphere "simpleSphereOne" name brew
 gen cylinder "simpleCylinderOne" name brew
 gen sharp cylinder "simpleCylinderOne" name brew
 
--- more things to do here
