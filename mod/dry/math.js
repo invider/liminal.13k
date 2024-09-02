@@ -189,6 +189,14 @@ vec3.rotZ = function(v, theta) {
     v[2] = x * sin(theta) + y * cos(theta)
 }
 
+vec3.mulM4 = function(v, m) {
+    const x = v[0], y = v[1], z = v[2], w = 1
+       //W = m[3]*x + m[7]*y + m[11]*z + m[15]
+    v[0] = (m[0]*x + m[4]*y + m[8 ]*z + m[12])
+    v[1] = (m[1]*x + m[5]*y + m[9 ]*z + m[13])
+    v[2] = (m[2]*x + m[6]*y + m[10]*z + m[14])
+}
+
 vec3.equals = function(a, b) {
     return (a[0] === b[0] && a[1] === b[1] && a[2] === b[2])
 }
