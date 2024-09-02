@@ -14,7 +14,7 @@ _.boxStationary = () => {
 
         _pods: [
             new Mesh({
-                geo: geo.gen().plane().scale(R).bake(),
+                geo: geo.gen().plane().push(R).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .5, .5),
                     Kd: vec3(.2, .4, .7),
@@ -53,17 +53,17 @@ _.boxStationary = () => {
         let h = 1.5 + rnd() * 2
         switch( Math.floor(rnd()*4) ) {
             case 0:
-                g = geo.gen().cube().scale(h).sharp().bake()
+                g = geo.gen().cube().push(h).scale().sharp().bake()
                 break
             case 1:
-                g = geo.gen().sphere().scale(h).smooth().bake()
+                g = geo.gen().sphere().push(h).scale().smooth().bake()
                 break
             case 2:
-                g = geo.gen().cylinder().scale(h).sharp().bake()
+                g = geo.gen().cylinder().push(h).scale().sharp().bake()
                 geo.sharp()
                 break
             case 3:
-                g = geo.gen().cone().scale(h).smooth().bake()
+                g = geo.gen().cone().push(h).scale().smooth().bake()
                 break
         }
         const spin = (rnd()*4) < 1? 0 : 1
@@ -105,4 +105,6 @@ _.boxStationary = () => {
         _pods: [ lab.cam ],
     }))
 
+    env.groundLevel = true
+    extend(lab, collidableTrait)
 }

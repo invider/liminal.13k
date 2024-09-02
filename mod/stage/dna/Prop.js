@@ -7,9 +7,10 @@ class Prop extends Body {
             _pods: [
                 new Mesh({
                     geo: geo.gen().cube()
-                        .stretch(0, s)
-                        .stretch(1, s)
-                        .stretch(2, w)
+                        .pushv([s, s, w])
+                        .stretchX()
+                        .stretchY()
+                        .stretchZ()
                         .bake(),
                     mat: {
                         Ka: vec3(.5, .6, .7),

@@ -8,7 +8,7 @@ _.boxObj = function() {
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
         scale: vec3(1, 1, 1),
-        geo: geo.gen().plane().scale(150).bake(),
+        geo: geo.gen().plane().push(150).scale().bake(),
         mat: {
             Ka: vec3(.5, .5, .5),
             Kd: vec3(.2, .4, .7),

@@ -27,9 +27,10 @@ class Terrace extends Frame {
         const s =  4, // block half-size
               h = .5
         this._cube = geo.gen().cube()
-            .stretch(0, s)
-            .stretch(1, h)
-            .stretch(2, s)
+            .pushv([s, h, s])
+            .stretchX()
+            .stretchY()
+            .stretchZ()
             .bake()
     }
 

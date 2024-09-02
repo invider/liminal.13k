@@ -17,7 +17,7 @@ _.boxOne = function() {
 
             _pods: [
                 new Mesh({
-                    geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
+                    geo: geo.gen().cube().push(4 + rnd() * 4).scale().bake(),
                 }),
             ],
         }))

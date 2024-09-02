@@ -9,7 +9,7 @@ _.boxCube = function() {
 
         _pods: [
             new Mesh({
-                geo: geo.gen().cube().scale(2).bake(),
+                geo: geo.gen().cube().push(2).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),
                     Kd: vec3(.1, .8, .9),

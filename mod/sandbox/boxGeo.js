@@ -22,28 +22,28 @@ _.boxGeo = function() {
         let g
         switch( Math.floor(rnd()*8) ) {
             case 0:
-                g = geo.gen().plane().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().plane().push(.5 + rnd() * 2).scale().bake()
                 break
             case 1:
-                g = geo.gen().cube().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().cube().push(.5 + rnd() * 2).scale().bake()
                 break
             case 2:
-                g = geo.gen().sphere().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().sphere().push(.5 + rnd() * 2).scale().bake()
                 break
             case 3:
-                g = geo.gen().cylinder().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().cylinder().push(.5 + rnd() * 2).scale().bake()
                 break
             case 4:
-                g = geo.gen().cone().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().cone().push(.5 + rnd() * 2).scale().bake()
                 break
             case 5:
-                g = geo.gen().circle().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().circle().push(.5 + rnd() * 2).scale().bake()
                 break
             case 6:
-                g = geo.gen().ring(.75).scale(.5 + rnd() * 2).bake()
+                g = geo.gen().push(.75).ring().push(.5 + rnd() * 2).scale().bake()
                 break
             case 7:
-                g = geo.gen().tetrahedron().scale(.5 + rnd() * 2).bake()
+                g = geo.gen().tetrahedron().push(.5 + rnd() * 2).scale().bake()
                 break
         }
         const spin = (rnd()*4) < 1? 0 : 1

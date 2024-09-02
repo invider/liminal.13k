@@ -10,7 +10,13 @@ let _g,
 
     _gUV = 0 // enable UV mapping experiment?
 
-const st = []
+const stack = []
+
+function vxApply(fn) {
+    for (let i = 0; i < _g.vertices.length; i++) {
+        _g.vertices[i] = fn(_g.vertices[i], i)
+    }
+}
 
 // mesh generator
 const $ = {
@@ -24,15 +30,23 @@ const $ = {
         }
         return this
     },
-
-    push: v => st.push(v),
+    push: v => {
+        stack.push(v)
+        return $
+    },
+    pushv: w => {
+        console.dir(w)
+        for (x of w) stack.push(x)
+        return $
+    },
     pop:  () => {
-        if (st.length === 0) throw 'Not enough stack data!'
-        st.pop(v)
+        if (stack.length === 0) throw 'Not enough stack data!'
+        debugger
+        return stack.pop(v)
     },
 
     precision: function(v) {
-        _gSpherePrecision = v || st.pop()
+        _gSpherePrecision = v || stack.pop()
         return this
     },
 
@@ -68,7 +82,7 @@ const $ = {
 
     tri: function() {
         for (let i = 0; i < 9; i++) {
-            _g.vertices.push(st.pop())
+            _g.vertices.push(stack.pop())
         }
     },
 
@@ -271,9 +285,8 @@ const $ = {
         return this
     },
     
-    ring(ir) {
-        ir = ir || st.pop()
-        const v = [], w = []
+    ring() {
+        const ir = stack.pop(), v = [], w = []
 
         for (let lon = 0; lon < _gSpherePrecision; lon++) {
             let phi = (lon * PI2) / _gSpherePrecision,
@@ -312,23 +325,32 @@ const $ = {
         return this
     },
 
-    scale: function(s) {
-        s = s || st.pop()
-        _g.vertices = _g.vertices.map(n => n * s)
+    scale: function() {
+        const s = stack.pop()
+        vxApply(n => n * s)
         return this
     },
 
-    stretch : function(t, s) {
-        s = s || st.pop()
-        t = t || st.pop()
-        for (let i = 0; i < _g.vertices.length; i += 3) {
-            _g.vertices[i + t] *= s
-        }
+    stretchX: function() {
+        const s = stack.pop()
+        vxApply((n, i) => (i % 3) == 0? n * s : n)
+        return this
+    },
+
+    stretchY: function() {
+        const s = stack.pop()
+        vxApply((n, i) => i % 3 == 1? n * s : n)
+        return this
+    },
+
+    stretchZ: function() {
+        const s = stack.pop()
+        vxApply((n, i) => i % 3 == 2? n * s : n)
         return this
     },
 
     name: function(n) {
-        _g.name = n || st.pop()
+        _g.name = n || stack.pop()
         return this
     },
 
