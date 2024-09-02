@@ -26,7 +26,10 @@ const $ = {
     },
 
     push: v => st.push(v),
-    pop:  () => st.pop(v),
+    pop:  () => {
+        if (st.length === 0) throw 'Not enough stack data!'
+        st.pop(v)
+    },
 
     precision: function(v) {
         _gSpherePrecision = v || st.pop()
@@ -62,6 +65,12 @@ const $ = {
         _g.uvs = _g.uvs.concat(uw)
         return this
     }, 
+
+    tri: function() {
+        for (let i = 0; i < 9; i++) {
+            _g.vertices.push(st.pop())
+        }
+    },
 
     plane: function() {
         _g.vertices = _g.vertices.concat([

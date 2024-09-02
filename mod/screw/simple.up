@@ -1,9 +1,54 @@
 == some commands
 
--- test script to try out
-gen cube "simpleCubeOne" name brew
+-- create some cubes
+gen
+0  -5   0
+-10 0   0
+0   0  -10
+tri
+0  -5   0
+0   0  -10
+10  0   0
+tri
+0  -5   0
+0   0   25
+10  0   0
+tri
+0  -5   0
+0   0   25
+-10 0   0
+tri
+
+0   5   0
+-10 0   0
+0   0  -10
+tri
+0   5   0
+0   0  -10
+10  0   0
+tri
+0   5   0
+0   0   25
+10  0   0
+tri
+0   5   0
+0   0   25
+-10 0   0
+tri
+
+
+"modifiedOctahedron" name
+brew
+
+gen cube "cubeOne" name brew
+#gen cube 2 scale "cubeTwo" name brew
+#gen cube 4 scale "cubeThree" name brew
+
+-- let's create a tetrahedron
+gen tetrahedron 2 scale "tetra" name brew
 gen sphere "simpleSphereOne" name brew
 gen smooth sphere "simpleSphereOne" name brew
 gen cylinder "simpleCylinderOne" name brew
 gen sharp cylinder "simpleCylinderOne" name brew
+
 
