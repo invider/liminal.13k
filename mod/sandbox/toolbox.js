@@ -2,6 +2,7 @@ function createSomeBoxes() {
     for (let i = 0; i < 70; i++) {
         const B = 200
         const H = B/2
+        const s = 4 + rnd() * 4
         lab.attach( new Body({
             pos: vec3(
                 H - B*rnd(),
@@ -13,7 +14,7 @@ function createSomeBoxes() {
 
             _pods: [
                 new Mesh({
-                    geo: geo.gen().cube().scale(4 + rnd() * 4).bake(),
+                    geo: screwOne(`gen cube ${s} scale brew`),
                     mat: {
                         Ka: vec3(.4, .4, .4),
                         Kd: vec3(.1, .1, .15),

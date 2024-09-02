@@ -45,7 +45,7 @@ _.boxCorkscrew = (() => {
         // create out of an unofficial hard-coded screw-up script
         //ctrl.screwUp( screwScript )
         // now load the scripts
-        args.forEach(arg => corkscrew.load(arg + '.up'))
+        if (args) args.forEach(arg => corkscrew.load(arg + '.up'))
     }
 
 })()
