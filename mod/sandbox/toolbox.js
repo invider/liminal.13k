@@ -1,13 +1,15 @@
 function createSomeBoxes() {
     for (let i = 0; i < 70; i++) {
-        const B = 200
-        const H = B/2
+        const B = 15
+        const V = 120
+
+        const rsign = (rnd() < .5)? -1 : 1
         const s = 4 + rnd() * 4
         lab.attach( new Body({
             pos: vec3(
-                H - B*rnd(),
-                H - B*rnd(),
-                H - B*rnd()
+                rsign * (B + V*rnd()),
+                rsign * (B + V*rnd()),
+                rsign * (B + V*rnd())
             ),
             rot: vec3(0, 0, 0),
             scale: vec3(1, 1, 1),

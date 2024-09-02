@@ -7,15 +7,29 @@ const geo = (() => {
 let _g,
     _gSpherePrecision = 25,
     _gSmooth,
+    _gMatrix = mat4.identity()
 
     _gUV = 0 // enable UV mapping experiment?
 
-const stack = []
+const stack = [], mstack = []
+
+// DEBUG
+const sv = vec3(1, 1, 1)
+vec3.scale(sv, 0.1)
+mat4.scale(_gMatrix, sv)
 
 function vxApply(fn) {
     for (let i = 0; i < _g.vertices.length; i++) {
         _g.vertices[i] = fn(_g.vertices[i], i)
     }
+}
+
+function vx(x, y, z) {
+    const v = vec3(x, y, z)
+    vec3.mulM4(v, _gMatrix)
+    _g.vertices.push(v[0])
+    _g.vertices.push(v[1])
+    _g.vertices.push(v[2])
 }
 
 // mesh generator
@@ -39,10 +53,14 @@ const $ = {
         for (x of w) stack.push(x)
         return $
     },
-    pop:  () => {
-        if (stack.length === 0) throw 'Not enough stack data!'
-        debugger
-        return stack.pop(v)
+    drop: () => {
+        stack.pop()
+    },
+    pushm: () => {
+        mstack.push( mat4.clone(_gMatrix) )
+    },
+    popm: () => {
+        _gMatrix = mstack.pop()
     },
 
     precision: function(v) {
@@ -81,8 +99,9 @@ const $ = {
     }, 
 
     tri: function() {
-        for (let i = 0; i < 9; i++) {
-            _g.vertices.push(stack.pop())
+        for (let i = 0; i < 9; i += 3) {
+            const z = stack.pop(), y = stack.pop(), x = stack.pop()
+            vx(x, y, z)
         }
     },
 
