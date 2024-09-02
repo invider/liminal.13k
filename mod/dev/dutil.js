@@ -90,3 +90,16 @@ function loadJSON(url, handlerFn) {
         handlerFn(json)
     })
 }
+
+function uploadRes(url, raw, handlerFn) {
+    fetch(url, {
+        method: "POST",
+        body: raw,
+    }).then(res => {
+        if (res.status !== 200) {
+            err(`Failed to upload: ${url}`)
+            err(`HTTP Response: ${res.status}`)
+            console.dir(res)
+        }
+    })
+}

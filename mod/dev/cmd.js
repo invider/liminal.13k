@@ -38,14 +38,22 @@ function zapTermitTrap() {
                     env.disabled = true
                     showTermit()
                 }
+                e.preventDefault()
                 break
 
-            case 'F2':
-                if (corkscrew.env.enabled) {
+            case 'F7':
+                if (corkscrew.st.enabled) {
                     corkscrew.hide()
                 } else {
                     corkscrew.show()
                 }
+                e.preventDefault()
+                break
+
+            case 'F2':
+                corkscrew.save()
+
+                e.preventDefault()
                 break
         }
     })

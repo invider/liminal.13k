@@ -1,6 +1,5 @@
 _.boxCorkscrew = (() => {
 
-    const BASE_URL = 'screw/'
 
     function setupCameraAndLight() {
         // === camera and lights ===
@@ -30,12 +29,6 @@ _.boxCorkscrew = (() => {
         env.pointLightPosition = vec3(5, -4, -5)
     }
 
-    function loadUp(script) {
-        loadRes(BASE_URL + script, (raw) => {
-            lab.control.screwUp(raw)
-        })
-    }
-
     return function(args) {
         log('setting up the editing mode...')
 
@@ -52,7 +45,7 @@ _.boxCorkscrew = (() => {
         // create out of an unofficial hard-coded screw-up script
         //ctrl.screwUp( screwScript )
         // now load the scripts
-        args.forEach(arg => loadUp(arg + '.up'))
+        args.forEach(arg => corkscrew.load(arg + '.up'))
     }
 
 })()
