@@ -1,24 +1,11 @@
-_cmd = {
-
-    help: function(cmd) {
-        term.println("Can't help you")
-    },
-
-    exit: function(cmd) {
-        env.termit = false
-        env.disabled = false
-        hideTermit()
-    },
-}
-
 function zapTermitTrap() {
 
     trap.register('termit', (cmd) => {
         const args = cmd.split(/\s+/)
         const command = args[0]
 
-        const fn = _cmd[command]
-        if (fn) {
+        const fn = _commands[command]
+        if (fn && (typeof fn === "function")) {
             fn(args, cmd)
         } else {
             const msg = `Unknown console command: [${command}]`
@@ -32,7 +19,7 @@ function zapTermitTrap() {
         switch(e.code) {
             case 'F4':
                 if (env.termit) {
-                    _cmd.exit()
+                    _commands.exit()
                 } else {
                     env.termit = true
                     env.disabled = true
