@@ -22,6 +22,9 @@ cp --verbose -r $SRC/dry   $STAGE/
 cp --verbose -r $SRC/jet   $STAGE/
 cp --verbose -r $SRC/stage $STAGE/
 
+sed 's/const debug = 1/const debug = 0/' $STAGE/jet/env.js > $STAGE/jet/env._js
+mv $STAGE/jet/env._js $STAGE/jet/env.js
+
 # initial size estimates
 #du -shb $STAGE/*.html
 #du -shb $STAGE/js/*.js

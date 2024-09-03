@@ -1,10 +1,11 @@
 #!/bin/bash
 
-SRC=./mod
+SRC=${SRC:-./mod}
 STAGE=./.stage.tmp
 TARGET=${1:-./index.html}
 
 cd $SRC
+echo "Indexing in $SRC"
 find . -name "*.js" | awk '{ printf "        <script src=\""; printf $1; print "\"></script>"; }' | sort > .index.tmp
 
 cat $TARGET | grep -v '<script' | grep . > .preHTML.tmp

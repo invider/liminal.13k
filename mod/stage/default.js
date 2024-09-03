@@ -51,20 +51,20 @@ _.defaultStage = () => {
         let h = .5 + rnd() * 2
         switch( Math.floor(rnd()*5) ) {
             case 0:
-                g = geo.gen().cube().scale(h).bake()
+                g = geo.gen().cube().push(h).scale().bake()
                 break
             case 1:
-                g = geo.gen().sphere().scale(h).bake()
+                g = geo.gen().sphere().push(h).scale().bake()
                 break
             case 2:
-                g = geo.gen().cylinder().scale(h).smooth().bake()
+                g = geo.gen().cylinder().push(h).scale().smooth().bake()
                 geo.sharp()
                 break
             case 3:
-                g = geo.gen().cone().scale(h).bake()
+                g = geo.gen().cone().push(h).scale().bake()
                 break
             case 4:
-                g = geo.gen().name('tetrahedron').tetrahedron().scale(h).bake()
+                g = geo.gen().name('tetrahedron').tetrahedron().push(h).scale().bake()
                 break
         }
         const spin = (rnd()*4) < 1? 0 : 1
@@ -120,7 +120,7 @@ _.defaultStage = () => {
 
         _pods: [
             new Mesh({
-                geo: geo.gen().cube().scale(h).bake(),
+                geo: geo.gen().cube().push(h).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),
                     Kd: vec3(.1, .8, .9),
@@ -145,7 +145,7 @@ _.defaultStage = () => {
 
         _pods: [
             new Mesh({
-                geo: geo.gen().cube().scale(h).bake(),
+                geo: geo.gen().cube().push(h).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),
                     Kd: vec3(.1, .8, .9),
