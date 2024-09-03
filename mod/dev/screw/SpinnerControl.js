@@ -2,6 +2,8 @@ class SpinnerControl {
 
     constructor(st) {
         extend(this, {
+            shading: true,
+            wireframes: false,
             pos: vec3z(),
             spinners: [],
             pushers:  [],
@@ -14,11 +16,17 @@ class SpinnerControl {
             if (!$.active || env.disabled) return
 
             switch(e.code) {
-                case 'KeyZ': case 'PageUp':
+                case 'PageUp':
                     $.active.targetPrev()
                     break
-                case 'KeyX': case 'PageDown':
+                case 'PageDown':
                     $.active.targetNext()
+                    break
+                case 'KeyZ':
+                    this.switchShading()
+                    break
+                case 'KeyX':
+                    this.switchWireframes()
                     break
             }
         })
@@ -32,6 +40,16 @@ class SpinnerControl {
                 spinner.pos[2] + spinner.r * 1.5,
             )
         })
+    }
+
+    switchWireframes() {
+        this.wireframes = !this.wireframes
+        this.spinners.forEach(spinner => spinner.wireframes(this.wireframes))
+    }
+
+    switchShading() {
+        this.shading = !this.shading
+        this.spinners.forEach(spinner => spinner.shading(this.shading))
     }
 
     createSpinner(g) {

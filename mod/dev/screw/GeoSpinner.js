@@ -180,6 +180,20 @@ class GeoSpinner {
         this.target = this.shapes.length - 1
     }
 
+    wireframes(f) {
+        const w = f? 1 : 0
+        this.shapes.forEach(shape => {
+            shape.mesh.renderOptions[1] = w
+        })
+    }
+
+    shading(f) {
+        const s = f? 1 : 0
+        this.shapes.forEach(shape => {
+            shape.mesh.renderOptions[0] = s
+        })
+    }
+
     scale(s) {
         const activeShape = this.getActiveShape()
         if (!activeShape) return
