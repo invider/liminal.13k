@@ -44,11 +44,11 @@ class Hero extends Frame {
         }
     }
 
-    isCollided() {
+    detectCollisions(mv) {
         env.dump.Impact = 'None'
 
         this.solid.place()
-        return lab.collide(this.solid)
+        return lab.collide(this.solid, mv)
     }
 
     evo(dt) {
@@ -101,7 +101,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mty, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.isCollided()) {
+            if (this.detectCollisions(mty)) {
                 if (mt[1] < 0) this.grounded = true
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
                 // TODO do a feedback or hit recoil when land on the ground?
@@ -114,7 +114,8 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mtx, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.isCollided()) {
+            const cl = this.detectCollisions(mtx)
+            if (cl) {
                 vec3.copy(this.pos, this._pos) // rewind the x-motion
                 // TODO do a feedback or hit recoil like in dronepolis?
                 //mt[0] = 0 // reset x momentum
@@ -125,7 +126,8 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mtz, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.isCollided()) {
+            const cl = this.detectCollisions(mtz)
+            if (cl) {
                 vec3.copy(this.pos, this._pos)
                 // TODO do a feedback or hit recoil like in dronepolis?
                 //mt[2] = 0 // reset y momentum
@@ -139,7 +141,7 @@ class Hero extends Frame {
             mt[1] = 0
             this.grounded = true
         }
-        
+
         /*
         this.pos[0] += this.dx
         this.pos[1] = Math.max(this.pos[1] + this.dy, this.hh)

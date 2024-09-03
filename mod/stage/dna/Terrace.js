@@ -18,9 +18,9 @@ class Terrace extends Frame {
         //if (debug) this.attach( genHitboxMesh(this.pos, this.hsize) )
     }
 
-    collide(impactor) {
+    collide(impactor, mv) {
         if (!this.porous.touch(impactor)) return // the impactor is outside the range
-        return this.collideWithin(impactor)
+        return this.collideWithin(impactor, mv)
     }
 
     geoform() {

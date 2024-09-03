@@ -30,7 +30,12 @@ const flags = {},
     HIT_BOX       = 1,
     HIT_SPHERE    = 2,
     EPHEMERAL     = 0,
-    HARD          = 1
+    HARD          = 1,
+    // collision types
+    HIT_NONE      = 0,
+    HIT_HARD      = 1,
+    HIT_STEP      = 2
+
 
 const env = {
     time: 0,
