@@ -85,32 +85,36 @@ function setupStage() {
     trap('stage')
 }
 
+function setupGL() {
+    gl.clearColor(0.12, .07, .14, 1.0)
+
+    setupShaders()
+    setupUniforms()
+    gl.useProgram(glProg)
+}
+
 window.onload = () => {
     gcanvas = document.getElementById('gcanvas')
     gl = gcanvas.getContext('webgl2', {
         alpha: false,
     })
+    gcanvas.onwebglcontextlost = e => e.preventDefault()
+    gcanvas.webglcontextrestored = setupGL()
     hcanvas = document.getElementById('hcanvas')
     ctx = hcanvas.getContext('2d')
 
     if (!gl) alert('No WebGL!')
 
-    gl.clearColor(0.12, .07, .14, 1.0)
-    //gl.clear(gl.COLOR_BUFFER_BIT)
-
-    setupShaders()
-    setupUniforms()
-
-    gl.useProgram(glProg)
+    setupGL()
 
     // run zaps
     for (prop in window) if (prop.startsWith('zap')) window[prop]()
 
     setupStage()
 
+    window.onresize = expandCanvas
     expandCanvas()
     trap('start')
     _lastTime = Date.now()
     cycle()
 }
-

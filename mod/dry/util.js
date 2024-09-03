@@ -23,7 +23,6 @@ function defer(fn) {
 }
 
 function expandCanvas() {
-    if (!gcanvas || !hcanvas) return
     const newWidth = window.innerWidth
     const newHeight = window.innerHeight
 

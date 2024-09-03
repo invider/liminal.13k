@@ -61,7 +61,6 @@ window.onwheel = (e) => {
     if (lab.broker && lab.broker.onMouseWheel) lab.broker.onMouseWheel(e)
 }
 
-window.onresize = expandCanvas
 
 /*
 window.onhashchange = () => {
