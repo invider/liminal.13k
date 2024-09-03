@@ -33,6 +33,10 @@ screwUp = (() => {
             throw `${msg} @${l+1}.${p+1}:\n${lines[l]}\n${lpad('', p)}^`
         }
 
+        function eolf(c) {
+            return !c || c === '\n'
+        }
+
         function nextc() {
             if (i >= src.length) return ' '
             return src.charAt(i)
@@ -40,6 +44,18 @@ screwUp = (() => {
 
         function next(c) {
             return src.charAt(i) === c
+        }
+
+        function inext(c) {
+            let j = 0
+            while (src.charAt(i+j) === c) j++
+            return j
+        }
+
+        function lnext() {
+            let j = 0
+            while (!eolf(src.charAt(i+j))) j++
+            return j
         }
 
         function isSpace(c) {
@@ -70,6 +86,7 @@ screwUp = (() => {
         let c = getc()
 
         function skipLine() {
+            c = getc()
             while(c && c !== '\n') {
                 c = getc()
             }
@@ -114,13 +131,35 @@ screwUp = (() => {
                     }
                     break
                 case '#':
-                    skipLine()
+                    if (p === 0) skipLine() // works only at the beginning of a line
                     break
                 case '-':
-                    if (next('-')) skipLine()
+                    const n = inext('-'), nl = lnext()
+                    if (n > 1 && p === 1 && nl === n) {
+                        // multi-line comment
+                        skipLine()
+                        let nn = 0
+                        do {
+                            nn = inext('-') - 1
+                            skipLine()
+                        } while(c && nn !== n)
+                    } else if (n > 0) {
+                        skipLine()
+                    }
                     break
                 case '=':
-                    if (nextc('=')) skipLine()
+                    const m = inext('='), ml = lnext()
+                    if (m > 1 && p === 1 && ml === m) {
+                        // multi-line comment
+                        skipLine()
+                        let mm = 0
+                        do {
+                            mm = inext('=') - 1
+                            skipLine()
+                        } while(c && mm !== m)
+                    } else if (m > 0) {
+                        skipLine()
+                    }
                     break
 
                 default:

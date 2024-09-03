@@ -106,7 +106,13 @@ const screw = (() => {
             if (debug) {
                 if (op) {
                     const ptr = lpad('^', op.p)
-                    const msg = `@${op.l+1}.${op.p+1}: ${e}\n${lines[op.l]}\n${ptr}`
+                    let msg = `@${op.l+1}.${op.p+1}: ${e}\n`
+                    for (let i = 0; i < 5; i++) {
+                        const line = lines[op.l - 5 + i]
+                        if (line !== undefined) msg += line + '\n'
+                    }
+                    msg += `${lines[op.l]}\n${ptr}`
+
                     term.println(msg)
                     throw new Error(msg)
                 } else {

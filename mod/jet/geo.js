@@ -530,6 +530,11 @@ const $ = {
         delete _g.vertices
         return _g
     },
+
+    dump: function() {
+        console.dir(stack)
+        console.dir(_gMatrix)
+    },
 }
 
 return $

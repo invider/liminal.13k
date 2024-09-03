@@ -1,8 +1,5 @@
-== some commands
-
 0.5 0.5 0.5 mscale
 
--- create some cubes
 gen
 0  -1   0
 0   0  -2
