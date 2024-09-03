@@ -15,11 +15,13 @@ _.boxCorkscrew = (() => {
         extend( lab.cam.mover, {
 
             activate: function(action) {
+                if (this.disabled) return
                 this.pushers[action] = 1
                 lab.control.activate(action)
             },
 
             stop: function (action) {
+                if (this.disabled) return
                 this.pushers[action] = 0
                 lab.control.stop(action)
             },

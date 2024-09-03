@@ -5,7 +5,7 @@ let corkscrew = (function(window) {
 
     const st = {
         id:        'screw',
-        enabled:   true,
+        disabled:  false,
         loadURL:   'screw',
         uploadURL: 'up',
         scriptExt: '.up',
@@ -24,13 +24,14 @@ let corkscrew = (function(window) {
         if (!screw) return
 
         screw.style.display = 'none'
-        st.enabled = false
+        st.disabled = true
+        env.screwing = false
+        if (lab.broker) lab.broker.disabled = false
 
         if (!lastScript || !lab.control) return
         const updatedScript = screw.textContent
         if (updatedScript !== lastScript) {
             lab.control.screwUp( updatedScript )
-
             // TODO store log in local store
         }
     }
@@ -42,7 +43,9 @@ let corkscrew = (function(window) {
         syncIn()
         screw.style.display = 'block'
         adjust()
-        st.enabled = true
+        st.disabled = false
+        env.screwing = true
+        lab.broker.disabled = true
     }
 
     function load(script) {

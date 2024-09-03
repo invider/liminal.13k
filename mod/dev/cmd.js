@@ -29,10 +29,10 @@ function zapTermitTrap() {
                 break
 
             case 'F7':
-                if (corkscrew.st.enabled) {
-                    corkscrew.hide()
-                } else {
+                if (corkscrew.st.disabled) {
                     corkscrew.show()
+                } else {
+                    corkscrew.hide()
                 }
                 e.preventDefault()
                 break

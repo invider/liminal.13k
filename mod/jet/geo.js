@@ -38,6 +38,15 @@ function vx(x, y, z) {
     _g.vertices.push(v[2])
 }
 
+// apply geo transformations to nx before pushing in
+function nx(x, y, z) {
+    const v = vec3(x, y, z)
+    vec3.mulM4(v, _gMatrix)
+    _g.normals.push(v[0])
+    _g.normals.push(v[1])
+    _g.normals.push(v[2])
+}
+
 function popV3() {
     const z = pop(), y = pop(), x = pop()
     return vec3(x, y, z)
@@ -91,7 +100,10 @@ const $ = {
     },
 
     vertices: function(w) {
-        _g.vertices = _g.vertices.concat(w)
+        for (let i = 0; i < w.length; i += 3) {
+            vx(w[i], w[i+1], w[i+2])
+        }
+        //_g.vertices = _g.vertices.concat(w)
         return this
     },
 
@@ -100,8 +112,11 @@ const $ = {
         return this
     },
 
-    normals: function(nv) {
-        _g.normals = _g.normals.concat(nv)
+    normals: function(w) {
+        for (let i = 0; i < w.length; i += 3) {
+            nx(w[i], w[i+1], w[i+2])
+        }
+        //_g.normals = _g.normals.concat(nv)
         return this
     },
 

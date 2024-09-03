@@ -14,10 +14,10 @@ class SpinnerControl {
             if (!$.active || env.disabled) return
 
             switch(e.code) {
-                case 'KeyZ':
+                case 'KeyZ': case 'PageUp':
                     $.active.targetPrev()
                     break
-                case 'KeyX':
+                case 'KeyX': case 'PageDown':
                     $.active.targetNext()
                     break
             }

@@ -75,14 +75,17 @@ class OrbitalControllerPod {
     }
 
     activate(action) {
+        if (this.disabled) return
         this.pushers[action] = 1
     }
 
     stop(action) {
+        if (this.disabled) return
         this.pushers[action] = 0
     }
 
     onMouseDown(e) {
+        if (this.disabled) return
         /*
         if (e.button == 0) {
             if (!env.mouseLock) captureMouse()
@@ -93,6 +96,8 @@ class OrbitalControllerPod {
     onMouseUp(e) {}
 
     onMouseMove(e) {
+        if (this.disabled) return
+
         if (e.buttons & 1) {
             const dx = e.movementX, dy = e.movementY
 
@@ -110,6 +115,8 @@ class OrbitalControllerPod {
     }
 
     onMouseWheel(e) {
+        if (this.disabled) return
+
         const dx = e.deltaX, dy = e.deltaY
 
         if (dy) {
