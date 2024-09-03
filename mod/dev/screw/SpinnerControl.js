@@ -16,17 +16,15 @@ class SpinnerControl {
             if (!$.active || env.disabled) return
 
             switch(e.code) {
-                case 'PageUp':
+                case 'PageUp': case 'KeyZ':
                     $.active.targetPrev()
                     break
-                case 'PageDown':
+                case 'PageDown': case 'KeyX':
                     $.active.targetNext()
                     break
-                case 'KeyZ':
-                    this.switchShading()
-                    break
-                case 'KeyX':
+                case 'Backslash':
                     this.switchWireframes()
+                    this.switchShading()
                     break
             }
         })
