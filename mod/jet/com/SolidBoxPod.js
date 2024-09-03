@@ -95,6 +95,11 @@ class SolidBoxPod {
         }
     }
 
+    deltaY(solid) {
+        // do only boxes here!
+        return this.max[1] - solid.min[1]
+    }
+
     // ray intersection
     touchRay(p, d) {
         let tmin = 0,

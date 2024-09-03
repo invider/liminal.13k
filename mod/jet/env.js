@@ -33,8 +33,8 @@ const flags = {},
     HARD          = 1,
     // collision types
     HIT_NONE      = 0,
-    HIT_HARD      = 1,
-    HIT_STEP      = 2
+    HIT_STEP      = 1,
+    HIT_HARD      = 2
 
 
 const env = {

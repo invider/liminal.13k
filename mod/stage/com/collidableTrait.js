@@ -8,12 +8,17 @@ const collidableTrait = {
             const t = ls[i]
             if (t.collide) {
                 const cl = t.collide(impactor, mv)
-                if (!hit) hit = cl
+                if (hit < cl) hit = cl
             } else if (!t.dead && t.solid && t.solid !== impactor) {
                 if (t.solid.touch(impactor)) {
                     // test if the touch is hard or ephemeral
                     if (t.solid.kind) {
-                        hit = HIT_HARD // got a hard collision
+                        const dy = t.solid.deltaY(impactor)
+                        if (!hit && (mv[0] || mv[2]) && dy < 1) {
+                            hit = HIT_STEP
+                        } else {
+                            hit = HIT_HARD // got a hard collision
+                        }
                     }
                     if (t.onTouch) t.onTouch(impactor.__)
                     if (t.reactive && impactor.__.onImpact) impactor.__.onImpact(t)

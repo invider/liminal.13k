@@ -59,7 +59,6 @@ class Hero extends Frame {
               mty = this.mty,
               mtz = this.mtz
 
-
         // make some gravity
         /*
         mt[1] = Math.max(mt[1] - tune.gravity * dt, -tune.terminalVelocity)
@@ -115,10 +114,19 @@ class Hero extends Frame {
         vec3.scad(this.pos, mtx, dt)
         if (!vec3.equals(this.pos, this._pos)) {
             const cl = this.detectCollisions(mtx)
-            if (cl) {
+            if (cl === HIT_HARD) {
                 vec3.copy(this.pos, this._pos) // rewind the x-motion
                 // TODO do a feedback or hit recoil like in dronepolis?
                 //mt[0] = 0 // reset x momentum
+            } else if (cl === HIT_STEP) {
+                // TODO figure how to avoid getting stuck as a result
+                vec3.set(mty, 0, tune.stepUpSpeed, 0)
+                vec3.scad(this.pos, mty, dt)
+                if (this.detectCollisions(mtx) > 1) {
+                    log('step hit hard!')
+                    // rollback
+                    vec3.copy(this.pos, this._pos) // rewind the step motion
+                }
             }
         }
 
@@ -127,10 +135,18 @@ class Hero extends Frame {
         vec3.scad(this.pos, mtz, dt)
         if (!vec3.equals(this.pos, this._pos)) {
             const cl = this.detectCollisions(mtz)
-            if (cl) {
+            if (cl === HIT_HARD) {
                 vec3.copy(this.pos, this._pos)
                 // TODO do a feedback or hit recoil like in dronepolis?
                 //mt[2] = 0 // reset y momentum
+            } else if (cl === HIT_STEP) {
+                // TODO figure how to avoid getting stuck as a result
+                vec3.set(mty, 0, tune.stepUpSpeed, 0)
+                vec3.scad(this.pos, mty, dt)
+                if (this.detectCollisions(mtz) > 1) {
+                    // rollback
+                    vec3.copy(this.pos, this._pos) // rewind the step motion
+                }
             }
         }
 

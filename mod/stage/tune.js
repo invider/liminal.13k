@@ -12,4 +12,7 @@ const tune = {
     friction: .6,
     overspeedFactor: .005,
     terminalVelocity: 48,
+
+    maxStep:      1,
+    stepUpSpeed:  2,
 }
