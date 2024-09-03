@@ -1,5 +1,5 @@
 _wmId = 0
-class WireMesh extends Mesh {
+class WireMesh extends Surface {
 
     constructor(st) {
         super(st)

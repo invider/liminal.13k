@@ -59,7 +59,7 @@ _.boxGeo = function() {
             scale: vec3(1, 1, 1),
 
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: g,
                     mat: {
                         Ka: vec3(.5, .6, .7),
@@ -94,8 +94,8 @@ _.boxGeo = function() {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
-                geo: geo.gen().plane().scale(30).bake(),
+            new Surface({
+                geo: geo.gen().plane().push(30).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .5, .5),
                     Kd: vec3(.5, .5, .5),
@@ -115,8 +115,8 @@ _.boxGeo = function() {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
-                geo: geo.gen().plane().scale(30).bake(),
+            new Surface({
+                geo: geo.gen().plane().push(30).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .5, .5),
                     Kd: vec3(.5, .5, .5),
@@ -137,8 +137,8 @@ _.boxGeo = function() {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
-                geo: geo.gen().sphere().scale(1).bake(),
+            new Surface({
+                geo: geo.gen().sphere().push(1).scale().bake(),
                 mat: {
                     Ka: vec3(1, 1, .5),
                     Kd: vec3(1, 1, 1),
@@ -165,8 +165,8 @@ _.boxGeo = function() {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
-                geo: geo.gen().precision(25).smooth().sphere().scale(35).bake(),
+            new Surface({
+                geo: geo.gen().push(25).precision().smooth().sphere().push(35).scale().bake(),
                 mat: {
                     Ka: vec3(.8, .4, .7),
                     Kd: vec3(.6, .25, .8),
@@ -193,8 +193,8 @@ _.boxGeo = function() {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
-                geo: geo.gen().ring(.85).scale(75).bake(),
+            new Surface({
+                geo: geo.gen().push(.85).ring().push(75).scale().bake(),
                 mat: {
                     Ka: vec3(.6, .4, .8),
                     Kd: vec3(.4, .4, .6),

@@ -15,7 +15,7 @@ function createSomeBoxes() {
             scale: vec3(1, 1, 1),
 
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: screwOne(`gen cube ${s} scale brew`),
                     mat: {
                         Ka: vec3(.4, .4, .4),

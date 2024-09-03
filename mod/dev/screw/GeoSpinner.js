@@ -74,7 +74,7 @@ class GeoSpinner {
             stats:       this.shapeStats,
 
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: g,
                     // TODO should come from material library
                     mat: {
@@ -183,14 +183,14 @@ class GeoSpinner {
     wireframes(f) {
         const w = f? 1 : 0
         this.shapes.forEach(shape => {
-            shape.mesh.renderOptions[1] = w
+            shape.surface.renderOptions[1] = w
         })
     }
 
     shading(f) {
         const s = f? 1 : 0
         this.shapes.forEach(shape => {
-            shape.mesh.renderOptions[0] = s
+            shape.surface.renderOptions[0] = s
         })
     }
 

@@ -1,10 +1,10 @@
-// Mesh combines the geometry data and materials to create
-// a renderable entity.
-class Mesh {
+// Surface combines the geometry mesh data and materials to create
+// a renderable surface
+class Surface {
 
     constructor(st) {
         extend(this, {
-            name: 'mesh',
+            name: 'surface',
             renderOptions: vec4(1, 0, 0, 0),
             mat: {
                 Ka: vec3(.5, .6, .7),

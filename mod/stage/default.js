@@ -2,30 +2,7 @@ _.defaultStage = () => {
     log('setting up the default stage')
 
     const R = 128   // stage size
-    const N = 0     // meshes to spawn
-
-    /*
-    // giant plane
-    lab.attach( new Body({
-        pos:   vec3(0, 0, 0),
-        rot:   vec3(0, 0, 0),
-        scale: vec3(1, 1, 1),
-
-        _pods: [
-            new Mesh({
-                geo: geo.gen().plane().scale(R).bake(),
-                mat: {
-                    Ka: vec3(.5, .5, .5),
-                    Kd: vec3(.2, .4, .7),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.2, .4, .2, 0),
-                    Ns: 21,
-                }
-            })
-        ],
-    }))
-    */
+    const N = 0     // surfaces to spawn
 
     // === populate ===
     // create some bodies
@@ -80,7 +57,7 @@ _.defaultStage = () => {
             scale:    vec3(1, 1, 1),
 
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: g,
                     mat: {
                         Ka: vec3(.5, .6, .7),
@@ -119,7 +96,7 @@ _.defaultStage = () => {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
+            new Surface({
                 geo: geo.gen().cube().push(h).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),
@@ -144,7 +121,7 @@ _.defaultStage = () => {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
+            new Surface({
                 geo: geo.gen().cube().push(h).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),

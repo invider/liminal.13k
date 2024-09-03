@@ -62,7 +62,7 @@ class Terrace extends Frame {
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
                     _pods: [
-                        new Mesh({
+                        new Surface({
                             geo: this._cube,
                             /*
                             geo: geo.gen().cube()

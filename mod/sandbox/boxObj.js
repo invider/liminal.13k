@@ -3,7 +3,7 @@ _.boxObj = function() {
     lab.cam.pos[1] = 2
 
     // giant plane
-    lab.attach( new Mesh({
+    lab.attach( new Surface({
         pos: vec3(0, 0, 0),
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
@@ -19,8 +19,8 @@ _.boxObj = function() {
         },
     }))
 
-    // some meshes
-    const meshColors = [
+    // some surfaces
+    const surfaceColors = [
         vec3(.8, .2, .2),
         vec3(.7, .8, .2),
         vec3(.1, .8, .2),
@@ -36,7 +36,7 @@ _.boxObj = function() {
     loadRes('res/teapot.obj', (raw) => {
         const g = parseObj(raw)
 
-        lab.attach( new Mesh({
+        lab.attach( new Surface({
             name: 'teapot',
 
             pos: vec3(
@@ -51,7 +51,7 @@ _.boxObj = function() {
             geo: g,
             mat: {
                 Ka: vec3(.5, .6, .7),
-                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Kd: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
                 Ks: vec3(1, 1, 1),
                 Ke: vec3(1, 1, 1),
                 Lv: vec4(.2, .5, 1, 0),
@@ -74,7 +74,7 @@ _.boxObj = function() {
     loadJSON('res/teapot.json', (raw) => {
         const g = parseJsonModel(raw)
 
-        lab.attach( new Mesh({
+        lab.attach( new Surface({
             name: 'teapoter',
 
             pos: vec3(
@@ -89,7 +89,7 @@ _.boxObj = function() {
             geo: g,
             mat: {
                 Ka: vec3(.5, .6, .7),
-                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Kd: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
                 Ks: vec3(1, 1, 1),
                 Ke: vec3(1, 1, 1),
                 Lv: vec4(.2, .7, 1, 0),
@@ -113,7 +113,7 @@ _.boxObj = function() {
     loadRes('res/cubicle.obj', (raw) => {
         const g = parseObj(raw)
 
-        lab.attach( new Mesh({
+        lab.attach( new Surface({
             name: 'cube',
 
             pos: vec3(
@@ -128,7 +128,7 @@ _.boxObj = function() {
             geo: g,
             mat: {
                 Ka: vec3(.5, .6, .7),
-                Kd: meshColors[ Math.floor(rnd() * meshColors.length) ],
+                Kd: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
                 Ks: vec3(1, 1, 1),
                 Ke: vec3(1, 1, 1),
                 Lv: vec4(.2, .5, 1, 0),

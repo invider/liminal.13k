@@ -2,7 +2,7 @@ _.boxStationary = () => {
     log('setting up a bunch of stationary grounded objects')
 
     const R = 96   // stage size
-    const N = 32   // meshes to spawn
+    const N = 32   // bodies to spawn
 
     for (let i = 0; i < 21; i++) rnd() // shift the seed
 
@@ -13,7 +13,7 @@ _.boxStationary = () => {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
+            new Surface({
                 geo: geo.gen().plane().push(R).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .5, .5),
@@ -79,7 +79,7 @@ _.boxStationary = () => {
             scale:    vec3(1, 1, 1),
 
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: g,
                     mat: {
                         Ka: vec3(.5, .6, .7),

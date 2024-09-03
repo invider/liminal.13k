@@ -7,9 +7,9 @@ _.stageStat = {
         const polygons = env.stat.lastPolygons
         env.dump['Polygons'] = `${polygons} (${polygons * env.fps}/s)`
 
-        // meshes
+        // surfaces
         let iobj = 0
-        lab.apply(e => { if (e.mesh) iobj++ })
+        lab.apply(e => { if (e.surface) iobj++ })
         env.dump['Object'] = '' + iobj
 
         let inodes = 0

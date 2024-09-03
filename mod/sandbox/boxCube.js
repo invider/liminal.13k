@@ -8,7 +8,7 @@ _.boxCube = function() {
         scale: vec3(1, 1, 1),
 
         _pods: [
-            new Mesh({
+            new Surface({
                 geo: geo.gen().cube().push(2).scale().bake(),
                 mat: {
                     Ka: vec3(.5, .6, .7),

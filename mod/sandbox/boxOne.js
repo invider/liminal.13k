@@ -16,7 +16,7 @@ _.boxOne = function() {
             scale: vec3(1, 1, 1),
 
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: geo.gen().cube().push(4 + rnd() * 4).scale().bake(),
                 }),
             ],

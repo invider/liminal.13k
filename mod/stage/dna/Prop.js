@@ -5,7 +5,7 @@ class Prop extends Body {
         super( extend({
             rotSpeed:  vec3(0, 1, 0),
             _pods: [
-                new Mesh({
+                new Surface({
                     geo: geo.gen().cube()
                         .pushv([s, s, w])
                         .stretchX()
