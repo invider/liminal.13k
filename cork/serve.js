@@ -6,6 +6,7 @@ const BIND = process.env.BIND || 'localhost'
 const PORT = process.env.PORT || 9101
 const TARGET_DIR = process.env.TARGET_DIR || './mod/screw'
 const EXT = '.up'
+const BAK = '.bup'
 
 const app = express();
 
@@ -15,10 +16,27 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json())
 app.use(bodyParser.text())
 
-app.post('/up/:screw', (req, res) => {
+app.post('/backup/:screw', (req, res) => {
     const name = req.params.screw
     const data = req.body;
 
+    const time = new Date().toISOString().slice(0, 19)
+    const path = TARGET_DIR + '/.' + name + '.' + time + BAK
+
+    console.log(`[!] backing up script: [${name}] to [${path}]`)
+
+    fs.writeFileSync(path, data, {
+        encoding: "utf8",
+    })
+
+    res.send({
+        message: `[${name}]: backup successful`,
+    })
+})
+
+app.post('/up/:screw', (req, res) => {
+    const name = req.params.screw
+    const data = req.body;
     const path = TARGET_DIR + '/' + name + EXT
 
     console.log(`uploading script: [${name}]`)

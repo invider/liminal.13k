@@ -2,4 +2,5 @@
 
 rm -rf dist
 rm -rf ./mod/.*.tmp
+rm -rf ./mod/screw/.*.bup
 

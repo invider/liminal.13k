@@ -8,6 +8,7 @@ let corkscrew = (function(window) {
         disabled:  false,
         loadURL:   'screw',
         uploadURL: 'up',
+        backupURL: 'backup',
         scriptExt: '.up',
     }
 
@@ -56,7 +57,7 @@ let corkscrew = (function(window) {
         })
     }
 
-    function saveTarget() {
+    function saveTarget(backup) {
         const screw = document.getElementById(st.id)
         if (!screw) return
 
@@ -65,8 +66,8 @@ let corkscrew = (function(window) {
         if (box !== '#boxCorkscrew') throw 'Malformed corkscrew url!'
 
         const upName = args[1]
-        const upPath = st.uploadURL + '/' + upName
-        if (!upName)throw 'No screw script name provided in the URL!'
+        const upPath = (backup? st.backupURL : st.uploadURL) + '/' + upName
+        if (!upName) throw 'No screw script name provided in the URL!'
 
         const plainText = screw.textContent
 
@@ -77,13 +78,17 @@ let corkscrew = (function(window) {
         }
     }
 
-    function save() {
-        const tar = saveTarget()
+    function save(backup) {
+        const tar = saveTarget(backup)
         if (!tar) return
 
         uploadRes(tar.path, tar.data, (res) => {
             log(`[${tar.path}] upload is successful: ${res.status} ${res.statusText}`)
         })
+    }
+
+    function backup() {
+        save(true)
     }
 
     function saveLocal() {
@@ -115,6 +120,7 @@ let corkscrew = (function(window) {
         show,
         load,
         save,
+        backup,
         saveLocal,
     }
 

@@ -33,6 +33,7 @@ function zapTermitTrap() {
                     corkscrew.show()
                 } else {
                     corkscrew.hide()
+                    corkscrew.backup()
                 }
                 e.preventDefault()
                 break
