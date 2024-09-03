@@ -29,6 +29,17 @@ function vxApply(fn) {
     }
 }
 
+function v3Clone(fn) {
+    const ln = _g.vertices.length
+    for (let i = 0; i < ln; i += 3) {
+        const x = _g.vertices[i], y = _g.vertices[i+1], z = _g.vertices[i+2]
+        const v = fn(x, y, z)
+        _g.vertices.push(v[0])
+        _g.vertices.push(v[1])
+        _g.vertices.push(v[2])
+    }
+}
+
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function vx(x, y, z) {
     const v = vec3(x, y, z)
@@ -51,7 +62,6 @@ function popV3() {
     const z = pop(), y = pop(), x = pop()
     return vec3(x, y, z)
 }
-
 
 // mesh generator
 const $ = {
@@ -399,6 +409,18 @@ const $ = {
     mrotZ: function() {
         mat.rotZ(_gMatrix, pop())
         return this
+    },
+
+    reflectX: function() {
+        v3Clone((x, y, z) => vec3(-x, y, z))
+    },
+
+    reflectY: function() {
+        v3Clone((x, y, z) => vec3(x, -y, z))
+    },
+
+    reflectZ: function() {
+        v3Clone((x, y, z) => vec3(x, y, -z))
     },
 
     // scale the existing geometry

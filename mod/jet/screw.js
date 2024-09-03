@@ -125,7 +125,7 @@ const screw = (() => {
     return (src) => {
         resetEmuState()
         lines = src.split('\n')
-        return exec( defineWords( screwUp(lines) ) )
+        return exec( defineWords( screwUp(src, lines) ) )
     }
 })();
 

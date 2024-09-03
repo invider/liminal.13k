@@ -10,25 +10,36 @@ screwUp = (() => {
     //
     // === parser ===
     //
-    function parseLine(line, N, tk) {
+    function parse(src, lines, tk) {
+        let i = 0, l = 0, p = 0, b = 0, buf
 
-        let i = 0
         function getc() {
-            if (i >= line.length) return
-            return line.charAt(i++)
+            if (b) {
+                // return buffered
+                b = 0
+                return buf
+            }
+            if (i >= src.length) return
+            p++
+            return src.charAt(i++)
         }
 
         function retc(c) {
-            if (line.charAt(i)) i--
+            buf = c
+            b = 1
         }
 
         function xerr(msg) {
-            throw `${msg} @${N+1}.${i+1}:\n${line}\n${lpad('', i)}^`
+            throw `${msg} @${l+1}.${p+1}:\n${lines[l]}\n${lpad('', p)}^`
         }
 
         function nextc() {
-            if (i >= line.length) return ' '
-            return line.charAt(i)
+            if (i >= src.length) return ' '
+            return src.charAt(i)
+        }
+
+        function next(c) {
+            return src.charAt(i) === c
         }
 
         function isSpace(c) {
@@ -55,10 +66,26 @@ screwUp = (() => {
             return c.charCodeAt(0) - 48
         }
 
+
         let c = getc()
+
+        function skipLine() {
+            while(c && c !== '\n') {
+                c = getc()
+            }
+            if (c === '\n') {
+                l++
+                p = 0
+            }
+        }
+
         while (c) {
             switch(c) {
-                case ' ': case '\t': case '\n': break;
+                case ' ': case '\t': break;
+                case '\n':
+                    l++
+                    p = 0
+                    break
                 case ':':
                     const last = tk.pop()
                     if (!last && last.t !== ID) xerr(`An identifier is expected before [:]`)
@@ -67,8 +94,7 @@ screwUp = (() => {
                     break
                 case ';': tk.push({
                               t: END,
-                              l: N,
-                              p: i
+                              l, p
                           }); break;
                 case '"':
                     let str = []
@@ -82,11 +108,19 @@ screwUp = (() => {
                         tk.push({
                             t: STR,
                             v: str.join(''),
-                            l: N,
-                            p: i
+                            l, p
                         })
                         expectDelim(nextc())
                     }
+                    break
+                case '#':
+                    skipLine()
+                    break
+                case '-':
+                    if (next('-')) skipLine()
+                    break
+                case '=':
+                    if (nextc('=')) skipLine()
                     break
 
                 default:
@@ -111,12 +145,11 @@ screwUp = (() => {
                             }
                         }
                         expectDelim(c)
-                        retc()
+                        retc(c)
                         tk.push({
                             t: NUM,
                             v: s * x,
-                            l: N,
-                            p: i
+                            l, p
                         })
                     } else {
                         const id = [ c ]
@@ -127,12 +160,11 @@ screwUp = (() => {
                             c = getc()
                         }
                         expectDelim(c)
-                        retc()
+                        retc(c)
                         tk.push({
                             t: ID,
                             v: id.join(''),
-                            l: N,
-                            p: i
+                            l, p
                         })
                     }
             }
@@ -141,18 +173,22 @@ screwUp = (() => {
         return tk
     }
 
+    /*
     function isEmptyLine(line) {
         return (!line || line.startsWith('#') || line.startsWith('--') || line.startsWith('=='))
     }
+    */
 
-    return (rawLines) => {
+    return (src, lines) => {
         const tokens = []
+        parse(src, lines, tokens)
+        /*
         rawLines.forEach((l, N) => {
             if (!isEmptyLine(l)) {
                 parseLine(l, N, tokens)
             }
         })
-
+        */
         return tokens
     }
 })()
