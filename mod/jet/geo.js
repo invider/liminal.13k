@@ -13,10 +13,15 @@ let _g,
 
 const stack = [], mstack = []
 
-// DEBUG
-const sv = vec3(1, 1, 1)
-vec3.scale(sv, 0.1)
-mat4.scale(_gMatrix, sv)
+function pop() {
+    if (stack.length === 0) throw 'No values in stack!'
+    return stack.pop()
+}
+
+// DEBUG - a test matrix
+//const sv = vec3(1, 1, 1)
+//vec3.scale(sv, 0.1)
+//mat4.scale(_gMatrix, sv)
 
 function vxApply(fn) {
     for (let i = 0; i < _g.vertices.length; i++) {
@@ -24,6 +29,7 @@ function vxApply(fn) {
     }
 }
 
+// merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function vx(x, y, z) {
     const v = vec3(x, y, z)
     vec3.mulM4(v, _gMatrix)
@@ -31,6 +37,12 @@ function vx(x, y, z) {
     _g.vertices.push(v[1])
     _g.vertices.push(v[2])
 }
+
+function popV3() {
+    const z = pop(), y = pop(), x = pop()
+    return vec3(x, y, z)
+}
+
 
 // mesh generator
 const $ = {
@@ -54,17 +66,17 @@ const $ = {
         return $
     },
     drop: () => {
-        stack.pop()
+        pop()
     },
-    pushm: () => {
+    mpush: () => {
         mstack.push( mat4.clone(_gMatrix) )
     },
-    popm: () => {
+    mpop: () => {
         _gMatrix = mstack.pop()
     },
 
     precision: function(v) {
-        _gSpherePrecision = v || stack.pop()
+        _gSpherePrecision = v || pop()
         return this
     },
 
@@ -100,7 +112,7 @@ const $ = {
 
     tri: function() {
         for (let i = 0; i < 9; i += 3) {
-            const z = stack.pop(), y = stack.pop(), x = stack.pop()
+            const z = pop(), y = pop(), x = pop()
             vx(x, y, z)
         }
     },
@@ -305,7 +317,7 @@ const $ = {
     },
     
     ring() {
-        const ir = stack.pop(), v = [], w = []
+        const ir = pop(), v = [], w = []
 
         for (let lon = 0; lon < _gSpherePrecision; lon++) {
             let phi = (lon * PI2) / _gSpherePrecision,
@@ -344,32 +356,63 @@ const $ = {
         return this
     },
 
+    mid: function() {
+        _gMatrix = mat4.identity()
+        return this
+    },
+
+    mscale: function() {
+        mat4.scale(_gMatrix, popV3())
+        return this
+    },
+
+    mtranslate: function() {
+        mat4.translate(_gMatrix, popV3())
+        return this
+    },
+
+    mrotX: function() {
+        mat4.rotX(_gMatrix, pop())
+        return this
+    },
+
+    mrotY: function() {
+        mat4.rotY(_gMatrix, pop())
+        return this
+    },
+
+    mrotZ: function() {
+        mat.rotZ(_gMatrix, pop())
+        return this
+    },
+
+    // scale the existing geometry
     scale: function() {
-        const s = stack.pop()
+        const s = pop()
         vxApply(n => n * s)
         return this
     },
 
     stretchX: function() {
-        const s = stack.pop()
+        const s = pop()
         vxApply((n, i) => (i % 3) == 0? n * s : n)
         return this
     },
 
     stretchY: function() {
-        const s = stack.pop()
+        const s = pop()
         vxApply((n, i) => i % 3 == 1? n * s : n)
         return this
     },
 
     stretchZ: function() {
-        const s = stack.pop()
+        const s = pop()
         vxApply((n, i) => i % 3 == 2? n * s : n)
         return this
     },
 
     name: function(n) {
-        _g.name = n || stack.pop()
+        _g.name = n || pop()
         return this
     },
 

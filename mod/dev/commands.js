@@ -1,9 +1,20 @@
+function onOff(v) {
+    return v? 'on' : 'off'
+}
+
 _commands = {
 
     hitboxes: function() {
         env.showHitboxes = !env.showHitboxes
+        term.println('hitboxes: ' + onOff(env.showHitboxes))
     },
     _hitboxes: 'turn hitboxes on and off',
+
+    backfaces: function() {
+        env.backfaces = !env.backfaces
+        term.println('backfaces: ' + onOff(env.backfaces))
+    },
+    _backfaces: 'turn backfaces on and off',
 
     help: function(cmd) {
         const dir = {}

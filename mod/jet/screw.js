@@ -1,12 +1,12 @@
 // generate some sample geometry to fill the library
 function zapGeoLib() {
-    geo.gen().cube().scale(1).name('cubeOne').brew()
-        .gen().cube().scale(2).name('cubeTwo').brew()
-        .gen().precision(15).sphere().name('sphereOne').brew()
-        .gen().precision(25).sphere().name('sphereTwo').brew()
-        .gen().precision(25).smooth().sphere().name('sphereTwo').brew()
-        .gen().precision(30).sharp().cylinder().scale(2).name('cilinder').brew()
-        .gen().cone().scale(2).name('cone').brew()
+    geo.gen().cube().push(1).scale().name('cubeOne').brew()
+        .gen().cube().push(2).scale().name('cubeTwo').brew()
+        .gen().push(15).precision().sphere().name('sphereOne').brew()
+        .gen().push(25).precision().sphere().name('sphereTwo').brew()
+        .gen().push(25).precision().smooth().sphere().name('sphereTwo').brew()
+        .gen().push(30).precision().sharp().cylinder().push(2).scale().name('cilinder').brew()
+        .gen().cone().push(2).scale().name('cone').brew()
 }
 
 // screw script parser and interpreter
@@ -35,7 +35,7 @@ const screw = (() => {
     }
 
     // === EMU ===
-    let def = {}, brews = []
+    let def = {}, brews = [], lines
 
     function rerr(msg) {
         throw new Error(`Screw Runtime Error: ${msg}`)
@@ -77,27 +77,41 @@ const screw = (() => {
     }
 
     function exec(ops) {
-        for (let i = 0; i < ops.length; i++) {
-            const op = ops[i]
-            switch(op.t) {
-                case NUM:
-                case STR:
-                    geo.push(op.v);
-                    break;
-                case ID:
-                    const word = def[op.v]
-                    if (word) exec(word)
-                    else {
-                        const a = op.v
-                        if (!geo[a]) rerr(`Unknown action [${a}]`)
-                        geo[a]()
-                        if (a === 'brew') {
-                            brews.push(geo.last())
+        let op
+        try {
+            for (let i = 0; i < ops.length; i++) {
+                op = ops[i]
+                switch(op.t) {
+                    case NUM:
+                    case STR:
+                        geo.push(op.v);
+                        break;
+                    case ID:
+                        const word = def[op.v]
+                        if (word) exec(word)
+                        else {
+                            const a = op.v
+                            if (!geo[a]) rerr(`Unknown action [${a}]`)
+                            geo[a]()
+                            if (a === 'brew') {
+                                brews.push(geo.last())
+                            }
                         }
-                    }
-                    break
-                default:
-                    rerr('Unexpected operation: ' + dumpToken(op))
+                        break
+                    default:
+                        rerr('Unexpected operation: ' + dumpToken(op))
+                }
+            }
+        } catch(e) {
+            if (debug) {
+                if (op) {
+                    const ptr = lpad('^', op.p)
+                    const msg = `@${op.l+1}.${op.p+1}: ${e}\n${lines[op.l]}\n${ptr}`
+                    term.println(msg)
+                    throw new Error(msg)
+                } else {
+                    throw e
+                }
             }
         }
         return brews
@@ -110,7 +124,8 @@ const screw = (() => {
 
     return (src) => {
         resetEmuState()
-        return exec( defineWords( screwUp(src) ) )
+        lines = src.split('\n')
+        return exec( defineWords( screwUp(lines) ) )
     }
 })();
 

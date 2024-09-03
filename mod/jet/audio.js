@@ -1,3 +1,4 @@
+const FM = 0
 const fmx = (() => {
 
 let actx, aout
@@ -74,6 +75,7 @@ return {
 })()
 
 function zapAudioController() {
+    if (!FM) return
 
     trap.register('keyDown', (e) => {
         switch(e.code) {

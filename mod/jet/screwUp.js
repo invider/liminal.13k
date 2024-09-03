@@ -65,7 +65,11 @@ screwUp = (() => {
                     last.t = DEF;
                     tk.push(last)
                     break
-                case ';': tk.push({t: END}); break;
+                case ';': tk.push({
+                              t: END,
+                              l: N,
+                              p: i
+                          }); break;
                 case '"':
                     let str = []
                     c = getc()
@@ -77,7 +81,9 @@ screwUp = (() => {
                     if (c === '"') {
                         tk.push({
                             t: STR,
-                            v: str.join('')
+                            v: str.join(''),
+                            l: N,
+                            p: i
                         })
                         expectDelim(nextc())
                     }
@@ -109,6 +115,8 @@ screwUp = (() => {
                         tk.push({
                             t: NUM,
                             v: s * x,
+                            l: N,
+                            p: i
                         })
                     } else {
                         const id = [ c ]
@@ -123,6 +131,8 @@ screwUp = (() => {
                         tk.push({
                             t: ID,
                             v: id.join(''),
+                            l: N,
+                            p: i
                         })
                     }
             }
@@ -135,9 +145,7 @@ screwUp = (() => {
         return (!line || line.startsWith('#') || line.startsWith('--') || line.startsWith('=='))
     }
 
-    return (src) => {
-        const rawLines = src.split('\n').map(l => l.trim())
-
+    return (rawLines) => {
         const tokens = []
         rawLines.forEach((l, N) => {
             if (!isEmptyLine(l)) {
