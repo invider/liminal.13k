@@ -30,14 +30,29 @@ function vxApply(fn) {
 }
 
 function v3Clone(fn) {
+    swap = true
+    let bv
     const ln = _g.vertices.length
     for (let i = 0; i < ln; i += 3) {
         const x = _g.vertices[i], y = _g.vertices[i+1], z = _g.vertices[i+2]
         const v = fn(x, y, z)
-        _g.vertices.push(v[0])
-        _g.vertices.push(v[1])
-        _g.vertices.push(v[2])
+        if (swap && i % 9 === 3) {
+            bv = v
+        } else {
+            v3x(v)
+            if (swap && i % 9 === 6 && bv) {
+                v3x(bv)
+            }
+        }
     }
+}
+
+// merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
+function v3x(v) {
+    vec3.mulM4(v, _gMatrix)
+    _g.vertices.push(v[0])
+    _g.vertices.push(v[1])
+    _g.vertices.push(v[2])
 }
 
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices

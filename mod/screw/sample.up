@@ -1,0 +1,173 @@
+=====================================
+       Welcome to Corkscrew!       
+
+An unique 3D mesh editor
+perfect for creation of very compact
+semi-procedural models
+
+This is an .up file for SCREW, our
+little modeling language used
+to define geometry.
+
+Lets explore how that is done!
+=====================================
+
+
+=== Comments ===
+
+-- Sometimes you need to say something
+-- that is not part of your mesh generation program.
+-- Use comments freely in any part of your script.
+
+# this is a system comment,
+# it MUST start at the beginning of a line
+# and spans to it's end
+
+-- this is a regular comment
+
+== or maybe one to be used on more significant ocations.
+
+==== Create Some Headers ====
+
+--- And Subheaders ---
+
+-------------------------------------
+Comments could be multi-line.
+
+Just use horizontal strips of - or =
+-------------------------------------
+
+========================
+But make sure to match
+the number of characters
+in the closing line!!!
+
+This one will not close
+this comment
+========
+
+Even this one will not
+=======================
+It is one = short.
+
+This one, however, will
+========================
+
+
+
+================
+=   Geometry   =
+================
+
+-- Lets have some simple geometry
+
+== Cube
+-- To generate a cube, simply declare a geometry,
+-- generate cube vertices with "cube" command
+-- and brew the result
+
+gen cube brew
+
+
+== Named Bigger Cube
+
+-- it is a good practice to name your meshes for future reference
+-- lets make the next cube bigger and assign a name to it
+gen cube 2 scale "Named Cube" name brew
+
+-- we put the number 2 first
+-- and then execute the command that will use that number
+-- hence "2 scale" exactly in that order
+-- We always use values retrieved from stack.
+-- Think about a stack of dishes - the one placed last
+-- will be extracted first.
+
+-- So the order is always LIFO - Last In, First Out.
+
+
+== Generate More Shapes
+
+-- let's create a tetrahedron
+gen tetrahedron 2 scale "Tetrahedron One" name brew
+
+-- and a sphere
+gen sphere "Sphere One" name brew
+
+-- and a smooth sphere
+gen smooth sphere "simpleSphereOne" name brew
+
+-- a cylinder (will be smooth since the flag was set by the previous sphere)
+gen cylinder "simpleCylinderOne" name brew
+
+-- and now make one that is sharp and not smooth
+gen sharp cylinder "simpleCylinderOne" name brew
+
+
+
+== Complex transformations
+
+-- Lets make some magic with the next one
+gen
+
+-- add a simple sloped triangle
+0  -1   0
+0   0  -2
+-2  0   0
+tri
+reflectX    -- reflect the X coordinates to the other side of YZ plane
+reflectY    -- reflect the Y coordinates to the other side of XZ plane
+
+-- now we have a little pyramid
+-- set the scale for the next reflection
+-- so it would stretch the Z coordinates
+1 1 5 mscale
+reflectZ -- and finally reflect the Z
+
+-- lets name it!
+"Python Space Ship" name
+
+-- and don't forget to brew the mesh!
+brew
+
+
+
+====================================
+=       Commands Reference         =
+====================================
+----------------------------------------------------------------------
+gen - start mesh generation
+brew - bake the mesh into it's final form
+name - set the name to the current mesh
+
+tri
+plane
+box
+tetrahedron
+sphere
+cylinder
+cone
+ring
+circle
+
+mpush - save current geometry matrix
+mpop - restore current geometry matrix
+
+mscale - set the scale 3D vector (x,y,z) for newly generated geometry
+mtranslate - translate 3D vector for newly generated geometry
+mrotX - set rotation rate for newly generated geometry
+mrotY
+mrotZ
+mid - set the identity matrix for the geometry (reset all rotations, scales and transformations)
+
+reflectX
+reflectY
+reflectZ
+
+scale - scale the existing mesh
+stratchX - stratch the existing geometry
+stratchY
+stratchZ
+
+dump - print out current stack and geo transformation matrix
+dumpv - print out current vertices array
+----------------------------------------------------------------------

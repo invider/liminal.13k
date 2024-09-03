@@ -25,6 +25,7 @@ class GeoSpinner {
         if (this.gindex) this.buildLib()
         else if (this.glib) this.buildIndex()
         this.geoForm()
+        this.targetLast()
     }
 
     buildIndex() {
@@ -173,6 +174,10 @@ class GeoSpinner {
         this.spin = -1
         this.target --
         if (this.target < 0) this.target = this.shapes.length - 1
+    }
+
+    targetLast() {
+        this.target = this.shapes.length - 1
     }
 
     scale(s) {

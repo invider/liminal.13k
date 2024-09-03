@@ -1,3 +1,4 @@
+
 // generate some sample geometry to fill the library
 function zapGeoLib() {
     geo.gen().cube().push(1).scale().name('cubeOne').brew()
@@ -85,8 +86,6 @@ const screw = (() => {
                     case NUM:
                     case STR:
                         geo.push(op.v)
-                        log('==> ' + op.v)
-                        console.dir(op)
                         break;
                     case ID:
                         const word = def[op.v]

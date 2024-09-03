@@ -132,7 +132,7 @@ screwUp = (() => {
                     }
                     break
                 case '#':
-                    if (p === 0) skipLine() // works only at the beginning of a line
+                    if (p === 1) skipLine() // works only at the beginning of a line
                     break
                 case '-':
                     const n = inext('-'), nl = lnext()
