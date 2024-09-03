@@ -1,6 +1,8 @@
+
 0.5 0.5 0.5 mscale
 
 gen
+
 0  -1   0
 0   0  -2
 -2  0   0
@@ -34,9 +36,9 @@ tri
 0   0   5
 -2  0   0
 tri
-
 
 "modifiedOctahedron" name
+dumpv
 brew
 
 gen cube "cubeOne" name brew

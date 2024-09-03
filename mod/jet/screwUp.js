@@ -96,6 +96,7 @@ screwUp = (() => {
             }
         }
 
+        let sign = 1
         while (c) {
             switch(c) {
                 case ' ': case '\t': break;
@@ -145,6 +146,11 @@ screwUp = (() => {
                         } while(c && nn !== n)
                     } else if (n > 0) {
                         skipLine()
+                    } else {
+                        // just a sing
+                        sign = -1
+                        let nc = nextc()
+                        if (!(nc >= '0' && nc <= '9')) xerr('Number is expected!')
                     }
                     break
                 case '=':
@@ -163,10 +169,9 @@ screwUp = (() => {
                     break
 
                 default:
-                    if (c >= '0' && c <= '9' || c === '-') {
-                        let x = 0, s = 1
-                        if (c === '-') s = -1
-                        else x = char2Digit(c)
+                    if (c >= '0' && c <= '9') {
+                        let x = 0
+                        x = char2Digit(c)
 
                         c = getc()
                         while(c && c >= '0' && c <= '9') {
@@ -187,9 +192,10 @@ screwUp = (() => {
                         retc(c)
                         tk.push({
                             t: NUM,
-                            v: s * x,
+                            v: sign * x,
                             l, p
                         })
+                        sign = 1 // + is a default
                     } else {
                         const id = [ c ]
 

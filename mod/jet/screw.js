@@ -84,7 +84,9 @@ const screw = (() => {
                 switch(op.t) {
                     case NUM:
                     case STR:
-                        geo.push(op.v);
+                        geo.push(op.v)
+                        log('==> ' + op.v)
+                        console.dir(op)
                         break;
                     case ID:
                         const word = def[op.v]
@@ -113,6 +115,7 @@ const screw = (() => {
                     }
                     msg += `${lines[op.l]}\n${ptr}`
 
+                    console.dir(e)
                     term.println(msg)
                     throw new Error(msg)
                 } else {

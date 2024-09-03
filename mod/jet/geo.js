@@ -80,7 +80,6 @@ const $ = {
         return $
     },
     pushv: w => {
-        console.dir(w)
         for (x of w) stack.push(x)
         return $
     },
@@ -532,8 +531,45 @@ const $ = {
     },
 
     dump: function() {
+        const b = []
+
+        b.push('=== matrix ===\n')
+        _gMatrix.forEach((v, i) => {
+            b.push(v)
+            b.push('  ')
+            if (i % 4 === 3) b.push('\n')
+        })
+
+
+        b.push('\n=== stack ===\n')
+        stack.forEach((v, i) => {
+            b.push(v)
+            b.push('  ')
+            if (i % 3 === 2) b.push('\n')
+        })
+
         console.dir(stack)
         console.dir(_gMatrix)
+        const d = b.join('')
+        console.log(d)
+        term.println('\n' + d)
+    },
+
+    dumpv: function() {
+        const b = []
+
+        b.push('\n=== verteces ===\n')
+        _g.vertices.forEach((v, i) => {
+            b.push(v)
+            b.push('  ')
+            if (i % 9 === 8) b.push('\n')
+            else if (i % 3 === 2) b.push('    ')
+        })
+
+        const d = b.join('')
+        console.dir(_g.vertices)
+        console.log(d)
+        term.println('\n' + d)
     },
 }
 
