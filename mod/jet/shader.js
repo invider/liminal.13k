@@ -110,7 +110,7 @@ const _fshader = `
         gl_FragColor = vec4(
                 uAmbientColor * uLightIntensities.x
                 + (texture2D(uTexture, vUV).xyz * uOpt.z
-                   + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
+                     + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
                 + uSpecularColor * (specular + specularD) * uLightIntensities.z,
                 opacity) * uOpt.x                // shaded component
             + vec4(uDiffuseColor * uOpt.y, 1.0); // wireframe component

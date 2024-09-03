@@ -97,6 +97,7 @@ window.onload = () => {
     gcanvas = document.getElementById('gcanvas')
     gl = gcanvas.getContext('webgl2', {
         alpha: false,
+        preserveDrawingBuffer: true,
     })
     gcanvas.onwebglcontextlost = e => e.preventDefault()
     gcanvas.webglcontextrestored = setupGL()

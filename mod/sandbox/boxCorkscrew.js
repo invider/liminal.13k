@@ -12,6 +12,7 @@ _.boxCorkscrew = (() => {
         lab.cam.attach( new OrbitalControllerPod() )
         lab.cam.lookAt = vec3z()
 
+        // expand orbital control for the camera
         extend( lab.cam.mover, {
 
             activate: function(action) {
@@ -25,6 +26,14 @@ _.boxCorkscrew = (() => {
                 this.pushers[action] = 0
                 lab.control.stop(action)
             },
+
+            onMouseDown(e) {
+                if (this.disabled) return
+
+                const x = e.clientX - gcanvas.offsetLeft
+                const y = e.clientY - gcanvas.offsetTop
+                nodePickUp(x, y)
+            }
         })
 
         env.directionalLightVector = vec3(1, 1, 1)
