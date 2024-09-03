@@ -4,7 +4,7 @@ SRC=./mod
 DIST=./dist
 STAGE=$DIST/stage
 TAR=$DIST/target
-ZIP=game.zip
+ZIP=liminal.zip
 
 echo "Indexing source files..."
 ./index

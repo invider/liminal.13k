@@ -5,7 +5,7 @@ const { minify_sync } = require("terser")
 const env = {
     src: './src2',
     tar: './dist/src2',
-    tarJS: 'game.js',
+    tarJS: 'zap.js',
 }
 
 function parseArgs() {
