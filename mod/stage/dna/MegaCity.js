@@ -1,4 +1,8 @@
 let _trid = 0
+
+const TSIZE = 64
+const THEIGHT = 8
+
 class MegaCity {
 
     constructor() {
@@ -6,6 +10,26 @@ class MegaCity {
             name: 'city',
             blocks: [],
         })
+    }
+
+    edge(dir, basePos) {
+        let edge = 0
+        this.blocks.forEach(b => {
+            switch(dir) {
+                case 1:
+                    if (b.pos[2] < edge) edge = b.pos[2] - basePos[2]
+                    break
+                case 2:
+                    if (b.pos[0] < edge) edge = b.pos[0] - basePos[0]
+                    break
+                case 3:
+                    if (b.pos[2] > edge) edge = b.pos[2] - basePos[2]
+                    break
+                case 4:
+                    if (b.pos[0] > edge) edge = b.pos[0] - basePos[0]
+            }
+        })
+        return Math.abs(edge)
     }
 
     isClaimed(pos, hsize) {
@@ -18,6 +42,7 @@ class MegaCity {
         if (this.isClaimed(pos, hsize)) return
 
         const b = lab.attach( new Terrace({
+            _$: this,
             name: 'terrace' + (++_trid),
             _connection: connection,
             pos, hsize,
@@ -36,9 +61,9 @@ class MegaCity {
         const p = vec3.clone(cn.pos)
         const dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
-              hsize = vec3(32, 8, 32)
+              hsize = vec3(TSIZE, THEIGHT, TSIZE)
         p[0] += hsize[0] * dx
-        p[1] += 10
+        p[1] += 4 - rnd() * 8
         p[2] += hsize[2] * dz
 
         const block = this.claimBlock(p, hsize, cn)
@@ -52,8 +77,6 @@ class MegaCity {
 
     establish(connection) {
         log('establishing a connection from ' + connection.src.name)
-        console.dir(connection)
-
         this.zone(connection)
     }
 
@@ -66,9 +89,10 @@ class MegaCity {
     init() {
         // our first terrace
         this.blocks.push( lab.attach( new Terrace({
+            _$: this,
             name: 'terrace' + (++_trid),
             pos:   vec3(0,  0, 0),
-            hsize: vec3(64, 4, 64),
+            hsize: vec3(TSIZE, THEIGHT, TSIZE),
         })))
 
         lab.attach( new Prop({
@@ -140,7 +164,15 @@ class MegaCity {
         */
     }
 
+    tryToGrow() {
+        const wedge = this.edge(W, vec3.clone(lab.hero.pos))
+        if (wedge < tune.minEdgeTrigger) {
+            log('Not Enough Western Content!!! Go West!')
+            this.erect(W)
+        }
+    }
+
     evo(dt) {
-        // TODO decide if we need to scale
+        this.tryToGrow()
     }
 }

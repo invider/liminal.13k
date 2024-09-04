@@ -25,6 +25,7 @@ _.defaultStage = () => {
         hero.reset()
     })
 
+
     if (debug) {
         lab.attach( _.playerStateDump )
 

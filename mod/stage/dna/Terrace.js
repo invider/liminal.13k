@@ -4,6 +4,7 @@ class Terrace extends Frame {
     constructor(st) {
         super(st)
         this.cellHSize = 8
+        this.cellHHeight = 1.5
         this.connections = []
         if (this._connection) {
             this.connections[this._connection.srcDir()] = this._connection
@@ -29,7 +30,7 @@ class Terrace extends Frame {
     // TODO must be obtained from the geo library
     geoform() {
         const s =  this.cellHSize, // block half-size
-              h = .5
+              h =  this.cellHHeight
         this._cube = geo.gen().cube()
             .pushv([s, h, s])
             .stretchX()
@@ -48,33 +49,6 @@ class Terrace extends Frame {
             src: this,
             cell, pos, dir,
         })
-        console.dir(cn)
-
-        const r = 1.5
-        const sphereMesh = geo.gen().push(15).precision().sphere().push(r).scale().smooth().bake()
-        geo.sharp()
-
-        this.attach( new Body({
-            pos: vec3(
-                cn.pos[0],
-                cn.pos[1],
-                cn.pos[2]
-            ),
-
-            _pods: [
-                new Surface({
-                    geo: sphereMesh,
-                    mat: {
-                        Ka: vec3(1, 0, 0),
-                        Kd: vec3(1, 0, 0),
-                        Ks: vec3(1, 1, 1),
-                        Ke: vec3(1, 1, 1),
-                        Lv: vec4(.4, .7, 1, 0),
-                        Ns: 20,
-                    },
-                }),
-            ],
-        }))
     }
 
     freeConnectionTowards(dir) {
@@ -106,9 +80,9 @@ class Terrace extends Frame {
                 ]
                 const icolor = ((iz % 2) + (ix % 2)) % 2
 
-                const yShift = floor(rnd() * 4)
+                const yShift = floor(rnd() * 3)
 
-                let h = .5
+                let h = this.cellHHeight
                 const cell = this.attach( new Body({
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
