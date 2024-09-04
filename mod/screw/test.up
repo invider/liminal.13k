@@ -1,0 +1,29 @@
+gen sphere "Sphere One" name brew
+gen cylinder "Cylinder One" name brew
+
+-- lets create a new shape
+gen
+
+3 0 0
+0 2 0
+0 0 3
+tri
+
+reflectX
+reflectY
+
+mpush
+1 1 3 mscale
+reflectZ
+mpop
+
+0.5 0.5 0.5 scale
+
+
+"Modified Octahedron" name
+
+brew
+
+
+-- lets add a cube
+gen cube "Johnny the Cube" name brew

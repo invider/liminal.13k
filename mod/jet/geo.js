@@ -101,11 +101,35 @@ const $ = {
     drop: () => {
         pop()
     },
+    swap: () => {
+        const v1 = pop(), v2 = pop()
+        stack.push(v1)
+        stack.push(v2)
+    },
     mpush: () => {
         mstack.push( mat4.clone(_gMatrix) )
     },
     mpop: () => {
         _gMatrix = mstack.pop()
+    },
+
+    // basic ops
+    add: () => {
+        stack.push( pop() + pop() )
+    },
+
+    sub: () => {
+        const v = pop()
+        stack.push( pop() - v )
+    },
+
+    mul: () => {
+        stack.push( pop() * pop() )
+    },
+
+    div: () => {
+        const v = pop()
+        stack.push( pop() / v )
     },
 
     precision: function(v) {

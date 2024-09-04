@@ -98,7 +98,7 @@ class OrbitalControllerPod {
     onMouseMove(e) {
         if (this.disabled) return
 
-        if (e.buttons & 1) {
+        if (e.buttons & 4) {
             const dx = e.movementX, dy = e.movementY
 
             if (dx) {

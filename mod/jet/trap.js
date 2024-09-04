@@ -11,12 +11,14 @@ trap.register = function(eventName, fn) {
 window.onkeydown = (e) => {
     if (e.repeat) return
 
+    /*
     switch(e.code) {
         case 'KeyP':
             if (!env.disabled) env.paused = !env.paused
             break
     }
     if (env.paused) return
+    */
 
     trap('keyDown', e)
 

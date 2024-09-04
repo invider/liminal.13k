@@ -10,6 +10,26 @@ little modeling language used
 to define geometry.
 
 Lets explore how that is done!
+
+
+=== Basic Movement ===
+* Middle click and drag the mouse to rotate the camera around the model.
+* Use mouse wheel to zoom in and out
+* W/S - zoom in/out
+* A/D - move left-right around the model
+* E/C = move up-down around the model
+
+* Z/X or PageUp/PageDown - switch between models.
+        All your models are on the single spinner,
+        and you can select them by moving clockwise or counterclockwise.
+* Backslash - turn the wireframe mode on/off
+
+* Up/Down Arrows - scale up/down the current model
+
+* F7 - open the Screw script editor
+       or close it and apply the changes.
+* F2 - save the script
+
 =====================================
 
 

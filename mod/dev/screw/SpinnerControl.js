@@ -13,7 +13,7 @@ class SpinnerControl {
     init() {
         const $ = this
         trap.register('keyDown', (e) => {
-            if (!$.active || env.disabled) return
+            if ($.disabled || env.disabled) return
 
             switch(e.code) {
                 case 'PageUp': case 'KeyZ':
@@ -118,10 +118,12 @@ class SpinnerControl {
     }
 
     activate(action) {
+        if (this.disabled) return
         this.pushers[action] = 1
     }
 
     stop(action) {
+        if (this.disabled) return
         this.pushers[action] = 0
     }
 }
