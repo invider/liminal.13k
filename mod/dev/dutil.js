@@ -127,20 +127,16 @@ function saveLocalFile(name, plainText) {
 }
 
 function nodePickUp(x, y) {
-    log('picking up some!')
-    
-    // tune materials into unique ambient
-    // ...
     const pickable = []
     lab.apply(e => {
         if (!e.dead && !e.ghost && e.surface) {
-            const _pid = pickable.length
-            e._pid = _pid
             pickable.push(e)
+            const _pid = e._pid = pickable.length // start with #1, #0 is reserved for the empty spot
             e.surface._mat = e.surface.mat
             e.surface._renderOptions = e.surface.renderOptions
             e.surface.renderOptions = vec4(1, 0, 0, 0)
 
+            // tune materials into unique ambient colors
             const idv3 = id2rgb(_pid)
             e.surface.mat = {
                 Ka: idv3,
@@ -153,30 +149,29 @@ function nodePickUp(x, y) {
             }
         }
     })
-    console.dir(pickable)
 
-    gl.clearColor(0, 0, 0, 0)
+    env._clearColor = env.clearColor  // buffer current clear color
+    env.clearColor = vec4(0, 0, 0, 0) // we need the totally black background for picking
     drawScene()
 
-    // TODO why we are not getting the right pixels?
-    //      it works somewhere in the middle kinda
-    //      but only one object in the middle gets picked
-    //      others - return 0.0.0.255??? why???
-    //      buffers needs to be preserved? render to a separate framebuffer? coordinates?
-    log('pixel at ' + x + ':' + y)
     const pixel = new Uint8Array(4)
-    gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel)
-    log(pixel)
-    log('id: ' + rgb2id(pixel))
+    // [!] The framebuffer coordinates are originating at the bottom left!!!
+    gl.readPixels(x, gcanvas.height - y, 1, 1, gl.RGB, gl.UNSIGNED_BYTE, pixel)
+    const pid = rgb2id(pixel)
+    // log('#' + pid)
+    const picked = pickable[pid - 1] // shift one left to compensate for the empty spot
 
     // bring everything back
     pickable.forEach(e => {
         e.surface.mat = e.surface._mat
         e.surface.renderOptions = e.surface._renderOptions
     })
-    
+    env.clearColor = env._clearColor
+
     // draw again
     drawScene()
+
+    return picked
 }
 
 function id2rgb(id) {

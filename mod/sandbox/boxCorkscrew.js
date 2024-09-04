@@ -32,7 +32,10 @@ _.boxCorkscrew = (() => {
 
                 const x = e.clientX - gcanvas.offsetLeft
                 const y = e.clientY - gcanvas.offsetTop
-                nodePickUp(x, y)
+                const target = nodePickUp(x, y)
+                if (target) {
+                    console.dir(target)
+                }
             }
         })
 

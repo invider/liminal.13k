@@ -86,8 +86,6 @@ function setupStage() {
 }
 
 function setupGL() {
-    gl.clearColor(0.12, .07, .14, 1.0)
-
     setupShaders()
     setupUniforms()
     gl.useProgram(glProg)
