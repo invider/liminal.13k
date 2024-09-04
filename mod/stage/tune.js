@@ -13,6 +13,6 @@ const tune = {
     overspeedFactor: .005,
     terminalVelocity: 48,
 
-    maxStep:      1,
+    maxStep:      2,
     stepUpSpeed:  2,
 }

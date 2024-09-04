@@ -1,3 +1,4 @@
+let _trid = 0
 class MegaCity {
 
     constructor() {
@@ -13,14 +14,16 @@ class MegaCity {
         )).length
     }
 
-    claimBlock(pos, hsize) {
+    claimBlock(pos, hsize, connection) {
         if (this.isClaimed(pos, hsize)) return
 
-        this.blocks.push( lab.attach( new Terrace({
-            name: 'terrace1',
-            seed:  101,
+        const b = lab.attach( new Terrace({
+            name: 'terrace' + (++_trid),
+            _connection: connection,
             pos, hsize,
-        })))
+        }))
+        this.blocks.push(b)
+        return b
     }
 
     // release and garbage collect
@@ -29,15 +32,41 @@ class MegaCity {
         // TODO
     }
 
+    zone(cn) {
+        const p = vec3.clone(cn.pos)
+        const dx = dirDX(cn.dir),
+              dz = dirDZ(cn.dir),
+              hsize = vec3(32, 8, 32)
+        p[0] += hsize[0] * dx
+        p[1] += 10
+        p[2] += hsize[2] * dz
+
+        const block = this.claimBlock(p, hsize, cn)
+        if (!block) {
+            log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
+        } else {
+            log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
+            cn.join(block)
+        }
+    }
+
+    establish(connection) {
+        log('establishing a connection from ' + connection.src.name)
+        console.dir(connection)
+
+        this.zone(connection)
+    }
+
     erect(dir) {
-        this.blocks.filter(b => b.freeConnector(dir))
+        const cnls= this.blocks.map(b => b.freeConnectionTowards(dir)).filter(c => c)
+        const cn = cnls[floor(rnd() * cnls.length)]
+        if (cn) this.establish(cn)
     }
 
     init() {
         // our first terrace
         this.blocks.push( lab.attach( new Terrace({
-            name: 'terrace1',
-            seed:  101,
+            name: 'terrace' + (++_trid),
             pos:   vec3(0,  0, 0),
             hsize: vec3(64, 4, 64),
         })))
@@ -53,6 +82,7 @@ class MegaCity {
         }))
 
 
+        /*
         // sample boxes
         _gUV = 1   // enable texture mapping
         let h = 2
@@ -107,10 +137,10 @@ class MegaCity {
             ],
         }))
         _gUV = 0
+        */
     }
 
     evo(dt) {
+        // TODO decide if we need to scale
     }
-
-
 }

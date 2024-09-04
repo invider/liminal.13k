@@ -1,7 +1,7 @@
 // =========================================
 
-env.title = 'Corkscrew 3D Mesh Editor'
+env.title = 'Procedural City Generation'
 
-//env.banner = 'AFK for 20 mins'
+//env.banner = 'AFK for 15 mins'
 
 // =========================================

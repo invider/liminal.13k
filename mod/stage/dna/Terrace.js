@@ -3,8 +3,11 @@ class Terrace extends Frame {
 
     constructor(st) {
         super(st)
-        this.cellHSize = 16
+        this.cellHSize = 8
         this.connections = []
+        if (this._connection) {
+            this.connections[this._connection.srcDir()] = this._connection
+        }
         this.geoform() // TODO get geo from the glib
         this.shape()
 
@@ -36,28 +39,25 @@ class Terrace extends Frame {
     }
 
     createConnection(cell, pos, dir) {
-        const shift = this.cellHSize * 1.25
-        switch(dir) {
-            case 1: pos[2] -= shift; break;
-            case 2: pos[0] -= shift; break;
-            case 3: pos[2] += shift; break;
-            case 4: pos[0] += shift; break;
-        }
-        const cn = this.connections[dir - 1] = new Connection({
-            __: this,
+        const shift = this.cellHSize * 1.25,
+            dx = dirDX(dir),
+            dz = dirDZ(dir)
+        pos[0] += shift * dx
+        pos[2] += shift * dz
+        const cn = this.connections[dir] = new Connection({
+            src: this,
             cell, pos, dir,
         })
         console.dir(cn)
 
-
-        const r = .5
+        const r = 1.5
         const sphereMesh = geo.gen().push(15).precision().sphere().push(r).scale().smooth().bake()
         geo.sharp()
 
         this.attach( new Body({
             pos: vec3(
                 cn.pos[0],
-                cn.pos[1] + 5,
+                cn.pos[1],
                 cn.pos[2]
             ),
 
@@ -75,7 +75,10 @@ class Terrace extends Frame {
                 }),
             ],
         }))
-        
+    }
+
+    freeConnectionTowards(dir) {
+        return this.connections[dir].selfWhenFree()
     }
 
     shape() {
@@ -103,7 +106,7 @@ class Terrace extends Frame {
                 ]
                 const icolor = ((iz % 2) + (ix % 2)) % 2
 
-                const yShift = floor(rnd() * 2)
+                const yShift = floor(rnd() * 4)
 
                 let h = .5
                 const cell = this.attach( new Body({
@@ -143,7 +146,7 @@ class Terrace extends Frame {
                 if (dir) {
                     // got the edge and it is not a gap!
                     // TODO check that the cell type is passable and not a gap or a building
-                    if (!this.connections[dir-1]) {
+                    if (!this.connections[dir]) {
                         //log('got the edge at: ' + ix + ':' + iz + ' -> ' + dir)
                         switch(dir) {
                             case 1: case 3:
