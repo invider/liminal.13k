@@ -51,11 +51,12 @@ class SolidBoxPod {
         }
     }
 
-    place() {
+    // precalculate bounding volume
+    fixBounds() {
         // TODO keep precalculated for static models
         // TODO apply the cached model matrix from the parent
         this.wpos = vec3.clone(this.pos)
-        vec3.add(this.wpos, this.__.pos)
+        if (this.__) vec3.add(this.wpos, this.__.pos)
 
         const min = [], max = [],
               wp = this.wpos, h = this.hsize
@@ -69,6 +70,7 @@ class SolidBoxPod {
         this.max = max
     }
 
+    /*
     closestPoint(p) {
         const o = this.wpos, h = this.hsize
         // TODO accumulate into a vec3
@@ -81,13 +83,15 @@ class SolidBoxPod {
             o[2] + h[2] * dz,
         )
     }
+    */
 
     touch(solid) {
-        this.place()
+        // TODO must be precalcuated fox fixed nodes!
+        this.fixBounds()
 
         switch(solid.type) {
             case HIT_BOX:
-                solid.place()
+                solid.fixBounds() // TODO precalculate?
                 return intersectHitboxes(this, solid)
             case HIT_SPHERE:
                 const sdist = squareDistPoint(solid.wpos, this.min, this.max)
@@ -105,7 +109,7 @@ class SolidBoxPod {
         let tmin = 0,
             tmax = 99999
 
-        this.place()
+        this.fixBounds() // move out
         const w = this.wpos,
               h = this.hsize,
               min = this.min,

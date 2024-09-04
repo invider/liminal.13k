@@ -1,13 +1,46 @@
 class MegaCity {
 
-    init() {
-        // our first terrace
-        lab.attach( new Terrace({
+    constructor() {
+        extend(this, {
+            name: 'city',
+            blocks: [],
+        })
+    }
+
+    isClaimed(pos, hsize) {
+        return this.blocks.filter(b => b.porous.touch(
+            new SolidBoxPod({ pos, hsize })
+        )).length
+    }
+
+    claimBlock(pos, hsize) {
+        if (this.isClaimed(pos, hsize)) return
+
+        this.blocks.push( lab.attach( new Terrace({
             name: 'terrace1',
             seed:  101,
-            pos:   vec3(0,  4, 0),
+            pos, hsize,
+        })))
+    }
+
+    // release and garbage collect
+    // a previously occupied block
+    release(block) {
+        // TODO
+    }
+
+    erect(dir) {
+        this.blocks.filter(b => b.freeConnector(dir))
+    }
+
+    init() {
+        // our first terrace
+        this.blocks.push( lab.attach( new Terrace({
+            name: 'terrace1',
+            seed:  101,
+            pos:   vec3(0,  0, 0),
             hsize: vec3(64, 4, 64),
-        }))
+        })))
 
         lab.attach( new Prop({
             name:  'superprop',
@@ -19,8 +52,9 @@ class MegaCity {
             }
         }))
 
-        // a sample box
-        _gUV = 1
+
+        // sample boxes
+        _gUV = 1   // enable texture mapping
         let h = 2
 
         lab.attach( new Body({
@@ -76,7 +110,6 @@ class MegaCity {
     }
 
     evo(dt) {
-
     }
 
 

@@ -12,7 +12,7 @@ class SolidSpherePod {
         this.__.solid = this
     }
 
-    place() {
+    fixBounds() {
         // TODO apply parent model matrix on .pos
         this.wpos = vec3.clone(this.pos)
         vec3.add(this.wpos, this.__.pos)

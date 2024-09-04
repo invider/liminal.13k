@@ -26,15 +26,21 @@ const flags = {},
     SHIFT_ROLL   = 23,
     ZOOM_Y       = 24,
 
-    // colliders
+    // collider bounding volumes
     HIT_BOX       = 1,
     HIT_SPHERE    = 2,
+    // collider kinds
     EPHEMERAL     = 0,
     HARD          = 1,
     // collision types
     HIT_NONE      = 0,
     HIT_STEP      = 1,
-    HIT_HARD      = 2
+    HIT_HARD      = 2,
+
+    N             = 1,
+    W             = 2,
+    S             = 3,
+    E             = 4
 
 
 const env = {

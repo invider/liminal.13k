@@ -4,9 +4,7 @@ _.defaultStage = () => {
     // introduce collision detection to the lab nodes
     extend(lab, collidableTrait)
 
-    lab.attach( new MegaCity({
-        name: 'city',
-    }))
+    lab.attach( new MegaCity() )
 
     lab.freeCam = lab.cam
     // create hero cam

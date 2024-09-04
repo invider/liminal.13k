@@ -47,7 +47,7 @@ class Hero extends Frame {
     detectCollisions(mv) {
         env.dump.Impact = 'None'
 
-        this.solid.place()
+        //this.solid.fixBounds()
         return lab.collide(this.solid, mv)
     }
 
