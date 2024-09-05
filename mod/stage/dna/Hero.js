@@ -82,10 +82,18 @@ class Hero extends Frame {
         }
         */
 
+        const pym = mt[1]
         mt[1] -= tune.gravity * dt
+        if (pym > 0 && mt[1] < 0) {
+            // reached the peak
+            this.lastJumpPad = null
+        }
         if (mt[1] < -tune.terminalVelocity) {
             mt[1] = -tune.terminalVelocity
-            trap('terminalFall')
+
+            if (this.pos[1] < this.lastPlatform.pos[1] - tune.terminalShift) {
+                trap('terminalFall')
+            }
         }
 
         // apply horizontal friction

@@ -1,3 +1,11 @@
+const jumpPadMat = {
+    Ka: vec3(.5, .6, .7),
+    Kd: rgb('EDA411'),
+    Ks: vec3(1, 1, 1),
+    Ke: vec3(1, 1, 1),
+    Lv: vec4(.2, .5, .8, 0),
+    Ns: 20,
+}
 
 // Runnable Mega-City 13 Block
 class Terrace extends Frame {
@@ -56,6 +64,22 @@ class Terrace extends Frame {
             src: this,
             cell, pos, dir,
         })
+
+        // activate the jumppad
+        cell.dir = rnd() * PI2
+        cell.surface.mat = jumpPadMat
+        cell.onTouch = function(runner) {
+            if (runner.lastJumpPad === this || runner.momentum[1] > -5) return
+            runner.lastJumpPad = this
+            defer(() => {
+                // push - push direction is a bad idea
+                const dy = tune.jumpPadPush
+
+                runner.momentum[0] += dx
+                runner.momentum[1] += dy
+                runner.momentum[2] += dz
+            })
+        }
     }
 
     searchFreeConnection(d) {

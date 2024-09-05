@@ -15,6 +15,8 @@ const tune = {
     airResistence:   .2,
     overspeedFactor: .005,
     terminalVelocity: 48,
+    terminalShift:    20,
+    jumpPadPush:      45,
 
     maxStep:          2,
     stepUpSpeed:      2,
