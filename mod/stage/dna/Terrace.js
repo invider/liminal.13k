@@ -1,4 +1,3 @@
-const CELL_HSIZE = 8
 
 // Runnable Mega-City 13 Block
 class Terrace extends Frame {
@@ -90,15 +89,15 @@ class Terrace extends Frame {
         // x4 for this terrace configuration
 
         let count = 0
-        const gapChance = .2
-        const s = CELL_HSIZE, // block half-size
+        const gapChance = .2,
+              s  = CELL_HSIZE,
               iw = floor(this.hsize[0]/s),
               id = floor(this.hsize[2]/s),
               fw = floor(iw * mrnd()),
               fd = floor(id * mrnd())
 
-        for (let z = np[2], iz = 0; z < xp[2]; z += s*2, iz++) {
-            for (let x = np[0], ix = 0; x < xp[0]; x += s*2, ix++) {
+        for (let z = np[2], iz = 0; z <= xp[2]-2*s; z += s*2, iz++) {
+            for (let x = np[0], ix = 0; x <= xp[0]-2*s; x += s*2, ix++) {
                 if (mrnd() < gapChance) continue // got a gap
 
                 // sky block

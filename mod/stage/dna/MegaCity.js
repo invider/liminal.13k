@@ -1,7 +1,10 @@
 let _trid = 0
 
-const TSIZE = 32
-const THEIGHT = 8
+const BASE_BLOCK_SIZE = 1,
+      VAR_BLOCK_SIZE = 7,
+      CELL_HSIZE = 8,
+      TSIZE = 32,
+      THEIGHT = 8
 
 const mrnd = LNGSource(7)
 
@@ -83,7 +86,9 @@ class MegaCity {
         const p = vec3.clone(cn.pos)
         const dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
-              hsize = vec3(TSIZE, THEIGHT + mrnd() * 4, TSIZE)
+              bw = (BASE_BLOCK_SIZE + floor(mrnd() * VAR_BLOCK_SIZE)) * CELL_HSIZE,
+              bd = (BASE_BLOCK_SIZE + floor(mrnd() * VAR_BLOCK_SIZE)) * CELL_HSIZE,
+              hsize = vec3(bw, THEIGHT + floor(mrnd() * 4), bd)
         const gap = floor(mrnd()*5) * CELL_HSIZE/2
         p[0] += (gap + hsize[0]) * dx
         p[1] += hsize[1] + floor(mrnd() * 5 - 2)
@@ -203,10 +208,7 @@ class MegaCity {
 
     genesisBomb() {
         // we prefer to build westward
-        if (!this.edgeGenesis(W)) {
-            this.edgeGenesis(N)
-            this.edgeGenesis(S)
-        }
+        if (!this.edgeGenesis(W)) if (!this.edgeGenesis(N)) this.edgeGenesis(S)
     }
 
     evo(dt) {

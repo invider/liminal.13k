@@ -19,5 +19,5 @@ const tune = {
     maxStep:      2,
     stepUpSpeed:  2,
 
-    minEdgeTrigger: 15,
+    minEdgeTrigger: 45,
 }
