@@ -16,8 +16,9 @@ const tune = {
     overspeedFactor: .005,
     terminalVelocity: 48,
 
-    maxStep:      2,
-    stepUpSpeed:  2,
+    maxStep:          2,
+    stepUpSpeed:      2,
 
-    minEdgeTrigger: 45,
+    maxVisibilityDistSq:  250*250,
+    minEdgeTrigger:       45,
 }

@@ -89,7 +89,7 @@ class MegaCity {
               bw = (BASE_BLOCK_SIZE + floor(mrnd() * VAR_BLOCK_SIZE)) * CELL_HSIZE,
               bd = (BASE_BLOCK_SIZE + floor(mrnd() * VAR_BLOCK_SIZE)) * CELL_HSIZE,
               hsize = vec3(bw, THEIGHT + floor(mrnd() * 4), bd)
-        const gap = floor(mrnd()*5) * CELL_HSIZE/2
+        const gap = floor(mrnd()*4) * CELL_HSIZE/2
         p[0] += (gap + hsize[0]) * dx
         p[1] += hsize[1] + floor(mrnd() * 5 - 2)
         p[2] += (gap + hsize[2]) * dz

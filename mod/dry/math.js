@@ -87,6 +87,10 @@ vec3.dist = function(v, w) {
     return Math.hypot(v[0]-w[0], v[1]-w[1], v[2]-w[2])
 }
 
+vec3.distSq = function(v, w) {
+    return ((v[0]-w[0])*(v[0]-w[0]) + (v[1]-w[1])*(v[1]-w[1]) + (v[2]-w[2])*(v[2]-w[2]))
+}
+
 vec3.normalize = function(v) {
     const l = Math.hypot(v[0], v[1], v[2])
     if (l === 0) return v

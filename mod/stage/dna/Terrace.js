@@ -32,11 +32,6 @@ class Terrace extends Frame {
         this.detach(this.hitBoxMesh)
     }
 
-    collide(impactor, mv) {
-        if (!this.porous.touch(impactor)) return // the impactor is outside the range
-        return this.collideWithin(impactor, mv)
-    }
-
     // create geometry
     // TODO must be obtained from the geo library
     geoform() {
@@ -164,6 +159,17 @@ class Terrace extends Frame {
                 }
                 count ++
             }
+        }
+    }
+
+    collide(impactor, mv) {
+        if (!this.porous.touch(impactor)) return // the impactor is outside the range
+        return this.collideWithin(impactor, mv)
+    }
+
+    draw() {
+        if (vec3.distSq(this.pos, lab.hero.pos) < tune.maxVisibilityDistSq) {
+            super.draw()
         }
     }
 
