@@ -58,6 +58,9 @@ app.post('/up/:screw', (req, res) => {
 app.use(express.static('mod'))
 
 app.listen(PORT, BIND, () => {
-    console.log(`Cork server is running on http://${BIND}:${PORT}`);
-    console.log(`            * http://${BIND}:${PORT}/termit.html#boxCorkscrew/simple`);
+    console.log(`=====   Cork server is running   =====`)
+    console.log(` * http://${BIND}:${PORT}`);
+    console.log(` * http://${BIND}:${PORT}/debug.html`);
+    console.log(` * http://${BIND}:${PORT}/debug.html#boxGeo`);
+    console.log(` * http://${BIND}:${PORT}/debug.html#boxCorkscrew/sample`);
 })

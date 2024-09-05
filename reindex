@@ -1,5 +1,5 @@
 #!/bin/sh
 
 ./index
-./index termit.html
+./index debug.html
 
