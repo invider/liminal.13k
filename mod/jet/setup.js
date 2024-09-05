@@ -6,6 +6,7 @@ let _mMatrix, _nMatrix, _vMatrix, _pMatrix,
     _uDirectionalLightColorI,
     _uPointLightPosition,
     _uPointLightColorI,
+    _uFogColor,
     _uAmbientColor,
     _uDiffuseColor,
     _uSpecularColor,
@@ -54,6 +55,7 @@ function setupUniforms() {
     _uDirectionalLightColorI = gl.getUniformLocation(glProg, 'uDirectionalLightColorI')
     _uPointLightPosition = gl.getUniformLocation(glProg, 'uPointLightPosition')
     _uPointLightColorI = gl.getUniformLocation(glProg, 'uPointLightColorI')
+    _uFogColor = gl.getUniformLocation(glProg, 'uFogColor')
     _uAmbientColor = gl.getUniformLocation(glProg, 'uAmbientColor')
     _uDiffuseColor = gl.getUniformLocation(glProg, 'uDiffuseColor')
     _uSpecularColor = gl.getUniformLocation(glProg, 'uSpecularColor')

@@ -14,20 +14,26 @@ const _vshader = `
     varying vec3 vWorldNormal;
     varying vec3 vColor;
     varying vec2 vUV;
+    varying float vFogDepth;
 
     void main(void) {
-        vWorldPosition = (mMatrix * vec4(aVertexPosition, 1.0)).xyz;
+        vec4 v4pos = vec4(aVertexPosition, 1.0);
+        vWorldPosition = (mMatrix * v4pos).xyz;
         vNormal = aVertexNormal;
         vWorldNormal = (nMatrix * vec4(aVertexNormal, 1.0)).xyz;
         vColor = aVertexColor;
         vUV = aVertexUV;
+        vFogDepth = -(vMatrix * mMatrix * v4pos).z;
 
-        gl_Position = pMatrix * vMatrix * mMatrix * vec4(aVertexPosition, 1.0);
+        gl_Position = pMatrix * vMatrix * mMatrix * v4pos;
     }
 `
 
 const _fshader = `
     precision highp float;
+
+    #define FOG_NEAR  25.0
+    #define FOG_FAR   65.0
 
     // matrices
     uniform highp mat4 mMatrix;
@@ -42,6 +48,7 @@ const _fshader = `
     uniform vec4 uDirectionalLightColorI;
     uniform vec3 uPointLightPosition;
     uniform vec4 uPointLightColorI;
+    uniform vec4 uFogColor;
 
     // material
     uniform vec3 uAmbientColor;
@@ -58,6 +65,7 @@ const _fshader = `
     varying vec3 vWorldNormal;
     varying vec3 vColor;
     varying vec2 vUV;
+    varying float vFogDepth;
 
     void main(void) {
         // DEBUG material props
@@ -107,12 +115,19 @@ const _fshader = `
             max( dot(worldNormal, halfVectorD), 0.0 ), uShininess
         ) * uDirectionalLightColorI.w;
 
-        gl_FragColor = vec4(
-                uAmbientColor * uLightIntensities.x
-                + (texture2D(uTexture, vUV).xyz * uOpt.z
-                     + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
-                + uSpecularColor * (specular + specularD) * uLightIntensities.z,
-                opacity) * uOpt.x                // shaded component
-            + vec4(uDiffuseColor * uOpt.y, 1.0); // wireframe component
+        // fog
+        float z = gl_FragCoord.z / gl_FragCoord.w;
+        float fogAmount = smoothstep(FOG_NEAR, FOG_FAR, vFogDepth);
+
+        gl_FragColor = mix(
+                vec4(
+                    uAmbientColor * uLightIntensities.x
+                    + (texture2D(uTexture, vUV).xyz * uOpt.z
+                         + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
+                    + uSpecularColor * (specular + specularD) * uLightIntensities.z,
+                    opacity) * uOpt.x                // shaded component
+                + vec4(uDiffuseColor * uOpt.y, 1.0), // wireframe component
+            uFogColor, fogAmount
+        );
     }
 `

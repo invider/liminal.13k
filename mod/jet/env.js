@@ -49,7 +49,7 @@ const env = {
 
     // #0f20e1
     clearColor: rgba('200725FF'),
-                //vec4(0.12, .07, .14, 1.0),
+    fogColor:   rgba('472551FF'),
 
     // DEBUG
     //groundLevel:    1,
