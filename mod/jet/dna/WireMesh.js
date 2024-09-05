@@ -7,7 +7,7 @@ class WireMesh extends Surface {
     }
 
     draw() {
-        if (!env.showHitboxes) return
+        if (!env.showHitBoxes) return
         if (this.__.strangeSolid) return
 
         _.mpush()

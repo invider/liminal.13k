@@ -20,7 +20,7 @@ function rpad(s, N) {
     return s
 }
 
-function genHitboxVertices(p, h) {
+function genHitBoxVertices(p, h) {
     return [
         // top face
         p[0] + h[0], p[1] + h[1], p[2] - h[2],
@@ -65,9 +65,9 @@ function genHitboxVertices(p, h) {
 }
 
 function genHitBoxMesh(p, h) {
-    const g = geo.gen().name('hitBox').vertices( genHitboxVertices(p, h) ).bakeWires()
+    const g = geo.gen().name('hitBox').vertices( genHitBoxVertices(p, h) ).bakeWires()
     return new WireMesh({
-        name: 'hitboxMesh',
+        name: 'hitBoxMesh',
         geo:  g,
         renderOptions: vec4(0, 1, 0, 0),
     })

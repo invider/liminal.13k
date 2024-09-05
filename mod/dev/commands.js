@@ -5,8 +5,8 @@ function onOff(v) {
 _commands = {
 
     hitboxes: function() {
-        env.showHitboxes = !env.showHitboxes
-        term.println('hitboxes: ' + onOff(env.showHitboxes))
+        env.showHitBoxes = !env.showHitBoxes
+        term.println('hitboxes: ' + onOff(env.showHitBoxes))
     },
     _hitboxes: 'turn hitboxes on and off',
 
