@@ -73,18 +73,18 @@ class Hero extends Frame {
         }
 
         // apply horizontal friction
-        if (this.grounded) {
-            const fv = vec3.normalize( vec3.clone(mt) )
-            fv[1] = 0 // remove the Y component - applying in horizontal plane only 
-            const ms2 = tune.maxSpeed * tune.maxSpeed
-            const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
-            const speedF = 1 + speedOverflow2 * tune.overspeedFactor
-            vec3.scale(fv, tune.friction * speedF)
-            if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
-            if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
-            vec3.scale(fv, -1)
-            vec3.add(mt, fv)
-        }
+        const friction = this.grounded? tune.friction : tune.airResistence
+        const fv = vec3.normalize( vec3.clone(mt) )
+        fv[1] = 0 // remove the Y component - applying in horizontal plane only 
+        const ms2 = tune.maxSpeed * tune.maxSpeed
+        const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
+        const speedF = 1 + speedOverflow2 * tune.overspeedFactor
+        env.dump.frictionV = friction * speedF
+        vec3.scale(fv, friction * speedF)
+        if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
+        if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
+        vec3.scale(fv, -1)
+        vec3.add(mt, fv)
 
         // === apply movement ===
         // TODO limit the max speed

@@ -1,29 +1,40 @@
 
 === liminal gap tracer ===
 
---- phase I - gameplay prototype ---
-> procedural terrace section generation
-> autogenerate map along the run
+--- phase III - advanced features and procedural generation ---
+> random placement of block connection points
+> disable connection points which are already in contact
+> multiple block sizes
+> megacity growth in multiple directions but with westward preference
+> leveling blocks based on a noise function
+> texture and noises atlas visualization
+> megacity block structure visualization
+> noise-based block structure and multiple cell types (gaps, platforms, obstacle cells, monotliths)
+> noise-based floppies seeding
+> jump pads and huge block gaps on jump connections
 
---- phase II - advanced features and procedural generation ---
 > make jumps the function of speed - run fast to jump higher
 > autorun
 > gamepad support
 
---- phase III - polish ---
+--- phase IV - polish ---
 
 
 === zap framework ===
-> complex transformations in geo generator
 > tweening
+> hex2vec3/4 color translation
 > fog
 > multiple lights support
-> bump mapping
 > spotlight
+> bump mapping
 > smog (like fog, only below, after certain DY shift)
 > 3d mini-font
-> orbiting camera
-> indexed faces & elem array support
+> sfx generator #sound
+> sfx controller #sound
+> synth engine #sound
+> sequencer #sound
+-- nice to have
+> indexed faces & elem array support #optimization
 > .obj loader #tooling
 > .mtl loader #tooling
 
@@ -33,6 +44,12 @@
 
 
 === fossil ===
+V complex transformations in geo generator
+V orbiting camera
+VVV phase II - gameplay prototype
+VVV phase I - establish a 3D framework
+V procedural terrace section generation
+V autogenerate map along the run
 V noise
 V uv support in geo
 V textures

@@ -1,6 +1,5 @@
 const dfSMCP = {
     name:         'mover',
-    acceleration: 60,       // TODO move out to tune maybe?
 }
 
 class FPSMovementControllerPod {
@@ -21,20 +20,25 @@ class FPSMovementControllerPod {
 
     push(action, factor, dt) {
         const __ = this.__
-        const speed = this.acceleration * dt
+        const speed = dt * (__.grounded? tune.acceleration : tune.airAcceleration)
 
         switch(action) {
+            case JUMP:
+                if (__.grounded) {
+                    __.momentum[1] += tune.jumpSpeed
+                }
+                break
             case FORWARD:
-                if (__.grounded) vec3.scad(__.momentum, __.dir, -speed)
+                vec3.scad(__.momentum, __.dir, -speed)
                 break
             case STRAFE_LEFT:
-                if (__.grounded) vec3.scad(__.momentum, vec3(-__.dir[2], 0, __.dir[0]), speed)
+                vec3.scad(__.momentum, vec3(-__.dir[2], 0, __.dir[0]), speed)
                 break
             case BACKWARD:
-                if (__.grounded) vec3.scad(__.momentum, __.dir, speed)
+                vec3.scad(__.momentum, __.dir, speed)
                 break
             case STRAFE_RIGHT:
-                if (__.grounded) vec3.scad(__.momentum, vec3(__.dir[2], 0, -__.dir[0]), speed)
+                vec3.scad(__.momentum, vec3(__.dir[2], 0, -__.dir[0]), speed)
                 break
 
             // keyboard look
@@ -74,13 +78,14 @@ class FPSMovementControllerPod {
 
     activate(action) {
         this.pushers[action] = 1
-
+        /*
         if (action === JUMP) {
             this.__.jump()
         }
         if (action === USE) {
             this.__.use()
         }
+        */
     }
 
     stop(action) {
