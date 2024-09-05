@@ -1,6 +1,6 @@
 const jumpPadMat = {
     Ka: vec3(.5, .6, .7),
-    Kd: rgb('EDA411'),
+    Kd: rgb('F05502'),
     Ks: vec3(1, 1, 1),
     Ke: vec3(1, 1, 1),
     Lv: vec4(.2, .5, .8, 0),
@@ -192,7 +192,7 @@ class Terrace extends Frame {
     }
 
     draw() {
-        if (vec3.distSq(this.pos, lab.hero.pos) < tune.maxVisibilityDistSq) {
+        if (vec3.distSq(this.pos, lab.cam.pos) < tune.maxVisibilityDistSq) {
             super.draw()
         }
     }
