@@ -22,7 +22,6 @@
 
 === zap framework ===
 > tweening
-> hex2vec3/4 color translation
 > fog
 > multiple lights support
 > spotlight
@@ -44,6 +43,7 @@
 
 
 === fossil ===
+V hex2vec3/4 color translation
 V complex transformations in geo generator
 V orbiting camera
 VVV phase II - gameplay prototype

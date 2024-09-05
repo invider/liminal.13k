@@ -90,15 +90,15 @@ class MegaCity {
 
         const block = this.claimBlock(p, hsize, cn)
         if (!block) {
-            log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
+            // log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
-            log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
+            // log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
             return block
         }
     }
 
     establish(connection) {
-        log('establishing a connection from ' + connection.src.name)
+        // log('establishing a connection from ' + connection.src.name)
         return this.zone(connection)
     }
 
@@ -191,26 +191,23 @@ class MegaCity {
         */
     }
 
-    genesisBomb() {
-        // we prefer to build westward
-        const wedge = this.edge(W, vec3.clone(lab.hero.pos))
-        if (wedge < tune.minEdgeTrigger) {
-            log('Genesis on the West!')
-            const edgeBlock = this.edges[W]
+    edgeGenesis(dir) {
+        const edge = this.edge(dir, vec3.clone(lab.hero.pos))
+        if (edge < tune.minEdgeTrigger) {
+            // log('Genesis to ' + dir + ': -> ' + edge)
+            const edgeBlock = this.edges[dir]
 
             // TODO do with fandom steps
-            if (!edgeBlock) debugger
-            const cn = edgeBlock.searchFreeConnection(4)
+            const cn = edgeBlock.searchFreeConnection(1 + floor(mrnd() * 8))
             if (cn) return this.establish(cn)
-            /*
-            if (!this.erect(W)) {
-                log('Unable, maybe north?')
-                if (!this.erect(N)) {
-                    log('South then')
-                    this.erect(S)
-                }
-            }
-            */
+        }
+    }
+
+    genesisBomb() {
+        // we prefer to build westward
+        if (!this.edgeGenesis(W)) {
+            this.edgeGenesis(N)
+            this.edgeGenesis(S)
         }
     }
 

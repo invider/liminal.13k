@@ -62,6 +62,22 @@ function imgData(img) {
     return context.getImageData(0, 0, img.width, img.height)
 }
 
+function _x2d(x) {
+    let d = x.charCodeAt(0) - 48
+    return d > 9? d - 7 : d
+}
+
+const F = 255
+function rgb(h) {
+    const d = h.toUpperCase().split('').map(c => _x2d(c))
+    return vec3((16*d[0]+d[1])/F, (16*d[2]+d[3])/F, (16*d[4]+d[5])/F)
+}
+
+function rgba(h) {
+    const d = h.toUpperCase().split('').map(c => _x2d(c))
+    return vec4((16*d[0]+d[1])/F, (16*d[2]+d[3])/F, (16*d[4]+d[5])/F, (16*d[6]+d[7])/F)
+}
+
 const err = console.error
 const log = console.log
 

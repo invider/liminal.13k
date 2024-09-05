@@ -47,7 +47,9 @@ const env = {
     time: 0,
     fps: 60,
 
-    clearColor: vec4(0.12, .07, .14, 1.0),
+    // #0f20e1
+    clearColor: rgba('200725FF'),
+                //vec4(0.12, .07, .14, 1.0),
 
     // DEBUG
     //groundLevel:    1,
