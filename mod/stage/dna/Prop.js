@@ -1,7 +1,7 @@
 class Prop extends Body {
 
     constructor(st) {
-        const s = .5, w = .1
+        const s = 1, w = .2
         super( extend({
             rotSpeed:  vec3(0, 1, 0),
             _pods: [

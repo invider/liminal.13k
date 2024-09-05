@@ -131,7 +131,7 @@ class MegaCity {
             reactive: 1,
 
             onKill: function() {
-                log('consumed')
+                log('DATA LOADED!')
             }
         }))
 

@@ -30,21 +30,34 @@ function loadTexture(name, url) {
     img.src = url
 }
 
-function noise() {
-    const nbx = 17, nby = 21, nbz = 2, nfq = .01
-    const W = 640, rgba = []
-    for (let y = 0; y < W; y++) {
-        for (let x = 0; x < W; x++) {
+function noiseData(st) {
+    const bt = extend({
+        size: 640,
+        x: 0, y: 0, z: 0, fq: 1,
+    }, st)
+
+    const rgba = []
+    for (let y = 0; y < bt.size; y++) {
+        for (let x = 0; x < bt.size; x++) {
             rgba.push(
-                Math.floor(snoise(nbx + x*nfq, nby + y*nfq, nbz) * 256),
-                Math.floor(snoise(nbx + x*nfq, nby + y*nfq, nbz) * 256),
-                Math.floor(snoise(nbx + x*nfq, nby + y*nfq, nbz) * 256),
+                floor(snoise(bt.x + x*bt.fq, bt.y + y*bt.fq, bt.z) * 256),
+                floor(snoise(bt.x + x*bt.fq, bt.y + y*bt.fq, bt.z) * 256),
+                floor(snoise(bt.x + x*bt.fq, bt.y + y*bt.fq, bt.z) * 256),
                 0xff,
             )
         }
     }
+    return rgba
+}
 
-    const idata = new ImageData(new Uint8ClampedArray(rgba), W, W)
+function noise() {
+    const size = 640
+    const rgba = noiseData({
+        size,
+        x: 17, y: 21, z: 2,
+        fq: .01
+    })
+    const idata = new ImageData(new Uint8ClampedArray(rgba), size, size)
     idata.name = 'noise'
     bindTexture(idata)
 }

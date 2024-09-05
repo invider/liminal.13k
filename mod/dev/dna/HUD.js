@@ -10,16 +10,27 @@ class HUD {
     init() {
         env.status = ''
 
-        // make a screenshot on F8
         const __ = this
         trap.register('keyDown', (e) => {
             switch(e.code) {
                 case 'F10':
-                    __.ghost = !__.ghost
+                    __.toggle()
                     e.preventDefault()
                     break
             }
         })
+    }
+
+    toggle() {
+        this.ghost = !this.ghost
+    }
+
+    hide() {
+        this.ghost = true
+    }
+
+    show() {
+        this.ghost = false
     }
 
     draw() {

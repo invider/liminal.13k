@@ -132,7 +132,7 @@ class Terrace extends Frame {
 
                 let h = this.cellHHeight
                 const cell = this.attach( new Body({
-                    name: `[${this.name}]: platform[${ix+1}:${iz+1}]`,
+                    name: `${this.name}/platform[${ix+1}:${iz+1}]`,
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
                     _pods: [
@@ -180,6 +180,23 @@ class Terrace extends Frame {
                                 break
                         }
                     }
+                }
+                // do we need a floppy here?
+                const FLOPPY_LEVEL = 0.4
+                const BX = 21, BY = 17, BZ = 14, FQ = .01
+                const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
+                if (dataDensity < FLOPPY_LEVEL) {
+                    const p = vec3.iadd(cell.pos, vec3(0, 3, 0))
+                    log('creating floppy at ' + p[0] + ':' + p[2])
+                    lab.attach( new Prop({
+                        name:     'floppy',
+                        pos:      p,
+                        reactive: 1,
+
+                        onKill: function() {
+                            log('DATA LOADED!')
+                        }
+                    }))
                 }
                 count ++
             }
