@@ -31,13 +31,29 @@ class Hero extends Frame {
     }
 
     reset() {
-        log('player reset')
-        vec3.copy(this.pos, this._initialPos)
-        // reset the momentum so we are no longer in the terminal fall!
-        this.momentum[1] = 0
+        log('=== TERMINAL FALL ===') 
+        switch(env.resetMode) {
+            case 0:
+                // full map restore
+                break
+            case 1:
+                // reset to starting point
+                vec3.copy(this.pos, this._initialPos)
+                // reset the momentum so we are no longer in the terminal fall!
+                this.momentum[1] = 0
+                break
+            case 2:
+                // redeploy on the last touched platform
+                vec3.copy(this.pos, this.lastPlatform.pos)
+                this.pos[1] += 15
+                this.momentum[1] = 0
+                break
+        }
     }
 
     onImpact(src) {
+        this.lastCollider = src
+        if (debug) env.dump.lastCollider = src.name
         if (src instanceof Prop) {
             kill(src)
             log(src.name + ' is killed')
@@ -101,7 +117,11 @@ class Hero extends Frame {
         vec3.scad(this.pos, mty, dt)
         if (!vec3.equals(this.pos, this._pos)) {
             if (this.detectCollisions(mty)) {
-                if (mt[1] < 0) this.grounded = true
+                if (mt[1] < 0) {
+                    this.grounded = true
+                    this.lastPlatform = this.lastCollider
+                    env.dump.lastPlatform = '' + this.lastPlatform.name
+                }
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
                 // TODO do a feedback or hit recoil when land on the ground?
                 mt[1] = 0 // reset y momentum

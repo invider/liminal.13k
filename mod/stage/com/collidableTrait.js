@@ -20,8 +20,8 @@ const collidableTrait = {
                             hit = HIT_HARD // got a hard collision
                         }
                     }
-                    if (t.onTouch) t.onTouch(impactor.__)
-                    if (t.reactive && impactor.__.onImpact) impactor.__.onImpact(t)
+                    if (t.onTouch) t.onTouch(impactor.__) // e.g. a reactive platform
+                    if (impactor.__.onImpact) impactor.__.onImpact(t)
                 }
             }
         }

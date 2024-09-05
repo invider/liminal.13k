@@ -184,3 +184,7 @@ function id2rgb(id) {
 function rgb2id(v) {
     return v[2]*256*256 + v[1]*256 + v[0]
 }
+
+function dumpV3(v3) {
+    return `${floor(v3[0]*10)/10}:${floor(v3[1]*10)/10}:${floor(v3[2]*10)/10}`
+}

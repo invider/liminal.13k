@@ -40,7 +40,12 @@ const flags = {},
     N             = 1,
     W             = 2,
     S             = 3,
-    E             = 4
+    E             = 4,
+
+    // respawn modes
+    RESPAWN_GAME  = 0, // full restart of the run
+    RESPAWN_ZERO  = 1, // respawn at the starting point
+    RESPAWN_LAST  = 2  // respawn on the last platform
 
 
 const env = {
@@ -85,6 +90,7 @@ const env = {
     pointLightColorI: vec4(1, 1, 1, .7),
 
     backfaces: true,
+    resetMode: RESPAWN_LAST,
 }
 
 if (debug) {

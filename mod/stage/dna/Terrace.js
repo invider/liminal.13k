@@ -105,6 +105,7 @@ class Terrace extends Frame {
 
                 let h = this.cellHHeight
                 const cell = this.attach( new Body({
+                    name: `[${this.name}]: platform[${ix+1}:${iz+1}]`,
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
                     _pods: [
