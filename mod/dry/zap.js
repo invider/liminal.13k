@@ -81,6 +81,13 @@ class Frame {
         return node
     }
 
+    detach(node) {
+        const i = this._ls.indexOf(node)
+        if (i < 0) return
+        this._ls.splice(i, 1)
+        if (node.name) delete this[node.name]
+    }
+
     apply(fn, collector) {
         for (let i = 0; i < this._ls.length; i++) {
             const e = this._ls[i]
