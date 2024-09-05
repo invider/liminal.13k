@@ -120,7 +120,6 @@ class Hero extends Frame {
                 if (mt[1] < 0) {
                     this.grounded = true
                     this.lastPlatform = this.lastCollider
-                    env.dump.lastPlatform = '' + this.lastPlatform.name
                 }
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
                 // TODO do a feedback or hit recoil when land on the ground?

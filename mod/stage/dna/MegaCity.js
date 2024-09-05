@@ -84,9 +84,10 @@ class MegaCity {
         const dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
               hsize = vec3(TSIZE, THEIGHT + mrnd() * 4, TSIZE)
-        p[0] += hsize[0] * dx
-        p[1] += hsize[1] + (mrnd() * 5 - 2)
-        p[2] += hsize[2] * dz
+        const gap = floor(mrnd()*5) * CELL_HSIZE/2
+        p[0] += (gap + hsize[0]) * dx
+        p[1] += hsize[1] + floor(mrnd() * 5 - 2)
+        p[2] += (gap + hsize[2]) * dz
 
         const block = this.claimBlock(p, hsize, cn)
         if (!block) {
@@ -97,11 +98,7 @@ class MegaCity {
         }
     }
 
-    establish(connection) {
-        // log('establishing a connection from ' + connection.src.name)
-        return this.zone(connection)
-    }
-
+    /*
     // TODO not in particular direction, but select links in the region of interest (like westward)
     //      and grow somewhere in that area
     erect(dir) {
@@ -110,6 +107,7 @@ class MegaCity {
         const cn = cnls[floor(mrnd() * cnls.length)]
         if (cn) return this.establish(cn)
     }
+    */
 
     init() {
         // our first terrace
@@ -199,7 +197,7 @@ class MegaCity {
 
             // TODO do with fandom steps
             const cn = edgeBlock.searchFreeConnection(1 + floor(mrnd() * 8))
-            if (cn) return this.establish(cn)
+            if (cn) return this.zone(cn)
         }
     }
 

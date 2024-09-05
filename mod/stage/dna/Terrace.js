@@ -1,9 +1,10 @@
+const CELL_HSIZE = 8
+
 // Runnable Mega-City 13 Block
 class Terrace extends Frame {
 
     constructor(st) {
         super(st)
-        this.cellHSize = 8
         this.cellHHeight = 1.5
         this.connections = []
         if (this._connection) {
@@ -40,7 +41,7 @@ class Terrace extends Frame {
     // create geometry
     // TODO must be obtained from the geo library
     geoform() {
-        const s =  this.cellHSize, // block half-size
+        const s =  CELL_HSIZE, // block half-size
               h =  this.cellHHeight
         this._cube = geo.gen().cube()
             .pushv([s, h, s])
@@ -52,7 +53,7 @@ class Terrace extends Frame {
 
     createConnection(cell, pos, dir) {
         //log('connecting ' + dir + ' at ' + pos[0] + ':' + pos[2])
-        const shift = this.cellHSize * 1.25,
+        const shift = CELL_HSIZE,
             dx = dirDX(dir),
             dz = dirDZ(dir)
         pos[0] += shift * dx
@@ -90,7 +91,7 @@ class Terrace extends Frame {
 
         let count = 0
         const gapChance = .2
-        const s = this.cellHSize, // block half-size
+        const s = CELL_HSIZE, // block half-size
               iw = floor(this.hsize[0]/s),
               id = floor(this.hsize[2]/s),
               fw = floor(iw * mrnd()),
