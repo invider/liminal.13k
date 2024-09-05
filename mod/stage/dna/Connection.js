@@ -12,6 +12,7 @@ class Connection {
             this.sphere.surface.mat.Ka = vec3(1, 0, 0)
             this.sphere.surface.mat.Kd = vec3(1, 0, 0)
         }
+        return block
     }
 
     disable() {

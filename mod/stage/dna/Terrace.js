@@ -40,6 +40,7 @@ class Terrace extends Frame {
     }
 
     createConnection(cell, pos, dir) {
+        log('connecting ' + dir + ' at ' + pos[0] + ':' + pos[2])
         const shift = this.cellHSize * 1.25,
             dx = dirDX(dir),
             dz = dirDZ(dir)
@@ -52,7 +53,8 @@ class Terrace extends Frame {
     }
 
     freeConnectionTowards(dir) {
-        return this.connections[dir].selfWhenFree()
+        const cn = this.connections[dir]
+        if (cn) return cn.selfWhenFree()
     }
 
     shape() {
@@ -66,10 +68,13 @@ class Terrace extends Frame {
         const gapChance = .2
         const s = this.cellHSize, // block half-size
               iw = floor(this.hsize[0]/s),
-              id = floor(this.hsize[2]/s)
+              id = floor(this.hsize[2]/s),
+              fw = floor(iw * mrnd()),
+              fd = floor(id * mrnd())
+
         for (let z = np[2], iz = 0; z < xp[2]; z += s*2, iz++) {
             for (let x = np[0], ix = 0; x < xp[0]; x += s*2, ix++) {
-                if (rnd() < gapChance) continue // got a gap
+                if (mrnd() < gapChance) continue // got a gap
 
                 // sky block
 
@@ -121,13 +126,13 @@ class Terrace extends Frame {
                     // got the edge and it is not a gap!
                     // TODO check that the cell type is passable and not a gap or a building
                     if (!this.connections[dir]) {
-                        //log('got the edge at: ' + ix + ':' + iz + ' -> ' + dir)
+                        log('got the edge at: ' + ix + ':' + iz + ' -> ' + dir)
                         switch(dir) {
                             case 1: case 3:
-                                if (ix > iw/3) this.createConnection(cell, vec3.clone(cell.pos), dir)
+                                if (ix >= fw) this.createConnection(cell, vec3.clone(cell.pos), dir)
                                 break
                             case 2: case 4:
-                                if (iz > id/3) this.createConnection(cell, vec3.clone(cell.pos), dir)
+                                if (iz >= fd) this.createConnection(cell, vec3.clone(cell.pos), dir)
                                 break
                         }
                     }

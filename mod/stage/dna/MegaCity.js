@@ -3,6 +3,8 @@ let _trid = 0
 const TSIZE = 64
 const THEIGHT = 8
 
+const mrnd = LNGSource(7)
+
 class MegaCity {
 
     constructor() {
@@ -12,6 +14,7 @@ class MegaCity {
         })
     }
 
+    // search for the city edge in the provided direction as related to the hero
     edge(dir, basePos) {
         let edge = 0
         this.blocks.forEach(b => {
@@ -57,13 +60,14 @@ class MegaCity {
         // TODO
     }
 
+    // zoning for the specified connection
     zone(cn) {
         const p = vec3.clone(cn.pos)
         const dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
               hsize = vec3(TSIZE, THEIGHT, TSIZE)
         p[0] += hsize[0] * dx
-        p[1] += 4 - rnd() * 8
+        p[1] += hsize[1] + (mrnd() * 8 - 2)
         p[2] += hsize[2] * dz
 
         const block = this.claimBlock(p, hsize, cn)
@@ -71,19 +75,22 @@ class MegaCity {
             log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
             log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
-            cn.join(block)
+            return cn.join(block)
         }
     }
 
     establish(connection) {
         log('establishing a connection from ' + connection.src.name)
-        this.zone(connection)
+        return this.zone(connection)
     }
 
+    // TODO not in particular direction, but select links in the region of interest (like westward)
+    //      and grow somewhere in that area
     erect(dir) {
         const cnls= this.blocks.map(b => b.freeConnectionTowards(dir)).filter(c => c)
-        const cn = cnls[floor(rnd() * cnls.length)]
-        if (cn) this.establish(cn)
+        // select a random link to expand to
+        const cn = cnls[floor(mrnd() * cnls.length)]
+        if (cn) return this.establish(cn)
     }
 
     init() {
@@ -167,8 +174,14 @@ class MegaCity {
     tryToGrow() {
         const wedge = this.edge(W, vec3.clone(lab.hero.pos))
         if (wedge < tune.minEdgeTrigger) {
-            log('Not Enough Western Content!!! Go West!')
-            this.erect(W)
+            log('Not Enough Western Content!!! Try Go West!')
+            if (!this.erect(W)) {
+                log('Unable, maybe north?')
+                if (!this.erect(N)) {
+                    log('South then')
+                    this.erect(S)
+                }
+            }
         }
     }
 

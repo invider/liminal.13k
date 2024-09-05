@@ -19,6 +19,7 @@ _.defaultStage = () => {
         pos:  vec3(0, 10, 5),
         _pods: [ lab.cam ],
     }))
+    hero.yaw(-PI*.5)
 
     trap.register('terminalFall', () => {
         // handle hero death
