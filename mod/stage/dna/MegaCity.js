@@ -1,6 +1,6 @@
 let _trid = 0
 
-const TSIZE = 64
+const TSIZE = 32
 const THEIGHT = 8
 
 const mrnd = LNGSource(7)
@@ -11,25 +11,42 @@ class MegaCity {
         extend(this, {
             name: 'city',
             blocks: [],
+            lastGenesis: 0,
         })
     }
 
     // search for the city edge in the provided direction as related to the hero
     edge(dir, basePos) {
-        let edge = 0
+        let edge = 0, edges = this.edges, e
         this.blocks.forEach(b => {
             switch(dir) {
-                case 1:
-                    if (b.pos[2] < edge) edge = b.pos[2] - basePos[2]
+                case N:
+                    e = b.pos[2] - basePos[2]
+                    if (e < edge) {
+                        edge = e
+                        edges[N] = b
+                    }
                     break
-                case 2:
-                    if (b.pos[0] < edge) edge = b.pos[0] - basePos[0]
+                case W:
+                    e = b.pos[0] - basePos[0]
+                    if (e < edge) {
+                        edge = e
+                        edges[W] = b
+                    }
                     break
-                case 3:
-                    if (b.pos[2] > edge) edge = b.pos[2] - basePos[2]
+                case S:
+                    e = b.pos[2] - basePos[2]
+                    if (e > edge) {
+                        edge = e
+                        edges[S] = b
+                    }
                     break
-                case 4:
-                    if (b.pos[0] > edge) edge = b.pos[0] - basePos[0]
+                case E:
+                    e = b.pos[0] - basePos[0]
+                    if (e > edge) {
+                        edge = e
+                        edges[E] = b
+                    }
             }
         })
         return Math.abs(edge)
@@ -51,6 +68,7 @@ class MegaCity {
             pos, hsize,
         }))
         this.blocks.push(b)
+        log(`[!] NEW ${b.toString()}`)
         return b
     }
 
@@ -65,9 +83,9 @@ class MegaCity {
         const p = vec3.clone(cn.pos)
         const dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
-              hsize = vec3(TSIZE, THEIGHT, TSIZE)
+              hsize = vec3(TSIZE, THEIGHT + mrnd() * 4, TSIZE)
         p[0] += hsize[0] * dx
-        p[1] += hsize[1] + (mrnd() * 8 - 2)
+        p[1] += hsize[1] + (mrnd() * 5 - 2)
         p[2] += hsize[2] * dz
 
         const block = this.claimBlock(p, hsize, cn)
@@ -75,7 +93,7 @@ class MegaCity {
             log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
             log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
-            return cn.join(block)
+            return block
         }
     }
 
@@ -95,12 +113,14 @@ class MegaCity {
 
     init() {
         // our first terrace
-        this.blocks.push( lab.attach( new Terrace({
+        const t = lab.attach( new Terrace({
             _$: this,
             name: 'terrace' + (++_trid),
             pos:   vec3(0,  0, 0),
             hsize: vec3(TSIZE, THEIGHT, TSIZE),
-        })))
+        }))
+        this.blocks.push(t)
+        this.edges = [t, t, t, t, t]
 
         lab.attach( new Prop({
             name:  'superprop',
@@ -171,10 +191,18 @@ class MegaCity {
         */
     }
 
-    tryToGrow() {
+    genesisBomb() {
+        // we prefer to build westward
         const wedge = this.edge(W, vec3.clone(lab.hero.pos))
         if (wedge < tune.minEdgeTrigger) {
-            log('Not Enough Western Content!!! Try Go West!')
+            log('Genesis on the West!')
+            const edgeBlock = this.edges[W]
+
+            // TODO do with fandom steps
+            if (!edgeBlock) debugger
+            const cn = edgeBlock.searchFreeConnection(4)
+            if (cn) return this.establish(cn)
+            /*
             if (!this.erect(W)) {
                 log('Unable, maybe north?')
                 if (!this.erect(N)) {
@@ -182,10 +210,14 @@ class MegaCity {
                     this.erect(S)
                 }
             }
+            */
         }
     }
 
     evo(dt) {
-        this.tryToGrow()
+        if (env.time - this.lastGenesis > 1) {
+            this.genesisBomb()
+            this.lastGenesis = env.time
+        }
     }
 }

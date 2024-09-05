@@ -8,6 +8,7 @@ class Terrace extends Frame {
         this.connections = []
         if (this._connection) {
             this.connections[this._connection.srcDir()] = this._connection
+            this._connection.join(this)
         }
         this.geoform() // TODO get geo from the glib
         this.shape()
@@ -19,6 +20,8 @@ class Terrace extends Frame {
             name:  'porous',
             hsize: this.hsize,
         }))
+        // TODO how to wrap the hitbox in a body, so it would be
+        //      translated to proper coords when drawn
     }
 
     collide(impactor, mv) {
@@ -40,7 +43,7 @@ class Terrace extends Frame {
     }
 
     createConnection(cell, pos, dir) {
-        log('connecting ' + dir + ' at ' + pos[0] + ':' + pos[2])
+        //log('connecting ' + dir + ' at ' + pos[0] + ':' + pos[2])
         const shift = this.cellHSize * 1.25,
             dx = dirDX(dir),
             dz = dirDZ(dir)
@@ -50,6 +53,19 @@ class Terrace extends Frame {
             src: this,
             cell, pos, dir,
         })
+    }
+
+    searchFreeConnection(d) {
+        if (d) {
+            log('looking for links @' + this.name)
+            // select a random linked connection
+            const cn = mrnd.elem(this.connections.filter(cn => cn.target))
+            if (cn) return cn.target.searchFreeConnection(d - 1)
+            else return this.searchFreeConnection(d - 1)
+        } 
+        log('selecting free @' + this.name)
+        // select a free connection
+        return mrnd.elem(this.connections.filter(cn => cn.isFree()))
     }
 
     freeConnectionTowards(dir) {
@@ -126,7 +142,7 @@ class Terrace extends Frame {
                     // got the edge and it is not a gap!
                     // TODO check that the cell type is passable and not a gap or a building
                     if (!this.connections[dir]) {
-                        log('got the edge at: ' + ix + ':' + iz + ' -> ' + dir)
+                        //log('got the edge at: ' + ix + ':' + iz + ' -> ' + dir)
                         switch(dir) {
                             case 1: case 3:
                                 if (ix >= fw) this.createConnection(cell, vec3.clone(cell.pos), dir)
@@ -137,12 +153,23 @@ class Terrace extends Frame {
                         }
                     }
                 }
-
                 count ++
             }
         }
-
-        log('terrace generated: ' + count + ' cells')
     }
 
+    toString() {
+        const links = this.connections.filter(cn => cn).map(cn => {
+            if (cn.state === LINKED) return '='
+            else if (cn.state === BLOCKED) return '+'
+            else return '-'
+        }).join('')
+
+        let origin = ''
+        if (this._connection) {
+            origin = '\n * ' + this._connection.toString(1) + ' ' + this._connection.src.toString()
+        }
+
+        return `${this.name}[${links}] @${floor(this.pos[0])}:${floor(this.pos[1])}:${floor(this.pos[2])}${origin}`
+    }
 }

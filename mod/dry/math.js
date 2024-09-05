@@ -17,8 +17,9 @@ function LNGSource(seed) {
         seed = (a * seed + c) % M
         return seed
     }
-
-    return () => nextv()/M
+    const rf = () => nextv()/M
+    rf.elem = (v) => v[floor(rf() * v.length)]
+    return rf
 }
 const rnd = LNGSource(1)
 

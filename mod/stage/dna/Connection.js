@@ -1,13 +1,17 @@
+const FREE      = 0,
+      LINKED    = 1,
+      BLOCKED   = 2
+      
 class Connection {
 
     constructor(st) {
         extend(this, st)
-
         if (debug) this.debugSphere()
     }
 
     join(block) {
         this.target = block
+        this.state = LINKED
         if (debug && this.sphere) {
             this.sphere.surface.mat.Ka = vec3(1, 0, 0)
             this.sphere.surface.mat.Kd = vec3(1, 0, 0)
@@ -15,22 +19,20 @@ class Connection {
         return block
     }
 
-    disable() {
-        this.disabled = true
+    deactivate() {
+        this.state = BLOCKED // can't grow in that direction
         if (debug && this.sphere) {
             this.sphere.surface.mat.Ka = vec3(1, 1, 0)
             this.sphere.surface.mat.Kd = vec3(1, 1, 0)
         }
     }
 
-    /*
     isFree() {
-        return !this.target
+        return !this.state
     }
-    */
 
     selfWhenFree() {
-        if (!this.disabled && !this.target) return this
+        if (!this.state) return this
     }
 
     srcDir() {
@@ -78,4 +80,20 @@ class Connection {
         }
     }
 
+    // DEBUG
+    toString(reverse) {
+        let s, t, d = reverse? this.srcDir() : this.dir
+        switch(d) {
+            case 1: s = 'N'; break;
+            case 2: s = 'W'; break;
+            case 3: s = 'S'; break;
+            case 4: s = 'E'; break;
+        }
+        switch(this.state) {
+            case LINKED: t = '='; break;
+            case BLOCKED: t = '+'; break;
+            default: t = '-'; break;
+        }
+        return `${t}${t}${s}${t}${t}`
+    }
 }
