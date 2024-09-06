@@ -13,9 +13,6 @@ class Camera extends Frame {
     projectionMatrix() {
         const aspect = gcanvas.width / gcanvas.height
         this.hfov = (2 * Math.atan(aspect * Math.tan((this.vfov * DEG_TO_RAD)/2))) * RAD_TO_DEG
-
-        env.dump.VFOV = this.vfov
-        env.dump.HFOV = this.hfov
         return mat4.projection(this.vfov, gcanvas.width/gcanvas.height, this.zNear, this.zFar)
     }
 

@@ -109,7 +109,16 @@ window.onload = () => {
     setupGL()
 
     // run zaps
-    for (prop in window) if (prop.startsWith('zap')) window[prop]()
+    if (debug) {
+        for (prop in window) if (prop.startsWith('zap')) window[prop]()
+    } else {
+        // zap directly, so they not be optimized
+        zapAudioController()
+        zapTextures()
+        zapGeoLib()
+        zapPreStage()
+        zapGeoLib()
+    }
 
     setupStage()
 

@@ -61,7 +61,7 @@ class Hero extends Frame {
     }
 
     detectCollisions(mv) {
-        env.dump.Impact = 'None'
+        if (debug) env.dump.Impact = 'None'
 
         //this.solid.fixBounds()
         return lab.collide(this.solid, mv)
@@ -103,7 +103,7 @@ class Hero extends Frame {
         const ms2 = tune.maxSpeed * tune.maxSpeed
         const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
         const speedF = 1 + speedOverflow2 * tune.overspeedFactor
-        env.dump.frictionV = friction * speedF
+        if (debug) env.dump.frictionV = friction * speedF
         vec3.scale(fv, friction * speedF)
         if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
         if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]

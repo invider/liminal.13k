@@ -21,14 +21,14 @@ class Terrace extends Frame {
         }))
 
 
-        // TODO how to wrap the hitbox in a body, so it would be
-        //      translated to proper coords when drawn
-        this.attach( new Body({
-            name: `${this.name}-hitbox-mesh/#debug`,
-            pos: this.pos,
-            _pods: [ this.hitBoxMesh ],
-        }))
-        this.detach(this.hitBoxMesh)
+        if (debug) {
+            this.attach( new Body({
+                name: `${this.name}-hitbox-mesh/#debug`,
+                pos: this.pos,
+                _pods: [ this.hitBoxMesh ],
+            }))
+            this.detach(this.hitBoxMesh)
+        }
     }
 
     createConnection(cell, pos, dir) {
