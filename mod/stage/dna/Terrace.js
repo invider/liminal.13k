@@ -1,11 +1,3 @@
-const jumpPadMat = {
-    Ka: vec3(.5, .6, .7),
-    Kd: rgb('F05502'),
-    Ks: vec3(1, 1, 1),
-    Ke: vec3(1, 1, 1),
-    Lv: vec4(.2, .5, .8, 0),
-    Ns: 20,
-}
 
 // Runnable Mega-City 13 Block
 class Terrace extends Frame {
@@ -18,7 +10,6 @@ class Terrace extends Frame {
             this.connections[this._connection.srcDir()] = this._connection
             this._connection.join(this)
         }
-        this.geoform() // TODO get geo from the glib
         this.shape()
 
         // custom collidable trait install
@@ -40,19 +31,6 @@ class Terrace extends Frame {
         this.detach(this.hitBoxMesh)
     }
 
-    // create geometry
-    // TODO must be obtained from the geo library
-    geoform() {
-        const s =  CELL_HSIZE, // block half-size
-              h =  this.cellHHeight
-        this._cube = geo.gen().cube()
-            .pushv([s, h, s])
-            .stretchX()
-            .stretchY()
-            .stretchZ()
-            .bake()
-    }
-
     createConnection(cell, pos, dir) {
         //log('connecting ' + dir + ' at ' + pos[0] + ':' + pos[2])
         const shift = CELL_HSIZE,
@@ -67,7 +45,7 @@ class Terrace extends Frame {
 
         // activate the jumppad
         cell.dir = rnd() * PI2
-        cell.surface.mat = jumpPadMat
+        cell.surface.mat = mlib.jumpPad
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this || runner.momentum[1] > -5) return
             runner.lastJumpPad = this
@@ -137,25 +115,11 @@ class Terrace extends Frame {
 
                     _pods: [
                         new Surface({
-                            geo: this._cube,
-                            /*
-                            geo: geo.gen().cube()
-                                .stretch(0, s)
-                                .stretch(1, h)
-                                .stretch(2, s)
-                                .bake(),
-                            */
-                            mat: {
-                                Ka: vec3(.5, .6, .7),
-                                Kd: colors[icolor],
-                                Ks: vec3(1, 1, 1),
-                                Ke: vec3(1, 1, 1),
-                                Lv: vec4(.2, .5, .8, 0),
-                                Ns: 20,
-                            },
+                            geo: glib.cell,
+                            mat: extend({}, mlib.cell, { Kd: colors[icolor] })
                         }),
                         new SolidBoxPod({
-                            hsize: vec3(s, h, s), 
+                            hsize: glib.cell.bounds, 
                         }),
                     ],
                 }))
