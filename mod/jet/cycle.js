@@ -32,8 +32,8 @@ function drawScene() {
 
     // setup up the view and projection transformations
     // TODO merge view and projection into the pv matrix and get it from the camera
-    gl.uniformMatrix4fv(_pMatrix, false, lab.cam.projectionMatrix())
-    gl.uniformMatrix4fv(_vMatrix, false, lab.cam.viewMatrix())
+    gl.uniformMatrix4fv(_p, false, lab.cam.projectionMatrix())
+    gl.uniformMatrix4fv(_v, false, lab.cam.viewMatrix())
     gl.uniform3fv(_uCamPos, lab.cam.pos)
 
     // TODO precalc in _dirLight buffer and use that instead?

@@ -7,7 +7,6 @@ const ch = []
 let masterVolume = .3
 let currentChannel = 0
 
-
 function createChannel(n) {
     const channel = ch[n] = {}
 
@@ -107,5 +106,4 @@ function zapAudioController() {
         // the user interaction has started!
         fmx.init()
     })
-
 }

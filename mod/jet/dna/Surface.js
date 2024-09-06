@@ -46,13 +46,13 @@ class Surface {
         // adjust to the world coordinates
 
         // set current model matrix
-        gl.uniformMatrix4fv(_mMatrix, false, mMatrix)
+        gl.uniformMatrix4fv(_m, false, mMatrix)
 
         // calculate the normal matrix out of the model one (=> invert => transpose)
         mat4.copy(wMatrix, mMatrix)
         mat4.invert(wMatrix)
         mat4.transpose(nMatrix, wMatrix)
-        gl.uniformMatrix4fv(_nMatrix, false, nMatrix)
+        gl.uniformMatrix4fv(_n, false, nMatrix)
 
         // rendering options
         if (this.tex) this.renderOptions[2] = 1
@@ -77,15 +77,15 @@ class Surface {
         }
 
         // set the shader attributes 
-        this.bindAttribute(this.buf.vertices, 'aVertexPosition')
-        this.bindAttribute(this.buf.normals, 'aVertexNormal')
-        this.bindAttribute(this.buf.colors, 'aVertexColor')
-        this.bindAttribute(this.buf.uvs, 'aVertexUV', 2)
+        this.bindAttribute(this.buf.vertices, 'vp')
+        this.bindAttribute(this.buf.normals, 'vn')
+        this.bindAttribute(this.buf.colors, 'vc')
+        this.bindAttribute(this.buf.uvs, 'uv', 2)
 
         if (this.renderOptions[1]) {
             // render wireframes
             gl.lineWidth(2)
-            this.bindAttribute(this.buf.wires, 'aVertexPosition')
+            this.bindAttribute(this.buf.wires, 'vp')
             gl.drawArrays(gl.LINES, 0, this.geo.wires.length / 3) 
         } else if (this.buf.faces) {
             // TODO can't support multiple indexes at once,

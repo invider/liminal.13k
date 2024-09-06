@@ -1,88 +1,71 @@
-const _vshader = `
-    uniform mat4 mMatrix;
-    uniform mat4 nMatrix;
-    uniform mat4 vMatrix;
-    uniform mat4 pMatrix;
+/*
+ * m - model matrix
+ * n - normal matrix (derived from the model one)
+ * v - view matrix
+ * p - perspective matrix
+ *
+ * vp - vertex position
+ * vn - vertex normal
+ * vc - vertex color
+ * uv - vertex UV coordinates
+ *
+ * wp - world position
+ * wn - world normal
+ * wc - varying vertex color
+ * uw - varying vertex UV coordinates
+ * fd - fog depth
+ */
+const _vshader = `#version 300 es
+    uniform mat4 m,n,v,p;
+    in vec3 vp, vn, vc;
+    in vec2 uv;
 
-    attribute vec3 aVertexPosition;
-    attribute vec3 aVertexNormal;
-    attribute vec3 aVertexColor;
-    attribute vec2 aVertexUV;
-
-    varying vec3 vWorldPosition;
-    varying vec3 vNormal;
-    varying vec3 vWorldNormal;
-    varying vec3 vColor;
-    varying vec2 vUV;
-    varying float vFogDepth;
+    out vec3 wp, wn, wc;
+    out vec2 uw;
+    out float fd;
 
     void main(void) {
-        vec4 v4pos = vec4(aVertexPosition, 1.0);
-        vWorldPosition = (mMatrix * v4pos).xyz;
-        vNormal = aVertexNormal;
-        vWorldNormal = (nMatrix * vec4(aVertexNormal, 1.0)).xyz;
-        vColor = aVertexColor;
-        vUV = aVertexUV;
-        vFogDepth = -(vMatrix * mMatrix * v4pos).z;
+        vec4 p4 = vec4(vp, 1.0);      // convert vertex position to homogenious vec4
+        wp = (m * p4).xyz;            // calculate world space position
+        wn = (n * vec4(vn, 1.0)).xyz; // calculate world space normal
+        wc = vc;                      // interpolate the vertex color
+        uw = uv;                      // interpolate UV coordinates
+        fd = -(v * m * p4).z;         // calculate fog distance
 
-        gl_Position = pMatrix * vMatrix * mMatrix * v4pos;
+        gl_Position = p*v*m*p4;
     }
 `
 
-const _fshader = `
+const _fshader = `#version 300 es
     precision highp float;
 
     #define FOG_NEAR  25.0
     #define FOG_FAR   65.0
 
-    // matrices
-    uniform highp mat4 mMatrix;
-    uniform highp mat4 nMatrix;
-    uniform highp mat4 vMatrix;
-    uniform highp mat4 pMatrix;
-
     // environment
-    uniform vec4 uOpt;
-    uniform vec3 uCamPos;
-    uniform vec3 uDirectionalLightVector;
-    uniform vec4 uDirectionalLightColorI;
-    uniform vec3 uPointLightPosition;
-    uniform vec4 uPointLightColorI;
-    uniform vec4 uFogColor;
+    uniform vec4 uOpt, uDirectionalLightColorI, uPointLightColorI, uFogColor, uLightIntensities;
+    uniform vec3 uCamPos, uDirectionalLightVector, uPointLightPosition, uAmbientColor, uDiffuseColor, uSpecularColor, uEmissionColor;
 
-    // material
-    uniform vec3 uAmbientColor;
-    uniform vec3 uDiffuseColor;
-    uniform vec3 uSpecularColor;
-    uniform vec3 uEmissionColor;
-
-    uniform vec4 uLightIntensities;
     uniform float uShininess;
     uniform sampler2D uTexture;
 
-    varying vec3 vWorldPosition;
-    varying vec3 vNormal;
-    varying vec3 vWorldNormal;
-    varying vec3 vColor;
-    varying vec2 vUV;
-    varying float vFogDepth;
+    in vec3 wp, wn, wc;
+    in highp vec2 uw;
+    in float fd;
+
+    out vec4 oc;
 
     void main(void) {
-        // DEBUG material props
-        highp float opacity = 1.0;
-        highp float roughness = 1.0;
-        // <<<--- must be set by uniforms
-        
-        highp vec3 worldNormal = normalize(vWorldNormal);
+        highp vec3 WN = normalize(wn);
 
         // TODO expand into a 3-component vector with dir light colors included
         highp float diffuseDirectionalLambert = max(
-            dot(worldNormal, uDirectionalLightVector),
+            dot(WN, uDirectionalLightVector),
             0.0
         ) * uDirectionalLightColorI.w;
 
         // do one point light
-        vec3 pointLightDirection = uPointLightPosition - vWorldPosition;
+        vec3 pointLightDirection = uPointLightPosition - wp;
         float pointLightDistance = length(pointLightDirection);
         pointLightDirection /= pointLightDistance;
 
@@ -93,7 +76,7 @@ const _fshader = `
         );
 
         highp float diffusePointLambert = max(
-            dot(worldNormal, pointLightDirection),
+            dot(WN, pointLightDirection),
             0.0
         ) * uPointLightColorI.w * attenuation;
 
@@ -102,27 +85,29 @@ const _fshader = `
 
         // point specular
         // TODO make specular spot of the light source color!
-        vec3 eyeDirection = normalize(uCamPos - vWorldPosition);
+        vec3 eyeDirection = normalize(uCamPos - wp);
         highp vec3 halfVector = normalize(pointLightDirection + eyeDirection);
 
         highp float specular = pow(
-            max( dot(worldNormal, halfVector), 0.0 ), uShininess
+            max( dot(WN, halfVector), 0.0 ), uShininess
         ) * uPointLightColorI.w * attenuation;
 
         // directional specular
         highp vec3 halfVectorD = normalize(uDirectionalLightVector + eyeDirection);
         highp float specularD = pow(
-            max( dot(worldNormal, halfVectorD), 0.0 ), uShininess
+            max( dot(WN, halfVectorD), 0.0 ), uShininess
         ) * uDirectionalLightColorI.w;
 
         // fog
         float z = gl_FragCoord.z / gl_FragCoord.w;
-        float fogAmount = smoothstep(FOG_NEAR, FOG_FAR, vFogDepth);
+        float fogAmount = smoothstep(FOG_NEAR, FOG_FAR, fd);
 
-        gl_FragColor = mix(
+        float opacity = 1.0;
+
+        oc = mix(
                 vec4(
                     uAmbientColor * uLightIntensities.x
-                    + (texture2D(uTexture, vUV).xyz * uOpt.z
+                    + (texture(uTexture, uw).xyz * uOpt.z
                          + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
                     + uSpecularColor * (specular + specularD) * uLightIntensities.z,
                     opacity) * uOpt.x                // shaded component
