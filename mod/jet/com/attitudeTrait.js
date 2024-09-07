@@ -1,10 +1,8 @@
 const attitudeTrait = {
 
-    __name: 'attitude', // DEBUG
-
     __onTrait: function() {
         extend(this, {
-            pos:   vec3(0, 0, 0),
+            pos:   vec3z(),
             dir:   vec3(0, 0, 1),
             up:    vec3(0, 1, 0),
             left:  vec3(1, 0, 0),

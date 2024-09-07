@@ -20,6 +20,7 @@ function bindTexture(srcImage) {
     gl.bindTexture(gl.TEXTURE_2D, null);
 }
 
+/*
 // DEBUG load dynamically
 function loadTexture(name, url) {
     const img = new Image()
@@ -29,6 +30,7 @@ function loadTexture(name, url) {
     }
     img.src = url
 }
+*/
 
 function noiseData(st) {
     const bt = extend({
@@ -95,13 +97,8 @@ function billboard() {
     bindTexture(idata)
 }
 
-function genTextures() {
+function zapTextures() {
     checkboard()
     billboard()
     noise()
-}
-
-function zapTextures() {
-    log('generating textures...')
-    genTextures()
 }

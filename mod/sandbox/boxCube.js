@@ -1,6 +1,9 @@
 _.boxCube = function() {
     log('setup a stage with a single cube')
 
+    let enops = screwUp('neogeo cube 2 scale "cube" name brew')
+    geo.screw(enops)
+
     lab.attach( new Body({
         pos: vec3(0, 0, -1),
         rot: vec3(0, 0, 0),
@@ -9,7 +12,7 @@ _.boxCube = function() {
 
         _pods: [
             new Surface({
-                geo: geo.gen().cube().push(2).scale().bake(),
+                geo: glib.cube,
                 mat: {
                     Ka: vec3(.5, .6, .7),
                     Kd: vec3(.1, .8, .9),
@@ -24,6 +27,12 @@ _.boxCube = function() {
         init() {
             this.rotSpeed[0] = .5
             this.rotSpeed[1] = .3 
+        },
+
+        evo: function(dt) {
+            this.rot[0] += this.rotSpeed[0] * dt
+            this.rot[1] += this.rotSpeed[1] * dt 
+            this.rot[2] += this.rotSpeed[2] * dt 
         },
 
     }))

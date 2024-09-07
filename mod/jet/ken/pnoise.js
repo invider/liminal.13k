@@ -7,6 +7,7 @@
 const TABSIZE = 256
 const TABMASK = TABSIZE - 1
 
+// TODO fill with a regular RND source?
 const permutation = [
     225, 155, 210, 108, 175, 199, 221, 144,
     203, 116,  70, 213,  69, 158,  33, 252,

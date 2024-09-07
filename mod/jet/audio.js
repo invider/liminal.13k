@@ -1,27 +1,43 @@
-const FM = 0
-const fmx = (() => {
+let aux
+const fx = (() => {
 
-let actx, aout
-const ch = []
+let aout, dt, R,
+    currentChannel = 0
+const
+    ch  = [],
+    smp = [],  // samples
+    // SFX source functions
+    f = [
+        // noise
+        () => 2*rnd() - 1,
+    ]
 
-let masterVolume = .3
-let currentChannel = 0
+// === SFX ===
+function createSample(s, f) {
+    // create aux buffer and copy rendered data
+    let b = aux.createBuffer(1, 9*R, R)
+    let d = b.getChannelData(0)
+
+    // render the sound
+    for (i = 0; i < 9*R; i++) d[i] = s(i, f)
+    smp.push(b)
+}
 
 function createChannel(n) {
     const channel = ch[n] = {}
 
     // create Oscillator node
-    const carrier = actx.createOscillator()
+    const carrier = aux.createOscillator()
     channel.carrier = carrier
     carrier.type = "sine"
 
-    const modulator = actx.createOscillator()
+    const modulator = aux.createOscillator()
     channel.modulator = modulator
     modulator.type = "sine"
     modulator.frequency.value = 220
 
     // setup the FM
-    const mgain = actx.createGain()
+    const mgain = aux.createGain()
     channel.modulatorGain = mgain
     mgain.gain.value = 3000
 
@@ -29,7 +45,7 @@ function createChannel(n) {
     modulator.connect(mgain)
     mgain.connect(carrier.frequency)
 
-    channel.volumeGain = actx.createGain()
+    channel.volumeGain = aux.createGain()
     channel.volumeGain.gain.value = 0
     channel.volumeGain.connect(aout)
 
@@ -39,10 +55,17 @@ function createChannel(n) {
     channel.carrier.start()
 }
 
-function init() {
-    actx = new AudioContext()
-    aout  = actx.destination
-    createChannel(0)
+function touch() {
+    if (!aux) {
+        aux = new AudioContext()
+        aout = aux.destination
+        R    = aux.sampleRate
+        dt   = 1/R
+        createChannel(0)
+
+        // generate samples - one for each sample function
+        f.map(x => createSample(x))
+    }
     /*
     const modOsc1Gain = ctx.createGain()
     modOsc1Gain.gain.value = 3000
@@ -56,7 +79,7 @@ function on(note) {
     const channel = ch[currentChannel]
     channel.carrier.frequency.value = 440 + (440/12) * note
     channel.modulator.frequency.value = channel.carrier.frequency.value * 1.1
-    channel.volumeGain.gain.value = masterVolume
+    channel.volumeGain.gain.value = env.vol 
 }
 
 function off() {
@@ -64,46 +87,33 @@ function off() {
     channel.volumeGain.gain.value = 0
 }
 
+const sfx = (n) => {
+    const bufs = aux.createBufferSource(),
+          gain = aux.createGain()
+    bufs.buffer = smp[n]
+    gain.gain.value = env.vol
+    bufs.connect(gain)
 
-return {
-    init,
+    gain.connect(aout)
+    //node.playbackRate = 2
+    bufs.start(0)
+}
+
+extend(sfx, {
+    touch,
     on,
     off,
-}
+})
+
+return sfx
 
 })()
 
 function zapAudioController() {
-    if (!FM) return
-
-    trap.register('keyDown', (e) => {
-        switch(e.code) {
-            case 'KeyQ': fmx.on(0); break;
-            case 'KeyW': fmx.on(1); break;
-            case 'KeyE': fmx.on(2); break;
-            case 'KeyR': fmx.on(3); break;
-            case 'KeyT': fmx.on(4); break;
-            case 'KeyY': fmx.on(5); break;
-            case 'KeyU': fmx.on(6); break;
-            case 'KeyI': fmx.on(7); break;
-            case 'KeyO': fmx.on(8); break;
-            case 'KeyP': fmx.on(9); break;
-            case 'KeyA': fmx.on(10); break;
-            case 'KeyB': fmx.on(11); break;
-        }
-    })
-
-    trap.register('keyUp', (e) => {
-        switch(e.code) {
-            case 'KeyQ': case 'KeyW': case 'KeyR': case 'KeyT':
-            case 'KeyY': case 'KeyU': case 'KeyI': case 'KeyO':
-            case 'KeyP': case 'KeyA': case 'KeyB':
-                fmx.off(); break;
-        }
-    })
-
     trap.register('mdn', (e) => {
-        // the user interaction has started!
-        fmx.init()
+        fx.touch()
+    })
+    trap.register('keyDown', (e) => {
+        fx.touch()
     })
 }

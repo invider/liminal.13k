@@ -52,6 +52,8 @@ const env = {
     time: 0,
     fps: 60,
 
+    vol: .2,
+
     // #0f20e1
     clearColor: rgba('200725FF'),
     fogColor:   rgba('251230FF'),
