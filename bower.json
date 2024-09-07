@@ -1,0 +1,17 @@
+{
+  "name": "liminal.13k",
+  "description": "js13k entry",
+  "main": "cork/serve.js",
+  "authors": [
+    "Igor Khotin"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/invider/liminal.13k",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

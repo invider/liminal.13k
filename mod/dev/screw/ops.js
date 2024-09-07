@@ -29,19 +29,23 @@ const opsRef = [
     'tri',
     'plane',
     'cube',
-    'tetrahedron',
     'sphere',
     'cylinder',
-    'cone',
     'circle',
-    'ring',
     'name',
     'brew',
     'brewWires',
+
+    // debug ones
+    'ring',
+    'tetrahedron',
+    'cone',
     'dump',
     'dumpv',
 
+
     // ghost codes
+    // [!] not in the VMs ops manifest
     'pushs',
     'def',
     'end',
