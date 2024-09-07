@@ -94,15 +94,15 @@ function setupGL() {
 }
 
 window.onload = () => {
-    gcanvas = document.getElementById('gcanvas')
-    gl = gcanvas.getContext('webgl2', {
+    gc = document.getElementById('gc')
+    gl = gc.getContext('webgl2', {
         alpha: false,
         preserveDrawingBuffer: true,
     })
-    gcanvas.onwebglcontextlost = e => e.preventDefault()
-    gcanvas.webglcontextrestored = setupGL()
-    hcanvas = document.getElementById('hcanvas')
-    ctx = hcanvas.getContext('2d')
+    gc.onwebglcontextlost = e => e.preventDefault()
+    gc.webglcontextrestored = setupGL()
+    hc= document.getElementById('hc')
+    ctx = hc.getContext('2d')
 
     if (!gl) alert('No WebGL!')
 

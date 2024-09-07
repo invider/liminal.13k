@@ -57,7 +57,7 @@ class HUD {
             ctx.fillStyle = '#54d9e1'
             ctx.textBaseline = 'top'
             ctx.textAlign = 'center'
-            bx = hcanvas.width * .5
+            bx = hc.width * .5
             by = 20
             lines.forEach(line => {
                 ctx.fillText(line, bx, by)
@@ -70,13 +70,13 @@ class HUD {
             ctx.textBaseline = 'bottom'
             ctx.textAlign = 'left'
             bx = 20
-            by = hcanvas.height - 20
+            by = hc.height - 20
             ctx.fillText(env.status, bx, by)
         }
 
         if (env.tag) {
             ctx.fillStyle = '#cc422d'
-            bx = hcanvas.width - 20
+            bx = hc.width - 20
             ctx.textAlign = 'right'
             ctx.fillText(env.tag, bx, by)
         }
@@ -86,8 +86,8 @@ class HUD {
             ctx.fillStyle = '#54d9e1'
             ctx.textBaseline = 'middle'
             ctx.textAlign = 'center'
-            bx = hcanvas.width * .5
-            by = hcanvas.height * .75
+            bx = hc.width * .5
+            by = hc.height * .75
             ctx.fillText(env.banner, bx, by)
         }
     }

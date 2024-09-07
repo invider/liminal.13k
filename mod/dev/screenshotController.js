@@ -45,7 +45,7 @@ function zapScreenshotController() {
 
         draw() {
             if (this.screenshot) {
-                gcanvas.toBlob((blob) => {
+                gc.toBlob((blob) => {
                     img.downloadBlob(blob, 'zap')
                 })
                 this.screenshot = false
@@ -54,7 +54,7 @@ function zapScreenshotController() {
             if (this.capturingGif) {
 
                 if (this.frameTimer < 0) {
-                    this.gif.addFrame(gcanvas, { copy: true, delay: this.gifDelay * 1000 });
+                    this.gif.addFrame(gc, { copy: true, delay: this.gifDelay * 1000 });
                     this.frameTimer = this.gifDelay
                 }
 

@@ -84,8 +84,8 @@ class CityMap {
     drawNoise() {
         ctx.globalAlpha = .5
         const img = this.noiseCanvas
-        const bx = hcanvas.width * .5 - img.width * .5,
-              by = hcanvas.height * .5 - img.height* .5
+        const bx = hc.width * .5 - img.width * .5,
+              by = hc.height * .5 - img.height* .5
         ctx.drawImage(img, bx, by, img.width, img.height)
         ctx.globalAlpha = 1
     }
@@ -96,8 +96,8 @@ class CityMap {
         const mhsize = vec3.clone(e.hsize)
         vec3.scale(mpos, this.zoom)
         vec3.scale(mhsize, this.zoom)
-        mpos[0] += hcanvas.width*.5
-        mpos[2] += hcanvas.height*.5
+        mpos[0] += hc.width*.5
+        mpos[2] += hc.height*.5
         
         ctx.strokeStyle = '#ffff00'
         ctx.lineWidth = 2
@@ -113,8 +113,8 @@ class CityMap {
         ctx.strokeStyle = '#ff0000'
 
         const r = 15, len = 25
-        const bx = hcanvas.width * .5
-        const by = hcanvas.height * .5
+        const bx = hc.width * .5
+        const by = hc.height * .5
         const dir = lab.hero.dir
 
         ctx.lineWidth = 2
@@ -138,8 +138,8 @@ class CityMap {
         ctx.textAlign = 'center'
         ctx.font = "32px monospace"
 
-        let bx = hcanvas.width/2
-        let by = hcanvas.height * .1
+        let bx = hc.width/2
+        let by = hc.height * .1
 
         ctx.fillText('MegaCity 13 Map', bx, by)
 

@@ -26,16 +26,16 @@ function expandCanvas() {
     const newWidth = window.innerWidth
     const newHeight = window.innerHeight
 
-    gcanvas.width = newWidth
-    gcanvas.height = newHeight
-    gcanvas.style.width = newWidth + 'px'
-    gcanvas.style.height = newHeight + 'px'
-    gl.viewport(0, 0, gcanvas.width, gcanvas.height)
+    gc.width = newWidth
+    gc.height = newHeight
+    gc.style.width = newWidth + 'px'
+    gc.style.height = newHeight + 'px'
+    gl.viewport(0, 0, gc.width, gc.height)
 
-    hcanvas.width = newWidth
-    hcanvas.height = newHeight
-    hcanvas.style.width = newWidth + 'px'
-    hcanvas.style.height = newHeight + 'px'
+    hc.width = newWidth
+    hc.height = newHeight
+    hc.style.width = newWidth + 'px'
+    hc.style.height = newHeight + 'px'
 
     draw()
 }
@@ -85,7 +85,7 @@ function captureMouse() {
     // calculate a safe delay to avoid capture lock DOM exception
     const t = 1000 - Math.min(abs((env.pointerReleaseTime || 0) - Date.now()), 1000)
     setTimeout(() => {
-        gcanvas.requestPointerLock()
+        gc.requestPointerLock()
     }, t * 2.5)
 }
 

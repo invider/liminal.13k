@@ -1,4 +1,3 @@
-
 let corkscrew = (function(window) {
 
     let lastScript

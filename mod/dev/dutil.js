@@ -162,7 +162,7 @@ function nodePickUp(x, y) {
 
     const pixel = new Uint8Array(4)
     // [!] The framebuffer coordinates are originating at the bottom left!!!
-    gl.readPixels(x, gcanvas.height - y, 1, 1, gl.RGB, gl.UNSIGNED_BYTE, pixel)
+    gl.readPixels(x, gc.height - y, 1, 1, gl.RGB, gl.UNSIGNED_BYTE, pixel)
     const pid = rgb2id(pixel)
     // log('#' + pid)
     const picked = pickable[pid - 1] // shift one left to compensate for the empty spot

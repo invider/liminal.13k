@@ -30,8 +30,8 @@ _.boxCorkscrew = (() => {
             onMouseDown(e) {
                 if (this.disabled) return
 
-                const x = e.clientX - gcanvas.offsetLeft
-                const y = e.clientY - gcanvas.offsetTop
+                const x = e.clientX - gc.offsetLeft
+                const y = e.clientY - gc.offsetTop
                 const target = nodePickUp(x, y)
                 if (target) {
                     console.dir(target)

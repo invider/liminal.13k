@@ -1,6 +1,6 @@
-let gl, glProg
-let gcanvas, hcanvas
-let _lastTime
+let gl, glProg,
+    gc, hc,
+    _lastTime
 
 function evo(dt) {
     if (env.paused) return
@@ -66,7 +66,7 @@ function draw(dt) {
     }
 
     // clear 2D canvas
-    ctx.clearRect(0, 0, hcanvas.width, hcanvas.height)
+    ctx.clearRect(0, 0, hc.width, hc.height)
 
     drawScene()
 }
