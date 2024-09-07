@@ -50,16 +50,16 @@ const _fshader = `#version 300 es
     uniform sampler2D uTexture;
 
     in vec3 wp, wn, wc;
-    in highp vec2 uw;
+    in vec2 uw;
     in float fd;
 
     out vec4 oc;
 
     void main(void) {
-        highp vec3 WN = normalize(wn);
+        vec3 WN = normalize(wn);
 
         // TODO expand into a 3-component vector with dir light colors included
-        highp float diffuseDirectionalLambert = max(
+        float diffuseDirectionalLambert = max(
             dot(WN, uDirectionalLightVector),
             0.0
         ) * uDirectionalLightColorI.w;
@@ -75,26 +75,26 @@ const _fshader = `#version 300 es
             + 0.001 * pointLightDistance * pointLightDistance // quadratic factor
         );
 
-        highp float diffusePointLambert = max(
+        float diffusePointLambert = max(
             dot(WN, pointLightDirection),
             0.0
         ) * uPointLightColorI.w * attenuation;
 
         // mix directional and point lights factors
-        highp float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
+        float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
 
         // point specular
         // TODO make specular spot of the light source color!
         vec3 eyeDirection = normalize(uCamPos - wp);
-        highp vec3 halfVector = normalize(pointLightDirection + eyeDirection);
+        vec3 halfVector = normalize(pointLightDirection + eyeDirection);
 
-        highp float specular = pow(
+        float specular = pow(
             max( dot(WN, halfVector), 0.0 ), uShininess
         ) * uPointLightColorI.w * attenuation;
 
         // directional specular
-        highp vec3 halfVectorD = normalize(uDirectionalLightVector + eyeDirection);
-        highp float specularD = pow(
+        vec3 halfVectorD = normalize(uDirectionalLightVector + eyeDirection);
+        float specularD = pow(
             max( dot(WN, halfVectorD), 0.0 ), uShininess
         ) * uDirectionalLightColorI.w;
 

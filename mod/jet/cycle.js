@@ -1,6 +1,6 @@
 let gl, glProg,
     gc, hc,
-    _lastTime
+    _lt
 
 function evo(dt) {
     if (env.paused) return
@@ -73,7 +73,7 @@ function draw(dt) {
 
 function cycle() {
     const now = Date.now()
-    const delta = (now - _lastTime) / 1000
+    const delta = (now - _lt) / 1000
     let dt = delta
 
     if (dt > .3) dt = .3
@@ -86,6 +86,6 @@ function cycle() {
 
     draw(delta)
 
-    _lastTime = now
+    _lt = now
     requestAnimationFrame(cycle)
 }

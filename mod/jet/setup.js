@@ -125,6 +125,6 @@ window.onload = () => {
     window.onresize = expandCanvas
     expandCanvas()
     trap('start')
-    _lastTime = Date.now()
+    _lt = Date.now()
     cycle()
 }
