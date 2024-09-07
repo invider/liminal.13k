@@ -2,6 +2,7 @@
 === liminal gap tracer ===
 
 --- phase III - advanced features and procedural generation ---
+> minify the package to fit 13k space budget
 > random placement of block connection points
 > disable connection points which are already in contact
 > multiple block sizes

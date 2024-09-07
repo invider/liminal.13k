@@ -1,0 +1,20 @@
+#!/bin/sh
+
+TAR=./snap
+SRC=./mod
+STAGE=./dist/stage
+TIMESTAMP=`date +'%F_%T'`
+
+echo "=== Taking Stats Snapshot ==="
+echo "datetime: $TIMESTAMP"
+echo "saving to: $STAGE"
+
+echo "build..."
+./build > $TAR/build.$TIMESTAMP.out
+
+echo "cloc..."
+cloc $SRC > "$TAR/cloc-mod.$TIMESTAMP.out"
+cloc $STAGE > "$TAR/cloc-stage.$TIMESTAMP.out"
+
+echo "OK"
+
