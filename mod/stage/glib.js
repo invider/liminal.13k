@@ -17,4 +17,8 @@ function zapGeoLib() {
         .push('cell').name()
         .bake()
     glib.cell.bounds = vec3(s, h, s)
+
+    if (debug) {
+        this._sphereMesh = geo.gen().push(12).precision().sphere().sharp().push('smoothSphere').name().bake()
+    }
 }

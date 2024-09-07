@@ -1,15 +1,3 @@
-
-// generate some sample geometry to fill the library
-function zapGeoLib() {
-    geo.gen().cube().push(1).scale().name('cubeOne').brew()
-        .gen().cube().push(2).scale().name('cubeTwo').brew()
-        .gen().push(15).precision().sphere().name('sphereOne').brew()
-        .gen().push(25).precision().sphere().name('sphereTwo').brew()
-        .gen().push(25).precision().smooth().sphere().name('sphereTwo').brew()
-        .gen().push(30).precision().sharp().cylinder().push(2).scale().name('cilinder').brew()
-        .gen().cone().push(2).scale().name('cone').brew()
-}
-
 // screw script parser and interpreter
 const screw = (() => {
 
@@ -140,4 +128,3 @@ const screw = (() => {
 function screwOne(src) {
     return screw(src).pop()
 }
-

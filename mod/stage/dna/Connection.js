@@ -6,7 +6,31 @@ class Connection {
 
     constructor(st) {
         extend(this, st)
-        if (debug) this.debugSphere()
+        if (debug) {
+            const r = 1.5
+
+            this.sphere = this.src.attach( new Body({
+                pos: vec3(
+                    this.pos[0],
+                    this.pos[1],
+                    this.pos[2]
+                ),
+
+                _pods: [
+                    new Surface({
+                        geo: glib.smoothSphere,
+                        mat: {
+                            Ka: vec3(0, 1, 0),
+                            Kd: vec3(0, 1, 0),
+                            Ks: vec3(1, 1, 1),
+                            Ke: vec3(1, 1, 1),
+                            Lv: vec4(.2, .7, 1, 0),
+                            Ns: 20,
+                        },
+                    }),
+                ],
+            }))
+        }
     }
 
     join(block) {
@@ -49,34 +73,6 @@ class Connection {
         const ps = vec3.iadd(this.pos, vec3(dirDX(this.dir) * hs[0], 0, dirDZ(this.dir) * hs[2]))
         if (this.src._$.isClaimed(ps, hs)) {
             this.disable()
-        }
-    }
-
-    debugSphere() {
-        if (debug) {
-            const r = 1.5
-
-            this.sphere = this.src.attach( new Body({
-                pos: vec3(
-                    this.pos[0],
-                    this.pos[1],
-                    this.pos[2]
-                ),
-
-                _pods: [
-                    new Surface({
-                        geo: glib.smoothSphere,
-                        mat: {
-                            Ka: vec3(0, 1, 0),
-                            Kd: vec3(0, 1, 0),
-                            Ks: vec3(1, 1, 1),
-                            Ke: vec3(1, 1, 1),
-                            Lv: vec4(.2, .7, 1, 0),
-                            Ns: 20,
-                        },
-                    }),
-                ],
-            }))
         }
     }
 
