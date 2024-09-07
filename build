@@ -47,8 +47,19 @@ cp --verbose -r $SRC/dry   $STAGE/
 cp --verbose -r $SRC/jet   $STAGE/
 cp --verbose -r $SRC/stage $STAGE/
 
-sed 's/const debug = 1/const debug = 0/' $STAGE/jet/env.js > $STAGE/jet/env._js
-mv $STAGE/jet/env._js $STAGE/jet/env.js
+echo "Fixing the Package..."
+cd $STAGE/jet
+pwd
+# fix the debug flag to 0
+echo "Changing debug flag to 0..."
+sed 's/const debug = 1/const debug = 0/' ./env.js > ./env._js
+mv ./env._js ./env.js
+
+# remove line comments from the shader file
+echo "Removing comment lines from shaders..."
+cat ./shader.js | sed 's://.*::' > ./shader._js
+mv ./shader._js ./shader.js
+cd -
 
 # initial size estimates
 #du -shb $STAGE/*.html
