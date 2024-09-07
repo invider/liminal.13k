@@ -3,8 +3,33 @@
 SRC=./mod
 DIST=./dist
 STAGE=$DIST/stage
-TAR=$DIST/target
+TAR=$DIST/targetX
+TARY=$DIST/targetY
 ZIP=liminal.zip
+ZIPY=liminaly.zip
+
+zipIt() {
+    TARGET=$1
+    ZIPPER=$2
+
+    echo "============="
+    echo "=    ZIP    ="
+    echo "============="
+    echo "Creating the archive from [$TARGET] => [$ZIPPER]"
+    cd $TARGET
+    pwd
+    zip -r $ZIPPER *
+    mv --verbose $ZIPPER ../
+    cd -
+
+    echo "---------------------------------"
+    echo "Test unpackaging of [$ZIPPER]..."
+    cd dist
+    mkdir $ZIPPER.out
+    unzip -v $ZIPPER            # show what is inside
+    unzip $ZIPPER -d $ZIPPER.out   # unzip it
+    cd -
+}
 
 echo "Indexing source files..."
 ./index
@@ -42,25 +67,17 @@ cp --verbose $STAGE/*.html $TAR
 cp --verbose $STAGE/*.css $TAR
 
 
-echo "============="
-echo "=    ZIP    ="
-echo "============="
-echo "Creating the archive from [$TAR]..."
-cd $TAR
-pwd
-zip -r $ZIP *
-mv --verbose $ZIP ../
-cd -
+echo "=============="
+echo "=    GULP    ="
+echo "=============="
+./node_modules/.bin/gulp
+sleep 5
 
-echo "---------------------------------"
-echo "Test unpackaging of [$ZIP]..."
-cd dist
-mkdir $ZIP.out
-unzip -v $ZIP
-unzip $ZIP -d $ZIP.out
-cd -
+zipIt $TAR $ZIP
+zipIt $TARY $ZIPY
 
 echo '-------------------------------'
 du -shb $DIST/*.zip
 du -sh --apparent-size $DIST/*.zip
 echo '-------------------------------'
+

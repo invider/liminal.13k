@@ -471,9 +471,12 @@ const ops = [
         delete g.vertices
     },
 
-    // TODO move out under debug = 1
+]
+
+if (debug) {
     // dump
-    () => {
+
+    ops.push(() => {
         const b = []
 
         b.push('=== matrix ===\n')
@@ -495,9 +498,10 @@ const ops = [
         const d = b.join('')
         console.log(d)
         term.println('\n' + d)
-    },
+    })
+
     // dumpv
-    () => {
+    ops.push(() => {
         const b = []
 
         b.push('\n=== verteces ===\n')
@@ -512,11 +516,8 @@ const ops = [
         console.dir(_g.vertices)
         console.log(d)
         term.println('\n' + d)
-    },
-
-    // push
-    (v) => { stack.push(v) },
-]
+    })
+}
 
 
 /*
@@ -574,6 +575,7 @@ function rerr(msg) {
 }
 
     /*
+    // TODO
     function defineWords(ops) {
         let st = EMOD, word
         const rops = []
