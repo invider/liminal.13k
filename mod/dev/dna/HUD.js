@@ -53,12 +53,16 @@ class HUD {
         }
 
         if (env.title) {
+            const lines = env.title.split('\n')
             ctx.fillStyle = '#54d9e1'
             ctx.textBaseline = 'top'
             ctx.textAlign = 'center'
             bx = hcanvas.width * .5
             by = 20
-            ctx.fillText(env.title, bx, by)
+            lines.forEach(line => {
+                ctx.fillText(line, bx, by)
+                by += 40
+            })
         }
 
         if (env.status) {
