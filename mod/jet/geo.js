@@ -1,7 +1,8 @@
 // === geo library ===
 const glib = {}, gix = []
 
-let _gops
+let _gops,
+    _gUV                    // enable UV generation
 
 const geo = (() => {
 
@@ -9,16 +10,15 @@ const geo = (() => {
 let g,                      // current geo form
     x,y,z,w,                // working registers
 
-    gSpherePrecision = 25,
-    gSmooth,
-    gMatrix = mat4.identity()
-    gUV = 0 // enable UV mapping experiment?
+    M = mat4.identity(),    // current geo model matrix
+    P = 13,                 // current precision qualifier
+    S                       // smooth flag, sharp if not set
 
-const stack = [], mstack = [] // value and matrix stacks
+const s = [], m = [] // value and matrix stacks
 
 function pop() {
-    if (debug) if (stack.length === 0) throw 'Empty stack'
-    return stack.pop()
+    if (debug) if (s.length === 0) throw 'Empty stack!'
+    return s.pop()
 }
 
 function vxApply(fn) {
@@ -47,7 +47,7 @@ function v3Clone(fn) {
 
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function v3x(v) {
-    vec3.mulM4(v, _gMatrix)
+    vec3.mulM4(v, M)
     g.vertices.push(v[0])
     g.vertices.push(v[1])
     g.vertices.push(v[2])
@@ -56,7 +56,7 @@ function v3x(v) {
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function vx(x, y, z) {
     const v = vec3(x, y, z)
-    vec3.mulM4(v, _gMatrix)
+    vec3.mulM4(v, M)
     g.vertices.push(v[0])
     g.vertices.push(v[1])
     g.vertices.push(v[2])
@@ -65,7 +65,7 @@ function vx(x, y, z) {
 // apply geo transformations to nx before pushing in
 function nx(x, y, z) {
     const v = vec3(x, y, z)
-    vec3.mulM4(v, _gMatrix)
+    vec3.mulM4(v, M)
     g.normals.push(v[0])
     g.normals.push(v[1])
     g.normals.push(v[2])
@@ -92,49 +92,49 @@ const ops = _gops = [
     // swap
     () => {
         x = pop(), y = pop()
-        stack.push(x)
-        stack.push(y)
+        s.push(x)
+        s.push(y)
     },
     // mpush
-    () => { mstack.push( mat4.clone(gMatrix) ) },
+    () => { m.push( mat4.clone(M) ) },
     // mpop
-    () => { gMatrix = mstack.pop() },
+    () => { M = m.pop() },
     // add
-    () => { stack.push( pop() + pop() ) },
+    () => { s.push( pop() + pop() ) },
     // sub
     () => {
         x = pop()
-        stack.push( pop() - x )
+        s.push( pop() - x )
     },
     // mul
     () => {
-        stack.push( pop() * pop() )
+        s.push( pop() * pop() )
     },
     // div
     () => {
         const x = pop()
-        stack.push( pop() / v )
+        s.push( pop() / v )
     },
     // precision
-    () => { gSpherePrecision = pop() },
+    () => { P = pop() },
     // smooth
-    () => { gSmooth = 1 },
+    () => { S = 1 },
     // sharp
-    () => { gSmooth = 0 },
+    () => { S = 0 },
 
     // === modifiers ===
     // mid - set identity matrix
-    () => { _gMatrix = mat4.identity() },
+    () => { M = mat4.identity() },
     // mscale
-    () => { mat4.scale(_gMatrix, popV3()) },
+    () => { mat4.scale(M, popV3()) },
     // translate
-    () => { mat4.translate(_gMatrix, popV3()) },
+    () => { mat4.translate(M, popV3()) },
     // mrotX
-    () => { mat4.rotX(_gMatrix, pop()) },
+    () => { mat4.rotX(M, pop()) },
     // mrotY
-    () => { mat4.rotY(_gMatrix, pop()) },
+    () => { mat4.rotY(M, pop()) },
     // mrotZ
-    () => { mat.rotZ(_gMatrix, pop()) },
+    () => { mat.rotZ(M, pop()) },
     // reflectX
     () => { v3Clone((x, y, z) => vec3(-x, y, z)) },
     // reflectY
@@ -207,7 +207,7 @@ const ops = _gops = [
             -1,-1,-1,  1,-1, 1,  -1,-1, 1,
         ])
 
-        if (gUV) {
+        if (_gUV) {
             g.uvs = g.uvs.concat([
                 1, 0,   1, 1,   0, 1,
                 1, 0,   0, 1,   0, 0,
@@ -225,13 +225,13 @@ const ops = _gops = [
     () => {
         const v = [], w = []
 
-        for (let lat = 0; lat <= gSpherePrecision; lat++) {
-            let theta = (lat * PI) / gSpherePrecision,
+        for (let lat = 0; lat <= P; lat++) {
+            let theta = (lat * PI) / P,
                 cost = cos(theta),
                 sint = sin(theta)
 
-            for (let lon = 0; lon < gSpherePrecision; lon++) {
-                let phi = (lon * PI2) / gSpherePrecision,
+            for (let lon = 0; lon < P; lon++) {
+                let phi = (lon * PI2) / P,
                     cosp = cos(phi),
                     sinp = sin(phi)
                     v.push(
@@ -242,12 +242,12 @@ const ops = _gops = [
             }
         }
 
-        for (let lat = 0; lat < gSpherePrecision; lat++) {
-            for (let lon = 0; lon < gSpherePrecision; lon++) {
+        for (let lat = 0; lat < P; lat++) {
+            for (let lon = 0; lon < P; lon++) {
                 
-                let base = lat * gSpherePrecision
-                    base2 = ((lat + 1)) * gSpherePrecision
-                    nextLon = (lon + 1) % gSpherePrecision
+                let base = lat * P 
+                    base2 = ((lat + 1)) * P 
+                    nextLon = (lon + 1) % P 
                     at = (base + lon) * 3,
                     at2 = (base + nextLon) * 3
                     at3 = (base2 + lon) * 3
@@ -270,17 +270,17 @@ const ops = _gops = [
     () => {
         const v = [], w = []
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / gSpherePrecision,
+        for (let lon = 0; lon < P; lon++) {
+            let phi = (lon * PI2) / P,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
+        for (let lon = 0; lon < P; lon++) {
 
                 let at = lon * 3,
-                    at2 = ((lon + 1) % gSpherePrecision) * 3
+                    at2 = ((lon + 1) % P) * 3
 
                 w.push(
                     v[at],   1,  v[at+2],
@@ -306,16 +306,16 @@ const ops = _gops = [
     () => {
         const v = [], w = []
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / gSpherePrecision,
+        for (let lon = 0; lon < P; lon++) {
+            let phi = (lon * PI2) / P,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
+        for (let lon = 0; lon < P; lon++) {
                 let at = lon * 3,
-                    at2 = ((lon + 1) % gSpherePrecision) * 3
+                    at2 = ((lon + 1) % P) * 3
 
                 w.push(
                     v[at2], 0,  v[at2+2],
@@ -369,7 +369,7 @@ const ops = _gops = [
 
         if (g.normals.length === 0) {
             g.autocalcNormals = true
-            g.normals = new Float32Array( calcNormals(g.vertices, gSmooth) ) 
+            g.normals = new Float32Array( calcNormals(g.vertices, S) ) 
         } else {
             g.normals = new Float32Array(g.normals) 
         }
@@ -399,6 +399,9 @@ const ops = _gops = [
     },
 ]
 
+// === SCREW VM ===
+let def = {}, brews = []
+
 // emu modes
 const
       EMOD = 0,
@@ -414,9 +417,7 @@ function unscrewRune(r) {
 
 function unscrewNumber(n) {
     if (n > 41) n -= 92
-    const res = n / 10
-    log(res)
-    return res
+    return n/10
 }
 
 function unscrewOpcodes(rawcodes) {
@@ -425,53 +426,50 @@ function unscrewOpcodes(rawcodes) {
     return opcodes
 }
 
-// === SCREW VM ===
-let def = {}, brews = [], lines
-
+/*
+// TODO
 function rerr(msg) {
     throw new Error(`Screw Runtime Error: ${msg}`)
 }
+function defineWords(ops) {
+    let st = EMOD, word
+    const rops = []
 
-    /*
-    // TODO
-    function defineWords(ops) {
-        let st = EMOD, word
-        const rops = []
-
-        for (let i = 0; i < ops.length; i++) {
-            const op = ops[i]
-            if (st) {
-                // do definition
-                if (op.t === END) {
-                    st = EMOD
-                } else if (op.t === DEF) {
-                    rerr(`Can't define a word [${op.v}] inside another word!`)
-                } else {
-                    word.push(op)
-                }
+    for (let i = 0; i < ops.length; i++) {
+        const op = ops[i]
+        if (st) {
+            // do definition
+            if (op.t === END) {
+                st = EMOD
+            } else if (op.t === DEF) {
+                rerr(`Can't define a word [${op.v}] inside another word!`)
             } else {
-                // filter define and runtime ops
-                switch(op.t) {
-                    case DEF:
-                        st = DMOD
-                        word = []
-                        word.name = op.v
-                        def[op.v] = word
-                        break
-                    case END:
-                        rerr(`Unexpected end of a definition`)
-                        break
-                    default:
-                        rops.push(op)
-                }
+                word.push(op)
+            }
+        } else {
+            // filter define and runtime ops
+            switch(op.t) {
+                case DEF:
+                    st = DMOD
+                    word = []
+                    word.name = op.v
+                    def[op.v] = word
+                    break
+                case END:
+                    rerr(`Unexpected end of a definition`)
+                    break
+                default:
+                    rops.push(op)
             }
         }
-        return rops
     }
-    */
+    return rops
+}
+*/
 
 const PUSHS = 39,
       PUSHV = 42
+
 function exec(opcodes) {
     const len = opcodes.length
     let op, i = 0, n, buf
@@ -483,41 +481,15 @@ function exec(opcodes) {
                 case PUSHS:
                     buf = []
                     n = opcodes[i++]
-                    for (let j = 0; j < n; j++) {
-                        buf.push(opcodes.raw[i++])
-                    }
-                    console.log('decoded string: ' + buf.join(''))
-                    stack.push(buf.join(''))
+                    for (let j = 0; j < n; j++) buf.push(opcodes.raw[i++])
+                    s.push(buf.join(''))
                     break
                 case PUSHV:
-                    stack.push(unscrewNumber(opcodes[i++]))
+                    s.push(unscrewNumber(opcodes[i++]))
                     break
                 default:
                     ops[op]()
             }
-
-            /*
-            switch(op.t) {
-                case NUM:
-                case STR:
-                    geo.push(op.v)
-                    break;
-                case ID:
-                    const word = def[op.v]
-                    if (word) exec(word)
-                    else {
-                        const a = op.v
-                        if (!geo[a]) rerr(`Unknown action [${a}]`)
-                        geo[a]()
-                        if (a === 'brew') {
-                            brews.push(geo.last())
-                        }
-                    }
-                    break
-                default:
-                    rerr('Unexpected operation: ' + dumpToken(op))
-            }
-            */
         }
     } catch(e) {
         throw e
