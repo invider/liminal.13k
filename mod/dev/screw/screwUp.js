@@ -7,11 +7,36 @@ screwUp = (() => {
           STR  = 3,
           ID   = 4
 
+    let lines   // the latest screw srouce splited in lines
+
+    function screwBase(N) {
+        let n = N + 32
+        if (n > 91) n++
+        if (n > 95) n++
+        if (n > 126) throw `Screw encoding value overflow: [${N}]`
+        return String.fromCharCode(n)
+    }
+
+    function screwBaseNumber(N) {
+        let n = N * 10
+        if (n < 0) {
+            if (Math.abs(n) > 42) throw `Screw number value overflow: [${N}]`
+            n = 92 + n
+        } else {
+            if (n > 41) throw `Screw number value overflow: [${N}]`
+        }
+        if (n % 1 > 0) throw `Lost precision: [${N}]`
+        return screwBase(n)
+    }
+
     //
     // === parser ===
     //
-    function parse(src, lines, tk) {
-        let i = 0, l = 0, p = 0, b = 0, buf
+    function parse(src, tk) {
+        let i = 0,
+            line = 0, ptr = 0,
+            l = 0, p = 0,
+            b = 0
 
         function getc() {
             if (b) {
@@ -20,7 +45,7 @@ screwUp = (() => {
                 return buf
             }
             if (i >= src.length) return
-            p++
+            ptr++
             return src.charAt(i++)
         }
 
@@ -30,7 +55,7 @@ screwUp = (() => {
         }
 
         function xerr(msg) {
-            throw `${msg} @${l+1}.${p+1}:\n${lines[l]}\n${lpad('', p)}^`
+            throw `${msg} @${line+1}.${ptr+1}:\n${lines[line]}\n${lpad('', ptr)}^`
         }
 
         function eolf(c) {
@@ -91,18 +116,19 @@ screwUp = (() => {
                 c = getc()
             }
             if (c === '\n') {
-                l++
-                p = 0
+                line++
+                ptr = 0
             }
         }
 
         let sign = 1
         while (c) {
+            l = line, p = ptr - 1
             switch(c) {
                 case ' ': case '\t': break;
                 case '\n':
-                    l++
-                    p = 0
+                    line++
+                    ptr = 0
                     break
                 case ':':
                     const last = tk.pop()
@@ -126,17 +152,18 @@ screwUp = (() => {
                         tk.push({
                             t: STR,
                             v: str.join(''),
+                            w: str,
                             l, p
                         })
                         expectDelim(nextc())
                     }
                     break
                 case '#':
-                    if (p === 1) skipLine() // works only at the beginning of a line
+                    if (ptr === 1) skipLine() // works only at the beginning of a line
                     break
                 case '-':
                     const n = inext('-'), nl = lnext()
-                    if (n > 1 && p === 1 && nl === n) {
+                    if (n > 1 && ptr === 1 && nl === n) {
                         // multi-line comment
                         skipLine()
                         let nn = 0
@@ -155,7 +182,7 @@ screwUp = (() => {
                     break
                 case '=':
                     const m = inext('='), ml = lnext()
-                    if (m > 1 && p === 1 && ml === m) {
+                    if (m > 1 && ptr === 1 && ml === m) {
                         // multi-line comment
                         skipLine()
                         let mm = 0
@@ -224,16 +251,79 @@ screwUp = (() => {
     }
     */
 
-    return (src, lines) => {
-        const tokens = []
-        parse(src, lines, tokens)
-        /*
-        rawLines.forEach((l, N) => {
-            if (!isEmptyLine(l)) {
-                parseLine(l, N, tokens)
+
+    function compile(tk) {
+        const opcodes = []
+
+        tk.forEach(t => {
+
+            function cerr(msg, at) {
+                at = at || t
+                throw `${msg} @${at.l+1}.${at.p+1}:\n${lines[at.l]}\n${lpad('', at.p)}^`
+            }
+
+            let opcode
+            switch(t.t) {
+                case END:
+                    // TODO 
+                    break
+                case DEF:
+                    // TODO
+                    break
+                case NUM:
+                    // either short number shortcut
+                    // or multi-number loader
+                    // or a simple value
+                    opcodes.push( screwBase(opsRef.indexOf('pushv')) )
+                    opcodes.push( screwBaseNumber(t.v) )
+                    break
+                case STR:
+                    opcode = opsRef.indexOf('pushs')
+                    const slen = t.v.length
+                    if (slen > 64) cerr(`Max string length (64) is exceeded: ${slen}`)
+
+                    opcodes.push( screwBase(opcode) )
+                    opcodes.push( screwBase(slen) )
+                    t.w.forEach((c, i) => {
+                        const d = c.charCodeAt(0)
+                        if (d < 32 || d > 126 || d === 96 || d === 92) {
+                            cerr(`Unsupported character: #${d}[${c}]`, { l: t.l, p: t.p + i + 1 })
+                        }
+                        opcodes.push(c)
+                    })
+
+                    break
+                case ID:
+                    // it is either an opcode or a predefined word
+                    opcode = mnemonics.indexOf(t.v)
+                    if (opcode < 0) cerr(`Unknown word: [${t.v}]!`)
+                    opcodes.push( screwBase(opcode) )
+
+                    break
             }
         })
-        */
-        return tokens
+        return opcodes.join('')
+    }
+
+    // DEBUG
+    function dumpToken(t) {
+        switch(t.t) {
+            case 0: return ';';
+            case 1: return `![${t.v}]:`;
+            case 2: return `#[${t.v}]`
+            case 3: return `"${t.v}"`
+            case 4: return `@${t.v}`
+        }
+    }
+
+    return (src) => {
+        lines = src.split('\n')
+
+        const tokens = []
+        parse(src, tokens)
+
+        const enops = compile(tokens)
+        // console.log('#[' + enops + ']')
+        return enops
     }
 })()

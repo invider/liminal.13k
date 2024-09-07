@@ -4,37 +4,33 @@ const glib = {}, gix = []
 const geo = (() => {
 
 // === geo state ===
-let _g,
-    _gSpherePrecision = 25,
-    _gSmooth,
-    _gMatrix = mat4.identity()
+let g,                      // current geo form
+    x,y,z,w,                // working registers
 
-    _gUV = 0 // enable UV mapping experiment?
+    gSpherePrecision = 25,
+    gSmooth,
+    gMatrix = mat4.identity()
+    gUV = 0 // enable UV mapping experiment?
 
-const stack = [], mstack = []
+const stack = [], mstack = [] // value and matrix stacks
 
 function pop() {
-    if (stack.length === 0) throw 'No values in stack!'
+    if (debug) if (stack.length === 0) throw 'Empty stack'
     return stack.pop()
 }
 
-// DEBUG - a test matrix
-//const sv = vec3(1, 1, 1)
-//vec3.scale(sv, 0.1)
-//mat4.scale(_gMatrix, sv)
-
 function vxApply(fn) {
-    for (let i = 0; i < _g.vertices.length; i++) {
-        _g.vertices[i] = fn(_g.vertices[i], i)
+    for (let i = 0; i < g.vertices.length; i++) {
+        g.vertices[i] = fn(g.vertices[i], i)
     }
 }
 
 function v3Clone(fn) {
     swap = true
     let bv
-    const ln = _g.vertices.length
+    const ln = g.vertices.length
     for (let i = 0; i < ln; i += 3) {
-        const x = _g.vertices[i], y = _g.vertices[i+1], z = _g.vertices[i+2]
+        const x = g.vertices[i], y = g.vertices[i+1], z = g.vertices[i+2]
         const v = fn(x, y, z)
         if (swap && i % 9 === 3) {
             bv = v
@@ -50,146 +46,140 @@ function v3Clone(fn) {
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function v3x(v) {
     vec3.mulM4(v, _gMatrix)
-    _g.vertices.push(v[0])
-    _g.vertices.push(v[1])
-    _g.vertices.push(v[2])
+    g.vertices.push(v[0])
+    g.vertices.push(v[1])
+    g.vertices.push(v[2])
 }
 
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function vx(x, y, z) {
     const v = vec3(x, y, z)
     vec3.mulM4(v, _gMatrix)
-    _g.vertices.push(v[0])
-    _g.vertices.push(v[1])
-    _g.vertices.push(v[2])
+    g.vertices.push(v[0])
+    g.vertices.push(v[1])
+    g.vertices.push(v[2])
 }
 
 // apply geo transformations to nx before pushing in
 function nx(x, y, z) {
     const v = vec3(x, y, z)
     vec3.mulM4(v, _gMatrix)
-    _g.normals.push(v[0])
-    _g.normals.push(v[1])
-    _g.normals.push(v[2])
+    g.normals.push(v[0])
+    g.normals.push(v[1])
+    g.normals.push(v[2])
 }
 
 function popV3() {
-    const z = pop(), y = pop(), x = pop()
+    z = pop(), y = pop(), x = pop()
     return vec3(x, y, z)
 }
 
-// mesh generator
-const $ = {
-    gen: function() {
-        _g = {
+const ops = [
+    // neogeo
+    () => {
+        g = {
             vertices: [],
             normals:  [],
             faces:    [],
             colors:   [],
             uvs:      [],
         }
-        return this
     },
-    push: v => {
-        stack.push(v)
-        return $
+    // drop
+    () => { pop() },
+    // swap
+    () => {
+        x = pop(), y = pop()
+        stack.push(x)
+        stack.push(y)
     },
-    pushv: w => {
-        for (x of w) stack.push(x)
-        return $
+    // mpush
+    () => { mstack.push( mat4.clone(gMatrix) ) },
+    // mpop
+    () => { gMatrix = mstack.pop() },
+    // add
+    () => { stack.push( pop() + pop() ) },
+    // sub
+    () => {
+        x = pop()
+        stack.push( pop() - x )
     },
-    drop: () => {
-        pop()
-    },
-    swap: () => {
-        const v1 = pop(), v2 = pop()
-        stack.push(v1)
-        stack.push(v2)
-    },
-    mpush: () => {
-        mstack.push( mat4.clone(_gMatrix) )
-    },
-    mpop: () => {
-        _gMatrix = mstack.pop()
-    },
-
-    // basic ops
-    add: () => {
-        stack.push( pop() + pop() )
-    },
-
-    sub: () => {
-        const v = pop()
-        stack.push( pop() - v )
-    },
-
-    mul: () => {
+    // mul
+    () => {
         stack.push( pop() * pop() )
     },
-
-    div: () => {
-        const v = pop()
+    // div
+    () => {
+        const x = pop()
         stack.push( pop() / v )
     },
+    // precision
+    () => { gSpherePrecision = pop() },
+    // smooth
+    () => { gSmooth = 1 },
+    // sharp
+    () => { gSmooth = 0 },
 
-    precision: function(v) {
-        _gSpherePrecision = v || pop()
-        return this
+    // === modifiers ===
+    // mid - set identity matrix
+    () => { _gMatrix = mat4.identity() },
+    // mscale
+    () => { mat4.scale(_gMatrix, popV3()) },
+    // translate
+    () => { mat4.translate(_gMatrix, popV3()) },
+    // mrotX
+    () => { mat4.rotX(_gMatrix, pop()) },
+    // mrotY
+    () => { mat4.rotY(_gMatrix, pop()) },
+    // mrotZ
+    () => { mat.rotZ(_gMatrix, pop()) },
+    // reflectX
+    () => { v3Clone((x, y, z) => vec3(-x, y, z)) },
+    // reflectY
+    () => { v3Clone((x, y, z) => vec3(x, -y, z)) },
+    // reflectZ
+    () => { v3Clone((x, y, z) => vec3(x, y, -z)) },
+    // scale
+    () => {
+        x = pop()
+        vxApply(n => n * x)
+    },
+    // stretchX
+    () => {
+        x = pop()
+        vxApply((n, i) => (i % 3) == 0? n * x : n)
+    },
+    // stretchY
+    () => {
+        x = pop()
+        vxApply((n, i) => i % 3 == 1? n * x : n)
+    },
+    // stretchZ
+    () => {
+        x = pop()
+        vxApply((n, i) => i % 3 == 2? n * x : n)
     },
 
-    smooth: function() {
-        _gSmooth = 1
-        return this
-    },
-
-    sharp: function() {
-        _gSmooth = 0
-        return this
-    },
-
-    vertices: function(w) {
-        for (let i = 0; i < w.length; i += 3) {
-            vx(w[i], w[i+1], w[i+2])
-        }
-        //_g.vertices = _g.vertices.concat(w)
-        return this
-    },
-
-    faces: function(fv) {
-        _g.faces = _g.faces.concat(fv)
-        return this
-    },
-
-    normals: function(w) {
-        for (let i = 0; i < w.length; i += 3) {
-            nx(w[i], w[i+1], w[i+2])
-        }
-        //_g.normals = _g.normals.concat(nv)
-        return this
-    },
-
-    uvs: function(uw) {
-        _g.uvs = _g.uvs.concat(uw)
-        return this
-    }, 
-
-    tri: function() {
+    // === basic geometries ===
+    // tri
+    () => {
         for (let i = 0; i < 9; i += 3) {
-            const z = pop(), y = pop(), x = pop()
+            z = pop(), y = pop(), x = pop()
             vx(x, y, z)
         }
     },
-
-    plane: function() {
-        _g.vertices = _g.vertices.concat([
+    // plane
+    () => {
+        g.vertices = g.vertices.concat([
             -1, 0,-1,  1, 0, 1,  1, 0,-1,    
             -1, 0,-1, -1, 0, 1,  1, 0, 1
         ])
-        return this
     },
 
-    cube: function() {
-        _g.vertices = _g.vertices.concat([
+    // === complex geometries ===
+    // cube
+    () => {
+        g.vertices = g.vertices.concat([
             // top face
             -1, 1,-1,  -1, 1, 1,   1, 1, 1,
             -1, 1,-1,   1, 1, 1,   1, 1,-1,   
@@ -215,40 +205,40 @@ const $ = {
             -1,-1,-1,  1,-1, 1,  -1,-1, 1,
         ])
 
-        if (_gUV) {
-            _g.uvs = _g.uvs.concat([
+        if (gUV) {
+            g.uvs = g.uvs.concat([
                 1, 0,   1, 1,   0, 1,
                 1, 0,   0, 1,   0, 0,
             ])
+            // apply uvs for each face
             for (let j = 0; j < 12; j++) {
                 for (let i = 0; i < 12; i++) {
-                    _g.uvs.push(_g.uvs[i])
+                    g.uvs.push(g.uvs[i])
                 }
             }
         }
         return this
     },
-
-    tetrahedron: function() {
-        _g.vertices = _g.vertices.concat([
+    // tetrahedron
+    () => {
+        g.vertices = g.vertices.concat([
             -1, 1,-1,   -1,-1, 1,   1, 1, 1,
              1, 1, 1,    1,-1,-1,  -1, 1,-1, 
             -1,-1, 1,    1,-1,-1,   1, 1, 1,
             -1, 1,-1,    1,-1,-1,  -1,-1, 1,
         ])
-        return this
     },
-
-    sphere: function() {
+    // sphere
+    () => {
         const v = [], w = []
 
-        for (let lat = 0; lat <= _gSpherePrecision; lat++) {
-            let theta = (lat * PI) / _gSpherePrecision,
+        for (let lat = 0; lat <= gSpherePrecision; lat++) {
+            let theta = (lat * PI) / gSpherePrecision,
                 cost = cos(theta),
                 sint = sin(theta)
 
-            for (let lon = 0; lon < _gSpherePrecision; lon++) {
-                let phi = (lon * PI2) / _gSpherePrecision,
+            for (let lon = 0; lon < gSpherePrecision; lon++) {
+                let phi = (lon * PI2) / gSpherePrecision,
                     cosp = cos(phi),
                     sinp = sin(phi)
                     v.push(
@@ -259,12 +249,12 @@ const $ = {
             }
         }
 
-        for (let lat = 0; lat < _gSpherePrecision; lat++) {
-            for (let lon = 0; lon < _gSpherePrecision; lon++) {
+        for (let lat = 0; lat < gSpherePrecision; lat++) {
+            for (let lon = 0; lon < gSpherePrecision; lon++) {
                 
-                let base = lat * _gSpherePrecision
-                    base2 = ((lat + 1)) * _gSpherePrecision
-                    nextLon = (lon + 1) % _gSpherePrecision
+                let base = lat * gSpherePrecision
+                    base2 = ((lat + 1)) * gSpherePrecision
+                    nextLon = (lon + 1) % gSpherePrecision
                     at = (base + lon) * 3,
                     at2 = (base + nextLon) * 3
                     at3 = (base2 + lon) * 3
@@ -281,25 +271,23 @@ const $ = {
                 )
             }
         }
-
-        _g.vertices = _g.vertices.concat(w)
-        return this
+        g.vertices = g.vertices.concat(w)
     },
-
-    cylinder() {
+    // cylinder
+    () => {
         const v = [], w = []
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / _gSpherePrecision,
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / gSpherePrecision,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
 
                 let at = lon * 3,
-                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+                    at2 = ((lon + 1) % gSpherePrecision) * 3
 
                 w.push(
                     v[at],   1,  v[at+2],
@@ -319,25 +307,23 @@ const $ = {
                     v[at],  -1,  v[at+2]
                 )
         }
-
-        _g.vertices = _g.vertices.concat(w)
-        return this
+        g.vertices = g.vertices.concat(w)
     },
-    
-    cone() {
+    // cone
+    () => {
         const v = [], w = []
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / _gSpherePrecision,
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / gSpherePrecision,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
 
                 let at = lon * 3,
-                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+                    at2 = ((lon + 1) % gSpherePrecision) * 3
 
                 w.push(
                     0,  1,  0,
@@ -349,24 +335,22 @@ const $ = {
                     v[at],  -1,  v[at+2]
                 )
         }
-
-        _g.vertices = _g.vertices.concat(w)
-        return this
+        g.vertices = g.vertices.concat(w)
     },
-
-    circle: function() {
+    // circle
+    () => {
         const v = [], w = []
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / _gSpherePrecision,
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / gSpherePrecision,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
                 let at = lon * 3,
-                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+                    at2 = ((lon + 1) % gSpherePrecision) * 3
 
                 w.push(
                     v[at2], 0,  v[at2+2],
@@ -374,25 +358,24 @@ const $ = {
                     v[at],  0,  v[at+2]
                 )
         }
-
-        _g.vertices = _g.vertices.concat(w)
+        g.vertices = g.vertices.concat(w)
         return this
     },
-    
-    ring() {
+    // ring
+    () => {
         const ir = pop(), v = [], w = []
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / _gSpherePrecision,
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
+            let phi = (lon * PI2) / gSpherePrecision,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < _gSpherePrecision; lon++) {
+        for (let lon = 0; lon < gSpherePrecision; lon++) {
 
                 let at = lon * 3,
-                    at2 = ((lon + 1) % _gSpherePrecision) * 3
+                    at2 = ((lon + 1) % gSpherePrecision) * 3
 
                 w.push(
                     v[at2],    0,  v[at2+2],
@@ -414,162 +397,83 @@ const $ = {
                     */
                 )
         }
-
-        _g.vertices = _g.vertices.concat(w)
-        return this
+        g.vertices = g.vertices.concat(w)
     },
 
-    mid: function() {
-        _gMatrix = mat4.identity()
-        return this
-    },
-
-    mscale: function() {
-        mat4.scale(_gMatrix, popV3())
-        return this
-    },
-
-    mtranslate: function() {
-        mat4.translate(_gMatrix, popV3())
-        return this
-    },
-
-    mrotX: function() {
-        mat4.rotX(_gMatrix, pop())
-        return this
-    },
-
-    mrotY: function() {
-        mat4.rotY(_gMatrix, pop())
-        return this
-    },
-
-    mrotZ: function() {
-        mat.rotZ(_gMatrix, pop())
-        return this
-    },
-
-    reflectX: function() {
-        v3Clone((x, y, z) => vec3(-x, y, z))
-    },
-
-    reflectY: function() {
-        v3Clone((x, y, z) => vec3(x, -y, z))
-    },
-
-    reflectZ: function() {
-        v3Clone((x, y, z) => vec3(x, y, -z))
-    },
-
-    // scale the existing geometry
-    scale: function() {
-        const s = pop()
-        vxApply(n => n * s)
-        return this
-    },
-
-    stretchX: function() {
-        const s = pop()
-        vxApply((n, i) => (i % 3) == 0? n * s : n)
-        return this
-    },
-
-    stretchY: function() {
-        const s = pop()
-        vxApply((n, i) => i % 3 == 1? n * s : n)
-        return this
-    },
-
-    stretchZ: function() {
-        const s = pop()
-        vxApply((n, i) => i % 3 == 2? n * s : n)
-        return this
-    },
-
-    name: function(n) {
-        _g.name = n || pop()
-        return this
-    },
-
-    brew: function() {
+    // === finalizer ===
+    // name
+    () => { g.name = pop() },
+    // brew
+    () => {
         // normalize
-        _g.vertices = new Float32Array(_g.vertices)
-        _g.vertCount = _g.vertices.length / 3
+        g.vertices = new Float32Array(g.vertices)
+        g.vertCount = g.vertices.length / 3
 
         // wireframe points
-        _g.wires = []
-        for (let i = 0; i < _g.vertices.length; i += 9) {
-            let v1 = vec3.fromArray(_g.vertices, i),
-                v2 = vec3.fromArray(_g.vertices, i+3),
-                v3 = vec3.fromArray(_g.vertices, i+6)
-            vec3.push(_g.wires, v1).push(_g.wires, v2)
-                .push(_g.wires, v2).push(_g.wires, v3)
-                .push(_g.wires, v3).push(_g.wires, v1)
+        g.wires = []
+        for (let i = 0; i < g.vertices.length; i += 9) {
+            let v1 = vec3.fromArray(g.vertices, i),
+                v2 = vec3.fromArray(g.vertices, i+3),
+                v3 = vec3.fromArray(g.vertices, i+6)
+            vec3.push(g.wires, v1).push(g.wires, v2)
+                .push(g.wires, v2).push(g.wires, v3)
+                .push(g.wires, v3).push(g.wires, v1)
         }
-        _g.wires = new Float32Array(_g.wires)
+        g.wires = new Float32Array(g.wires)
 
-        if (_g.uvs.length > 0) {
-            _g.uvs = new Float32Array(_g.uvs)
+        if (g.uvs.length > 0) {
+            g.uvs = new Float32Array(g.uvs)
         } else {
-            _g.uvs = null
-        }
-
-        if (_g.colors.length > 0) {
-            _g.colors = new Float32Array(_g.colors)
-        } else {
-            _g.colors = null
+            g.uvs = null
         }
 
-        if (_g.faces.length === 0) {
-            _g.faces = null
+        if (g.colors.length > 0) {
+            g.colors = new Float32Array(g.colors)
         } else {
-            _g.faces = new Uint16Array(_g.faces)
-            _g.facesCount = _g.faces.length
+            g.colors = null
         }
 
-        if (_g.normals.length === 0) {
-            _g.autocalcNormals = true
-            _g.normals = new Float32Array( calcNormals(_g.vertices, _gSmooth) ) 
+        if (g.faces.length === 0) {
+            g.faces = null
         } else {
-            _g.normals = new Float32Array(_g.normals) 
+            g.faces = new Uint16Array(g.faces)
+            g.facesCount = g.faces.length
+        }
+
+        if (g.normals.length === 0) {
+            g.autocalcNormals = true
+            g.normals = new Float32Array( calcNormals(g.vertices, gSmooth) ) 
+        } else {
+            g.normals = new Float32Array(g.normals) 
         }
 
         // DEBUG vertex stat
         if (debug) {
-            if (!this._vertexCount) this._vertexCount = 0
-            this._vertexCount += _g.vertCount
+            if (!this.vertexCount) this.vertexCount = 0
+            this.vertexCount += g.vertCount
 
-            if (!this._polygonCount) this._polygonCount = 0
-            this._polygonCount += _g.vertCount / 3
+            if (!this.polygonCount) this.polygonCount = 0
+            this.polygonCount += g.vertCount / 3
 
-            if (!this._geoCount) this._geoCount = 0
-            this._geoCount ++
+            if (!this.geoCount) this.geoCount = 0
+            this.geoCount ++
 
-            env.dump['Geometry Library'] = `${this._geoCount} (${this._polygonCount} polygons)`
+            env.dump['Geometry Library'] = `${this.geoCount} (${this.polygonCount} polygons)`
         }
 
-        gix.push(_g)
-        if (_g.name) glib[_g.name] = _g
-        return this
+        gix.push(g)
+        if (g.name) glib[g.name] = g
+    },
+    // brewWires
+    () => {
+        g.wires = new Float32Array(g.vertices)
+        g.wires.vertCount = g.vertices.length / 3
+        delete g.vertices
     },
 
-    bake: function() {
-        this.brew()
-        return _g
-    },
-
-    last: function() {
-        return _g
-    },
-
-    bakeWires: function() {
-        _g.wires = new Float32Array(_g.vertices)
-        _g.wires.vertCount = _g.vertices.length / 3
-        delete _g.vertices
-        return _g
-    },
-
-    dump: function() {
+    // TODO move out under debug = 1
+    // dump
+    () => {
         const b = []
 
         b.push('=== matrix ===\n')
@@ -578,7 +482,6 @@ const $ = {
             b.push('  ')
             if (i % 4 === 3) b.push('\n')
         })
-
 
         b.push('\n=== stack ===\n')
         stack.forEach((v, i) => {
@@ -593,8 +496,8 @@ const $ = {
         console.log(d)
         term.println('\n' + d)
     },
-
-    dumpv: function() {
+    // dumpv
+    () => {
         const b = []
 
         b.push('\n=== verteces ===\n')
@@ -610,8 +513,176 @@ const $ = {
         console.log(d)
         term.println('\n' + d)
     },
+
+    // push
+    (v) => { stack.push(v) },
+]
+
+
+/*
+// op types
+const END  = 0,
+      DEF  = 1,
+      NUM  = 2,
+      STR  = 3,
+      ID   = 4,
+*/
+
+// emu modes
+      EMOD = 0,
+      DMOD = 1
+
+function unscrewRune(r) {
+    let n = r.charCodeAt(0)
+    if (debug) if (n > 196) throw `Corrupted rune: [${r}]`
+    if (n > 96) n--
+    if (n > 92) n--
+    return n - 32
 }
 
-return $
+function unscrewNumber(n) {
+    if (n > 41) n -= 92
+    const res = n / 10
+    log(res)
+    return res
+}
+
+function unscrewOpcodes(rawcodes) {
+    const opcodes = rawcodes.map(r => unscrewRune(r))
+    opcodes.raw = rawcodes
+    return opcodes
+}
+
+/*
+function screwBaseNumber(N) {
+    let n = N * 10
+    if (n < 0) {
+        if (Math.abs(n) > 42) throw `Screw number value overflow: [${N}]`
+        n = 92 + n
+    } else {
+        if (N > 41) throw `Screw number value overflow: [${N}]`
+    }
+    return screwBase(n)
+}
+*/
+
+// === SCREW VM ===
+let def = {}, brews = [], lines
+
+function rerr(msg) {
+    throw new Error(`Screw Runtime Error: ${msg}`)
+}
+
+    /*
+    function defineWords(ops) {
+        let st = EMOD, word
+        const rops = []
+
+        for (let i = 0; i < ops.length; i++) {
+            const op = ops[i]
+            if (st) {
+                // do definition
+                if (op.t === END) {
+                    st = EMOD
+                } else if (op.t === DEF) {
+                    rerr(`Can't define a word [${op.v}] inside another word!`)
+                } else {
+                    word.push(op)
+                }
+            } else {
+                // filter define and runtime ops
+                switch(op.t) {
+                    case DEF:
+                        st = DMOD
+                        word = []
+                        word.name = op.v
+                        def[op.v] = word
+                        break
+                    case END:
+                        rerr(`Unexpected end of a definition`)
+                        break
+                    default:
+                        rops.push(op)
+                }
+            }
+        }
+        return rops
+    }
+    */
+
+const PUSHS = 39,
+      PUSHV = 42
+function exec(opcodes) {
+    const len = opcodes.length
+    let op, i = 0, n, buf
+    try {
+        while (i < len) {
+            op = opcodes[i++]
+
+            switch(op) {
+                case PUSHS:
+                    buf = []
+                    n = opcodes[i++]
+                    for (let j = 0; j < n; j++) {
+                        buf.push(opcodes.raw[i++])
+                    }
+                    console.log('decoded string: ' + buf.join(''))
+                    stack.push(buf.join(''))
+                    break
+                case PUSHV:
+                    stack.push(unscrewNumber(opcodes[i++]))
+                    break
+                default:
+                    ops[op]()
+            }
+
+            /*
+            switch(op.t) {
+                case NUM:
+                case STR:
+                    geo.push(op.v)
+                    break;
+                case ID:
+                    const word = def[op.v]
+                    if (word) exec(word)
+                    else {
+                        const a = op.v
+                        if (!geo[a]) rerr(`Unknown action [${a}]`)
+                        geo[a]()
+                        if (a === 'brew') {
+                            brews.push(geo.last())
+                        }
+                    }
+                    break
+                default:
+                    rerr('Unexpected operation: ' + dumpToken(op))
+            }
+            */
+        }
+    } catch(e) {
+        throw e
+    }
+    return brews
+}
+
+function resetEmuState() {
+    defs = {}
+    brews = []
+}
+
+function screw(enops) {
+    resetEmuState()
+    return exec( unscrewOpcodes( enops.split('') ) )
+}
+
+function screwOne(enops) {
+    return screw(enops).pop()
+}
+
+return {
+    screw,
+    screwOne,
+    cg: () => g,
+}
 
 })()

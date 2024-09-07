@@ -1,0 +1,52 @@
+// screw vm operation codes reference table
+const opsRef = [
+    // mnemonics
+    'neogeo',
+    'drop',
+    'swap',
+    'mpush',
+    'mpop',
+    'add',
+    'sub',
+    'mul',
+    'div',
+    'precision',
+    'smooth',
+    'sharp',
+    'mid',
+    'mscale',
+    'translate',
+    'mrotX',
+    'mrotY',
+    'mrotZ',
+    'reflectX',
+    'reflectY',
+    'reflectZ',
+    'scale',
+    'stretchX',
+    'stretchY',
+    'stretchZ',
+    'tri',
+    'plane',
+    'cube',
+    'tetrahedron',
+    'sphere',
+    'cylinder',
+    'cone',
+    'circle',
+    'ring',
+    'name',
+    'brew',
+    'brewWires',
+    'dump',
+    'dumpv',
+
+    // ghost codes
+    'pushs',
+    'def',
+    'end',
+
+    'pushv',
+]
+// screw script mnemonics catalog
+const mnemonics = opsRef.slice(0, opsRef.indexOf('pushs'))
