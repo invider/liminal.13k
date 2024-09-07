@@ -14,6 +14,7 @@ Indexing in ./mod
         <script src="./dev/dna/stageStat.js"></script>
         <script src="./dev/dutil.js"></script>
         <script src="./dev/img.js"></script>
+        <script src="./dev/obj.js"></script>
         <script src="./dev/screenshotController.js"></script>
         <script src="./dev/screw/corkscrew.js"></script>
         <script src="./dev/screw/GeoSpinner.js"></script>
@@ -21,7 +22,6 @@ Indexing in ./mod
         <script src="./dev/termit/js/termit.js"></script>
         <script src="./dev/termit/js/termitSetup.js"></script>
         <script src="./dry/math.js"></script>
-        <script src="./dry/obj.js"></script>
         <script src="./dry/util.js"></script>
         <script src="./dry/zap.js"></script>
         <script src="./ext/gif.js"></script>
@@ -46,14 +46,15 @@ Indexing in ./mod
         <script src="./jet/shader.js"></script>
         <script src="./jet/texture.js"></script>
         <script src="./jet/trap.js"></script>
+        <script src="./sandbox/banner.js"></script>
         <script src="./sandbox/boxCorkscrew.js"></script>
         <script src="./sandbox/boxCube.js"></script>
+        <script src="./sandbox/boxCubesUV.js"></script>
         <script src="./sandbox/boxGeo.js"></script>
         <script src="./sandbox/boxObj.js"></script>
         <script src="./sandbox/boxOne.js"></script>
         <script src="./sandbox/boxStationary.js"></script>
         <script src="./sandbox/toolbox.js"></script>
-        <script src="./stage/banner.js"></script>
         <script src="./stage/com/collidableTrait.js"></script>
         <script src="./stage/default.js"></script>
         <script src="./stage/dna/Connection.js"></script>
@@ -81,7 +82,6 @@ Staging the Package...
 './mod/dry/math.js' -> './dist/stage/dry/math.js'
 './mod/dry/zap.js' -> './dist/stage/dry/zap.js'
 './mod/dry/util.js' -> './dist/stage/dry/util.js'
-'./mod/dry/obj.js' -> './dist/stage/dry/obj.js'
 './mod/jet' -> './dist/stage/jet'
 './mod/jet/geo.js' -> './dist/stage/jet/geo.js'
 './mod/jet/cycle.js' -> './dist/stage/jet/cycle.js'
@@ -90,6 +90,7 @@ Staging the Package...
 './mod/jet/setup.js' -> './dist/stage/jet/setup.js'
 './mod/jet/trap.js' -> './dist/stage/jet/trap.js'
 './mod/jet/audio.js' -> './dist/stage/jet/audio.js'
+'./mod/jet/screw.js' -> './dist/stage/jet/screw.js'
 './mod/jet/texture.js' -> './dist/stage/jet/texture.js'
 './mod/jet/com' -> './dist/stage/jet/com'
 './mod/jet/com/SolidBoxPod.js' -> './dist/stage/jet/com/SolidBoxPod.js'
@@ -104,14 +105,12 @@ Staging the Package...
 './mod/jet/dna/Body.js' -> './dist/stage/jet/dna/Body.js'
 './mod/jet/ken' -> './dist/stage/jet/ken'
 './mod/jet/ken/pnoise.js' -> './dist/stage/jet/ken/pnoise.js'
-'./mod/jet/screw.js' -> './dist/stage/jet/screw.js'
 './mod/jet/screwUp.js' -> './dist/stage/jet/screwUp.js'
 './mod/stage' -> './dist/stage/stage'
-'./mod/stage/banner.js' -> './dist/stage/stage/banner.js'
 './mod/stage/default.js' -> './dist/stage/stage/default.js'
-'./mod/stage/preStage.js' -> './dist/stage/stage/preStage.js'
 './mod/stage/tune.js' -> './dist/stage/stage/tune.js'
 './mod/stage/sutil.js' -> './dist/stage/stage/sutil.js'
+'./mod/stage/preStage.js' -> './dist/stage/stage/preStage.js'
 './mod/stage/glib.js' -> './dist/stage/stage/glib.js'
 './mod/stage/mlib.js' -> './dist/stage/stage/mlib.js'
 './mod/stage/com' -> './dist/stage/stage/com'
@@ -127,7 +126,6 @@ Staging the Package...
 ==============
 === Loading [./dist/stage] ===
  * loaded [./dist/stage/dry/math.js]:	16369b
- * loaded [./dist/stage/dry/obj.js]:	2283b
  * loaded [./dist/stage/dry/util.js]:	2252b
  * loaded [./dist/stage/dry/zap.js]:	2351b
  * loaded [./dist/stage/index.html]:	275b
@@ -145,36 +143,35 @@ Staging the Package...
  * loaded [./dist/stage/jet/env.js]:	2165b
  * loaded [./dist/stage/jet/geo.js]:	15000b
  * loaded [./dist/stage/jet/ken/pnoise.js]:	3375b
- * loaded [./dist/stage/jet/screw.js]:	4137b
+ * loaded [./dist/stage/jet/screw.js]:	3563b
  * loaded [./dist/stage/jet/screwUp.js]:	6720b
  * loaded [./dist/stage/jet/setup.js]:	3782b
  * loaded [./dist/stage/jet/shader.js]:	3879b
  * loaded [./dist/stage/jet/texture.js]:	2774b
  * loaded [./dist/stage/jet/trap.js]:	1648b
- * loaded [./dist/stage/stage/banner.js]:	163b
  * loaded [./dist/stage/stage/com/collidableTrait.js]:	1099b
  * loaded [./dist/stage/stage/default.js]:	1200b
- * loaded [./dist/stage/stage/dna/Connection.js]:	2464b
+ * loaded [./dist/stage/stage/dna/Connection.js]:	2399b
  * loaded [./dist/stage/stage/dna/Hero.js]:	7096b
- * loaded [./dist/stage/stage/dna/MegaCity.js]:	6278b
+ * loaded [./dist/stage/stage/dna/MegaCity.js]:	4608b
  * loaded [./dist/stage/stage/dna/Prop.js]:	595b
  * loaded [./dist/stage/stage/dna/Terrace.js]:	6627b
- * loaded [./dist/stage/stage/glib.js]:	469b
+ * loaded [./dist/stage/stage/glib.js]:	783b
  * loaded [./dist/stage/stage/mlib.js]:	556b
- * loaded [./dist/stage/stage/preStage.js]:	554b
+ * loaded [./dist/stage/stage/preStage.js]:	287b
  * loaded [./dist/stage/stage/sutil.js]:	306b
  * loaded [./dist/stage/stage/tune.js]:	530b
  * loaded [./dist/stage/style.css]:	171b
 -------------------------------------------
-   Total : 118380b
+   Total : 113672b
 -------------------------------------------
  * saving [./dist/target/zap.js]
 
 === Minified Stats ===
 === Loading [./dist/target] ===
- * loaded [./dist/target/zap.js]:	45175b
+ * loaded [./dist/target/zap.js]:	44935b
 -------------------------------------------
-   Total : 45175b
+   Total : 44935b
 -------------------------------------------
 './dist/stage/index.html' -> './dist/target/index.html'
 './dist/stage/style.css' -> './dist/target/style.css'
@@ -193,17 +190,17 @@ Test unpackaging of [liminal.zip]...
 Archive:  liminal.zip
  Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
 --------  ------  ------- ---- ---------- ----- --------  ----
-     275  Defl:N      148  46% 2024-09-07 09:55 e8c03cb0  index.html
-     171  Defl:N      118  31% 2024-09-07 09:55 fd303c99  style.css
-   45175  Defl:N    15647  65% 2024-09-07 09:55 9327f725  zap.js
+     275  Defl:N      148  46% 2024-09-07 11:03 e8c03cb0  index.html
+     171  Defl:N      118  31% 2024-09-07 11:03 fd303c99  style.css
+   44935  Defl:N    15682  65% 2024-09-07 11:03 c98666ad  zap.js
 --------          -------  ---                            -------
-   45621            15913  65%                            3 files
+   45381            15948  65%                            3 files
 Archive:  liminal.zip
   inflating: liminal.zip.out/index.html  
   inflating: liminal.zip.out/style.css  
   inflating: liminal.zip.out/zap.js  
 /home/shock/dna/pub/liminal.13k
 -------------------------------
-16369	./dist/liminal.zip
-16K	./dist/liminal.zip
+16404	./dist/liminal.zip
+17K	./dist/liminal.zip
 -------------------------------

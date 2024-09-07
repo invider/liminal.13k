@@ -10,11 +10,11 @@ echo "datetime: $TIMESTAMP"
 echo "saving to: $STAGE"
 
 echo "build..."
-./build > $TAR/build.$TIMESTAMP.out
+./build > $TAR/$TIMESTAMP.build.out
 
 echo "cloc..."
-cloc $SRC > "$TAR/cloc-mod.$TIMESTAMP.out"
-cloc $STAGE > "$TAR/cloc-stage.$TIMESTAMP.out"
+cloc $SRC > "$TAR/$TIMESTAMP.mod.cloc"
+cloc $STAGE > "$TAR/$TIMESTAMP.stage.cloc"
 
 echo "OK"
 
