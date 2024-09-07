@@ -2,8 +2,10 @@
 
 URL=./mod/index.html
 
-if [[ $1 == "t" ]]; then
-    URL=./dist/target/index.html
+if [[ $1 == "x" ]]; then
+    URL=./dist/targetX/index.html
+elif [[ $1 == "y" ]]; then
+    URL=./dist/targetY/index.html
 elif [[ $1 == "s" ]]; then
 
     echo "=== Running in Staging ==="

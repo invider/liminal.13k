@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find ./mod -name '*.js' -exec cat {} \; | sed -e  's/[^A-Za-z]/ /g' | tr 'A-Z' 'a-z' | tr ' ' '\n' | grep -v '^$'| sort | uniq -c | sort -n
+

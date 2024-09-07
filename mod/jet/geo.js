@@ -425,19 +425,6 @@ function unscrewOpcodes(rawcodes) {
     return opcodes
 }
 
-/*
-function screwBaseNumber(N) {
-    let n = N * 10
-    if (n < 0) {
-        if (Math.abs(n) > 42) throw `Screw number value overflow: [${N}]`
-        n = 92 + n
-    } else {
-        if (N > 41) throw `Screw number value overflow: [${N}]`
-    }
-    return screwBase(n)
-}
-*/
-
 // === SCREW VM ===
 let def = {}, brews = [], lines
 

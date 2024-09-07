@@ -124,4 +124,11 @@ function zapDebug() {
         console.log(d)
         term.println('\n' + d)
     })
+
+    /*
+    // if we want to have autostart for sandboxes
+    window.onhashchange = () => {
+        start()
+    }
+    */
 }

@@ -63,13 +63,6 @@ window.onwheel = (e) => {
     if (lab.broker && lab.broker.onMouseWheel) lab.broker.onMouseWheel(e)
 }
 
-
-/*
-window.onhashchange = () => {
-    start()
-}
-*/
-
 document.onpointerlockchange = (e) => {
     if (document.pointerLockElement) {
         env.mouseLock = true
