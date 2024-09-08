@@ -1,0 +1,9 @@
+#!/bin/sh
+
+TARGET=./mod/stage/slib.js
+
+node ./cork/compile
+
+cat $TARGET
+echo ""
+du -shb $TARGET

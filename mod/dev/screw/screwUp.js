@@ -1,3 +1,25 @@
+if (typeof module !== 'undefined') {
+    const ops = require('./ops.js')
+    opsRef = ops.opsRef
+    mnemonics = ops.mnemonics
+}
+
+function lpad(s, N) {
+    const n = N - s.length
+    for (let i = 0; i < n; i++) {
+        s = ' ' + s
+    }
+    return s
+}
+
+function rpad(s, N) {
+    const n = N - s.length
+    for (let i = 0; i < n; i++) {
+        s += ' '
+    }
+    return s
+}
+
 screwUp = (() => {
 
     // op types
@@ -327,3 +349,5 @@ screwUp = (() => {
         return enops
     }
 })()
+
+if (typeof module !== 'undefined') module.exports = screwUp

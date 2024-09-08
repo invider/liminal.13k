@@ -4,22 +4,6 @@ function normalAngle(a) {
     return a
 }
 
-function lpad(s, N) {
-    const n = N - s.length
-    for (let i = 0; i < n; i++) {
-        s = ' ' + s
-    }
-    return s
-}
-
-function rpad(s, N) {
-    const n = N - s.length
-    for (let i = 0; i < n; i++) {
-        s += ' '
-    }
-    return s
-}
-
 function genHitBoxVertices(p, h) {
     return [
         // top face

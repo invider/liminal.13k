@@ -54,3 +54,10 @@ const opsRef = [
 ]
 // screw script mnemonics catalog
 const mnemonics = opsRef.slice(0, opsRef.indexOf('pushs'))
+
+if (typeof module !== 'undefined') {
+    module.exports = {
+        opsRef,
+        mnemonics,
+    }
+}
