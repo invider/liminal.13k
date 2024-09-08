@@ -39,16 +39,52 @@ screwUp = (() => {
         return String.fromCharCode(n)
     }
 
+    const BASE  = 92
+    const HBASE = 46
     function screwBaseNumber(N) {
+        // classify the number by it's precision
+        let t = 0, n = 0, x = 1, a, b, c, max, s = [], d = []
+        if ((N * 1000) % 1 > 0) throw  `Unsupported precision: [${N}]`
+        if ((N * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
+        if ((N * 10  ) % 1 > 0) { t = 2; n = N * 100  }
+        if ( N % 1         > 0) { t = 1; n = N * 10   }
+        a = b = Math.abs(n)
+
+        while (b > HBASE) {
+            c = b % HBASE
+            b = (b-c)/HBASE
+            x++
+        }
+        // xxxx - how many digits are there
+        //      - so we can calculate the resolution for this size
+        max = BASE ** x
+        if (n < 0) {
+            n = max - a
+        }
+
+        while(n > 0) {
+            c = n % BASE
+            d.push(c)
+            s.push( screwBase(c) )
+            n = (n-c)/BASE
+        }
+        return {
+            t,
+            x,
+            s,
+        }
+
+        /*
         let n = N * 10
         if (n < 0) {
-            if (Math.abs(n) > 42) throw `Screw number value overflow: [${N}]`
+            if (Math.abs(n) > HBASE) throw `Screw number value overflow: [${N}]`
             n = 92 + n
         } else {
-            if (n > 41) throw `Screw number value overflow: [${N}]`
+            if (n > HBASE-1) throw `Screw number value overflow: [${N}]`
         }
         if (n % 1 > 0) throw `Lost precision: [${N}]`
         return screwBase(n)
+        */
     }
 
     //
@@ -273,7 +309,6 @@ screwUp = (() => {
     }
     */
 
-
     function compile(tk) {
         const opcodes = []
 
@@ -296,8 +331,17 @@ screwUp = (() => {
                     // either short number shortcut
                     // or multi-number loader
                     // or a simple value
-                    opcodes.push( screwBase(opsRef.indexOf('pushv')) )
-                    opcodes.push( screwBaseNumber(t.v) )
+                    try {
+                        const snum = screwBaseNumber(t.v)
+                        let iop = opsRef.indexOf('push1i')
+                        iop += (snum.x - 1) * 4 + snum.t
+                        log(`[${t.v}]: matches ${iop}(${opsRef[iop]})`)
+
+                        opcodes.push( screwBase(iop) )
+                        snum.s.forEach(e => opcodes.push(e))
+                    } catch (e) {
+                        cerr(e.toString(), t)
+                    }
                     break
                 case STR:
                     opcode = opsRef.indexOf('pushs')

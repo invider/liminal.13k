@@ -50,7 +50,25 @@ const opsRef = [
     'def',
     'end',
 
-    'pushv',
+    'push1i',
+    'push1f',
+    'push1d',
+    'push1u',
+
+    'push2i',
+    'push2f',
+    'push2d',
+    'push2u',
+
+    'push3i',
+    'push3f',
+    'push3d',
+    'push3u',
+
+    'push4i',
+    'push4f',
+    'push4d',
+    'push4u',
 ]
 // screw script mnemonics catalog
 const mnemonics = opsRef.slice(0, opsRef.indexOf('pushs'))

@@ -108,7 +108,7 @@ neogeo cube 2 scale "Named Cube" name brew
 == Generate More Shapes
 
 -- let's create a tetrahedron
-neogeo tetrahedron 2 scale "Tetrahedron One" name brew
+-- neogeo tetrahedron 2 scale "Tetrahedron One" name brew
 
 -- and a sphere
 neogeo sphere "Sphere One" name brew

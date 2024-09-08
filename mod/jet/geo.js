@@ -479,18 +479,40 @@ function exec(opcodes) {
                     for (let j = 0; j < n; j++) buf.push(opcodes.raw[i++])
                     s.push(buf.join(''))
                     break
-                case PUSHV:
-                    s.push(unscrewNumber(opcodes[i++]))
-                    break
+
+                //case PUSHV:
+                //    s.push(unscrewNumber(opcodes[i++]))
+                //    break
                 default:
-                    if (debug) {
-                        const fn = ops[op]
-                        if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                    if (op >= PUSHV) {
+                        let o = op - PUSHV,
+                            x = floor(o / 4) + 1,
+                            t = o % 4,
+                            c = 92 ** x
+
+                        let n = opcodes[i++]
+                        for (let i = 1; i < x; i++) {
+                            n = n * 92 + opcodes[i++]
+                        }
+                        if (n >= floor(c/2)) n -= c
+                        s.push(n / (10**t))
+                        //if (n > 41) n -= 92
+                        //return n/10
+                            
+                    } else {
+                        if (debug) {
+                            const fn = ops[op]
+                            if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                        }
+                        ops[op]()
                     }
-                    ops[op]()
             }
         }
     } catch(e) {
+        log(`@${i-1}: #${op}`)
+        log(opcodes.raw.join(''))
+        console.dir(opcodes)
+        log(opcodes.map(op => opsRef[op]).join('\n'))
         throw e
     }
     return brews
