@@ -1,8 +1,8 @@
 let aux
 const fx = (() => {
 
-let aout, dt, R,
-    currentChannel = 0
+let aout, dt, R
+
 const
     smp = [],  // samples
     // SFX source functions
@@ -81,7 +81,7 @@ function play(note, fq, at, len, ipatch) {
     // create the patch routing table
     const routes = [], gains = []
     if (!fq) fq = 440 * (2 ** ((note - 45)/12))
-    log('#' + note + ' @' + fq)
+    // log('#' + note + ' @' + fq)
 
     const masterGain = aux.createGain()
     masterGain.gain.value = env.vol
@@ -219,6 +219,7 @@ const sfx = (n) => {
 }
 
 extend(sfx, {
+    p,
     touch,
     play,
     playin,

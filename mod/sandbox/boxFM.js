@@ -1,5 +1,42 @@
 let fmPatch = 1, fmOctave = 2, fmTranspose = 0
 
+class Fader {
+
+    constructor(id, target, index, type) {
+        this.id = id
+        this.target = target
+        this.index = index
+        this.type = type || 0
+        log(`#${id}: binding fader`)
+    }
+
+    fade(val) {
+        log(`#${this.id}: !${val}`)
+    }
+}
+
+class PatchSelectionFader {
+
+    constructor(id, patches) {
+        this.id = id
+        this.patches = patches
+    }
+
+    fade(val) {
+        log(`#${this.id}: !${val}`)
+        console.dir(this.patches)
+
+        let shift = 1
+        if (val < this.lastVal) shift = -1
+        fmPatch += shift
+        if (fmPatch >= this.patches.length) fmPatch = 0
+        else if (fmPatch < 0) fmPatch = this.patches.length - 1
+
+        this.lastVal = val
+        log('Selected Patch #' + fmPatch)
+    }
+}
+
 _.boxFM = (() => {
 
     function playSequence() {
@@ -59,13 +96,14 @@ _.boxFM = (() => {
 
     // === MIDI ===
     const MIDI_NOTE_SHIFT = 24
+          MIDI_CHANNELS = 16,
           MIDI_NOTE_ON  = 144,
-          MIDI_NOTE_OFF = 128
-          MIDI_KNOB     = 176
+          MIDI_NOTE_OFF = 128,
+          MIDI_FADER    = 176
 
-    const midiKeys = []
+    const midiKeys = [], faders = []
 
-    function midiON(key, speed) {
+    function midiON(midiChannel, key, speed) {
         midiOFF(key)
 
         n = key - MIDI_NOTE_SHIFT
@@ -73,7 +111,7 @@ _.boxFM = (() => {
         midiKeys[key] = channel
     }
 
-    function midiOFF(key, speed) {
+    function midiOFF(midiChannel, key, speed) {
         const channel = midiKeys[key]
         if (channel) {
             fx.off(channel)
@@ -82,15 +120,26 @@ _.boxFM = (() => {
     }
 
     function onMIDI(e) {
-        log(`#${e.data[0]}: ${e.data[1]} (${e.data[2]})`)
-        console.dir(e)
-        switch (e.data[0]) {
-            case MIDI_NOTE_ON:
-                midiON(e.data[1], e.data[2])
-                break
-            case MIDI_NOTE_OFF:
-                midiOFF(e.data[1], e.data[2])
-                break
+        const type = e.data[0]
+        log(`#${type}: ${e.data[1]} (${e.data[2]})`)
+        // console.dir(e)
+        if (type >= MIDI_NOTE_ON && type < MIDI_NOTE_ON + MIDI_CHANNELS) {
+            const midiChannel = type - MIDI_NOTE_ON
+            midiON(midiChannel, e.data[1], e.data[2])
+        } else if (type >= MIDI_NOTE_OFF && type < MIDI_NOTE_OFF + MIDI_CHANNELS) {
+            const midiChannel = type - MIDI_NOTE_OFF
+            midiOFF(midiChannel, e.data[1], e.data[2])
+        } else if (type === MIDI_FADER) {
+            const fid = e.data[1]
+            let fader = faders[fid]
+            if (!fader) {
+                if (faders.length === 0) {
+                    fader = faders[fid] = new PatchSelectionFader(fid, fx.p)
+                } else {
+                    fader = faders[fid] = new Fader(fid, [], 1)
+                }
+            }
+            fader.fade(e.data[2])
         }
     }
 
