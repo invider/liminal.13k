@@ -1,4 +1,4 @@
-let fmPatch = 1, fmOctave = 2, fmTranspose = 0
+let fmPatch = 0, fmOctave = 2, fmTranspose = 0
 
 class Fader {
 
@@ -49,7 +49,7 @@ _.boxFM = (() => {
         const step = .25
         const start = aux.currentTime
         notes.forEach(((n, i) => {
-            if (n) fx.play(n, 0, start + i*step, step, 1)
+            if (n) fx.play(n, 0, start + i*step, step, 1, fmPatch)
         }))
     }
 

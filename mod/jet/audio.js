@@ -32,6 +32,7 @@ const
         'sawtooth',
         'triangle'
     ],
+    // patches
     p = [
         // 0 - sine wave
         [
@@ -50,6 +51,11 @@ const
         [
             // TAR-TYPE-FQM-ATK-PIK-DCY-SUS-REL
             [   -1, SQR,  1, .2,  1, .3, .5, .2 ],
+        ],
+        [
+            // TAR-TYPE-FQM-ATK-  PIK   -DCY-SUS-REL
+            [   -1, TRI,  1, .1,  1,    .8,  .5, .2 ],
+            [    0, SIN,  1, .2,  3000,  1,  .2, .1 ],
         ],
     ],
     ch = []
@@ -81,7 +87,7 @@ function play(note, fq, at, len, ipatch) {
     // create the patch routing table
     const routes = [], gains = []
     if (!fq) fq = 440 * (2 ** ((note - 45)/12))
-    // log('#' + note + ' @' + fq)
+    log('#' + note + ' @' + fq + ' !' + ipatch)
 
     const masterGain = aux.createGain()
     masterGain.gain.value = env.vol
@@ -99,7 +105,12 @@ function play(note, fq, at, len, ipatch) {
         osc.connect(envelope)
 
         // route oscilator -> gain -> ...
-        patch[TARGET] < 0? envelope.connect(masterGain) : gain.connect(routes[ patch[TARGET] ])
+        if (patch[TARGET] < 0) {
+            envelope.connect(masterGain)
+        } else {
+            const carrier = routes[ patch[TARGET] ]
+            envelope.connect( carrier.frequency )  // [!] important to connect directly to freq
+        }
 
         // start oscilator at scheduled time
         osc.start(at)
@@ -114,6 +125,7 @@ function play(note, fq, at, len, ipatch) {
         routes[i] = osc
         gains[i] = envelope
     })
+    //routes.forEach(osc => osc.start(at))
 
     // live play
     if (!len) for (let i = 1; i < 64; i++) {
@@ -149,7 +161,7 @@ function play(note, fq, at, len, ipatch) {
 
     //carrier.connect(volumeGain)
 
-    //modulator.start(at)
+    //modulaor.start(at)
     //carrier.start(at)
 
     //modulator.stop(at + len)
