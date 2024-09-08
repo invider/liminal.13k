@@ -4,11 +4,11 @@
 const $ = {
     gen: function() {
         _g = {
-            vertices: [],
-            normals:  [],
-            faces:    [],
-            colors:   [],
-            uvs:      [],
+            v: [],
+            n:  [],
+            f:    [],
+            c:   [],
+            u:      [],
         }
         return this
     },
@@ -449,11 +449,11 @@ const $ = {
             _g.facesCount = _g.faces.length
         }
 
-        if (_g.normals.length === 0) {
+        if (_g.n.length === 0) {
             _g.autocalcNormals = true
-            _g.normals = new Float32Array( calcNormals(_g.vertices, _gSmooth) ) 
+            _g.n= new Float32Array( calcNormals(_g.vertices, _gSmooth) ) 
         } else {
-            _g.normals = new Float32Array(_g.normals) 
+            _g.n= new Float32Array(_g.n) 
         }
 
         // DEBUG vertex stat

@@ -11,7 +11,7 @@ function parseObj(data) {
                 const x = parseFloat(args[1]),
                       y = parseFloat(args[2]),
                       z = parseFloat(args[3])
-                geo.vertices([ x, y, z ])
+                geo.v([ x, y, z ])
                 break
             case 'f':
                 // .obj support not only triangles
@@ -64,10 +64,10 @@ function parseObj(data) {
 
 function parseJsonModel(data) {
     geo.gen()
-    geo.vertices( data.vertexPositions )
-    geo.normals( data.vertexNormals ) // TODO something wrong with how we apply normals
-    geo.uvs( data.vertexTextureCoords )
-    geo.faces( data.indices)
+    geo.v( data.vertexPositions )
+    geo.n( data.vertexNormals ) // TODO something wrong with how we apply normals
+    geo.u( data.vertexTextureCoords )
+    geo.f( data.indices)
 
     return geo.bake()
 }

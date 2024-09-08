@@ -18,12 +18,12 @@ class Surface {
         }, st)
 
         // create buffers
-        this.buf.vertices = this.createBuffer(this.geo.vertices)
-        this.buf.normals = this.createBuffer(this.geo.normals)
-        this.buf.wires = this.createBuffer(this.geo.wires)
-        this.buf.colors = this.createBuffer(this.geo.colors)
-        this.buf.uvs = this.createBuffer(this.geo.uvs)
-        this.buf.faces = this.createBuffer(this.geo.faces, gl.ELEMENT_ARRAY_BUFFER)
+        this.buf.v = this.createBuffer(this.geo.v)
+        this.buf.n = this.createBuffer(this.geo.n)
+        this.buf.w = this.createBuffer(this.geo.w)
+        this.buf.c = this.createBuffer(this.geo.c)
+        this.buf.u = this.createBuffer(this.geo.u)
+        this.buf.f = this.createBuffer(this.geo.f, gl.ELEMENT_ARRAY_BUFFER)
     }
 
     createBuffer(data, type) {
@@ -77,10 +77,10 @@ class Surface {
         }
 
         // set the shader attributes 
-        this.bindAttribute(this.buf.vertices, 'vp')
-        this.bindAttribute(this.buf.normals, 'vn')
-        this.bindAttribute(this.buf.colors, 'vc')
-        this.bindAttribute(this.buf.uvs, 'uv', 2)
+        this.bindAttribute(this.buf.v, 'vp')
+        this.bindAttribute(this.buf.n, 'vn')
+        this.bindAttribute(this.buf.c, 'vc')
+        this.bindAttribute(this.buf.u, 'uv', 2)
 
         if (this.renderOptions[1]) {
             // render wireframes
@@ -92,12 +92,12 @@ class Surface {
             //      so obj models MUST be repacked to be index by a sinlge index array
             //      and multiple data buffers
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
-            gl.drawElements(gl.TRIANGLES, this.geo.facesCount, gl.UNSIGNED_SHORT, 0)
+            gl.drawElements(gl.TRIANGLES, this.geo.fc, gl.UNSIGNED_SHORT, 0)
 
-            if (debug) env.stat.polygons += this.geo.facesCount / 3
+            if (debug) env.stat.polygons += this.geo.fc / 3
         } else {
-            gl.drawArrays(gl.TRIANGLES, 0, this.geo.vertCount)
-            if (debug) env.stat.polygons += this.geo.vertCount / 3
+            gl.drawArrays(gl.TRIANGLES, 0, this.geo.vc)
+            if (debug) env.stat.polygons += this.geo.vc / 3
         }
     }
 }

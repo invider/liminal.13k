@@ -1,7 +1,7 @@
 // =========================================
 
-env.title = 'SFX'
-//env.title = 'Skim off some fat from the original 16404 bytes'
+//env.title = 'SFX'
+env.title = 'Skim off some fat down from original 15205'
 
 // env.banner = '15 mins AFK'
 

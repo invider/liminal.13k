@@ -21,18 +21,19 @@ function pop() {
     return s.pop()
 }
 
+// apply a function for each vertice value
 function vxApply(fn) {
-    for (let i = 0; i < g.vertices.length; i++) {
-        g.vertices[i] = fn(g.vertices[i], i)
+    for (let i = 0; i < g.v.length; i++) {
+        g.v[i] = fn(g.v[i], i)
     }
 }
 
-function v3Clone(fn) {
+function v3c(fn) {
     swap = true
     let bv
-    const ln = g.vertices.length
+    const ln = g.v.length
     for (let i = 0; i < ln; i += 3) {
-        const x = g.vertices[i], y = g.vertices[i+1], z = g.vertices[i+2]
+        const x = g.v[i], y = g.v[i+1], z = g.v[i+2]
         const v = fn(x, y, z)
         if (swap && i % 9 === 3) {
             bv = v
@@ -48,30 +49,30 @@ function v3Clone(fn) {
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function v3x(v) {
     vec3.mulM4(v, M)
-    g.vertices.push(v[0])
-    g.vertices.push(v[1])
-    g.vertices.push(v[2])
+    g.v.push(v[0])
+    g.v.push(v[1])
+    g.v.push(v[2])
 }
 
 // merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
 function vx(x, y, z) {
     const v = vec3(x, y, z)
     vec3.mulM4(v, M)
-    g.vertices.push(v[0])
-    g.vertices.push(v[1])
-    g.vertices.push(v[2])
+    g.v.push(v[0])
+    g.v.push(v[1])
+    g.v.push(v[2])
 }
 
 // apply geo transformations to nx before pushing in
 function nx(x, y, z) {
     const v = vec3(x, y, z)
     vec3.mulM4(v, M)
-    g.normals.push(v[0])
-    g.normals.push(v[1])
-    g.normals.push(v[2])
+    g.n.push(v[0])
+    g.n.push(v[1])
+    g.n.push(v[2])
 }
 
-function popV3() {
+function pV3() {
     z = pop(), y = pop(), x = pop()
     return vec3(x, y, z)
 }
@@ -80,11 +81,11 @@ const ops = _gops = [
     // neogeo
     () => {
         g = {
-            vertices: [],
-            normals:  [],
-            faces:    [],
-            colors:   [],
-            uvs:      [],
+            v: [], // vertices
+            n: [], // normals
+            f: [], // faces 
+            c: [], // colors
+            u: [], // uvs
         }
     },
     // drop
@@ -126,9 +127,9 @@ const ops = _gops = [
     // mid - set identity matrix
     () => { M = mat4.identity() },
     // mscale
-    () => { mat4.scale(M, popV3()) },
+    () => { mat4.scale(M, pV3()) },
     // translate
-    () => { mat4.translate(M, popV3()) },
+    () => { mat4.translate(M, pV3()) },
     // mrotX
     () => { mat4.rotX(M, pop()) },
     // mrotY
@@ -136,11 +137,11 @@ const ops = _gops = [
     // mrotZ
     () => { mat.rotZ(M, pop()) },
     // reflectX
-    () => { v3Clone((x, y, z) => vec3(-x, y, z)) },
+    () => { v3c((x, y, z) => vec3(-x, y, z)) },
     // reflectY
-    () => { v3Clone((x, y, z) => vec3(x, -y, z)) },
+    () => { v3c((x, y, z) => vec3(x, -y, z)) },
     // reflectZ
-    () => { v3Clone((x, y, z) => vec3(x, y, -z)) },
+    () => { v3c((x, y, z) => vec3(x, y, -z)) },
     // scale
     () => {
         x = pop()
@@ -172,7 +173,7 @@ const ops = _gops = [
     },
     // plane
     () => {
-        g.vertices = g.vertices.concat([
+        g.v = g.v.concat([
             -1, 0,-1,  1, 0, 1,  1, 0,-1,    
             -1, 0,-1, -1, 0, 1,  1, 0, 1
         ])
@@ -181,7 +182,7 @@ const ops = _gops = [
     // === complex geometries ===
     // cube
     () => {
-        g.vertices = g.vertices.concat([
+        g.v = g.v.concat([
             // top face
             -1, 1,-1,  -1, 1, 1,   1, 1, 1,
             -1, 1,-1,   1, 1, 1,   1, 1,-1,   
@@ -208,14 +209,14 @@ const ops = _gops = [
         ])
 
         if (_gUV) {
-            g.uvs = g.uvs.concat([
+            g.u = g.u.concat([
                 1, 0,   1, 1,   0, 1,
                 1, 0,   0, 1,   0, 0,
             ])
-            // apply uvs for each face
+            // apply UVs for each face
             for (let j = 0; j < 12; j++) {
                 for (let i = 0; i < 12; i++) {
-                    g.uvs.push(g.uvs[i])
+                    g.u.push(g.u[i])
                 }
             }
         }
@@ -264,7 +265,7 @@ const ops = _gops = [
                 )
             }
         }
-        g.vertices = g.vertices.concat(w)
+        g.v = g.v.concat(w)
     },
     // cylinder
     () => {
@@ -300,7 +301,7 @@ const ops = _gops = [
                     v[at],  -1,  v[at+2]
                 )
         }
-        g.vertices = g.vertices.concat(w)
+        g.v = g.v.concat(w)
     },
     // circle
     () => {
@@ -323,7 +324,7 @@ const ops = _gops = [
                     v[at],  0,  v[at+2]
                 )
         }
-        g.vertices = g.vertices.concat(w)
+        g.v = g.v.concat(w)
         return this
     },
 
@@ -333,59 +334,52 @@ const ops = _gops = [
     // brew
     () => {
         // normalize
-        g.vertices = new Float32Array(g.vertices)
-        g.vertCount = g.vertices.length / 3
+        g.v = new Float32Array(g.v)
+        g.vc = g.v.length / 3
 
         // wireframe points
-        g.wires = []
-        for (let i = 0; i < g.vertices.length; i += 9) {
-            let v1 = vec3.fromArray(g.vertices, i),
-                v2 = vec3.fromArray(g.vertices, i+3),
-                v3 = vec3.fromArray(g.vertices, i+6)
-            vec3.push(g.wires, v1).push(g.wires, v2)
-                .push(g.wires, v2).push(g.wires, v3)
-                .push(g.wires, v3).push(g.wires, v1)
+        g.w = []
+        for (let i = 0; i < g.v.length; i += 9) {
+            let v1 = vec3.fromArray(g.v, i),
+                v2 = vec3.fromArray(g.v, i+3),
+                v3 = vec3.fromArray(g.v, i+6)
+            vec3.push(g.w, v1).push(g.w, v2)
+                .push(g.w, v2).push(g.w, v3)
+                .push(g.w, v3).push(g.w, v1)
         }
-        g.wires = new Float32Array(g.wires)
+        g.w = new Float32Array(g.w)
 
-        if (g.uvs.length > 0) {
-            g.uvs = new Float32Array(g.uvs)
-        } else {
-            g.uvs = null
-        }
+        if (g.u.length > 0) g.u = new Float32Array(g.u)
+        else g.u = null
 
-        if (g.colors.length > 0) {
-            g.colors = new Float32Array(g.colors)
-        } else {
-            g.colors = null
-        }
+        if (g.c.length > 0) g.c = new Float32Array(g.c)
+        else g.c = null
 
-        if (g.faces.length === 0) {
-            g.faces = null
+        if (g.f.length === 0) {
+            g.f = null
         } else {
-            g.faces = new Uint16Array(g.faces)
-            g.facesCount = g.faces.length
+            g.f = new Uint16Array(g.f)
+            g.fc = g.f.length
         }
 
-        if (g.normals.length === 0) {
-            g.autocalcNormals = true
-            g.normals = new Float32Array( calcNormals(g.vertices, S) ) 
+        if (g.n.length === 0) {
+            g.n = new Float32Array( calcNormals(g.v, S) ) 
         } else {
-            g.normals = new Float32Array(g.normals) 
+            g.n = new Float32Array(g.n) 
         }
 
         // DEBUG vertex stat
         if (debug) {
-            if (!this.vertexCount) this.vertexCount = 0
-            this.vertexCount += g.vertCount
+            if (!this.vc) this.vc = 0
+            this.vc += g.vc
 
-            if (!this.polygonCount) this.polygonCount = 0
-            this.polygonCount += g.vertCount / 3
+            if (!this.pc) this.pc = 0
+            this.pc += g.vc / 3
 
-            if (!this.geoCount) this.geoCount = 0
-            this.geoCount ++
+            if (!this.gc) this.gc = 0
+            this.gc ++
 
-            env.dump['Geometry Library'] = `${this.geoCount} (${this.polygonCount} polygons)`
+            env.dump['Geometry Library'] = `${this.gc} (${this.pc} polygons)`
         }
 
         gix.push(g)
@@ -393,9 +387,9 @@ const ops = _gops = [
     },
     // brewWires
     () => {
-        g.wires = new Float32Array(g.vertices)
-        g.wires.vertCount = g.vertices.length / 3
-        delete g.vertices
+        g.w = new Float32Array(g.v)
+        g.w.vc = g.v.length / 3
+        delete g.v
     },
 ]
 

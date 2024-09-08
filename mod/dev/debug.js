@@ -39,12 +39,12 @@ function zapDebug() {
                     */
                 )
         }
-        g.vertices = g.vertices.concat(w)
+        g.v = g.v.concat(w)
     })
 
     // tetrahedron
     _gops.push(() => {
-        g.vertices = g.vertices.concat([
+        g.v = g.v.concat([
             -1, 1,-1,   -1,-1, 1,   1, 1, 1,
              1, 1, 1,    1,-1,-1,  -1, 1,-1, 
             -1,-1, 1,    1,-1,-1,   1, 1, 1,
@@ -78,7 +78,7 @@ function zapDebug() {
                     v[at],  -1,  v[at+2]
                 )
         }
-        g.vertices = g.vertices.concat(w)
+        g.v = g.v.concat(w)
     })
 
 
@@ -112,7 +112,7 @@ function zapDebug() {
         const b = []
 
         b.push('\n=== verteces ===\n')
-        _g.vertices.forEach((v, i) => {
+        _g.v.forEach((v, i) => {
             b.push(v)
             b.push('  ')
             if (i % 9 === 8) b.push('\n')
@@ -120,7 +120,7 @@ function zapDebug() {
         })
 
         const d = b.join('')
-        console.dir(_g.vertices)
+        console.dir(_g.v)
         console.log(d)
         term.println('\n' + d)
     })
