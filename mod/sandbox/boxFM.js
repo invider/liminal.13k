@@ -1,9 +1,6 @@
-let _patch = 1
+let fmPatch = 1, fmOctave = 2, fmTranspose = 0
 
-_.boxFM = () => {
-
-
-    let octave = 2, transpose = 0
+_.boxFM = (() => {
 
     function playSequence() {
         const pattern = 'ABD.ABDD....BDEF...TGDDG...WWW...ETYT....aabie'
@@ -21,8 +18,8 @@ _.boxFM = () => {
 
     function on(N) {
         off(N)
-        n = N + (octave * 12) + transpose
-        const channel = fx.play(n, 0, aux.currentTime, 0, _patch)
+        n = N + (fmOctave * 12) + fmTranspose
+        const channel = fx.play(n, 0, aux.currentTime, 0, fmPatch)
         keyActive[N] = channel
     }
 
@@ -34,8 +31,7 @@ _.boxFM = () => {
         }
     }
 
-    const keyActive = []
-
+    // === Kontrol ===
     const keyMap = [
         'KeyZ', 'KeyS', 'KeyX', 'KeyD', 'KeyC',
         'KeyV', 'KeyG', 'KeyB', 'KeyH', 'KeyN', 'KeyJ', 'KeyM',
@@ -43,7 +39,9 @@ _.boxFM = () => {
         'KeyR', 'Digit5', 'KeyT', 'Digit6', 'KeyY', 'Digit7', 'KeyU',
     ]
 
-    function synthControls() {
+    const keyActive = []
+
+    function registerSynthControls() {
         trap.register('keyDown', (e) => {
             const i = keyMap.indexOf(e.code)
             if (i >= 0) on(i)
@@ -59,11 +57,119 @@ _.boxFM = () => {
         })
     }
 
-    log('=== Audio Engine Test ===')
-    createDiscoBall()
+    // === MIDI ===
+    const MIDI_NOTE_SHIFT = 24
+          MIDI_NOTE_ON  = 144,
+          MIDI_NOTE_OFF = 128
+          MIDI_KNOB     = 176
 
-    synthControls()
-}
+    const midiKeys = []
+
+    function midiON(key, speed) {
+        midiOFF(key)
+
+        n = key - MIDI_NOTE_SHIFT
+        const channel = fx.play(n, 0, aux.currentTime, 0, fmPatch)
+        midiKeys[key] = channel
+    }
+
+    function midiOFF(key, speed) {
+        const channel = midiKeys[key]
+        if (channel) {
+            fx.off(channel)
+            midiKeys[key] = 0
+        }
+    }
+
+    function onMIDI(e) {
+        log(`#${e.data[0]}: ${e.data[1]} (${e.data[2]})`)
+        console.dir(e)
+        switch (e.data[0]) {
+            case MIDI_NOTE_ON:
+                midiON(e.data[1], e.data[2])
+                break
+            case MIDI_NOTE_OFF:
+                midiOFF(e.data[1], e.data[2])
+                break
+        }
+    }
+
+    function bindMIDI() {
+        navigator.requestMIDIAccess().then((midiAccess) => {
+            // Get lists of available MIDI controllers
+            const inputs = midiAccess.inputs.values()
+            const outputs = midiAccess.outputs.values()
+            inputs.forEach(input => { 
+                log('<= ' + input.name)
+                input.onmidimessage = onMIDI
+            })
+            outputs.forEach(output => log('=> ' + output.name))
+
+            midiAccess.onstatechange = (event) => {
+               // Print information about the (dis)connected MIDI controller
+               log(event.port.name, event.port.manufacturer, event.port.state);
+            }
+        }, (failure) => {
+            log('Failed to get MIDI')
+        })
+    }
+
+    return () => {
+        log('=== Audio Engine Test ===')
+        createDiscoBall()
+        fixCamera()
+        registerSynthControls()
+        bindMIDI()
+    }
+
+    // some visuals
+    function createDiscoBall() {
+        log('add a disco ball :)')
+        let enops = screwUp('neogeo sphere 4 scale "sphere" name brew')
+        geo.screw(enops)
+
+        lab.attach( new Body({
+            pos: vec3(0, 0, -1),
+            rot: vec3(0, 0, 0),
+            rotSpeed: vec3(0, 0, 0),
+            scale: vec3(1, 1, 1),
+
+            _pods: [
+                new Surface({
+                    geo: glib.sphere,
+                    mat: {
+                        Ka: vec3(.5, .6, .7),
+                        Kd: vec3(.1, .8, .9),
+                        Ks: vec3(1, 1, 1),
+                        Ke: vec3(1, 1, 1),
+                        Lv: vec4(.2, .5, .8, 0),
+                        Ns: 50,
+                    },
+                }),
+            ],
+
+            init() {
+                this.rotSpeed[0] = .5
+                this.rotSpeed[1] = .3 
+            },
+
+            evo: function(dt) {
+                this.rot[0] += this.rotSpeed[0] * dt
+                this.rot[1] += this.rotSpeed[1] * dt 
+                this.rot[2] += this.rotSpeed[2] * dt 
+            },
+        }))
+
+    }
+
+    function fixCamera() {
+        // move camera back a little
+        lab.cam.pos[1] = 4
+        lab.cam.pos[2] = 10
+        lab.cam.pitch(-.4)
+        lab.broker = null  // disable cam controls
+    }
+})()
 
 // ref tables
 const
@@ -132,49 +238,3 @@ const
       A5  = 57,
       A$5 = 58,
       B5  = 59
-
-
-function createDiscoBall() {
-    log('add a disco ball :)')
-    let enops = screwUp('neogeo sphere 4 scale "sphere" name brew')
-    geo.screw(enops)
-
-    lab.attach( new Body({
-        pos: vec3(0, 0, -1),
-        rot: vec3(0, 0, 0),
-        rotSpeed: vec3(0, 0, 0),
-        scale: vec3(1, 1, 1),
-
-        _pods: [
-            new Surface({
-                geo: glib.sphere,
-                mat: {
-                    Ka: vec3(.5, .6, .7),
-                    Kd: vec3(.1, .8, .9),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.2, .5, .8, 0),
-                    Ns: 50,
-                },
-            }),
-        ],
-
-        init() {
-            this.rotSpeed[0] = .5
-            this.rotSpeed[1] = .3 
-        },
-
-        evo: function(dt) {
-            this.rot[0] += this.rotSpeed[0] * dt
-            this.rot[1] += this.rotSpeed[1] * dt 
-            this.rot[2] += this.rotSpeed[2] * dt 
-        },
-
-    }))
-
-    // move camera back a little
-    lab.cam.pos[1] = 4
-    lab.cam.pos[2] = 10
-    lab.cam.pitch(-.4)
-    lab.broker = null  // disable cam controls
-}
