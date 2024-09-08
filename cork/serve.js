@@ -62,5 +62,6 @@ app.listen(PORT, BIND, () => {
     console.log(` * http://${BIND}:${PORT}`);
     console.log(` * http://${BIND}:${PORT}/debug.html`);
     console.log(` * http://${BIND}:${PORT}/debug.html#boxGeo`);
+    console.log(` * http://${BIND}:${PORT}/debug.html#boxFM`);
     console.log(` * http://${BIND}:${PORT}/debug.html#boxCorkscrew/sample`);
 })
