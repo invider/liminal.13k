@@ -45,6 +45,20 @@ _.boxAudio = () => {
         lab.broker = null  // disable cam controls
     }
 
+    function playSequence() {
+        const notes = 'ABD.ABDD....BDEF...TGDDG...WWW...ETYT....aabie'
+        const fqs = notes.split('').map(c => {
+            if (c === '.') return 0
+            return 440*1.06**(c.charCodeAt(0) - 65)
+        })
+
+        const step = .25
+        const start = aux.currentTime
+        fqs.forEach(((f, i) => {
+            if (f) fx.play(f, start + i*step, step, 0)
+        }))
+    }
+
     function synthControls() {
         trap.register('keyDown', (e) => {
             switch(e.code) {
@@ -60,6 +74,8 @@ _.boxAudio = () => {
                 case 'KeyP': fx.on(9); break;
                 case 'KeyA': fx.on(10); break;
                 case 'KeyB': fx.on(11); break;
+
+                case 'KeyZ': playSequence(); break;
             }
         })
 

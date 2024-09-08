@@ -33,7 +33,7 @@ function createChannel(n) {
 
     const modulator = aux.createOscillator()
     channel.modulator = modulator
-    modulator.type = "sine"
+    modulator.type = "triangle"
     modulator.frequency.value = 220
 
     // setup the FM
@@ -78,13 +78,47 @@ function touch() {
 function on(note) {
     const channel = ch[currentChannel]
     channel.carrier.frequency.value = 440 + (440/12) * note
-    channel.modulator.frequency.value = channel.carrier.frequency.value * 1.1
+    channel.modulator.frequency.value = channel.carrier.frequency.value * .25
     channel.volumeGain.gain.value = env.vol 
 }
 
 function off() {
     const channel = ch[currentChannel]
     channel.volumeGain.gain.value = 0
+}
+
+function play(fq, at, len, patch) {
+    const carrier = aux.createOscillator()
+    carrier.type = "sine"
+    carrier.frequency.value = fq
+
+    const modulator = aux.createOscillator()
+    modulator.type = "triangle"
+    modulator.frequency.value = fq * .25
+
+    // setup the FM
+    const mgain = aux.createGain()
+    mgain.gain.value = 3000
+
+    // route the modulation for the signal
+    modulator.connect(mgain)
+    mgain.connect(carrier.frequency) // FM
+
+    const volumeGain = aux.createGain()
+    volumeGain.gain.value = env.vol
+    volumeGain.connect(aout)
+
+    carrier.connect(volumeGain)
+
+    modulator.start(at)
+    carrier.start(at)
+
+    modulator.stop(at + len)
+    carrier.stop(at + len)
+}
+
+function playin(note, delay, len, patch) {
+    play(note, aux.currentTime + delay, len, patch)
 }
 
 const sfx = (n) => {
@@ -95,7 +129,6 @@ const sfx = (n) => {
     bufs.connect(gain)
 
     gain.connect(aout)
-    //node.playbackRate = 2
     bufs.start(0)
 }
 
@@ -103,13 +136,15 @@ extend(sfx, {
     touch,
     on,
     off,
+    play,
+    playin,
 })
-
 return sfx
 
 })()
 
 function zapAudioController() {
+    // TODO move to trap
     trap.register('mdn', (e) => {
         fx.touch()
     })
