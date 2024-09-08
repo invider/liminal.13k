@@ -86,14 +86,14 @@ This one, however, will
 -- generate cube vertices with "cube" command
 -- and brew the result
 
-gen cube brew
+neogeo cube brew
 
 
 == Named Bigger Cube
 
 -- it is a good practice to name your meshes for future reference
 -- lets make the next cube bigger and assign a name to it
-gen cube 2 scale "Named Cube" name brew
+neogeo cube 2 scale "Named Cube" name brew
 
 -- we put the number 2 first
 -- and then execute the command that will use that number
@@ -108,26 +108,26 @@ gen cube 2 scale "Named Cube" name brew
 == Generate More Shapes
 
 -- let's create a tetrahedron
-gen tetrahedron 2 scale "Tetrahedron One" name brew
+neogeo tetrahedron 2 scale "Tetrahedron One" name brew
 
 -- and a sphere
-gen sphere "Sphere One" name brew
+neogeo sphere "Sphere One" name brew
 
 -- and a smooth sphere
-gen smooth sphere "simpleSphereOne" name brew
+neogeo smooth sphere "simpleSphereOne" name brew
 
 -- a cylinder (will be smooth since the flag was set by the previous sphere)
-gen cylinder "simpleCylinderOne" name brew
+neogeo cylinder "simpleCylinderOne" name brew
 
 -- and now make one that is sharp and not smooth
-gen sharp cylinder "simpleCylinderOne" name brew
+neogeo sharp cylinder "simpleCylinderOne" name brew
 
 
 
 == Complex transformations
 
 -- Lets make some magic with the next one
-gen
+neogeo
 
 -- add a simple sloped triangle
 0  -1   0
@@ -155,7 +155,7 @@ brew
 =       Commands Reference         =
 ====================================
 ----------------------------------------------------------------------
-gen - start mesh generation
+neogeo - start mesh generation
 brew - bake the mesh into it's final form
 name - set the name to the current mesh
 

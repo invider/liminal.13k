@@ -71,7 +71,7 @@ class SpinnerControl {
     }
 
     screwUp( script ) {
-        const g = screw( script )
+        const g = geo.screwOne( screwUp(script) )
         g.screw = script
         log('screwed geometry:')
         console.dir(g)

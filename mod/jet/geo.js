@@ -384,6 +384,7 @@ const ops = _gops = [
 
         gix.push(g)
         if (g.name) glib[g.name] = g
+        brews.push(g)
     },
     // brewWires
     () => {
@@ -482,6 +483,10 @@ function exec(opcodes) {
                     s.push(unscrewNumber(opcodes[i++]))
                     break
                 default:
+                    if (debug) {
+                        const fn = ops[op]
+                        if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                    }
                     ops[op]()
             }
         }
