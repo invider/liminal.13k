@@ -3,7 +3,7 @@ class Hero extends Frame {
     constructor(st) {
 
         const df = {
-            strangeSolid: true,
+            // strangeSolid: true, // DEBUG - hide wireframes for the hero
             hh: 1,
 
             eyesShiftY: .7,
