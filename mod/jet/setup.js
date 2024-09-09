@@ -110,14 +110,17 @@ window.onload = () => {
 
     // run zaps
     if (debug) {
-        for (prop in window) if (prop.startsWith('zap')) window[prop]()
+        for (prop in window) if (prop.startsWith('zap')) {
+            log(`Zapping [${prop}]!`)
+            window[prop]()
+        }
     } else {
         // zap directly, so they not be optimized
         zapAudioController()
         zapTextures()
         zapGeoLib()
+        zapScrewLib()
         zapPreStage()
-        zapGeoLib()
     }
 
     setupStage()

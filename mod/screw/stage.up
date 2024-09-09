@@ -1,3 +1,3 @@
-neogeo cube 2 scale "cube2" name brew
-neogeo cube 4 scale "cube4" name brew
-neogeo sphere "simpleSphereOne" name brew
+neogeo cube 2 scale "cuboidS2" name brew
+neogeo cube 4 scale "cuboidS4" name brew
+neogeo sphere "stagingSphereOne" name brew

@@ -39,18 +39,21 @@ screwUp = (() => {
         return String.fromCharCode(n)
     }
 
-    const BASE  = 92
+    const BASE  = 93
     const HBASE = 46
     function screwBaseNumber(N) {
         // classify the number by it's precision
-        let t = 0, n = N, x = 1, a, b, c, max, s = [], d = []
-        if ((N * 1000) % 1 > 0) throw  `Unsupported precision: [${N}]`
-        if ((N * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
-        if ((N * 10  ) % 1 > 0) { t = 2; n = N * 100  }
-        if ( N % 1         > 0) { t = 1; n = N * 10   }
+        let t = 0, n = N,
+            AN = Math.abs(N),
+            x = 1, a, b, c, max,
+            s = [], d = []
+        if ((AN * 1000) % 1 > 0) throw  `Unsupported precision: [${N}]`
+        if ((AN * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
+        if ((AN * 10  ) % 1 > 0) { t = 2; n = N * 100  }
+        if ( AN % 1         > 0) { t = 1; n = N * 10   }
         a = b = Math.abs(n)
 
-        while (b > HBASE) {
+        while (b >= HBASE) {
             c = b % HBASE
             b = (b-c)/HBASE
             x++
@@ -62,17 +65,16 @@ screwUp = (() => {
             n = max - a
         }
 
-        if (n === 0) {
-            s.push( screwBase(n) )
-        } else while(n > 0) {
-            c = n % BASE
-            d.push(c)
+        for (let i = 0; i < x; i++) {
+            c = n % BASE   // current digit in this base 92
+            d.push(c)      // we are high-endian, since lowers go first
             s.push( screwBase(c) )
-            n = (n-c)/BASE
+            n = (n-c)/BASE // get to the next digit
         }
         return {
             t,
             x,
+            d,
             s,
             S: s.join(''),
         }
@@ -340,6 +342,9 @@ screwUp = (() => {
                         iop += (snum.x - 1) * 4 + snum.t
                         opcodes.push( screwBase(iop) )
                         snum.s.forEach(e => opcodes.push(e))
+                        log(`${opsRef[iop]} ${t.v}`
+                              + ` T${snum.t}/X${snum.x}: `
+                              + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
                     } catch (e) {
                         cerr(e.toString(), t)
                     }
@@ -384,7 +389,7 @@ screwUp = (() => {
     }
 
     return (src) => {
-        console.log('screwing: [' + src + ']')
+        console.log('screwing up: [' + src + ']')
         lines = src.split('\n')
 
         const tokens = []

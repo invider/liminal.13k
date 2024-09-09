@@ -37,6 +37,9 @@ echo "Indexing source files..."
 echo "Cleaning..."
 ./clean
 
+echo "Screwing..."
+./compile-s
+
 echo "Staging the Package..."
 mkdir -p $DIST
 mkdir -p $STAGE

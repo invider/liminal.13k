@@ -102,11 +102,11 @@ function zapDebug() {
             if (i % 3 === 2) b.push('\n')
         })
 
-        console.dir(s)
-        console.dir(M)
         const d = b.join('')
         console.log(d)
         term.println('\n' + d)
+        console.dir(M)
+        console.dir(s)
     })
 
     // dumpv
@@ -123,9 +123,9 @@ function zapDebug() {
         })
 
         const d = b.join('')
-        console.dir(g.v)
         console.log(d)
         term.println('\n' + d)
+        console.dir(g.v)
     })
 
     /*

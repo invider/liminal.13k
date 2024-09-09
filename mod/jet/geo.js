@@ -14,7 +14,7 @@ let g,                      // current geo form
     P = 13,                 // current precision qualifier
     S                       // smooth flag, sharp if not set
 
-const s = [], m = [] // value and matrix stacks
+let s = [], m = [] // value and matrix stacks
 
 function pop() {
     if (debug) if (s.length === 0) throw 'Empty stack!'
@@ -410,11 +410,6 @@ function unscrewRune(r) {
     return n - 32
 }
 
-function unscrewNumber(n) {
-    if (n > 41) n -= 92
-    return n/10
-}
-
 function unscrewOpcodes(rawcodes) {
     const opcodes = rawcodes.map(r => unscrewRune(r))
     opcodes.raw = rawcodes
@@ -488,11 +483,11 @@ function exec(opcodes) {
                         let o = op - PUSHV,
                             x = floor(o / 4) + 1,
                             t = o % 4,
-                            c = 92 ** x
+                            c = 93 ** x
 
                         let n = opcodes[i++]
-                        for (let i = 1; i < x; i++) {
-                            n = n * 92 + opcodes[i++]
+                        for (let j = 1; j < x; j++) {
+                            n = n + 93 * opcodes[i++]
                         }
                         if (n >= floor(c/2)) n -= c
                         s.push(n / (10**t))
@@ -524,6 +519,7 @@ function resetEmuState() {
 }
 
 function screw(enops) {
+    if (debug) log(`screwing:[${enops}](${enops.length})`)
     resetEmuState()
     return exec( unscrewOpcodes( enops.split('') ) )
 }
@@ -539,7 +535,13 @@ if (debug) {
         cg: () => g,
         cM: () => M,
         cs: () => s,
-    }
+        reset: () => {
+            M = mat4.identity(),    // current geo model matrix
+            // clean stacks
+            s = []
+            m = []
+        },
+   }
 } else {
     return {
         screw,

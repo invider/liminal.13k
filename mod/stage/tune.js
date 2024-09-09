@@ -2,13 +2,13 @@ const tune = {
     gravity:    30,
 
     // adjust controls
-    maxSpeed:        15,
+    maxSpeed:        20,
     jumpSpeed:       20,
     turnSpeed:       2.5,
     tiltSpeed:       1.75,
     turnMouseSpeed: .14,
-    tiltMouseSpeed: .11,
-    acceleration:    60,
+    tiltMouseSpeed: .14,
+    acceleration:    200,
     airAcceleration: 15,
 
     friction: .6,

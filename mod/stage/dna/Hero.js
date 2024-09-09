@@ -8,8 +8,8 @@ class Hero extends Frame {
 
             eyesShiftY: .7,
             tiltAngle: 0,
-            minTilt: -1,
-            maxTilt:  1,
+            minTilt: -PI/2,
+            maxTilt:  PI/2,
 
             _pos:     vec3z(),
             momentum: vec3z(),
