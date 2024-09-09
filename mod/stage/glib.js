@@ -31,7 +31,7 @@ function zapGeoLib() {
     const s =  CELL_HSIZE, // block half-size
           h =  1
     //enops = screwUp('neogeo cube 4 0.5 4 stretchX stretchY stretchZ 2 scale "cell" name brew')
-    enops = screwUp('neogeo cube 4 0.5 4 stretchX stretchY stretchZ "cell22" name brew')
+    enops = screwUp('neogeo cube 4 0.5 4 stretchX stretchY stretchZ "cell" name brew')
     geo.screw(enops)
 
     glib.cell.bounds = vec3(s, h, s)

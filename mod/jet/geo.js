@@ -532,10 +532,19 @@ function screwOne(enops) {
     return screw(enops).pop()
 }
 
-return {
-    screw,
-    screwOne,
-    cg: () => g,
+if (debug) {
+    return {
+        screw,
+        screwOne,
+        cg: () => g,
+        cM: () => M,
+        cs: () => s,
+    }
+} else {
+    return {
+        screw,
+        screwOne
+    }
 }
 
 })()

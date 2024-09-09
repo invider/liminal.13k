@@ -1,1 +1,1 @@
-function zapScrewLib(){geo.screw(` ;J45G%cube2?@ ;JH5G%cube4?@ <G/simpleSphereOne?@`)}
+function zapScrewLib(){geo.screw(` ;J5G%cube2?@ ;J5G%cube4?@ <G/simpleSphereOne?@`)}

@@ -43,7 +43,7 @@ screwUp = (() => {
     const HBASE = 46
     function screwBaseNumber(N) {
         // classify the number by it's precision
-        let t = 0, n = 0, x = 1, a, b, c, max, s = [], d = []
+        let t = 0, n = N, x = 1, a, b, c, max, s = [], d = []
         if ((N * 1000) % 1 > 0) throw  `Unsupported precision: [${N}]`
         if ((N * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
         if ((N * 10  ) % 1 > 0) { t = 2; n = N * 100  }
@@ -62,7 +62,9 @@ screwUp = (() => {
             n = max - a
         }
 
-        while(n > 0) {
+        if (n === 0) {
+            s.push( screwBase(n) )
+        } else while(n > 0) {
             c = n % BASE
             d.push(c)
             s.push( screwBase(c) )
@@ -72,6 +74,7 @@ screwUp = (() => {
             t,
             x,
             s,
+            S: s.join(''),
         }
 
         /*
@@ -335,8 +338,6 @@ screwUp = (() => {
                         const snum = screwBaseNumber(t.v)
                         let iop = opsRef.indexOf('push1i')
                         iop += (snum.x - 1) * 4 + snum.t
-                        log(`[${t.v}]: matches ${iop}(${opsRef[iop]})`)
-
                         opcodes.push( screwBase(iop) )
                         snum.s.forEach(e => opcodes.push(e))
                     } catch (e) {
@@ -383,6 +384,7 @@ screwUp = (() => {
     }
 
     return (src) => {
+        console.log('screwing: [' + src + ']')
         lines = src.split('\n')
 
         const tokens = []

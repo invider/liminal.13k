@@ -71,12 +71,12 @@ class SpinnerControl {
     }
 
     screwUp( script ) {
-        const g = geo.screwOne( screwUp(script) )
-        g.screw = script
+        const brews = geo.screw( screwUp(script) )
+        brews.screw = script
         log('screwed geometry:')
-        console.dir(g)
+        console.dir(brews)
 
-        this.createSpinner(g)
+        this.createSpinner(brews)
     }
 
     activeScript() {

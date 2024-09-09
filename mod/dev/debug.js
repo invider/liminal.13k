@@ -84,24 +84,26 @@ function zapDebug() {
 
     // dump
     _gops.push(() => {
-        const b = []
+        const b = [],
+            M = geo.cM(),
+            s = geo.cs()
 
         b.push('=== matrix ===\n')
-        _gMatrix.forEach((v, i) => {
+        M.forEach((v, i) => {
             b.push(v)
             b.push('  ')
             if (i % 4 === 3) b.push('\n')
         })
 
         b.push('\n=== stack ===\n')
-        stack.forEach((v, i) => {
+        s.forEach((v, i) => {
             b.push(v)
             b.push('  ')
             if (i % 3 === 2) b.push('\n')
         })
 
-        console.dir(stack)
-        console.dir(_gMatrix)
+        console.dir(s)
+        console.dir(M)
         const d = b.join('')
         console.log(d)
         term.println('\n' + d)
@@ -109,10 +111,11 @@ function zapDebug() {
 
     // dumpv
     _gops.push(() => {
-        const b = []
+        const b = [],
+              g = geo.cg()
 
-        b.push('\n=== verteces ===\n')
-        _g.v.forEach((v, i) => {
+        b.push('\n=== vertices ===\n')
+        g.v.forEach((v, i) => {
             b.push(v)
             b.push('  ')
             if (i % 9 === 8) b.push('\n')
@@ -120,7 +123,7 @@ function zapDebug() {
         })
 
         const d = b.join('')
-        console.dir(_g.v)
+        console.dir(g.v)
         console.log(d)
         term.println('\n' + d)
     })

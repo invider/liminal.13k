@@ -1,7 +1,7 @@
 
 0.5 0.5 0.5 mscale
 
-gen
+neogeo
 
 0  -1   0
 0   0  -2
@@ -41,14 +41,13 @@ tri
 dumpv
 brew
 
-gen cube "cubeOne" name brew
-#gen cube 2 scale "cubeTwo" name brew
-#gen cube 4 scale "cubeThree" name brew
+neogeo cube "cubeOne" name brew
+neogeo cube 2 scale "cubeTwo" name brew
+neogeo cube 4 scale "cubeThree" name brew
 
 -- let's create a tetrahedron
-gen tetrahedron 2 scale "tetra" name brew
-gen sphere "simpleSphereOne" name brew
-gen smooth sphere "simpleSphereOne" name brew
-gen cylinder "simpleCylinderOne" name brew
-gen sharp cylinder "simpleCylinderOne" name brew
+neogeo sphere "simpleSphereOne" name brew
+neogeo smooth sphere "simpleSphereOne" name brew
+neogeo cylinder "simpleCylinderOne" name brew
+neogeo sharp cylinder "simpleCylinderOne" name brew
 
