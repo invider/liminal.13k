@@ -40,8 +40,8 @@ const _fshader = `#version 300 es
     precision highp float;
 
     // environment
-    uniform vec4 uOpt, uDirectionalLightColorI, uPointLightColorI, uFogColor, uLightIntensities;
-    uniform vec3 uCamPos, uDirectionalLightVector, uPointLightPosition, uAmbientColor, uDiffuseColor, uSpecularColor, uEmissionColor;
+    uniform vec4 uOpt, uDirectionalLightColorI, uPointLightColorI, uFogColor, uLightIntensities, upc[16];
+    uniform vec3 uCamPos, uDirectionalLightVector, uPointLightPosition, uAmbientColor, uDiffuseColor, uSpecularColor, uEmissionColor, upl[16];
 
     uniform float uShininess;
     uniform sampler2D uTexture;
@@ -55,12 +55,19 @@ const _fshader = `#version 300 es
     void main(void) {
         vec3 WN = normalize(wn);
 
+        vec3 dc = vec3(0, 0, 0);
+
+        // directional diffuse
         // TODO expand into a 3-component vector with dir light colors included
         float diffuseDirectionalLambert = max(
             dot(WN, uDirectionalLightVector),
             0.0
         ) * uDirectionalLightColorI.w;
 
+        // calculate directional diffuse color component
+        dc = dc + uDirectionalLightColorI.xyz * diffuseDirectionalLambert;
+
+        // point diffuse
         // do one point light
         vec3 pointLightDirection = uPointLightPosition - wp;
         float pointLightDistance = length(pointLightDirection);
@@ -77,8 +84,31 @@ const _fshader = `#version 300 es
             0.0
         ) * uPointLightColorI.w * attenuation;
 
+        // do all point lights
+        for (int i = 0; i < 16; i++) {
+            vec3 pointLightDirection = upl[i] - wp;
+            float pointLightDistance = length(pointLightDirection);
+            pointLightDirection /= pointLightDistance;
+
+            // attenuation (TODO include as a part of point light vec4 coords?)
+            float attenuation = 1.0 / (
+                .2 // constant component for infinite dist
+                + 0.001 * pointLightDistance * pointLightDistance // quadratic factor
+            );
+
+            float diffusePointLambert = max(
+                dot(WN, pointLightDirection),
+                0.0
+            ) * upc[i].w * attenuation;
+
+            dc = dc + upc[i].xyz * diffusePointLambert;
+        }
+        //dc.x = 0.0;
+        //dc.y = 1.0;
+        //dc.z = 0.0;
+
         // mix directional and point lights factors
-        float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
+        //float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
 
         // point specular
         // TODO make specular spot of the light source color!
@@ -106,8 +136,9 @@ const _fshader = `#version 300 es
                 vec4(
                     uAmbientColor * uLightIntensities.x
                     + (texture(uTexture, uw).xyz * uOpt.z
-                         + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
-                    + uSpecularColor * (specular + specularD) * uLightIntensities.z,
+                         // + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
+                         + uDiffuseColor * (1.0-uOpt.z)) * dc * uLightIntensities.y
+                    + uSpecularColor * (specular + specularD) * (uLightIntensities.z),
                     opacity) * uOpt.x                // shaded component
                 + vec4(uDiffuseColor * uOpt.y, 1.0), // wireframe component
             uFogColor, fogAmount

@@ -47,6 +47,9 @@ function drawScene() {
     gl.uniform3fv(_uPointLightPosition, env.pointLightPosition)
     gl.uniform4fv(_uPointLightColorI, env.pointLightColorI)
 
+    gl.uniform3fv(_upl, env.pl)
+    gl.uniform4fv(_upc, env.pc)
+
     gl.uniform4fv(_uFogColor, env.fogColor)
 
     // draw the scene graph

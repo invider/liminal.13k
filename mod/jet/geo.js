@@ -531,7 +531,7 @@ function resetEmuState() {
 }
 
 function unscrew(enops) {
-    if (debug) log(`unscrewing:[${enops}](${enops.length})`)
+    // if (debug) log(`unscrewing:[${enops}](${enops.length})`)
     resetEmuState()
     return exec( unscrewOpcodes( enops.split('') ) )
 }

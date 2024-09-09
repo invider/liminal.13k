@@ -1,5 +1,7 @@
 function zapStageStat() {
-    _.stageStat = {
+
+    lab.attach({
+        name: 'stageStat',
 
         evo: function(dt) {
             if (!env.stat) return
@@ -17,5 +19,5 @@ function zapStageStat() {
             lab.apply(e => inodes++ )
             env.dump['Nodes'] = '' + inodes
         }
-    }
+    })
 }

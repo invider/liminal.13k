@@ -1,6 +1,8 @@
 function zapDebug() {
     if (!debug) return
 
+    lab.attach( new HUD() )
+
     // extend screw VM with extensions and debug opcodes
 
     // ring

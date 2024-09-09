@@ -392,7 +392,7 @@ screwUp = (() => {
     }
 
     return (src) => {
-        console.log('screwing up: [' + src + ']')
+        if (env.debugScrew) console.log('screwing up: [' + src + ']')
         lines = src.split('\n')
 
         const tokens = []

@@ -87,6 +87,9 @@ echo "=============="
 ./node_modules/.bin/gulp
 sleep 5
 
+export SRC="./dist/stage/"
+./index
+
 zipIt $TAR $ZIP
 zipIt $TARY $ZIPY
 

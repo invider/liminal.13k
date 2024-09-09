@@ -4,6 +4,9 @@ const screwUp = require('../mod/dev/screw/screwUp.js')
 const SRC = './mod/screw/stage.up'
 const TARGET = './mod/stage/slib.js'
 
+// environment setup
+env = {}
+
 console.log('Compiling screw source: ')
 const src = fs.readFileSync(SRC, 'utf-8')
 
