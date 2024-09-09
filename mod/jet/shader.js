@@ -41,9 +41,9 @@ const _fshader = `#version 300 es
 
     // environment
     // ucp - camera position
-    uniform vec4 uOpt, uDirectionalLightColorI, uFogColor, upc[16],
+    uniform vec4 uOpt, udc, uFogColor, upc[16],
         ua, ud, us;
-    uniform vec3 ucp, uDirectionalLightVector, upl[16];
+    uniform vec3 ucp, udv, upl[16];
 
     uniform float un;
     uniform sampler2D uTexture;
@@ -60,13 +60,13 @@ const _fshader = `#version 300 es
         // directional diffuse
         // TODO expand into a 3-component vector with dir light colors included
         float diffuseDirectionalLambert = max(
-            dot(WN, uDirectionalLightVector),
+            dot(WN, udv),
             0.0
-        ) * uDirectionalLightColorI.w;
+        ) * udc.w;
 
         // calculate directional diffuse color component
         vec3 dc = vec3(0.0, 0.0, 0.0);
-        dc = dc + uDirectionalLightColorI.xyz * diffuseDirectionalLambert;
+        dc = dc + udc.xyz * diffuseDirectionalLambert;
 
         vec3 sc = vec3(0.0, 0.0, 0.0);  // specular color accumulator
         vec3 eye = normalize(ucp - wp);
@@ -101,11 +101,11 @@ const _fshader = `#version 300 es
         }
 
         // directional specular
-        vec3 hd = normalize(uDirectionalLightVector + eye); // directional half-vector
+        vec3 hd = normalize(udv + eye); // directional half-vector
         float sd = pow(
             max( dot(WN, hd), 0.0 ), un
-        ) * uDirectionalLightColorI.w;
-        sc += uDirectionalLightColorI.xyz * sd;
+        ) * udc.w;
+        sc += udc.xyz * sd;
 
         // fog
         float z = gl_FragCoord.z / gl_FragCoord.w;

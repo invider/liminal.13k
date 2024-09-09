@@ -37,12 +37,12 @@ function drawScene() {
     gl.uniform3fv(_ucp, lab.cam.pos)
 
     // TODO precalc in _dirLight buffer and use that instead?
-    const rnv = vec3.clone(env.directionalLightVector)
+    const rnv = vec3.clone(env.dv)
     vec3.scale(rnv, -1)
     vec3.normalize(rnv)
 
-    gl.uniform3fv(_uDirectionalLightVector, rnv)
-    gl.uniform4fv(_uDirectionalLightColorI, env.directionalLightColorI)
+    gl.uniform3fv(_udv, rnv)
+    gl.uniform4fv(_udc, env.dc)
 
     // set point light uniforms
     gl.uniform3fv(_upl, env.pl)
