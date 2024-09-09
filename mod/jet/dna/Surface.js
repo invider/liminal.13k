@@ -6,13 +6,12 @@ class Surface {
         extend(this, {
             name: 'surface',
             renderOptions: vec4(1, 0, 0, 0),
-            mat: {
-                Ka: vec3(.5, .6, .7),
-                Kd: vec3(.9, .2, .2),
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, 1, .5, 0),
-                Ns: 12,
+            m: {
+                a: vec3(.5, .6, .7),
+                d: vec3(.9, .2, .2),
+                s: vec3(1, 1, 1),
+                i: vec4(.2, 1, .5, 0),
+                n: 12,
             },
             buf: {},
         }, st)
@@ -62,12 +61,11 @@ class Surface {
         // bind our geometry and materials
 
         // set the material
-        gl.uniform3fv(_uAmbientColor, this.mat.Ka)
-        gl.uniform3fv(_uDiffuseColor, this.mat.Kd)
-        gl.uniform3fv(_uSpecularColor, this.mat.Ks)
-        gl.uniform3fv(_uEmissionColor, this.mat.Ke)
-        gl.uniform4fv(_uLightIntensities, this.mat.Lv)
-        gl.uniform1f(_uShininess, this.mat.Ns)
+        gl.uniform3fv(_uAmbientColor, this.m.a)
+        gl.uniform3fv(_uDiffuseColor, this.m.d)
+        gl.uniform3fv(_uSpecularColor, this.m.s)
+        gl.uniform4fv(_uLightIntensities, this.m.i)
+        gl.uniform1f(_uShininess, this.m.n)
 
         if (this.tex) {
             // bind texture

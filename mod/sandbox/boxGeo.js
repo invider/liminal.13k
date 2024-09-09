@@ -61,13 +61,12 @@ _.boxGeo = function() {
             _pods: [
                 new Surface({
                     geo: g,
-                    mat: {
-                        Ka: vec3(.5, .6, .7),
-                        Kd: colors[ Math.floor(rnd() * colors.length) ],
-                        Ks: vec3(1, 1, 1),
-                        Ke: vec3(1, 1, 1),
-                        Lv: vec4(.2, .5, .8, 0),
-                        Ns: 10,
+                    m: {
+                        a: vec3(.5, .6, .7),
+                        d: colors[ Math.floor(rnd() * colors.length) ],
+                        s: vec3(1, 1, 1),
+                        i: vec4(.2, .5, .8, 0),
+                        n: 10,
                     },
                 })
             ],
@@ -96,13 +95,12 @@ _.boxGeo = function() {
         _pods: [
             new Surface({
                 geo: geo.gen().plane().push(30).scale().bake(),
-                mat: {
-                    Ka: vec3(.5, .5, .5),
-                    Kd: vec3(.5, .5, .5),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.1, .4, .9, 0),
-                    Ns: 21,
+                m: {
+                    a: vec3(.5, .5, .5),
+                    d: vec3(.5, .5, .5),
+                    s: vec3(1, 1, 1),
+                    i: vec4(.1, .4, .9, 0),
+                    n: 21,
                 },
             }),
         ],
@@ -117,13 +115,12 @@ _.boxGeo = function() {
         _pods: [
             new Surface({
                 geo: geo.gen().plane().push(30).scale().bake(),
-                mat: {
-                    Ka: vec3(.5, .5, .5),
-                    Kd: vec3(.5, .5, .5),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.2, .8, 0, 0),
-                    Ns: 21,
+                m: {
+                    a: vec3(.5, .5, .5),
+                    d: vec3(.5, .5, .5),
+                    s: vec3(1, 1, 1),
+                    i: vec4(.2, .8, 0, 0),
+                    n: 21,
                 },
             }),
         ],
@@ -139,13 +136,12 @@ _.boxGeo = function() {
         _pods: [
             new Surface({
                 geo: geo.gen().sphere().push(1).scale().bake(),
-                mat: {
-                    Ka: vec3(1, 1, .5),
-                    Kd: vec3(1, 1, 1),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(1, 0, 0, 0),
-                    Ns: 21,
+                m: {
+                    a: vec3(1, 1, .5),
+                    d: vec3(1, 1, 1),
+                    s: vec3(1, 1, 1),
+                    i: vec4(1, 0, 0, 0),
+                    n: 21,
                 },
             }),
         ],
@@ -167,13 +163,12 @@ _.boxGeo = function() {
         _pods: [
             new Surface({
                 geo: geo.gen().push(25).precision().smooth().sphere().push(35).scale().bake(),
-                mat: {
-                    Ka: vec3(.8, .4, .7),
-                    Kd: vec3(.6, .25, .8),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.2, .6, .8, 0),
-                    Ns: 10,
+                m: {
+                    a: vec3(.8, .4, .7),
+                    d: vec3(.6, .25, .8),
+                    s: vec3(1, 1, 1),
+                    i: vec4(.2, .6, .8, 0),
+                    n: 10,
                 },
             }),
         ],
@@ -195,13 +190,12 @@ _.boxGeo = function() {
         _pods: [
             new Surface({
                 geo: geo.gen().push(.85).ring().push(75).scale().bake(),
-                mat: {
-                    Ka: vec3(.6, .4, .8),
-                    Kd: vec3(.4, .4, .6),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.6, .4, 1, 0),
-                    Ns: 10,
+                m: {
+                    a: vec3(.6, .4, .8),
+                    d: vec3(.4, .4, .6),
+                    s: vec3(1, 1, 1),
+                    i: vec4(.6, .4, 1, 0),
+                    n: 10,
                 },
             }),
         ],

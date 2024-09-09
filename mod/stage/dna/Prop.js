@@ -6,15 +6,15 @@ class Prop extends Body {
             _pods: [
                 new Surface({
                     geo: glib.floppy,
-                    mat: mlib.floppy
+                    m: mlib.floppy
                 }),
                 new Surface({
                     geo: glib.fdisc,
-                    mat: mlib.metal
+                    m: mlib.metal
                 }),
                 new Surface({
                     geo: glib.shutter,
-                    mat: mlib.metal
+                    m: mlib.metal
                 }),
                 new SolidBoxPod({
                     kind:  EPHEMERAL,

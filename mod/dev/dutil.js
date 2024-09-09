@@ -122,20 +122,19 @@ function nodePickUp(x, y) {
         if (!e.dead && !e.ghost && e.surface) {
             pickable.push(e)
             const _pid = e._pid = pickable.length // start with #1, #0 is reserved for the empty spot
-            e.surface._mat = e.surface.mat
+            e.surface._m = e.surface.m
             e.surface._renderOptions = e.surface.renderOptions
             e.surface.renderOptions = vec4(1, 0, 0, 0)
 
             // tune materials into unique ambient colors
             const idv3 = id2rgb(_pid)
-            e.surface.mat = {
-                Ka: idv3,
-                //Ka: vec3(1, 0, 0),
-                Kd: vec3(.1, .8, .9),
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(0, 0, 0),
-                Lv: vec4(1, 0, 0, 0),
-                Ns: 1, // can't be 0, since can get NaN case in the shader!
+            e.surface.m = {
+                a: idv3,
+                //a: vec3(1, 0, 0),
+                d: vec3(.1, .8, .9),
+                s: vec3(1, 1, 1),
+                i: vec4(1, 0, 0, 0),
+                n: 1, // can't be 0, since can get NaN case in the shader!
             }
         }
     })
@@ -153,7 +152,7 @@ function nodePickUp(x, y) {
 
     // bring everything back
     pickable.forEach(e => {
-        e.surface.mat = e.surface._mat
+        e.surface.m = e.surface._m
         e.surface.renderOptions = e.surface._renderOptions
     })
     env.clearColor = env._clearColor

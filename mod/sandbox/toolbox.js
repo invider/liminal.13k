@@ -22,13 +22,12 @@ function createSomeBoxes() {
             _pods: [
                 new Surface({
                     geo: g,
-                    mat: {
-                        Ka: vec3(.4, .4, .4),
-                        Kd: vec3(.1, .1, .15),
-                        Ks: vec3(1, 1, 1),
-                        Ke: vec3(1, 1, 1),
-                        Lv: vec4(.2, .7, .4, 0),
-                        Ns: 10,
+                    m: {
+                        a: vec3(.4, .4, .4),
+                        d: vec3(.1, .1, .15),
+                        s: vec3(1, 1, 1),
+                        i: vec4(.2, .7, .4, 0),
+                        n: 10,
                     },
                     
                 }),

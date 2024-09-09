@@ -45,7 +45,7 @@ class Terrace extends Frame {
 
         // activate the jumppad
         cell.dir = rnd() * PI2
-        cell.surface.mat = mlib.jumpPad
+        cell.surface.m = mlib.jumpPad
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this || runner.momentum[1] > -5) return
             runner.lastJumpPad = this
@@ -116,7 +116,7 @@ class Terrace extends Frame {
                     _pods: [
                         new Surface({
                             geo: glib.cell,
-                            mat: extend({}, mlib.cell, { Kd: colors[icolor] })
+                            m: extend({}, mlib.cell, { d: colors[icolor] })
                         }),
                         new SolidBoxPod({
                             hsize: glib.cell.bounds, 

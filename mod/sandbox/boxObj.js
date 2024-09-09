@@ -9,13 +9,12 @@ _.boxObj = function() {
         rotSpeed: vec3(3, 0, 0),
         scale: vec3(1, 1, 1),
         geo: geo.gen().plane().push(150).scale().bake(),
-        mat: {
-            Ka: vec3(.5, .5, .5),
-            Kd: vec3(.2, .4, .7),
-            Ks: vec3(1, 1, 1),
-            Ke: vec3(1, 1, 1),
-            Lv: vec4(.2, .4, .2, 0),
-            Ns: 21,
+        m: {
+            a: vec3(.5, .5, .5),
+            d: vec3(.2, .4, .7),
+            s: vec3(1, 1, 1),
+            i: vec4(.2, .4, .2, 0),
+            n: 21,
         },
     }))
 
@@ -49,13 +48,12 @@ _.boxObj = function() {
             scale:    vec3(1, 1, 1),
 
             geo: g,
-            mat: {
-                Ka: vec3(.5, .6, .7),
-                Kd: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .5, 1, 0),
-                Ns: 10,
+            m: {
+                a: vec3(.5, .6, .7),
+                d: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
+                s: vec3(1, 1, 1),
+                i: vec4(.2, .5, 1, 0),
+                n: 10,
             },
 
             init() {
@@ -87,13 +85,12 @@ _.boxObj = function() {
             scale:    vec3(.2, .2, .2),
 
             geo: g,
-            mat: {
-                Ka: vec3(.5, .6, .7),
-                Kd: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .7, 1, 0),
-                Ns: 10,
+            m: {
+                a: vec3(.5, .6, .7),
+                d: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
+                s: vec3(1, 1, 1),
+                i: vec4(.2, .7, 1, 0),
+                n: 10,
             },
 
             init() {
@@ -126,13 +123,12 @@ _.boxObj = function() {
             scale:    vec3(1, 1, 1),
 
             geo: g,
-            mat: {
-                Ka: vec3(.5, .6, .7),
-                Kd: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
-                Ks: vec3(1, 1, 1),
-                Ke: vec3(1, 1, 1),
-                Lv: vec4(.2, .5, 1, 0),
-                Ns: 10,
+            m: {
+                a: vec3(.5, .6, .7),
+                d: surfaceColors[ Math.floor(rnd() * surfaceColors.length) ],
+                s: vec3(1, 1, 1),
+                i: vec4(.2, .5, 1, 0),
+                n: 10,
             },
 
             init() {

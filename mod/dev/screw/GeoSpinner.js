@@ -78,13 +78,12 @@ class GeoSpinner {
                 new Surface({
                     geo: g,
                     // TODO should come from material library
-                    mat: {
-                        Ka: vec3(.5, .6, .7),
-                        Kd: vec3(.2, .8, .7),
-                        Ks: vec3(1, 1, 1),
-                        Ke: vec3(1, 1, 1),
-                        Lv: vec4(.2, .7, .5, 0),
-                        Ns: 21,
+                    m: {
+                        a: vec3(.5, .6, .7),
+                        d: vec3(.2, .8, .7),
+                        s: vec3(1, 1, 1),
+                        i: vec4(.2, .7, .5, 0),
+                        n: 21,
                     },
                 }),
             ],

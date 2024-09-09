@@ -13,13 +13,12 @@ _.boxCube = function() {
         _pods: [
             new Surface({
                 geo: glib.cube,
-                mat: {
-                    Ka: vec3(.5, .6, .7),
-                    Kd: vec3(.1, .8, .9),
-                    Ks: vec3(1, 1, 1),
-                    Ke: vec3(1, 1, 1),
-                    Lv: vec4(.2, .5, .8, 0),
-                    Ns: 50,
+                m: {
+                    a: vec3(.5, .6, .7),
+                    d: vec3(.1, .8, .9),
+                    s: vec3(1, 1, 1),
+                    i: vec4(.2, .5, .8, 0),
+                    n: 50,
                 },
             }),
         ],
