@@ -487,7 +487,7 @@ function exec(opcodes) {
 
                         let n = opcodes[i++]
                         for (let j = 1; j < x; j++) {
-                            n = n + 93 * opcodes[i++]
+                            n = n + (93 ** j) * opcodes[i++]
                         }
                         if (n >= floor(c/2)) n -= c
                         s.push(n / (10**t))

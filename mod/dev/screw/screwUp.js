@@ -48,9 +48,9 @@ screwUp = (() => {
             x = 1, a, b, c, max,
             s = [], d = []
         if ((AN * 1000) % 1 > 0) throw  `Unsupported precision: [${N}]`
-        if ((AN * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
-        if ((AN * 10  ) % 1 > 0) { t = 2; n = N * 100  }
-        if ( AN % 1         > 0) { t = 1; n = N * 10   }
+        else if ((AN * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
+        else if ((AN * 10  ) % 1 > 0) { t = 2; n = N * 100  }
+        else if ( AN % 1         > 0) { t = 1; n = N * 10   }
         a = b = Math.abs(n)
 
         while (b >= HBASE) {
@@ -58,6 +58,7 @@ screwUp = (() => {
             b = (b-c)/HBASE
             x++
         }
+        if (x > 4) throw `Number is too big: ${N}`
         // xxxx - how many digits are there
         //      - so we can calculate the resolution for this size
         max = BASE ** x
@@ -342,7 +343,7 @@ screwUp = (() => {
                         iop += (snum.x - 1) * 4 + snum.t
                         opcodes.push( screwBase(iop) )
                         snum.s.forEach(e => opcodes.push(e))
-                        log(`${opsRef[iop]} ${t.v}`
+                        log(`#${iop}/${opsRef[iop]} ${t.v}`
                               + ` T${snum.t}/X${snum.x}: `
                               + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
                     } catch (e) {

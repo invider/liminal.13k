@@ -17,6 +17,23 @@ function expect(tar, title, up, upTitle) {
 
     return {
         EPSILON: 0.001,
+        toFail: function() {
+            this.isFunction(tar)
+            try {
+                tar()
+                throw new Error(`${tag} is expected to fail!`)
+            } catch (e) {}
+            return this
+        },
+        toSucceed() {
+            this.isFunction(tar)
+            try {
+                tar()
+            } catch (e) {
+                throw new Error(`${tag} is expected to succeed, but encountered an error: ${e}`)
+            }
+            return this
+        },
         toBe: function(val) {
             if (tar !== val) throw new Error(`${tag} is expected to be [${val}], but [${tar}] found!`)
             return this
