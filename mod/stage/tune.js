@@ -11,7 +11,7 @@ const tune = {
     acceleration:    200,
     airAcceleration: 20,
 
-    friction: .6,
+    friction: .8,
     airResistence:   .2,
     overspeedFactor: .005,
     terminalVelocity: 48,

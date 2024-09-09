@@ -16,17 +16,6 @@ class Prop extends Body {
                     geo: glib.shutter,
                     mat: mlib.metal
                 }),
-                /*
-                new Body({
-                    pos: vec3.clone(st.pos),
-                    _pods: [
-                        new Surface({
-                            geo: glib.shutter,
-                            mat: mlib.metal
-                        })
-                    ],
-                }),
-                */
                 new SolidBoxPod({
                     kind:  EPHEMERAL,
                     hsize: glib.floppy.bounds, 

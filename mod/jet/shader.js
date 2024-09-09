@@ -39,9 +39,6 @@ const _vshader = `#version 300 es
 const _fshader = `#version 300 es
     precision highp float;
 
-    #define FOG_NEAR  25.0
-    #define FOG_FAR   65.0
-
     // environment
     uniform vec4 uOpt, uDirectionalLightColorI, uPointLightColorI, uFogColor, uLightIntensities;
     uniform vec3 uCamPos, uDirectionalLightVector, uPointLightPosition, uAmbientColor, uDiffuseColor, uSpecularColor, uEmissionColor;
@@ -100,7 +97,8 @@ const _fshader = `#version 300 es
 
         // fog
         float z = gl_FragCoord.z / gl_FragCoord.w;
-        float fogAmount = smoothstep(FOG_NEAR, FOG_FAR, fd);
+        // hardcoded fog values
+        float fogAmount = smoothstep(25.0, 125.0, fd);
 
         float opacity = 1.0;
 
