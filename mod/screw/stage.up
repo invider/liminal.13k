@@ -2,7 +2,7 @@
 neogeo cube 8 2 8 stretch "cell" 8 2 8 bounds name brew
 
 -- floppy parts
-neogeo cube 1 1 0.1 stretch "floppy" 2 1 2 bounds name brew
+neogeo cube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name brew
 
 mpush
 neogeo

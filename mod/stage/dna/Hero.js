@@ -5,6 +5,7 @@ class Hero extends Frame {
         const df = {
             // strangeSolid: true, // DEBUG - hide wireframes for the hero
             hh: 1,
+            HD: 0,
 
             eyesShiftY: .7,
             tiltAngle: 0,
@@ -55,8 +56,9 @@ class Hero extends Frame {
         this.lastCollider = src
         if (debug) env.dump.lastCollider = src.name
         if (src instanceof Prop) {
+            // got a floppy
+            this.HD += src.c
             kill(src)
-            log(src.name + ' is killed')
         }
     }
 
@@ -198,6 +200,17 @@ class Hero extends Frame {
         vec3.copy(this.cam.left, this.left)
         vec3.copy(this.cam.up,   this.up)
         this.cam.pitch(this.tiltAngle)
+    }
+
+    draw() {
+        super.draw()
+
+        // show the status/HUD
+        ctx.fillStyle = '#e06a10'
+        ctx.textBaseline = 'top'
+        ctx.textAlign = 'right'
+        ctx.font = "32px monospace"
+        ctx.fillText(`Storage: ${this.HD}Kb`, hc.width-20, 20)
     }
 
     tilt(phi) {

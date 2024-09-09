@@ -47,7 +47,10 @@ class Terrace extends Frame {
         cell.dir = rnd() * PI2
         cell.surface.m = mlib.jumpPad
         cell.onTouch = function(runner) {
-            if (runner.lastJumpPad === this || runner.momentum[1] > -5) return
+            if (runner.lastJumpPad === this
+                || runner.momentum[1] > -5
+                || runner.HD < 360) return
+            runner.HD -= 360
             runner.lastJumpPad = this
             defer(() => {
                 // push - push direction is a bad idea
@@ -156,9 +159,10 @@ class Terrace extends Frame {
                         name:     'floppy',
                         pos:      p,
                         reactive: 1,
+                        c:        13 + floor(mrnd() * 400),
 
                         onKill: function() {
-                            log('DATA LOADED!')
+                            // TODO some effects/sfx/feedback
                         }
                     }))
                 }

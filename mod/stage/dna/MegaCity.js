@@ -123,20 +123,7 @@ class MegaCity {
             hsize: vec3(TSIZE, THEIGHT, TSIZE),
         }))
         this.blocks.push(t)
-        this.edges = [t, t, t, t, t]
-
-        lab.attach( new Prop({
-            name:  'superprop',
-            pos:   vec3(0, 3, 0),
-            reactive: 1,
-
-            onKill: function() {
-                log('DATA LOADED!')
-            }
-        }))
-
-
-    }
+        this.edges = [t, t, t, t, t] }
 
     edgeGenesis(dir) {
         const edge = this.edge(dir, vec3.clone(lab.hero.pos))
