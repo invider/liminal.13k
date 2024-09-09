@@ -41,8 +41,9 @@ const _fshader = `#version 300 es
 
     // environment
     // ucp - camera position
-    uniform vec4 uOpt, uDirectionalLightColorI, uFogColor, uLightIntensities, upc[16];
-    uniform vec3 ucp, uDirectionalLightVector, uAmbientColor, uDiffuseColor, uSpecularColor, upl[16];
+    uniform vec4 uOpt, uDirectionalLightColorI, uFogColor, upc[16],
+        uAmbientColor, uDiffuseColor, uSpecularColor;
+    uniform vec3 ucp, uDirectionalLightVector, upl[16];
 
     uniform float uShininess;
     uniform sampler2D uTexture;
@@ -115,12 +116,13 @@ const _fshader = `#version 300 es
 
         oc = mix(
                 vec4(
-                    uAmbientColor * uLightIntensities.x
+                    // shaded component
+                    uAmbientColor.xyz * uAmbientColor.w
                     + (texture(uTexture, uw).xyz * uOpt.z
-                         + uDiffuseColor * (1.0-uOpt.z)) * dc * uLightIntensities.y
-                    + uSpecularColor * sc * uLightIntensities.z,
-                    opacity) * uOpt.x                // shaded component
-                + vec4(uDiffuseColor * uOpt.y, 1.0), // wireframe component
+                         + uDiffuseColor.xyz * (1.0-uOpt.z)) * dc * uDiffuseColor.w
+                    + uSpecularColor.xyz * sc * uSpecularColor.w,
+                    opacity) * uOpt.x
+                + vec4(uDiffuseColor.xyz * uOpt.y, 1.0), // wireframe component
             uFogColor, fogAmount
         );
     }

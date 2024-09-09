@@ -20,10 +20,9 @@ class Connection {
                     new Surface({
                         geo: glib.connection,
                         m: {
-                            a: vec3(0, 1, 0),
-                            d: vec3(0, 1, 0),
-                            s: vec3(1, 1, 1),
-                            i: vec4(.2, .7, 1, 0),
+                            a: vec4(0, 1, 0, .2),
+                            d: vec4(0, 1, 0, .7),
+                            s: vec4(1, 1, 1,  1),
                             n: 20,
                         },
                     }),
@@ -36,8 +35,8 @@ class Connection {
         this.target = block
         this.state = LINKED
         if (debug && this.sphere) {
-            this.sphere.surface.m.a = vec3(1, 0, 0)
-            this.sphere.surface.m.d = vec3(1, 0, 0)
+            this.sphere.surface.m.a = vec4(1, 0, 0, .2)
+            this.sphere.surface.m.d = vec4(1, 0, 0, .7)
         }
         return block
     }
@@ -45,8 +44,8 @@ class Connection {
     deactivate() {
         this.state = BLOCKED // can't grow in that direction
         if (debug && this.sphere) {
-            this.sphere.surface.m.a = vec3(1, 1, 0)
-            this.sphere.surface.m.d = vec3(1, 1, 0)
+            this.sphere.surface.m.a = vec4(1, 1, 0, .2)
+            this.sphere.surface.m.d = vec4(1, 1, 0, .7)
         }
     }
 

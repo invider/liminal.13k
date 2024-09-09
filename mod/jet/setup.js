@@ -11,7 +11,6 @@ let _m, _n, _v, _p,
     _uDiffuseColor,
     _uSpecularColor,
     _uEmissionColor,
-    _uLightIntensities,
     _uShininess,
     _uTexture
 
@@ -60,7 +59,6 @@ function setupUniforms() {
     _uDiffuseColor = gl.getUniformLocation(glProg, 'uDiffuseColor')
     _uSpecularColor = gl.getUniformLocation(glProg, 'uSpecularColor')
     _uEmissionColor = gl.getUniformLocation(glProg, 'uEmissionColor')
-    _uLightIntensities = gl.getUniformLocation(glProg, 'uLightIntensities')
     _uShininess = gl.getUniformLocation(glProg, 'uShininess')
     _uTexture = gl.getUniformLocation(glProg, 'uTexture')
 }

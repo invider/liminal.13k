@@ -99,10 +99,10 @@ class Terrace extends Frame {
 
                 // sky block
 
-                // checkboard pattern
+                // checkerboard pattern
                 const colors = [
-                    vec3(.2, .2, .2),
-                    vec3(.2, .6, .8),
+                    vec4(.2, .2, .2, .9),
+                    vec4(.2, .6, .8, .9),
                 ]
                 const icolor = ((iz % 2) + (ix % 2)) % 2
 

@@ -130,10 +130,8 @@ function nodePickUp(x, y) {
             const idv3 = id2rgb(_pid)
             e.surface.m = {
                 a: idv3,
-                //a: vec3(1, 0, 0),
-                d: vec3(.1, .8, .9),
-                s: vec3(1, 1, 1),
-                i: vec4(1, 0, 0, 0),
+                d: vec4(.1, .8, .9, 0),
+                s: vec4(1, 1, 1, 0),
                 n: 1, // can't be 0, since can get NaN case in the shader!
             }
         }

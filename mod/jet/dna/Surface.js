@@ -7,10 +7,9 @@ class Surface {
             name: 'surface',
             renderOptions: vec4(1, 0, 0, 0),
             m: {
-                a: vec3(.5, .6, .7),
-                d: vec3(.9, .2, .2),
-                s: vec3(1, 1, 1),
-                i: vec4(.2, 1, .5, 0),
+                a: vec4(.5, .6, .7, .2),
+                d: vec4(1, 1, 1, 1),
+                s: vec4(1, 1, 1, .5),
                 n: 12,
             },
             buf: {},
@@ -61,10 +60,9 @@ class Surface {
         // bind our geometry and materials
 
         // set the material
-        gl.uniform3fv(_uAmbientColor, this.m.a)
-        gl.uniform3fv(_uDiffuseColor, this.m.d)
-        gl.uniform3fv(_uSpecularColor, this.m.s)
-        gl.uniform4fv(_uLightIntensities, this.m.i)
+        gl.uniform4fv(_uAmbientColor, this.m.a)
+        gl.uniform4fv(_uDiffuseColor, this.m.d)
+        gl.uniform4fv(_uSpecularColor, this.m.s)
         gl.uniform1f(_uShininess, this.m.n)
 
         if (this.tex) {
