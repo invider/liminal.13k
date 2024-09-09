@@ -7,11 +7,10 @@ let _m, _n, _v, _p,
     _upl,
     _upc,
     _uFogColor,
-    _uAmbientColor,
-    _uDiffuseColor,
-    _uSpecularColor,
-    _uEmissionColor,
-    _uShininess,
+    _ua,
+    _ud,
+    _us,
+    _un,
     _uTexture
 
 function compileShader(src, type) {
@@ -55,11 +54,10 @@ function setupUniforms() {
     _upl = gl.getUniformLocation(glProg, 'upl')
     _upc = gl.getUniformLocation(glProg, 'upc')
     _uFogColor = gl.getUniformLocation(glProg, 'uFogColor')
-    _uAmbientColor = gl.getUniformLocation(glProg, 'uAmbientColor')
-    _uDiffuseColor = gl.getUniformLocation(glProg, 'uDiffuseColor')
-    _uSpecularColor = gl.getUniformLocation(glProg, 'uSpecularColor')
-    _uEmissionColor = gl.getUniformLocation(glProg, 'uEmissionColor')
-    _uShininess = gl.getUniformLocation(glProg, 'uShininess')
+    _ua = gl.getUniformLocation(glProg, 'ua')
+    _ud = gl.getUniformLocation(glProg, 'ud')
+    _us = gl.getUniformLocation(glProg, 'us')
+    _un = gl.getUniformLocation(glProg, 'un')
     _uTexture = gl.getUniformLocation(glProg, 'uTexture')
 }
 

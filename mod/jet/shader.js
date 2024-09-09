@@ -42,10 +42,10 @@ const _fshader = `#version 300 es
     // environment
     // ucp - camera position
     uniform vec4 uOpt, uDirectionalLightColorI, uFogColor, upc[16],
-        uAmbientColor, uDiffuseColor, uSpecularColor;
+        ua, ud, us;
     uniform vec3 ucp, uDirectionalLightVector, upl[16];
 
-    uniform float uShininess;
+    uniform float un;
     uniform sampler2D uTexture;
 
     in vec3 wp, wn, wc;
@@ -94,7 +94,7 @@ const _fshader = `#version 300 es
             vec3 hv = normalize(dr + eye);  // point light half-vector
 
             float specular = pow(
-                max( dot(WN, hv), 0.0 ), uShininess
+                max( dot(WN, hv), 0.0 ), un
             ) * upc[i].w * attenuation;
 
             sc = sc + upc[i].xyz * specular;
@@ -103,7 +103,7 @@ const _fshader = `#version 300 es
         // directional specular
         vec3 hd = normalize(uDirectionalLightVector + eye); // directional half-vector
         float sd = pow(
-            max( dot(WN, hd), 0.0 ), uShininess
+            max( dot(WN, hd), 0.0 ), un
         ) * uDirectionalLightColorI.w;
         sc += uDirectionalLightColorI.xyz * sd;
 
@@ -117,12 +117,12 @@ const _fshader = `#version 300 es
         oc = mix(
                 vec4(
                     // shaded component
-                    uAmbientColor.xyz * uAmbientColor.w
+                    ua.xyz * ua.w
                     + (texture(uTexture, uw).xyz * uOpt.z
-                         + uDiffuseColor.xyz * (1.0-uOpt.z)) * dc * uDiffuseColor.w
-                    + uSpecularColor.xyz * sc * uSpecularColor.w,
+                         + ud.xyz * (1.0-uOpt.z)) * dc * ud.w
+                    + us.xyz * sc * us.w,
                     opacity) * uOpt.x
-                + vec4(uDiffuseColor.xyz * uOpt.y, 1.0), // wireframe component
+                + vec4(ud.xyz * uOpt.y, 1.0), // wireframe component
             uFogColor, fogAmount
         );
     }

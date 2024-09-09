@@ -60,10 +60,10 @@ class Surface {
         // bind our geometry and materials
 
         // set the material
-        gl.uniform4fv(_uAmbientColor, this.m.a)
-        gl.uniform4fv(_uDiffuseColor, this.m.d)
-        gl.uniform4fv(_uSpecularColor, this.m.s)
-        gl.uniform1f(_uShininess, this.m.n)
+        gl.uniform4fv(_ua, this.m.a)
+        gl.uniform4fv(_ud, this.m.d)
+        gl.uniform4fv(_us, this.m.s)
+        gl.uniform1f(_un, this.m.n)
 
         if (this.tex) {
             // bind texture
