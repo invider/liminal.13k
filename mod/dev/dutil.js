@@ -51,10 +51,10 @@ function genHitBoxVertices(p, h) {
 function genHitBoxMesh(p, h) {
     //const g = geo.gen().name('hitBox').vertices( genHitBoxVertices(p, h) ).bakeWires()
 
-    geo.screwOne(screwUp('neogeo "hitBox" name'))
+    geo.unscrewOne(screwUp('neogeo "hitBox" name'))
     const g = geo.cg()
     g.v = g.v.concat( genHitBoxVertices(p, h) )
-    geo.screwOne(screwUp('brewWires'))
+    geo.unscrewOne(screwUp('brewWires'))
 
     return new WireMesh({
         name: 'hitBoxMesh',

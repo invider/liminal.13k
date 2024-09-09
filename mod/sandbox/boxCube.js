@@ -2,7 +2,7 @@ _.boxCube = function() {
     log('setup a stage with a single cube')
 
     let enops = screwUp('neogeo cube 2 scale "cube" name brew')
-    geo.screw(enops)
+    geo(enops)
 
     lab.attach( new Body({
         pos: vec3(0, 0, -1),

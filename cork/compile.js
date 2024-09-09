@@ -15,5 +15,5 @@ console.log(enops)
 console.log('======================================')
 
 console.log(`Saving to [${TARGET}]`)
-fs.writeFileSync(TARGET, "function zapScrewLib(){geo.screw(`" + enops + "`)}")
+fs.writeFileSync(TARGET, "function zapScrewLib(){geo(`" + enops + "`)}")
 

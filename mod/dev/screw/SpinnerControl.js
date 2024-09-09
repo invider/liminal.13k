@@ -71,7 +71,7 @@ class SpinnerControl {
     }
 
     screwUp( script ) {
-        const brews = geo.screw( screwUp(script) )
+        const brews = geo( screwUp(script) )
         brews.screw = script
         log('screwed geometry:')
         console.dir(brews)

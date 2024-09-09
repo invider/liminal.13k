@@ -1,5 +1,5 @@
 function createSomeBoxes() {
-    const g = geo.screwOne( screwUp(`neogeo cube 1 scale "cuboid" name brew`) )
+    const g = geo.unscrewOne( screwUp(`neogeo cube 1 scale "cuboid" name brew`) )
     console.dir(g)
 
     for (let i = 0; i < 70; i++) {

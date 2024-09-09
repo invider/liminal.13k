@@ -175,7 +175,7 @@ _.boxFM = (() => {
     function createDiscoBall() {
         log('add a disco ball :)')
         let enops = screwUp('neogeo sphere 4 scale "sphere" name brew')
-        geo.screw(enops)
+        geo(enops)
 
         lab.attach( new Body({
             pos: vec3(0, 0, -1),

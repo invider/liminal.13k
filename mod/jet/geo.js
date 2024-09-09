@@ -518,20 +518,20 @@ function resetEmuState() {
     brews = []
 }
 
-function screw(enops) {
+function unscrew(enops) {
     if (debug) log(`screwing:[${enops}](${enops.length})`)
     resetEmuState()
     return exec( unscrewOpcodes( enops.split('') ) )
 }
 
-function screwOne(enops) {
-    return screw(enops).pop()
-}
-
 if (debug) {
-    return {
-        screw,
-        screwOne,
+
+    function unscrewOne(enops) {
+        return unscrew(enops).pop()
+    }
+
+    extend(unscrew, {
+        unscrewOne,
         cg: () => g,
         cM: () => M,
         cs: () => s,
@@ -541,12 +541,11 @@ if (debug) {
             s = []
             m = []
         },
-   }
+    })
+    return unscrew
+
 } else {
-    return {
-        screw,
-        screwOne
-    }
+    return unscrew
 }
 
 })()

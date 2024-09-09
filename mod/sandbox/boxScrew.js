@@ -4,7 +4,7 @@ _.boxScrew = (() => {
 
     _.testInt = function() {
         const enops = screwUp('neogeo 0 1 1 0 1')
-        geo.screw(enops)
+        geo(enops)
 
         expect(enops.split('')).prop('length').toBe(11)
         expect(geo.cs(), 'geo-stack')
@@ -14,7 +14,7 @@ _.boxScrew = (() => {
 
     _.testNegative = function() {
         const enops = screwUp('neogeo 1 -1 2 -2 3 -3')
-        geo.screw(enops)
+        geo(enops)
 
         expect(enops.split('')).prop('length').toBe(13)
         expect(geo.cs(), 'geo-stack')
@@ -24,7 +24,7 @@ _.boxScrew = (() => {
 
     _.testInt1 = function() {
         const enops = screwUp('neogeo 5 7 14 21 32 41')
-        geo.screw(enops)
+        geo(enops)
 
         expect(enops.split('')).prop('length').toBe(13)
         expect(geo.cs(), 'geo-stack')
@@ -34,7 +34,7 @@ _.boxScrew = (() => {
 
     _.testInt2 = function() {
         const enops = screwUp('neogeo 45 46 91 92 93 94    -46 -47 -48 -91 -92 -93 -94')
-        geo.screw(enops)
+        geo(enops)
 
         console.dir(geo.cs())
         expect(enops.split('')).prop('length').toBe(39)
@@ -47,7 +47,7 @@ _.boxScrew = (() => {
 
     _.testInt3 = function() {
         const enops = screwUp('neogeo 2115 2116 2117   -2115 -2116 -2117   8648 9001 97335')
-        geo.screw(enops)
+        geo(enops)
 
         console.dir(geo.cs())
         expect(enops.split('')).prop('length').toBe(35)
@@ -62,7 +62,7 @@ _.boxScrew = (() => {
 
     _.testInt4 = function() {
         const enops = screwUp('neogeo 97335 97336 97337    -97335 -97336 -97337 4477455')
-        geo.screw(enops)
+        geo(enops)
 
         console.dir(geo.cs())
         expect(enops.split('')).prop('length').toBe(34)
@@ -80,7 +80,7 @@ _.boxScrew = (() => {
 
     _.testFloat = function() {
         const enops = screwUp('neogeo 0.1 -0.1 0.2 -0.2 0.9 -0.9 1.5 -1.5')
-        geo.screw(enops)
+        geo(enops)
 
         expect(enops.split('')).prop('length').toBe(17)
         expect(geo.cs(), 'geo-stack')
@@ -90,11 +90,11 @@ _.boxScrew = (() => {
 
     _.testDouble = function() {
         const enops = screwUp('neogeo 0.01 -0.01 0.02 -0.02 0.09 -0.09   1.123 2.901 -1.101 -3.765')
-        geo.screw(enops)
+        geo(enops)
 
-        //expect(enops.split('')).prop('length').toBe(17)
+        expect(enops.split('')).prop('length').toBe(27)
         expect(geo.cs(), 'geo-stack')
-            //.prop('length').toBe(8).up()
+            .prop('length').toBe(10).up()
             .elementsMatch([
                 0.01, -0.01, 0.02, -0.02, 0.09, -0.09,
                 1.123, 2.901,

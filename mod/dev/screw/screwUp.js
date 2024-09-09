@@ -343,9 +343,11 @@ screwUp = (() => {
                         iop += (snum.x - 1) * 4 + snum.t
                         opcodes.push( screwBase(iop) )
                         snum.s.forEach(e => opcodes.push(e))
-                        log(`#${iop}/${opsRef[iop]} ${t.v}`
+                        /*
+                        console.log(`#${iop}/${opsRef[iop]} ${t.v}`
                               + ` T${snum.t}/X${snum.x}: `
                               + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
+                        */
                     } catch (e) {
                         cerr(e.toString(), t)
                     }
