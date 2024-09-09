@@ -55,8 +55,6 @@ const _fshader = `#version 300 es
     void main(void) {
         vec3 WN = normalize(wn);
 
-        vec3 dc = vec3(0, 0, 0);
-
         // directional diffuse
         // TODO expand into a 3-component vector with dir light colors included
         float diffuseDirectionalLambert = max(
@@ -65,10 +63,12 @@ const _fshader = `#version 300 es
         ) * uDirectionalLightColorI.w;
 
         // calculate directional diffuse color component
+        vec3 dc = vec3(0.0, 0.0, 0.0);
         dc = dc + uDirectionalLightColorI.xyz * diffuseDirectionalLambert;
 
         // point diffuse
         // do one point light
+        /*
         vec3 pointLightDirection = uPointLightPosition - wp;
         float pointLightDistance = length(pointLightDirection);
         pointLightDirection /= pointLightDistance;
@@ -83,9 +83,13 @@ const _fshader = `#version 300 es
             dot(WN, pointLightDirection),
             0.0
         ) * uPointLightColorI.w * attenuation;
+        */
 
-        // do all point lights
+        vec3 sc = vec3(0.0, 0.0, 0.0);
+        vec3 eyeDirection = normalize(uCamPos - wp);
+
         for (int i = 0; i < 16; i++) {
+            // accumulate diffuse components of point lights
             vec3 pointLightDirection = upl[i] - wp;
             float pointLightDistance = length(pointLightDirection);
             pointLightDirection /= pointLightDistance;
@@ -102,15 +106,23 @@ const _fshader = `#version 300 es
             ) * upc[i].w * attenuation;
 
             dc = dc + upc[i].xyz * diffusePointLambert;
+
+            // accumulate specular
+            vec3 halfVector = normalize(pointLightDirection + eyeDirection);
+
+            float specular = pow(
+                max( dot(WN, halfVector), 0.0 ), uShininess
+            ) * upc[i].w * attenuation;
+
+            sc = sc + upc[i].xyz * specular;
         }
-        //dc.x = 0.0;
-        //dc.y = 1.0;
-        //dc.z = 0.0;
 
         // mix directional and point lights factors
         //float diffuseLambert = diffuseDirectionalLambert + diffusePointLambert;
 
         // point specular
+        
+        /*
         // TODO make specular spot of the light source color!
         vec3 eyeDirection = normalize(uCamPos - wp);
         vec3 halfVector = normalize(pointLightDirection + eyeDirection);
@@ -118,12 +130,14 @@ const _fshader = `#version 300 es
         float specular = pow(
             max( dot(WN, halfVector), 0.0 ), uShininess
         ) * uPointLightColorI.w * attenuation;
+        */
 
         // directional specular
         vec3 halfVectorD = normalize(uDirectionalLightVector + eyeDirection);
         float specularD = pow(
             max( dot(WN, halfVectorD), 0.0 ), uShininess
         ) * uDirectionalLightColorI.w;
+        sc += uDirectionalLightColorI.xyz * specularD;
 
         // fog
         float z = gl_FragCoord.z / gl_FragCoord.w;
@@ -138,7 +152,8 @@ const _fshader = `#version 300 es
                     + (texture(uTexture, uw).xyz * uOpt.z
                          // + uDiffuseColor * (1.0-uOpt.z)) * diffuseLambert * uLightIntensities.y
                          + uDiffuseColor * (1.0-uOpt.z)) * dc * uLightIntensities.y
-                    + uSpecularColor * (specular + specularD) * (uLightIntensities.z),
+                    //+ uSpecularColor * (specular + specularD) * (uLightIntensities.z),
+                    + uSpecularColor * sc * uLightIntensities.z,
                     opacity) * uOpt.x                // shaded component
                 + vec4(uDiffuseColor * uOpt.y, 1.0), // wireframe component
             uFogColor, fogAmount
