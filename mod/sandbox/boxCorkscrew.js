@@ -40,7 +40,7 @@ _.boxCorkscrew = (() => {
         })
 
         env.directionalLightVector = vec3(1, 1, 1)
-        env.pointLightPosition = vec3(5, -4, -5)
+        // TODO set some point lights around
     }
 
     return function(args) {

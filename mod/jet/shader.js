@@ -40,8 +40,9 @@ const _fshader = `#version 300 es
     precision highp float;
 
     // environment
-    uniform vec4 uOpt, uDirectionalLightColorI, uPointLightColorI, uFogColor, uLightIntensities, upc[16];
-    uniform vec3 uCamPos, uDirectionalLightVector, uPointLightPosition, uAmbientColor, uDiffuseColor, uSpecularColor, upl[16];
+    // ucp - camera position
+    uniform vec4 uOpt, uDirectionalLightColorI, uFogColor, uLightIntensities, upc[16];
+    uniform vec3 ucp, uDirectionalLightVector, uAmbientColor, uDiffuseColor, uSpecularColor, upl[16];
 
     uniform float uShininess;
     uniform sampler2D uTexture;
@@ -67,7 +68,7 @@ const _fshader = `#version 300 es
         dc = dc + uDirectionalLightColorI.xyz * diffuseDirectionalLambert;
 
         vec3 sc = vec3(0.0, 0.0, 0.0);  // specular color accumulator
-        vec3 eye = normalize(uCamPos - wp);
+        vec3 eye = normalize(ucp - wp);
 
         for (int i = 0; i < 16; i++) {
             // accumulate diffuse components of point lights

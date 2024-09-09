@@ -34,7 +34,7 @@ function drawScene() {
     // TODO merge view and projection into the pv matrix and get it from the camera
     gl.uniformMatrix4fv(_p, false, lab.cam.projectionMatrix())
     gl.uniformMatrix4fv(_v, false, lab.cam.viewMatrix())
-    gl.uniform3fv(_uCamPos, lab.cam.pos)
+    gl.uniform3fv(_ucp, lab.cam.pos)
 
     // TODO precalc in _dirLight buffer and use that instead?
     const rnv = vec3.clone(env.directionalLightVector)
@@ -44,9 +44,7 @@ function drawScene() {
     gl.uniform3fv(_uDirectionalLightVector, rnv)
     gl.uniform4fv(_uDirectionalLightColorI, env.directionalLightColorI)
 
-    gl.uniform3fv(_uPointLightPosition, env.pointLightPosition)
-    gl.uniform4fv(_uPointLightColorI, env.pointLightColorI)
-
+    // set point light uniforms
     gl.uniform3fv(_upl, env.pl)
     gl.uniform4fv(_upc, env.pc)
 

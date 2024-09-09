@@ -128,7 +128,7 @@ _.boxGeo = function() {
 
     // THE SUN!!!
     lab.attach( new Body({
-        pos: env.pointLightPosition,
+        pos: vec3(0, 0, 0), // TODO set the position of s point light
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
         scale: vec3(1, 1, 1),

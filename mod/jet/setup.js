@@ -1,11 +1,9 @@
 // shader attributes
 let _m, _n, _v, _p,
     _uOpt,
-    _uCamPos,
+    _ucp,
     _uDirectionalLightVector,
     _uDirectionalLightColorI,
-    _uPointLightPosition,
-    _uPointLightColorI,
     _upl,
     _upc,
     _uFogColor,
@@ -52,11 +50,9 @@ function setupUniforms() {
     _p = gl.getUniformLocation(glProg, 'p')
 
     _uOpt = gl.getUniformLocation(glProg, 'uOpt')
-    _uCamPos = gl.getUniformLocation(glProg, 'uCamPos')
+    _ucp = gl.getUniformLocation(glProg, 'ucp')
     _uDirectionalLightVector = gl.getUniformLocation(glProg, 'uDirectionalLightVector')
     _uDirectionalLightColorI = gl.getUniformLocation(glProg, 'uDirectionalLightColorI')
-    _uPointLightPosition = gl.getUniformLocation(glProg, 'uPointLightPosition')
-    _uPointLightColorI = gl.getUniformLocation(glProg, 'uPointLightColorI')
     _upl = gl.getUniformLocation(glProg, 'upl')
     _upc = gl.getUniformLocation(glProg, 'upc')
     _uFogColor = gl.getUniformLocation(glProg, 'uFogColor')

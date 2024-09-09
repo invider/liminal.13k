@@ -87,9 +87,6 @@ const env = {
     directionalLightVector: vec3(1, -.5, .7),
     directionalLightColorI: vec4(1, 1, 1, .8),
     //directionalLightVector: vec4(0, 0, 1, 1),
-    
-    pointLightPosition: vec3(0, 10, 0),
-    pointLightColorI: vec4(0, 1, 0, 0),
 
     pl: [],
     pc: [],
