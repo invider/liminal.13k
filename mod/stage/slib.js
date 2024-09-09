@@ -1,1 +1,1 @@
-function zapScrewLib(){geo(` ;J"5G(cuboidS2?@ ;J$5G(cuboidS4?@ <G0stagingSphereOne?@`)}
+function zapScrewLib(){geo(` :J(J"J(7G$cellJ(J"J(>?@ :J!J!K!7G&floppyJ"J!J">?@# J9*L9L9L9.%1J LMJ /=G%fdisc?@J/*$# K%LCL+.K}J"J /:G'shutter?@$ ;J"6G*connection?@`)}

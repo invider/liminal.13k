@@ -18,7 +18,7 @@ class Connection {
 
                 _pods: [
                     new Surface({
-                        geo: glib.smoothSphere,
+                        geo: glib.connection,
                         mat: {
                             Ka: vec3(0, 1, 0),
                             Kd: vec3(0, 1, 0),

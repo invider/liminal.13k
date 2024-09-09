@@ -1,9 +1,9 @@
 function zapGeoLib() {
 
     // compile screw source into bytecodes
-    let enops = screwUp('neogeo cube 0.5 0.5 0.1 stretchZ stretchY stretchX "floppy" name brew')
+    //let enops = screwUp('neogeo cube 0.5 0.5 0.1 stretchZ stretchY stretchX "floppy" name brew')
     // TODO encoded ops are supposed to be prep by the toolchain
-    geo(enops)
+    //geo(enops)
 
     /*
     geo.gen()
@@ -17,7 +17,7 @@ function zapGeoLib() {
     //screwUp('neogeo cube 0.5 0.5 0.1 stretchZ stretchY stretchX "floppy" name brew')
 
     // TODO move to screw bytecode as well
-    glib.floppy.bounds = vec3(1.5, 1.5, 1)
+    //glib.floppy.bounds = vec3(1.5, 1.5, 1)
 
     /*
     geo.gen().cube()
@@ -28,6 +28,8 @@ function zapGeoLib() {
         .push('cell').name()
         .bake()
     */
+
+    /*
     const s =  CELL_HSIZE, // block half-size
           h =  1
     //enops = screwUp('neogeo cube 4 0.5 4 stretchX stretchY stretchZ 2 scale "cell" name brew')
@@ -40,4 +42,5 @@ function zapGeoLib() {
         enops = screwUp('neogeo 4 3 mul precision sharp sphere "smoothSphere" name brew')
         geo(enops)
     }
+    */
 }

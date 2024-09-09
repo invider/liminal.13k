@@ -11,7 +11,7 @@ console.log('======================================')
 console.log(src)
 console.log('--------------------------------------')
 const enops = screwUp(src)
-console.log(enops)
+console.log(`[${enops}]`)
 console.log('======================================')
 
 console.log(`Saving to [${TARGET}]`)

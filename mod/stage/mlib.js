@@ -7,6 +7,15 @@ const mlib = {
         Lv: vec4(.3, .7, .3, 0),
         Ns: 20,
     },
+    metal: {
+        Ka: rgb('A0A0A0'),
+        Kd: rgb('A0A0A0'),
+        Ks: vec3(1, 1, 1),
+        Ke: vec3(1, 1, 1),
+        Lv: vec4(.3, .9, .9, 0),
+        Ns: 15,
+    },
+
     jumpPad: {
         Ka: vec3(.5, .6, .7),
         Kd: rgb('F05502'),

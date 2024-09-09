@@ -56,6 +56,9 @@ app.post('/up/:screw', (req, res) => {
 
 // static content
 app.use(express.static('mod'))
+app.use('/stage', express.static('./dist/stage'))
+app.use('/targetX', express.static('./dist/targetX'))
+app.use('/targetY', express.static('./dist/targetY'))
 
 app.listen(PORT, BIND, () => {
     console.log(`=====   Cork server is running   =====`)
@@ -65,4 +68,10 @@ app.listen(PORT, BIND, () => {
     console.log(` * http://${BIND}:${PORT}/debug.html#boxScrew`);
     console.log(` * http://${BIND}:${PORT}/debug.html#boxFM`);
     console.log(` * http://${BIND}:${PORT}/debug.html#boxCorkscrew/sample`);
+    console.log(` * http://${BIND}:${PORT}/debug.html#boxCorkscrew/simple`);
+    console.log(` * http://${BIND}:${PORT}/debug.html#boxCorkscrew/stage`);
+    console.log(`===============================================================`);
+    console.log(` * http://${BIND}:${PORT}/stage/index.html`);
+    console.log(` * http://${BIND}:${PORT}/targetX/index.html`);
+    console.log(` * http://${BIND}:${PORT}/targetY/index.html`);
 })

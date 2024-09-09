@@ -85,8 +85,8 @@ class Surface {
         if (this.renderOptions[1]) {
             // render wireframes
             gl.lineWidth(2)
-            this.bindAttribute(this.buf.wires, 'vp')
-            gl.drawArrays(gl.LINES, 0, this.geo.wires.length / 3) 
+            this.bindAttribute(this.buf.w, 'vp')
+            gl.drawArrays(gl.LINES, 0, this.geo.w.length / 3) 
         } else if (this.buf.faces) {
             // TODO can't support multiple indexes at once,
             //      so obj models MUST be repacked to be index by a sinlge index array

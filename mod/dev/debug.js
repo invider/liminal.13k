@@ -4,7 +4,7 @@ function zapDebug() {
     // extend screw VM with extensions and debug opcodes
 
     // ring
-    _gops.push(() => {
+    geo.ops.push(() => {
         const ir = pop(), v = [], w = []
 
         for (let lon = 0; lon < gSpherePrecision; lon++) {
@@ -43,7 +43,7 @@ function zapDebug() {
     })
 
     // tetrahedron
-    _gops.push(() => {
+    geo.ops.push(() => {
         g.v = g.v.concat([
             -1, 1,-1,   -1,-1, 1,   1, 1, 1,
              1, 1, 1,    1,-1,-1,  -1, 1,-1, 
@@ -53,7 +53,7 @@ function zapDebug() {
     })
 
     // cone
-    _gops.push(() => {
+    geo.ops.push(() => {
         const v = [], w = []
 
         for (let lon = 0; lon < gSpherePrecision; lon++) {
@@ -83,7 +83,7 @@ function zapDebug() {
 
 
     // dump
-    _gops.push(() => {
+    geo.ops.push(() => {
         const b = [],
             M = geo.cM(),
             s = geo.cs()
@@ -110,7 +110,7 @@ function zapDebug() {
     })
 
     // dumpv
-    _gops.push(() => {
+    geo.ops.push(() => {
         const b = [],
               g = geo.cg()
 

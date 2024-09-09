@@ -1,8 +1,7 @@
 // === geo library ===
 const glib = {}, gix = []
 
-let _gops,
-    _gUV                    // enable UV generation
+let _gUV                    // enable UV generation
 
 const geo = (() => {
 
@@ -28,6 +27,7 @@ function vxApply(fn) {
     }
 }
 
+// apply function to x/y/z vertex tripplets
 function v3c(fn) {
     swap = true
     let bv
@@ -46,7 +46,14 @@ function v3c(fn) {
     }
 }
 
-// merge x/y/z into a vec3, apply the geo matrix and push the results to vertices
+// apply current model matrix to provided array and push values
+function wM(w) {
+    for (let i = 0; i < w.length; i += 3) {
+        v3x(vec3(w[i], w[i+1], w[i+2]))
+    }
+}
+
+// apply the geo matrix to vec3 and push the results to vertices
 function v3x(v) {
     vec3.mulM4(v, M)
     g.v.push(v[0])
@@ -72,12 +79,13 @@ function nx(x, y, z) {
     g.n.push(v[2])
 }
 
-function pV3() {
+// pop vec3 from the stack
+function pv3() {
     z = pop(), y = pop(), x = pop()
     return vec3(x, y, z)
 }
 
-const ops = _gops = [
+const ops = [
     // neogeo
     () => {
         g = {
@@ -100,6 +108,8 @@ const ops = _gops = [
     () => { m.push( mat4.clone(M) ) },
     // mpop
     () => { M = m.pop() },
+    // HPI
+    () => { s.push( PI/2 ) },
     // add
     () => { s.push( pop() + pop() ) },
     // sub
@@ -127,15 +137,15 @@ const ops = _gops = [
     // mid - set identity matrix
     () => { M = mat4.identity() },
     // mscale
-    () => { mat4.scale(M, pV3()) },
+    () => { mat4.scale(M, pv3()) },
     // translate
-    () => { mat4.translate(M, pV3()) },
+    () => { mat4.translate(M, pv3()) },
     // mrotX
     () => { mat4.rotX(M, pop()) },
     // mrotY
     () => { mat4.rotY(M, pop()) },
     // mrotZ
-    () => { mat.rotZ(M, pop()) },
+    () => { mat4.rotZ(M, pop()) },
     // reflectX
     () => { v3c((x, y, z) => vec3(-x, y, z)) },
     // reflectY
@@ -147,20 +157,14 @@ const ops = _gops = [
         x = pop()
         vxApply(n => n * x)
     },
-    // stretchX
+    // stretch
     () => {
+        z = pop()
+        y = pop()
         x = pop()
+        vxApply((n, i) => i % 3 == 2? n * z : n)
+        vxApply((n, i) => i % 3 == 1? n * y : n)
         vxApply((n, i) => (i % 3) == 0? n * x : n)
-    },
-    // stretchY
-    () => {
-        x = pop()
-        vxApply((n, i) => i % 3 == 1? n * x : n)
-    },
-    // stretchZ
-    () => {
-        x = pop()
-        vxApply((n, i) => i % 3 == 2? n * x : n)
     },
 
     // === basic geometries ===
@@ -182,7 +186,7 @@ const ops = _gops = [
     // === complex geometries ===
     // cube
     () => {
-        g.v = g.v.concat([
+        w = [
             // top face
             -1, 1,-1,  -1, 1, 1,   1, 1, 1,
             -1, 1,-1,   1, 1, 1,   1, 1,-1,   
@@ -206,7 +210,8 @@ const ops = _gops = [
             // bottom face
             -1,-1,-1,  1,-1,-1,   1,-1, 1,
             -1,-1,-1,  1,-1, 1,  -1,-1, 1,
-        ])
+        ]
+        wM(w)
 
         if (_gUV) {
             g.u = g.u.concat([
@@ -324,11 +329,14 @@ const ops = _gops = [
                     v[at],  0,  v[at+2]
                 )
         }
-        g.v = g.v.concat(w)
+        wM(w)
+        //g.v = g.v.concat(w)
         return this
     },
 
     // === finalizer ===
+    // bounds
+    () => { g.bounds = pv3() },
     // name
     () => { g.name = pop() },
     // brew
@@ -457,8 +465,12 @@ function defineWords(ops) {
 }
 */
 
+// HOWTO introduce a new op
+//       * include the operator function into the ops array in geo
+//       * insert the op name in the opsRef manifest at the matching position (== ops array index)
+//       * bump ghost opcodes limit to match PUSHS opcode index
 const PUSHS = 39,
-      PUSHV = 42
+      PUSHV = PUSHS + 3
 
 function exec(opcodes) {
     const len = opcodes.length
@@ -519,7 +531,7 @@ function resetEmuState() {
 }
 
 function unscrew(enops) {
-    if (debug) log(`screwing:[${enops}](${enops.length})`)
+    if (debug) log(`unscrewing:[${enops}](${enops.length})`)
     resetEmuState()
     return exec( unscrewOpcodes( enops.split('') ) )
 }
@@ -532,6 +544,7 @@ if (debug) {
 
     extend(unscrew, {
         unscrewOne,
+        ops,
         cg: () => g,
         cM: () => M,
         cs: () => s,

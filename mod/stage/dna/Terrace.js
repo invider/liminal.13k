@@ -150,7 +150,7 @@ class Terrace extends Frame {
                 const BX = 21, BY = 17, BZ = 14, FQ = .01
                 const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
                 if (dataDensity < FLOPPY_LEVEL) {
-                    const p = vec3.iadd(cell.pos, vec3(0, 3, 0))
+                     const p = vec3.iadd(cell.pos, vec3(0, 3, 0))
                     log('creating floppy at ' + p[0] + ':' + p[2])
                     lab.attach( new Prop({
                         name:     'floppy',

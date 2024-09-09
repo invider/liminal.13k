@@ -1,3 +1,27 @@
-neogeo cube 2 scale "cuboidS2" name brew
-neogeo cube 4 scale "cuboidS4" name brew
-neogeo sphere "stagingSphereOne" name brew
+
+neogeo cube 8 2 8 stretch "cell" 8 2 8 bounds name brew
+
+-- floppy parts
+neogeo cube 1 1 0.1 stretch "floppy" 2 1 2 bounds name brew
+
+mpush
+neogeo
+25 precision
+0.25 0.25 0.25 mscale
+HPI mrotY
+0 0.45 0 translate
+circle "fdisc" name brew
+15 precision
+mpop
+
+mpush
+neogeo
+0.5 0.35 0.11 mscale
+-0.2 2 0 translate
+cube
+"shutter" name brew
+mpop
+
+-- debug --
+neogeo sphere 2 scale "connection" name brew
+
