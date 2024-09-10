@@ -3,7 +3,7 @@ function zapPreStage() {
         name: 'cam',
     }))
 
-    if (debug) {
-        lab.cam.attach( new FreeMovementControllerPod() )
-    }
+    //if (debug) {
+    //    lab.cam.attach( new FreeMovementControllerPod() )
+    //}
 }

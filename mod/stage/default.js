@@ -13,7 +13,7 @@ _.defaultStage = () => {
     }))
 
     // the hero time!
-    hero = lab.attach( new Hero({
+    let hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
         pos:  vec3(0, 10, 5),
@@ -26,23 +26,4 @@ _.defaultStage = () => {
         hero.reset()
     })
 
-    if (debug) {
-        lab.attach( _.playerStateDump )
-        lab.attach( new CityMap() )
-
-        trap.register('keyDown', (e) => {
-            if (e.code === 'F1') {
-                if (lab.cam === lab.hero.cam) {
-                    lab.cam = lab.freeCam
-                    vec3.copy(lab.cam.pos, lab.hero.pos)
-                    lab.cam.pos[1] += 20
-                    lab.cam.mover.capture()
-                } else {
-                    lab.cam = lab.hero.cam
-                    lab.hero.mover.capture()
-                }
-                e.preventDefault()
-            }
-        })
-    }
 }

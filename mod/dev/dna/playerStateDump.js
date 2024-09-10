@@ -1,5 +1,7 @@
 function zapPlayerStateDump() {
-    _.playerStateDump = {
+    if (!debug) return
+
+    lab.attach({
         name: 'playerStateDump',
 
         evo(dt) {
@@ -38,5 +40,5 @@ function zapPlayerStateDump() {
 
             env.status = 'hero: ' + sDir + sPos + ' speed: ' + floor(vec3.len(__.mt))
         }
-    }
+    })
 }

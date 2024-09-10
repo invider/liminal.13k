@@ -11,7 +11,8 @@ let _m, _n, _v, _p,
     _ud,
     _us,
     _un,
-    _uTexture
+    _uTexture,
+    ctx
 
 function compileShader(src, type) {
     //const src = document.getElementById(id).innerHTML
@@ -106,7 +107,7 @@ window.onload = () => {
 
     // run zaps
     if (debug) {
-        for (prop in window) if (prop.startsWith('zap')) {
+        for (let prop in window) if (prop.startsWith('zap')) {
             log(`Zapping [${prop}]!`)
             window[prop]()
         }

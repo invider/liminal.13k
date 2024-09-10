@@ -20,7 +20,7 @@ class Terrace extends Frame {
             hsize: this.hsize,
         }))
 
-
+        /*
         if (debug) {
             this.attach( new Form({
                 name: `${this.name}-hitbox-mesh/#debug`,
@@ -29,6 +29,7 @@ class Terrace extends Frame {
             }))
             this.detach(this.hitBoxMesh)
         }
+        */
     }
 
     createConnection(cell, pos, dir) {

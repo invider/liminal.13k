@@ -7,6 +7,25 @@ function zapDebug() {
     env.dump = {}
     env.tag = '=== debug ==='
 
+    if (debug) {
+        lab.attach( new CityMap() )
+
+        trap.register('keyDown', (e) => {
+            if (e.code === 'F1') {
+                if (lab.cam === lab.hero.cam) {
+                    lab.cam = lab.freeCam
+                    vec3.copy(lab.cam.pos, lab.hero.pos)
+                    lab.cam.pos[1] += 20
+                    lab.cam.mover.capture()
+                } else {
+                    lab.cam = lab.hero.cam
+                    lab.hero.mover.capture()
+                }
+                e.preventDefault()
+            }
+        })
+    }
+
     // extend screw VM with extensions and debug opcodes
 
     // ring

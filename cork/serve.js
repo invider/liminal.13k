@@ -59,6 +59,7 @@ app.use(express.static('mod'))
 app.use('/stage', express.static('./dist/stage'))
 app.use('/targetX', express.static('./dist/targetX'))
 app.use('/targetY', express.static('./dist/targetY'))
+app.use('/targetZ', express.static('./dist/targetZ'))
 
 app.listen(PORT, BIND, () => {
     console.log(`=====   Cork server is running   =====`)
@@ -74,4 +75,5 @@ app.listen(PORT, BIND, () => {
     console.log(` * http://${BIND}:${PORT}/stage/index.html`);
     console.log(` * http://${BIND}:${PORT}/targetX/index.html`);
     console.log(` * http://${BIND}:${PORT}/targetY/index.html`);
+    console.log(` * http://${BIND}:${PORT}/targetZ/index.html`);
 })

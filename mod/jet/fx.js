@@ -67,7 +67,7 @@ function createSample(s, f) {
     let d = b.getChannelData(0)
 
     // render the sound
-    for (i = 0; i < 9*R; i++) d[i] = s(i, f)
+    for (let i = 0; i < 9*R; i++) d[i] = s(i, f)
     smp.push(b)
 }
 

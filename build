@@ -83,7 +83,10 @@ cp --verbose $STAGE/*.css $TARX
 echo "=============="
 echo "=    GULP    ="
 echo "=============="
+./node_modules/.bin/gulp buildXC
+./node_modules/.bin/gulp buildXH
 ./node_modules/.bin/gulp buildY
+./node_modules/.bin/gulp buildG
 ./node_modules/.bin/gulp buildZ
 sleep 5
 
@@ -91,7 +94,7 @@ export SRC=$STAGE
 ./index
 
 echo "=== Closure Compiler ==="
-java -jar ./node_modules/google-closure-compiler-java/compiler.jar $STAGE/prezap.js > $TARZ/zap.js
+java -jar ./node_modules/google-closure-compiler-java/compiler.jar --compilation_level ADVANCED --warning_level VERBOSE --js $STAGE/prezap.js > $TARZ/zap.js
 
 echo "============="
 echo "=    ZIP    ="

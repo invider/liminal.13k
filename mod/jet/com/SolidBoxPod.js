@@ -45,11 +45,14 @@ class SolidBoxPod {
         }, st)
     }
 
+    /*
+    // DEBUG hitboxes
     init() {
         if (debug) {
             this.__.attach( genHitBoxMesh(this.pos, this.hsize) )
         }
     }
+    */
 
     // precalculate bounding volume
     fixBounds() {

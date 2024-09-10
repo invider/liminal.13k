@@ -13,7 +13,7 @@ for (let i = 0; i < 512; i++) p[i] = floor(rnd() * 256)
 function vlattice(x, y, z) {
     x = x * 617 + y * 769
     x += z * 997 * x
-    return (_pmu[x & TABMASK]/TABMASK)
+    return (p[x & TABMASK]/TABMASK)
 }
 
 function fade(t) {

@@ -1,7 +1,7 @@
-require('harmonize')()
+// require('harmonize')()
 const gulp = require('gulp')
 const closureCompiler = require('gulp-closure-compiler')
-//const htmltidy = require('gulp-htmltidy')
+// const htmltidy = require('gulp-htmltidy')
 const concat = require('gulp-concat')
 const uglify = require('gulp-uglify')
 const htmlclean = require('gulp-htmlclean')
@@ -14,6 +14,7 @@ const path = {
     css:     './dist/stage/style.css',
     html:    './dist/stage/index.html',
     jsz:     'zap.js',
+    targetX: './dist/targetX/',
     targetY: './dist/targetY/',
     targetZ: './dist/targetZ/',
 };
@@ -39,7 +40,19 @@ var compilerOptions={
     }
 }
 
-function buildY(next) {
+function buildXC() {
+    return gulp.src(path.css)
+        .pipe(cleanCSS())
+        .pipe(gulp.dest(path.targetX))
+}
+
+function buildXH() {
+    return gulp.src(path.html)
+            .pipe(htmlclean())
+            .pipe(gulp.dest(path.targetX))
+}
+
+function buildY() {
     return merge(
         gulp.src(path.src)
             .pipe(concat(path.jsz))
@@ -56,7 +69,7 @@ function buildY(next) {
     )
 }
 
-function buildZ(next) {
+function buildZ() {
 
     return merge(
             /*
@@ -72,16 +85,6 @@ function buildZ(next) {
                   },
             }))
             */
-            //.pipe(gulp.dest('dist/')),
-            //.pipe(concat("zapper.js"))
-            //.pipe(gulp.dest(path.stage))
-            //.pipe(closureCompiler(compilerOptions))
-            //.pipe(concat(path.jsz))
-            //.pipe(gulp.dest(path.targetZ)),
-        //gulp.src(path.src)
-        //    .pipe(concat('path.jsz'))
-        //    .pipe(uglify())
-        //    .pipe(gulp.dest(path.targetZ)),
         gulp.src(path.src)
             .pipe(concat('prezap.js'))
             .pipe(gulp.dest(path.stage)),
@@ -92,10 +95,10 @@ function buildZ(next) {
             .pipe(cleanCSS())
             .pipe(gulp.dest(path.targetZ))
     )
-
-    next()
 }
 
+exports.buildXC = buildXC
+exports.buildXH = buildXH
 exports.buildY = buildY
 exports.buildZ = buildZ
 exports.default = buildY

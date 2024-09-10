@@ -29,9 +29,7 @@ function vxApply(fn) {
 
 // apply function to x/y/z vertex tripplets
 function v3c(fn) {
-    swap = true
-    let bv
-    const ln = g.v.length
+    let swap = true, bv, ln = g.v.length
     for (let i = 0; i < ln; i += 3) {
         const x = g.v[i], y = g.v[i+1], z = g.v[i+2]
         const v = fn(x, y, z)
@@ -124,7 +122,7 @@ const ops = [
     // div
     () => {
         const x = pop()
-        s.push( pop() / v )
+        s.push( pop() / x )
     },
     // precision
     () => { P = pop() },
@@ -251,12 +249,12 @@ const ops = [
         for (let lat = 0; lat < P; lat++) {
             for (let lon = 0; lon < P; lon++) {
                 
-                let base = lat * P 
-                    base2 = ((lat + 1)) * P 
-                    nextLon = (lon + 1) % P 
+                let base = lat * P,
+                    base2 = ((lat + 1)) * P,
+                    nextLon = (lon + 1) % P,
                     at = (base + lon) * 3,
-                    at2 = (base + nextLon) * 3
-                    at3 = (base2 + lon) * 3
+                    at2 = (base + nextLon) * 3,
+                    at3 = (base2 + lon) * 3,
                     at4 = (base2 + nextLon) * 3
 
                 w.push(
@@ -345,17 +343,26 @@ const ops = [
         g.v = new Float32Array(g.v)
         g.vc = g.v.length / 3
 
+        /*
+        // DEBUG - generate wireframe points
         // wireframe points
         g.w = []
         for (let i = 0; i < g.v.length; i += 9) {
             let v1 = vec3.fromArray(g.v, i),
                 v2 = vec3.fromArray(g.v, i+3),
                 v3 = vec3.fromArray(g.v, i+6)
-            vec3.push(g.w, v1).push(g.w, v2)
-                .push(g.w, v2).push(g.w, v3)
-                .push(g.w, v3).push(g.w, v1)
+            //vec3.push(g.w, v1).push(g.w, v2)
+            //    .push(g.w, v2).push(g.w, v3)
+            //    .push(g.w, v3).push(g.w, v1)
+            vec3.push(g.w, v1)
+            vec3.push(g.w, v2)
+            vec3.push(g.w, v2)
+            vec3.push(g.w, v3)
+            vec3.push(g.w, v3)
+            vec3.push(g.w, v1)
         }
         g.w = new Float32Array(g.w)
+        */
 
         if (g.u.length > 0) g.u = new Float32Array(g.u)
         else g.u = null
@@ -475,7 +482,8 @@ const PUSHS = 39,
 function exec(opcodes) {
     const len = opcodes.length
     let op, i = 0, n, buf
-    try {
+    // DEBUG vm
+    //try {
         while (i < len) {
             op = opcodes[i++]
 
@@ -507,26 +515,27 @@ function exec(opcodes) {
                         //return n/10
                             
                     } else {
-                        if (debug) {
-                            const fn = ops[op]
-                            if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
-                        }
+                        // DEBUG vm
+                        //if (debug) {
+                        //    const fn = ops[op]
+                        //    if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                        //}
                         ops[op]()
                     }
             }
         }
-    } catch(e) {
-        log(`@${i-1}: #${op}`)
-        log(opcodes.raw.join(''))
-        console.dir(opcodes)
-        log(opcodes.map(op => opsRef[op]).join('\n'))
-        throw e
-    }
+    //} catch(e) {
+    //    log(`@${i-1}: #${op}`)
+    //    log(opcodes.raw.join(''))
+    //    console.dir(opcodes)
+    //    log(opcodes.map(op => opsRef[op]).join('\n'))
+    //    throw e
+    //}
     return brews
 }
 
 function resetEmuState() {
-    defs = {}
+    def = {}
     brews = []
 }
 
