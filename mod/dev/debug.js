@@ -3,6 +3,10 @@ function zapDebug() {
 
     lab.attach( new HUD() )
 
+    env.stat = {}
+    env.dump = {}
+    env.tag = '=== debug ==='
+
     // extend screw VM with extensions and debug opcodes
 
     // ring

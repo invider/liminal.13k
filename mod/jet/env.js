@@ -119,8 +119,3 @@ env.pc[6] = 0
 env.pc[7] = 1
 */
 
-if (debug) {
-    env.stat = {}
-    env.dump = {}
-    env.tag = '=== debug ==='
-}

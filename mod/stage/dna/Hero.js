@@ -13,7 +13,7 @@ class Hero extends Frame {
             maxTilt:  PI/2,
 
             _pos:     vec3z(),
-            momentum: vec3z(),
+            mt: vec3z(),
             mtx:      vec3z(),
             mty:      vec3z(),
             mtz:      vec3z(),
@@ -41,13 +41,13 @@ class Hero extends Frame {
                 // reset to starting point
                 vec3.copy(this.pos, this._initialPos)
                 // reset the momentum so we are no longer in the terminal fall!
-                this.momentum[1] = 0
+                this.mt[1] = 0
                 break
             case 2:
                 // redeploy on the last touched platform
                 vec3.copy(this.pos, this.lastPlatform.pos)
                 this.pos[1] += 15
-                this.momentum[1] = 0
+                this.mt[1] = 0
                 break
         }
     }
@@ -71,7 +71,7 @@ class Hero extends Frame {
     evo(dt) {
         super.evo(dt)
 
-        const mt = this.momentum,
+        const mt = this.mt,
               mtx = this.mtx,
               mty = this.mty,
               mtz = this.mtz
@@ -209,7 +209,7 @@ class Hero extends Frame {
         ctx.textBaseline = 'top'
         ctx.textAlign = 'right'
         ctx.font = "32px monospace"
-        ctx.fillText(`Storage: ${this.HD}Kb`, hc.width-20, 20)
+        ctx.fillText(`Data Collected: ${this.HD}Kb`, hc.width-20, 20)
     }
 
     tilt(phi) {
@@ -218,7 +218,7 @@ class Hero extends Frame {
 
     jump() {
         if (!this.grounded) return
-        this.momentum[1] += tune.jumpSpeed
+        this.mt[1] += tune.jumpSpeed
     }
 
     use() {

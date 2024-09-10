@@ -48,7 +48,7 @@ class Terrace extends Frame {
         cell.surface.m = mlib.jumpPad
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this
-                || runner.momentum[1] > -5
+                || runner.mt[1] > -10
                 || runner.HD < 100) return
             runner.HD -= 100
             runner.lastJumpPad = this
@@ -56,9 +56,9 @@ class Terrace extends Frame {
                 // push - push direction is a bad idea
                 const dy = tune.jumpPadPush
 
-                runner.momentum[0] += dx
-                runner.momentum[1] += dy
-                runner.momentum[2] += dz
+                runner.mt[0] += dx
+                runner.mt[1] += dy
+                runner.mt[2] += dz
             })
         }
     }
@@ -147,19 +147,21 @@ class Terrace extends Frame {
                                 break
                         }
                     }
-                }
-                // do we need a floppy here?
-                const FLOPPY_LEVEL = 0.4
-                const BX = 21, BY = 17, BZ = 14, FQ = .01
-                const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
-                if (dataDensity < FLOPPY_LEVEL) {
-                     const p = vec3.iadd(cell.pos, vec3(0, 5, 0))
-                    log('creating floppy at ' + p[0] + ':' + p[2])
-                    lab.attach( new Floppy({
-                        pos:      p,
-                        reactive: 1,
-                        c:        13 + floor(mrnd() * 400),
-                    }))
+                } else {
+                    // do we need a floppy here?
+                    const FLOPPY_LEVEL = 0.35
+                    const BX = 21, BY = 17, BZ = 14, FQ = .01
+                    const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
+                    if (dataDensity < FLOPPY_LEVEL) {
+                         const p = vec3.iadd(cell.pos, vec3(0, 5, 0))
+                        // DEBUG floppy placement
+                        // log('creating floppy at ' + p[0] + ':' + p[2])
+                        lab.attach( new Floppy({
+                            pos:      p,
+                            reactive: 1,
+                            c:        13 + floor(mrnd() * 400),
+                        }))
+                    }
                 }
                 count ++
             }

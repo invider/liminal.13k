@@ -36,7 +36,7 @@ function zapPlayerStateDump() {
             const sDir = ' ^' + rpad(w, 2) + ' '
                 + lpad('' + Math.round(heading * RAD_TO_DEG), 3) + '* '
 
-            env.status = 'hero: ' + sDir + sPos + ' speed: ' + floor(vec3.len(__.momentum))
+            env.status = 'hero: ' + sDir + sPos + ' speed: ' + floor(vec3.len(__.mt))
         }
     }
 }
