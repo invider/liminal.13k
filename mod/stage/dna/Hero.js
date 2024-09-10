@@ -7,7 +7,7 @@ class Hero extends Frame {
             hh: 1,
             HD: 0,
 
-            eyesShiftY: .7,
+            eY: 1.5,
             tiltAngle: 0,
             minTilt: -PI/2,
             maxTilt:  PI/2,
@@ -22,7 +22,7 @@ class Hero extends Frame {
         st._pods = augment(st._pods, [
             new FPSMovementControllerPod(),
             new SolidBoxPod({
-                hsize: vec3(.7, 1, .7), 
+                hsize: vec3(.7, 1.5, .7), 
             }),
         ])
         st._traits = augment(st._traits, [ attitudeTrait ])
@@ -55,17 +55,16 @@ class Hero extends Frame {
     onImpact(src) {
         this.lastCollider = src
         if (debug) env.dump.lastCollider = src.name
-        if (src instanceof Prop) {
+        if (src instanceof Floppy) {
             // got a floppy
             this.HD += src.c
-            kill(src)
+            // TODO play some sfx and feedback text
         }
     }
 
     detectCollisions(mv) {
         if (debug) env.dump.Impact = 'None'
 
-        //this.solid.fixBounds()
         return lab.collide(this.solid, mv)
     }
 
@@ -194,7 +193,7 @@ class Hero extends Frame {
         */
 
         // pin the camera to the eyes position
-        vec3.set(this.cam.pos, this.pos[0], this.pos[1] + this.eyesShiftY, this.pos[2])
+        vec3.set(this.cam.pos, this.pos[0], this.pos[1] + this.eY, this.pos[2])
 
         vec3.copy(this.cam.dir,  this.dir)
         vec3.copy(this.cam.left, this.left)

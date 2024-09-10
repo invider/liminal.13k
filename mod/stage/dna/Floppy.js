@@ -1,4 +1,4 @@
-class Prop extends Body {
+class Floppy extends Body {
 
     constructor(st) {
         super( extend({

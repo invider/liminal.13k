@@ -49,8 +49,8 @@ class Terrace extends Frame {
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this
                 || runner.momentum[1] > -5
-                || runner.HD < 360) return
-            runner.HD -= 360
+                || runner.HD < 100) return
+            runner.HD -= 100
             runner.lastJumpPad = this
             defer(() => {
                 // push - push direction is a bad idea
@@ -153,17 +153,12 @@ class Terrace extends Frame {
                 const BX = 21, BY = 17, BZ = 14, FQ = .01
                 const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
                 if (dataDensity < FLOPPY_LEVEL) {
-                     const p = vec3.iadd(cell.pos, vec3(0, 3, 0))
+                     const p = vec3.iadd(cell.pos, vec3(0, 5, 0))
                     log('creating floppy at ' + p[0] + ':' + p[2])
-                    lab.attach( new Prop({
-                        name:     'floppy',
+                    lab.attach( new Floppy({
                         pos:      p,
                         reactive: 1,
                         c:        13 + floor(mrnd() * 400),
-
-                        onKill: function() {
-                            // TODO some effects/sfx/feedback
-                        }
                     }))
                 }
                 count ++
