@@ -99,7 +99,7 @@ class Hero extends Frame {
 
         // apply horizontal friction
         const friction = this.grounded? tune.friction : tune.airResistence
-        const fv = vec3.normalize( vec3.clone(mt) )
+        const fv = vec3.n( vec3.clone(mt) )
         fv[1] = 0 // remove the Y component - applying in horizontal plane only 
         const ms2 = tune.maxSpeed * tune.maxSpeed
         const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)

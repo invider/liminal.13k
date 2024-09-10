@@ -29,9 +29,9 @@ class Camera extends Frame {
             this.up   = mat4.extractV3(m, 1)
             this.dir  = mat4.extractV3(m, 2)
         } else {
-            vec3.normalize( this.up )
-            vec3.normalize( this.dir )
-            this.left = vec3.normalize( vec3.icross(this.up, this.dir) ),
+            vec3.n( this.up )
+            vec3.n( this.dir )
+            this.left = vec3.n( vec3.icross(this.up, this.dir) ),
 
             m = mat4.from4V3( this.left, this.up, this.dir, this.pos )
             //m = mat4.identity() // DEBUG use identity in case something goes wrong

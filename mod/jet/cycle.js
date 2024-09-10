@@ -39,7 +39,7 @@ function drawScene() {
     // TODO precalc in _dirLight buffer and use that instead?
     const rnv = vec3.clone(env.dv)
     vec3.scale(rnv, -1)
-    vec3.normalize(rnv)
+    vec3.n(rnv)
 
     gl.uniform3fv(_udv, rnv)
     gl.uniform4fv(_udc, env.dc)

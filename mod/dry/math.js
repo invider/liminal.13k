@@ -91,7 +91,7 @@ vec3.distSq = function(v, w) {
     return ((v[0]-w[0])*(v[0]-w[0]) + (v[1]-w[1])*(v[1]-w[1]) + (v[2]-w[2])*(v[2]-w[2]))
 }
 
-vec3.normalize = function(v) {
+vec3.n = function(v) {
     const l = Math.hypot(v[0], v[1], v[2])
     if (l === 0) return v
     const il = 1/l
@@ -313,9 +313,9 @@ const mat4 = {
     // @param {array/vec3} up - the up camera orientation 3D vector (tilt)
     // @return {array/mat4} the look-at 4x4 matrix
     lookAt: function(cam, tar, up) {
-        const zAxis = vec3.normalize( vec3.isub(cam, tar) )
-        const xAxis = vec3.normalize( vec3.icross(up, zAxis) )
-        const yAxis = vec3.normalize( vec3.icross(zAxis, xAxis) )
+        const zAxis = vec3.n( vec3.isub(cam, tar) )
+        const xAxis = vec3.n( vec3.icross(up, zAxis) )
+        const yAxis = vec3.n( vec3.icross(zAxis, xAxis) )
 
         return this.from4V3(xAxis, yAxis, zAxis, cam)
     },
@@ -538,7 +538,7 @@ function calcNormals(v, smooth) {
         const v = vec3(0, 0, 0)
         nlist.forEach(w => vec3.add(v, w))
         vec3.scale(v, 1/nlist.length)
-        vec3.normalize(v)
+        vec3.n(v)
         return v
     }
 
@@ -549,7 +549,7 @@ function calcNormals(v, smooth) {
             v3 = vec3.fromArray(v, i + 6),
             v12 = vec3.isub(v1, v2),
             v13 = vec3.isub(v1, v3),
-            nv = vec3.normalize( vec3.icross(v12, v13) )
+            nv = vec3.n( vec3.icross(v12, v13) )
 
         if (smooth) {
             indexVertex(v1, i,     nv)

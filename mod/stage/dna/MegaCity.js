@@ -132,7 +132,7 @@ class MegaCity {
             const edgeBlock = this.edges[dir]
 
             // TODO do with fandom steps
-            const cn = edgeBlock.searchFreeConnection(1 + floor(mrnd() * 8))
+            const cn = edgeBlock.sf(1 + floor(mrnd() * 8))
             if (cn) return this.zone(cn)
         }
     }

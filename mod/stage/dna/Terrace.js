@@ -63,13 +63,14 @@ class Terrace extends Frame {
         }
     }
 
-    searchFreeConnection(d) {
+    // search free connection
+    sf(d) {
         if (d) {
             // log('looking for links @' + this.name)
             // select a random linked connection
             const cn = mrnd.elem(this.connections.filter(cn => cn.target))
-            if (cn) return cn.target.searchFreeConnection(d - 1)
-            else return this.searchFreeConnection(d - 1)
+            if (cn) return cn.target.sf(d - 1)
+            else return this.sf(d - 1)
         } 
         // log('selecting free @' + this.name)
         // select a free connection
