@@ -199,6 +199,7 @@ const ops = [
     },
 
     // === complex geometries ===
+    /*
     // cube
     () => {
         w = [
@@ -242,6 +243,8 @@ const ops = [
         }
         return this
     },
+    */
+    /*
     // sphere
     () => {
         const v = [], w = []
@@ -323,6 +326,7 @@ const ops = [
         }
         g.v = g.v.concat(w)
     },
+    */
     // circle
     () => {
         const v = [], w = []
@@ -494,7 +498,7 @@ function defineWords(ops) {
 //       * insert the op name in the opsRef manifest at the matching position (== ops array index)
 //       * bump ghost opcodes limit to match PUSHS opcode index
 //       * don't forget to recompile existing snapshots with ./compile-s!
-const PUSHS = 42,
+const PUSHS = 39,
       DEF   = PUSHS + 1,
       END   = PUSHS + 2,
       CALL  = PUSHS + 3,

@@ -27,10 +27,10 @@ unbuf
 ;
 ---------------------
 
-neogeo kube 8 2 8 stretch "cell" 8 2 8 bounds name brew
+neogeo mpush kube 8 1 8 stretch "cell" 8 1 8 bounds name mpop brew
 
 -- floppy parts
-neogeo kube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name brew
+neogeo mpush kube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name mpop brew
 
 mpush
 neogeo
@@ -44,12 +44,14 @@ mpop
 
 mpush
 neogeo
+kube
+buf
 0.5 0.35 0.11 mscale
 -0.2 2 0 translate
-kube
+unbuf
 "shutter" name brew
 mpop
 
 -- debug --
-neogeo sphere 2 scale "connection" name brew
+neogeo mpush kube 0.8 scale "connection" name mpop brew
 

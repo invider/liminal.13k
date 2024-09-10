@@ -30,9 +30,8 @@ const opsRef = [
     'tri',
     'tuv',
     'plane',
-    'cube',
-    'sphere',
-    'cylinder',
+    //'sphere',
+    //'cylinder',
     'circle',
 
     'bounds',
