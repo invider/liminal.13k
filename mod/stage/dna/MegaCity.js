@@ -127,7 +127,7 @@ class MegaCity {
 
     edgeGenesis(dir) {
         const edge = this.edge(dir, vec3.clone(lab.hero.pos))
-        if (edge < tune.minEdgeTrigger) {
+        if (edge < MIN_EDGE_TRIGGER) {
             // log('Genesis to ' + dir + ': -> ' + edge)
             const edgeBlock = this.edges[dir]
 

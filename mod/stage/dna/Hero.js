@@ -59,6 +59,7 @@ class Hero extends Frame {
             // got a floppy
             this.HD += src.c
             // TODO play some sfx and feedback text
+            kill(src)
         }
     }
 
@@ -76,34 +77,28 @@ class Hero extends Frame {
               mty = this.mty,
               mtz = this.mtz
 
-        // make some gravity
-        /*
-        mt[1] = Math.max(mt[1] - tune.gravity * dt, -tune.terminalVelocity)
-        if (mt[1] === -tune.terminalVelocity) {
-        }
-        */
-
+        // apply gravity
         const pym = mt[1]
-        mt[1] -= tune.gravity * dt
+        mt[1] -= GRAVITY * dt
         if (pym > 0 && mt[1] < 0) {
             // reached the peak
             this.lastJumpPad = null
         }
-        if (mt[1] < -tune.terminalVelocity) {
-            mt[1] = -tune.terminalVelocity
+        if (mt[1] < -TERMINAL_VELOCITY) {
+            mt[1] = -TERMINAL_VELOCITY
 
-            if (this.pos[1] < this.lastPlatform.pos[1] - tune.terminalShift) {
+            if (this.pos[1] < this.lastPlatform.pos[1] - TERMINAL_SHIFT) {
                 trap('terminalFall')
             }
         }
 
         // apply horizontal friction
-        const friction = this.grounded? tune.friction : tune.airResistence
+        const friction = this.grounded? FRICTION : AIR_RESISTENCE
         const fv = vec3.n( vec3.clone(mt) )
         fv[1] = 0 // remove the Y component - applying in horizontal plane only 
-        const ms2 = tune.maxSpeed * tune.maxSpeed
+        const ms2 = MAX_SPEED * MAX_SPEED
         const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
-        const speedF = 1 + speedOverflow2 * tune.overspeedFactor
+        const speedF = 1 + speedOverflow2 * OVERSPEED_FACTOR
         if (debug) env.dump.frictionV = friction * speedF
         vec3.scale(fv, friction * speedF)
         if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
@@ -148,7 +143,7 @@ class Hero extends Frame {
                 //mt[0] = 0 // reset x momentum
             } else if (cl === HIT_STEP) {
                 // TODO figure how to avoid getting stuck as a result
-                vec3.set(mty, 0, tune.stepUpSpeed, 0)
+                vec3.set(mty, 0, STEP_UP_SPEED, 0)
                 vec3.scad(this.pos, mty, dt)
                 if (this.detectCollisions(mtx) > 1) {
                     log('step hit hard!')
@@ -169,7 +164,7 @@ class Hero extends Frame {
                 //mt[2] = 0 // reset y momentum
             } else if (cl === HIT_STEP) {
                 // TODO figure how to avoid getting stuck as a result
-                vec3.set(mty, 0, tune.stepUpSpeed, 0)
+                vec3.set(mty, 0, STEP_UP_SPEED, 0)
                 vec3.scad(this.pos, mty, dt)
                 if (this.detectCollisions(mtz) > 1) {
                     // rollback
@@ -214,11 +209,6 @@ class Hero extends Frame {
 
     tilt(phi) {
         this.tiltAngle = clamp(this.tiltAngle + phi, this.minTilt, this.maxTilt)
-    }
-
-    jump() {
-        if (!this.grounded) return
-        this.mt[1] += tune.jumpSpeed
     }
 
     use() {

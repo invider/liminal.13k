@@ -9,17 +9,11 @@ const flags = {},
     STRAFE_LEFT  = 2,
     BACKWARD     = 3,
     STRAFE_RIGHT = 4,
-    // FLY_UP       = 5,
-    // FLY_DOWN     = 6,
-    LOOK_UP      = 7,
-    LOOK_LEFT    = 8,
-    LOOK_DOWN    = 9,
-    LOOK_RIGHT   = 10,
-    //ROLL_LEFT    = 11,
-    //ROLL_RIGHT   = 12,
-    JUMP         = 13,
-    // special
-    // USE          = 14,
+    LOOK_UP      = 5,
+    LOOK_LEFT    = 6,
+    LOOK_DOWN    = 7,
+    LOOK_RIGHT   = 8,
+    JUMP         = 9,
     // mouse controls
     SHIFT_YAW    = 21,
     SHIFT_PITCH  = 22,
@@ -47,6 +41,7 @@ const flags = {},
     RESPAWN_ZERO  = 1, // respawn at the starting point
     RESPAWN_LAST  = 2  // respawn on the last platform
 
+
 const env = {
     time: 0,
     fps: 60,
@@ -67,16 +62,13 @@ const env = {
         'KeyD',
         //'KeyE',        // 5-6 - fly up and down 
         //'KeyC',        
-        'ArrowUp',     // 7  - look up
-        'ArrowLeft',   // 8  - turn left
-        'ArrowDown',   // 9  - look down
-        'ArrowRight',  // 10 - turn right
-        //'Delete',      // 11 - roll left
-        //'PageDown',    // 12 - roll right
-        'Space',       // 13 - jump
-        // 'Enter',       // 14 - use
-
-        // ...
+        'ArrowUp',     // 5  - look up
+        'ArrowLeft',   // 6  - turn left
+        'ArrowDown',   // 7  - look down
+        'ArrowRight',  // 8  - turn right
+        //'Delete',    // 11 - roll left
+        //'PageDown',  // 12 - roll right
+        'Space',       // 9  - jump
     ],
 
     dv: vec3(1, -.5, .7),  // directional light vector

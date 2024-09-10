@@ -14,7 +14,7 @@ const collidableTrait = {
                     // test if the touch is hard or ephemeral
                     if (t.solid.kind) {
                         const dy = t.solid.deltaY(impactor)
-                        if (!hit && (mv[0] || mv[2]) && dy < 1) {
+                        if (!hit && (mv[0] || mv[2]) && dy < MAX_STEP) {
                             hit = HIT_STEP
                         } else {
                             hit = HIT_HARD // got a hard collision

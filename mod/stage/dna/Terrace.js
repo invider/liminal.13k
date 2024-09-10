@@ -54,7 +54,7 @@ class Terrace extends Frame {
             runner.lastJumpPad = this
             defer(() => {
                 // push - push direction is a bad idea
-                const dy = tune.jumpPadPush
+                const dy = JUMP_PAD_PUSH
 
                 runner.mt[0] += dx
                 runner.mt[1] += dy
@@ -150,7 +150,7 @@ class Terrace extends Frame {
                     }
                 } else {
                     // do we need a floppy here?
-                    const FLOPPY_LEVEL = 0.35
+                    const FLOPPY_LEVEL = 0.37
                     const BX = 21, BY = 17, BZ = 14, FQ = .01
                     const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
                     if (dataDensity < FLOPPY_LEVEL) {
@@ -175,7 +175,7 @@ class Terrace extends Frame {
     }
 
     draw() {
-        if (vec3.distSq(this.pos, lab.cam.pos) < tune.maxVisibilityDistSq) {
+        if (vec3.distSq(this.pos, lab.cam.pos) < MAX_VIS_DIST_SQ) {
             super.draw()
         }
     }

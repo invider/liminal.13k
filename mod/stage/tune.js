@@ -1,26 +1,20 @@
-const tune = {
-    gravity:    30,
-
-    // adjust controls
-    maxSpeed:        30,
-    jumpSpeed:       20,
-    turnSpeed:       2.5,
-    tiltSpeed:       1.75,
-    turnMouseSpeed: .14,
-    tiltMouseSpeed: .14,
-    acceleration:    280,
-    airAcceleration: 20,
-
-    friction: 1.2,
-    airResistence:   .3,
-    overspeedFactor: .005,
-    terminalVelocity: 48,
-    terminalShift:    20,
-    jumpPadPush:      45,
-
-    maxStep:          2,
-    stepUpSpeed:      2,
-
-    maxVisibilityDistSq:  250*250,
-    minEdgeTrigger:       45,
-}
+const
+    GRAVITY             = 30,
+    MAX_SPEED           = 30,
+    MAX_STEP            = 2,
+    JUMP_SPEED          = 20,
+    TURN_SPEED          = 2.5,
+    TILT_SPEED          = 1.75,
+    MOUSE_TURN_SPEED    = .14,
+    MOUSE_TILT_SPEED    = .14,
+    ACCELERATION        = 280,
+    AIR_ACCELERATION    = 20,
+    FRICTION            = 1.2,
+    AIR_RESISTENCE      = .3,
+    OVERSPEED_FACTOR    = .005,
+    TERMINAL_VELOCITY   = 48,
+    TERMINAL_SHIFT      = 20,
+    JUMP_PAD_PUSH       = 45,
+    STEP_UP_SPEED       = 2,
+    MAX_VIS_DIST_SQ     = 250*250,
+    MIN_EDGE_TRIGGER    = 45

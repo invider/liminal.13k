@@ -20,12 +20,12 @@ class FPSMovementControllerPod {
 
     push(action, factor, dt) {
         const __ = this.__
-        const speed = dt * (__.grounded? tune.acceleration : tune.airAcceleration)
+        const speed = dt * (__.grounded? ACCELERATION : AIR_ACCELERATION)
 
         switch(action) {
             case JUMP:
                 if (__.grounded) {
-                    __.mt[1] += tune.jumpSpeed
+                    __.mt[1] += JUMP_SPEED
                 }
                 break
             case FORWARD:
@@ -43,24 +43,24 @@ class FPSMovementControllerPod {
 
             // keyboard look
             case LOOK_LEFT:
-                __.yaw(-tune.turnSpeed * dt)
+                __.yaw(-TURN_SPEED * dt)
                 break
             case LOOK_RIGHT:
-                __.yaw(tune.turnSpeed * dt)
+                __.yaw(TURN_SPEED * dt)
                 break
             case LOOK_UP:
-                __.tilt(-tune.tiltSpeed * dt)
+                __.tilt(-TILT_SPEED * dt)
                 break
             case LOOK_DOWN:
-                __.tilt(tune.tiltSpeed * dt)
+                __.tilt(TILT_SPEED * dt)
                 break
 
             // mouse look
             case SHIFT_YAW:
-                __.yaw(tune.turnMouseSpeed * factor * dt)
+                __.yaw(MOUSE_TURN_SPEED * factor * dt)
                 break
             case SHIFT_PITCH:
-                __.tilt(-tune.tiltMouseSpeed * factor * dt)
+                __.tilt(-MOUSE_TILT_SPEED * factor * dt)
                 break
         }
     }
@@ -78,14 +78,6 @@ class FPSMovementControllerPod {
 
     activate(action) {
         this.pushers[action] = 1
-        /*
-        if (action === JUMP) {
-            this.__.jump()
-        }
-        if (action === USE) {
-            this.__.use()
-        }
-        */
     }
 
     stop(action) {
