@@ -15,7 +15,7 @@ function drawScene() {
         env.stat.polygons = 0
     }
     // prepare the framebuffer and the drawing context
-    gl.clearColor(env.clearColor[0], env.clearColor[1], env.clearColor[2], env.clearColor[3])
+    gl.clearColor(.11, .02, .13, 1)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.enable(gl.DEPTH_TEST)
     gl.depthFunc(gl.LEQUAL)

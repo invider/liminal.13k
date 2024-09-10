@@ -114,7 +114,6 @@ window.onload = () => {
         // zap directly, so they not be optimized
         zapAudioController()
         zapTextures()
-        zapGeoLib()
         zapScrewLib()
         zapPreStage()
     }

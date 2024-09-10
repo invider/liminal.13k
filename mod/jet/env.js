@@ -9,17 +9,17 @@ const flags = {},
     STRAFE_LEFT  = 2,
     BACKWARD     = 3,
     STRAFE_RIGHT = 4,
-    FLY_UP       = 5,
-    FLY_DOWN     = 6,
+    // FLY_UP       = 5,
+    // FLY_DOWN     = 6,
     LOOK_UP      = 7,
     LOOK_LEFT    = 8,
     LOOK_DOWN    = 9,
     LOOK_RIGHT   = 10,
-    ROLL_LEFT    = 11,
-    ROLL_RIGHT   = 12,
+    //ROLL_LEFT    = 11,
+    //ROLL_RIGHT   = 12,
     JUMP         = 13,
     // special
-    USE          = 14,
+    // USE          = 14,
     // mouse controls
     SHIFT_YAW    = 21,
     SHIFT_PITCH  = 22,
@@ -47,16 +47,12 @@ const flags = {},
     RESPAWN_ZERO  = 1, // respawn at the starting point
     RESPAWN_LAST  = 2  // respawn on the last platform
 
-
 const env = {
     time: 0,
     fps: 60,
-
     vol: .2,
 
-    // #0f20e1
-    clearColor: rgba('200725FF'),
-    fogColor:   rgba('210826FF'),
+    fogColor:   rgba('1d0722FF'),
 
     // DEBUG
     //groundLevel:    1,
@@ -69,17 +65,16 @@ const env = {
         'KeyA',
         'KeyS',
         'KeyD',
-        'KeyE',        // 5-6 - fly up and down 
-        'KeyC',        
+        //'KeyE',        // 5-6 - fly up and down 
+        //'KeyC',        
         'ArrowUp',     // 7  - look up
         'ArrowLeft',   // 8  - turn left
         'ArrowDown',   // 9  - look down
         'ArrowRight',  // 10 - turn right
-        'Delete',      // 11 - roll left
-        'PageDown',    // 12 - roll right
+        //'Delete',      // 11 - roll left
+        //'PageDown',    // 12 - roll right
         'Space',       // 13 - jump
-
-        'Enter',       // 14 - use
+        // 'Enter',       // 14 - use
 
         // ...
     ],
