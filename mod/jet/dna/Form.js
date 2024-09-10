@@ -1,4 +1,4 @@
-class Body extends Frame {
+class Form extends Frame {
 
     constructor(st) {
         super( extend({

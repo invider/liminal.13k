@@ -9,7 +9,7 @@ class Connection {
         if (debug) {
             const r = 1.5
 
-            this.sphere = this.src.attach( new Body({
+            this.sphere = this.src.attach( new Form({
                 pos: vec3(
                     this.pos[0],
                     this.pos[1],

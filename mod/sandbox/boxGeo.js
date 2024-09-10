@@ -48,7 +48,7 @@ _.boxGeo = function() {
         }
         const spin = (rnd()*4) < 1? 0 : 1
 
-        lab.attach( new Body({
+        lab.attach( new Form({
             pos: vec3(
                 H - B*rnd(),
                 H - B*rnd(),
@@ -86,7 +86,7 @@ _.boxGeo = function() {
 
 
     // huge plane
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos: vec3(0, -50, 0),
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
@@ -106,7 +106,7 @@ _.boxGeo = function() {
         ],
     }))
 
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos: vec3(0, 50, 0),
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
@@ -127,7 +127,7 @@ _.boxGeo = function() {
     }))
 
     // THE SUN!!!
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos: vec3(0, 0, 0), // TODO set the position of s point light
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(3, 0, 0),
@@ -154,7 +154,7 @@ _.boxGeo = function() {
     }))
 
     // planetoid
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos: vec3(80, -20, -40),
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(0, .2, 0),
@@ -181,7 +181,7 @@ _.boxGeo = function() {
     }))
 
     // the ring
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos: vec3(80, -20, -40),
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(0, .15, 0),

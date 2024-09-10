@@ -1,4 +1,4 @@
-class Floppy extends Body {
+class Floppy extends Form {
 
     constructor(st) {
         super( extend({

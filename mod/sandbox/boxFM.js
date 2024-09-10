@@ -302,7 +302,7 @@ _.boxFM = (() => {
         let enops = screwUp('neogeo sphere 4 scale "sphere" name brew')
         geo(enops)
 
-        lab.attach( new Body({
+        lab.attach( new Form({
             pos: vec3(0, 0, -1),
             rot: vec3(0, 0, 0),
             rotSpeed: vec3(0, 0, 0),

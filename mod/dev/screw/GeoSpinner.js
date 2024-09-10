@@ -68,7 +68,7 @@ class GeoSpinner {
 
     geoShape(g) {
         console.dir(g)
-        return lab.attach( new Body({
+        return lab.attach( new Form({
             angle:       0,
             targetAngle: 0,
             spin:        1,

@@ -6,7 +6,7 @@ _.boxOne = function() {
     for (let i = 0; i < 20; i++) {
         const B = 100
         const H = B/2
-        lab.attach( new Body({
+        lab.attach( new Form({
             pos: vec3(
                 H - B*rnd(),
                 H - B*rnd(),

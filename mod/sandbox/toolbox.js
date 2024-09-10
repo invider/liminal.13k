@@ -10,7 +10,7 @@ function createSomeBoxes() {
         const s = 4 + rnd() * 4
 
         // generate unique geometry for this cube
-        lab.attach( new Body({
+        lab.attach( new Form({
             pos: vec3(
                 rsign * (B + V*rnd()),
                 rsign * (B + V*rnd()),

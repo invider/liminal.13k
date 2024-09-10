@@ -3,7 +3,7 @@ _.boxCubesUV = function() {
     _gUV = 1   // enable texture mapping
     let h = 2
 
-    lab.attach( new Body({
+    lab.attach( new Form({
         name: 'cuboid',
         pos: vec3(-8, 2, -4),
         rot: vec3(0, 0, 0),
@@ -27,7 +27,7 @@ _.boxCubesUV = function() {
         ],
     }))
 
-    lab.attach( new Body({
+    lab.attach( new Form({
         name: 'cuboid2',
         pos: vec3(12, 5, -4),
         rot: vec3(0, 0, 0),

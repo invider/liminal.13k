@@ -22,7 +22,7 @@ class Terrace extends Frame {
 
 
         if (debug) {
-            this.attach( new Body({
+            this.attach( new Form({
                 name: `${this.name}-hitbox-mesh/#debug`,
                 pos: this.pos,
                 _pods: [ this.hitBoxMesh ],
@@ -113,7 +113,7 @@ class Terrace extends Frame {
                 const yShift = floor(rnd() * 3)
 
                 let h = this.cellHHeight
-                const cell = this.attach( new Body({
+                const cell = this.attach( new Form({
                     name: `${this.name}/platform[${ix+1}:${iz+1}]`,
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 

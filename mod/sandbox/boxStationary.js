@@ -7,7 +7,7 @@ _.boxStationary = () => {
     for (let i = 0; i < 21; i++) rnd() // shift the seed
 
     // giant plane
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos:   vec3(0, 0, 0),
         rot:   vec3(0, 0, 0),
         scale: vec3(1, 1, 1),
@@ -67,7 +67,7 @@ _.boxStationary = () => {
         }
         const spin = (rnd()*4) < 1? 0 : 1
 
-        lab.attach( new Body({
+        lab.attach( new Form({
             pos: vec3(
                 H - B*rnd(),
                 h,

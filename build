@@ -3,18 +3,17 @@
 SRC=./mod
 DIST=./dist
 STAGE=$DIST/stage
-TAR=$DIST/targetX
+TARX=$DIST/targetX
 TARY=$DIST/targetY
-ZIP=liminal.zip
+TARZ=$DIST/targetZ
+ZIPX=liminalx.zip
 ZIPY=liminaly.zip
+ZIPZ=liminalz.zip
 
 zipIt() {
     TARGET=$1
     ZIPPER=$2
 
-    echo "============="
-    echo "=    ZIP    ="
-    echo "============="
     echo "Creating the archive from [$TARGET] => [$ZIPPER]"
     cd $TARGET
     pwd
@@ -72,26 +71,34 @@ cd -
 echo "=============="
 echo "=   Minify   ="
 echo "=============="
-mkdir -p $TAR
-node ./tools/minify.js $STAGE $TAR
+mkdir -p $TARX
+node ./tools/minify.js $STAGE $TARX
 
 # just copy html fo now
 # TODO minify .html and .css files
-cp --verbose $STAGE/*.html $TAR
-cp --verbose $STAGE/*.css $TAR
+cp --verbose $STAGE/*.html $TARX
+cp --verbose $STAGE/*.css $TARX
 
 
 echo "=============="
 echo "=    GULP    ="
 echo "=============="
-./node_modules/.bin/gulp
+./node_modules/.bin/gulp buildY
+./node_modules/.bin/gulp buildZ
 sleep 5
 
-export SRC="./dist/stage/"
+export SRC=$STAGE
 ./index
 
-zipIt $TAR $ZIP
+echo "=== Closure Compiler ==="
+java -jar ./node_modules/google-closure-compiler-java/compiler.jar $STAGE/prezap.js > $TARZ/zap.js
+
+echo "============="
+echo "=    ZIP    ="
+echo "============="
+zipIt $TARX $ZIPX
 zipIt $TARY $ZIPY
+zipIt $TARZ $ZIPZ
 
 echo '-------------------------------'
 du -shb $DIST/*.zip

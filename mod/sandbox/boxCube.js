@@ -4,7 +4,7 @@ _.boxCube = function() {
     let enops = screwUp('neogeo cube 2 scale "cube" name brew')
     geo(enops)
 
-    lab.attach( new Body({
+    lab.attach( new Form({
         pos: vec3(0, 0, -1),
         rot: vec3(0, 0, 0),
         rotSpeed: vec3(0, 0, 0),
