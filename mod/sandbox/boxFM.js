@@ -81,8 +81,9 @@ class OscillatorSelectionFader {
 
 _.boxFM = (() => {
 
+    // ====== SEQUENCER ======
     function playSequence() {
-        const pattern = 'ABD.ABDD....BDEF...TGDDG...WWW...ETYT....aabie'
+        const pattern = 'BBAA....CCAA....ABCD....ABCD'
         const notes = pattern.split('').map(c => {
             if (c === '.') return 0
             return (c.charCodeAt(0) - 65 + 12)
@@ -94,6 +95,75 @@ _.boxFM = (() => {
             if (n) fx.play(n, 0, start + i*step, step, 1, fmPatch)
         }))
     }
+
+    class Pattern {
+
+        constructor(pattern, startTime) {
+            this.loop = true
+            this.transpose = 10
+            this.startTime = startTime
+            this.notes = pattern.split('').map(c => {
+                if (c === '.') return 0
+                return (c.charCodeAt(0) - 65 + 12)
+            })
+        }
+
+        tick(beat) {
+            // assume looping
+            const lbeat = beat % this.notes.length
+            const note = this.notes[lbeat]
+            if (note) return {
+                n: note + this.transpose,
+                l: 1,
+            }
+        }
+
+    }
+
+    lab.attach({
+        name: 'sequencer',
+        playing: false,
+        bpm: 120,
+        lastBeat: -1,
+        gap: 1,
+
+        pattern: new Pattern('ACDFGDFACFDFDCSDCX', 0),
+
+        play: function() {
+            this.playing = true
+            this.lastBeat = -1
+            this.startTime = aux.currentTime
+            log('[sequencer] playing')
+        },
+
+        stop: function() {
+            this.playing = false
+            log('[sequencer] stopped')
+        },
+
+        evoBeat(beat, beatTime, rt) {
+            const note = this.pattern.tick(beat)
+            if (note) {
+                fx.play(note.n, 0, rt, note.l * beatTime, fmPatch)
+            }
+        },
+
+        evo: function(dt) {
+            if (!this.playing) return
+
+            const ct = aux.currentTime
+            const playTime = ct - this.startTime
+            const curBeat = Math.ceil((playTime / 60) * this.bpm)
+            const beatRelTime = this.startTime + curBeat * (60/this.bpm)
+
+            if (curBeat > this.lastBeat) {
+                this.evoBeat(curBeat, 60/this.bpm, beatRelTime)
+                this.lastBeat = curBeat
+            }
+        },
+    })
+
+
 
     function on(N) {
         off(N)
@@ -127,6 +197,8 @@ _.boxFM = (() => {
 
             switch(e.code) {
                 case 'Home': playSequence(); break;
+                case 'PageDown': lab.sequencer.play(); break;
+                case 'End': lab.sequencer.stop(); break;
             }
         })
 
