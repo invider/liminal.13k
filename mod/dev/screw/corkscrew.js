@@ -13,7 +13,7 @@ let corkscrew = (function(window) {
 
     function syncIn() {
         const screw = document.getElementById(st.id)
-        if (!screw) return
+        if (!screw || env.screwEditorUpdates) return
 
         lastScript = lab.control.activeScript()
         screw.textContent = lastScript
@@ -31,6 +31,7 @@ let corkscrew = (function(window) {
         if (!lastScript || !lab.control) return
         const updatedScript = screw.textContent
         if (updatedScript !== lastScript) {
+            env.screwEditorUpdates = true
             lab.control.screwUp( updatedScript )
             // TODO store log in local store
         }
@@ -52,7 +53,6 @@ let corkscrew = (function(window) {
         const screwUpPath = st.loadURL + '/' + script
         loadRes(screwUpPath, (raw) => {
             lab.control.screwUp(raw)
-
         })
     }
 

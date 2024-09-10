@@ -38,7 +38,6 @@ tri
 tri
 
 "modifiedOctahedron" name
-dumpv
 brew
 
 neogeo cube "cubeOne" name brew
@@ -50,4 +49,37 @@ neogeo sphere "simpleSphereOne" name brew
 neogeo smooth sphere "simpleSphereOne" name brew
 neogeo cylinder "simpleCylinderOne" name brew
 neogeo sharp cylinder "simpleCylinderOne" name brew
+
+mid
+neogeo
+-1  1 -1
+ 1  1  1
+-1  1  1
+
+-1  1 -1
+ 1  1 -1
+ 1  1  1
+
+tri tri
+reflectY
+
+mpush
+buf
+
+HPI mrotY
+unbuf
+
+HPI mrotZ
+unbuf
+
+mpop
+unbuf
+
+"kubik" name brew
+
+test: 2 2 add dump;
+
+test call
+test call
+test call
 

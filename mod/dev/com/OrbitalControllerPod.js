@@ -1,3 +1,9 @@
+const
+    FLY_UP      = 10,
+    FLY_DOWN    = 11,
+    ROLL_LEFT   = 12,
+    ROLL_RIGHT  = 13
+
 class OrbitalControllerPod {
 
     constructor(st) {
@@ -17,6 +23,11 @@ class OrbitalControllerPod {
     }
 
     init() {
+        // register additional actions
+        env.bind.push('KeyE')     // fly up
+        env.bind.push('KeyC')     // fly down
+        env.bind.push('Delete')   // roll left
+        env.bind.push('PageDown') // roll right
         this.capture()
     }
 

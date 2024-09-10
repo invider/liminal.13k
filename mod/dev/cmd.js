@@ -29,13 +29,13 @@ function zapTermitTrap() {
                 break
 
             case 'F7':
+                e.preventDefault()
                 if (corkscrew.st.disabled) {
                     corkscrew.show()
                 } else {
                     corkscrew.hide()
                     corkscrew.backup()
                 }
-                e.preventDefault()
                 break
 
             case 'F2':

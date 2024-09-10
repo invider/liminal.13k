@@ -13,7 +13,7 @@ let g,                      // current geo form
     P = 13,                 // current precision qualifier
     S                       // smooth flag, sharp if not set
 
-let s = [], m = [] // value and matrix stacks
+let s = [], m = [], b = [] // value and matrix stacks
 
 function pop() {
     if (debug) if (s.length === 0) throw 'Empty stack!'
@@ -106,6 +106,13 @@ const ops = [
     () => { m.push( mat4.clone(M) ) },
     // mpop
     () => { M = m.pop() },
+    // buf - current geometry
+    () => {
+        b = g.v
+        g.v = []
+    },
+    // unbuf
+    () => { wM(b) },
     // HPI
     () => { s.push( PI/2 ) },
     // add
@@ -412,7 +419,7 @@ const ops = [
 ]
 
 // === SCREW VM ===
-let def = {}, brews = []
+let def = {}, cdef, brews = []
 
 // emu modes
 const
@@ -478,66 +485,93 @@ function defineWords(ops) {
 //       * include the operator function into the ops array in geo
 //       * insert the op name in the opsRef manifest at the matching position (== ops array index)
 //       * bump ghost opcodes limit to match PUSHS opcode index
-const PUSHS = 39,
-      PUSHV = PUSHS + 3
+//       * don't forget to recompile existing snapshots with ./compile-s!
+const PUSHS = 41,
+      DEF   = PUSHS + 1,
+      END   = PUSHS + 2,
+      CALL  = PUSHS + 3,
+      PUSHV = PUSHS + 4
 
 function exec(opcodes) {
     const len = opcodes.length
     let op, i = 0, n, buf
     // DEBUG vm
-    //try {
+    try {
         while (i < len) {
             op = opcodes[i++]
 
-            switch(op) {
-                case PUSHS:
-                    buf = []
-                    n = opcodes[i++]
-                    for (let j = 0; j < n; j++) buf.push(opcodes.raw[i++])
-                    s.push(buf.join(''))
-                    break
+            if (cdef) {
+                // in definition mode
+                if (op === END) {
+                    // definition is done
+                    cdef = null
+                } else {
+                    cdef.push(op)
+                }
+            } else {
+                switch(op) {
+                    case PUSHS:
+                        buf = []
+                        n = opcodes[i++]
+                        for (let j = 0; j < n; j++) buf.push(opcodes.raw[i++])
+                        s.push(buf.join(''))
+                        break
 
-                //case PUSHV:
-                //    s.push(unscrewNumber(opcodes[i++]))
-                //    break
-                default:
-                    if (op >= PUSHV) {
-                        let o = op - PUSHV,
-                            x = floor(o / 4) + 1,
-                            t = o % 4,
-                            c = 93 ** x
+                    case DEF:
+                        log(`new definition #` + def.length)
+                        cdef = []
+                        def.push(cdef)
+                        break
 
-                        let n = opcodes[i++]
-                        for (let j = 1; j < x; j++) {
-                            n = n + (93 ** j) * opcodes[i++]
+                    case CALL:
+                        x = pop()
+                        log(`calling #${x}, opcodes:`)
+                        console.dir( def[x] )
+                        exec( def[x] )
+                        break
+
+                    //case PUSHV:
+                    //    s.push(unscrewNumber(opcodes[i++]))
+                    //    break
+                    default:
+                        if (op >= PUSHV) {
+                            let o = op - PUSHV,
+                                x = floor(o / 4) + 1,
+                                t = o % 4,
+                                c = 93 ** x
+
+                            let n = opcodes[i++]
+                            for (let j = 1; j < x; j++) {
+                                n = n + (93 ** j) * opcodes[i++]
+                            }
+                            if (n >= floor(c/2)) n -= c
+                            s.push(n / (10**t))
+                            //if (n > 41) n -= 92
+                            //return n/10
+                                
+                        } else {
+                            // DEBUG vm
+                            if (debug) {
+                                const fn = ops[op]
+                                if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                            }
+                            ops[op]()
                         }
-                        if (n >= floor(c/2)) n -= c
-                        s.push(n / (10**t))
-                        //if (n > 41) n -= 92
-                        //return n/10
-                            
-                    } else {
-                        // DEBUG vm
-                        //if (debug) {
-                        //    const fn = ops[op]
-                        //    if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
-                        //}
-                        ops[op]()
-                    }
+                }
             }
         }
-    //} catch(e) {
-    //    log(`@${i-1}: #${op}`)
-    //    log(opcodes.raw.join(''))
-    //    console.dir(opcodes)
-    //    log(opcodes.map(op => opsRef[op]).join('\n'))
-    //    throw e
-    //}
+    } catch(e) {
+        log(`@${i-1}: #${op}`)
+        log(opcodes.raw.join(''))
+        console.dir(opcodes)
+        log(opcodes.map(op => opsRef[op]).join('\n'))
+        throw e
+    }
     return brews
 }
 
 function resetEmuState() {
-    def = {}
+    def = []
     brews = []
 }
 

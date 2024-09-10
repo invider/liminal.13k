@@ -6,6 +6,8 @@ const opsRef = [
     'swap',
     'mpush',
     'mpop',
+    'buf',
+    'unbuf',
     'HPI',
     'add',
     'sub',
@@ -44,12 +46,12 @@ const opsRef = [
     'dump',
     'dumpv',
 
-
     // ghost codes
     // [!] not in the VMs ops manifest
     'pushs',
     'def',
     'end',
+    'call',
 
     'push1i',
     'push1f',

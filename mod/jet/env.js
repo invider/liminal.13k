@@ -60,15 +60,15 @@ const env = {
         'KeyA',
         'KeyS',
         'KeyD',
-        //'KeyE',        // 5-6 - fly up and down 
-        //'KeyC',        
         'ArrowUp',     // 5  - look up
         'ArrowLeft',   // 6  - turn left
         'ArrowDown',   // 7  - look down
         'ArrowRight',  // 8  - turn right
-        //'Delete',    // 11 - roll left
-        //'PageDown',  // 12 - roll right
         'Space',       // 9  - jump
+        //'KeyE',      // 10-11 - fly up and down 
+        //'KeyC',        
+        //'Delete',    // 12 - roll left
+        //'PageDown',  // 13 - roll right
     ],
 
     dv: vec3(1, -.5, .7),  // directional light vector

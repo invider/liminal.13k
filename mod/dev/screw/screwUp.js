@@ -316,6 +316,8 @@ screwUp = (() => {
     */
 
     function compile(tk) {
+        let idef = 0
+        const def = {}
         const opcodes = []
 
         tk.forEach(t => {
@@ -325,32 +327,47 @@ screwUp = (() => {
                 throw `${msg} @${at.l+1}.${at.p+1}:\n${lines[at.l]}\n${lpad('', at.p)}^`
             }
 
+            function placeNumber(v) {
+                try {
+                    const snum = screwBaseNumber(v)
+                    let iop = opsRef.indexOf('push1i')
+                    iop += (snum.x - 1) * 4 + snum.t
+                    opcodes.push( screwBase(iop) )
+                    snum.s.forEach(e => opcodes.push(e))
+                    /*
+                    console.log(`#${iop}/${opsRef[iop]} ${t.v}`
+                          + ` T${snum.t}/X${snum.x}: `
+                          + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
+                    */
+                } catch (e) {
+                    cerr(e.toString(), t)
+                }
+            }
+
             let opcode
             switch(t.t) {
                 case END:
-                    // TODO 
+                    opcode = opsRef.indexOf('end')
+                    opcodes.push( screwBase(opcode) )
                     break
                 case DEF:
-                    // TODO
-                    break
-                case NUM:
-                    // either short number shortcut
-                    // or multi-number loader
-                    // or a simple value
-                    try {
-                        const snum = screwBaseNumber(t.v)
-                        let iop = opsRef.indexOf('push1i')
-                        iop += (snum.x - 1) * 4 + snum.t
-                        opcodes.push( screwBase(iop) )
-                        snum.s.forEach(e => opcodes.push(e))
-                        /*
-                        console.log(`#${iop}/${opsRef[iop]} ${t.v}`
-                              + ` T${snum.t}/X${snum.x}: `
-                              + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
-                        */
-                    } catch (e) {
-                        cerr(e.toString(), t)
+                    // create and index the definition 
+                    const newDef = {
+                        id: idef++,
+                        name: t.v,
                     }
+                    def[ newDef.name ] = newDef
+
+                    opcode = opsRef.indexOf('def')
+                    opcodes.push( screwBase(opcode) )    // new def opcode
+                    opcodes.push( screwBase(newDef.id) ) // def id
+
+                    console.dir(t)
+                    console.dir(`#${opcode}[${screwBase(opcode)}]: new word @[${newDef.id}][${newDef.name}]`)
+                    break
+
+                case NUM:
+                    placeNumber(t.v)
                     break
                 case STR:
                     opcode = opsRef.indexOf('pushs')
@@ -370,10 +387,20 @@ screwUp = (() => {
                     break
                 case ID:
                     // it is either an opcode or a predefined word
-                    opcode = mnemonics.indexOf(t.v)
-                    if (opcode < 0) cerr(`Unknown word: [${t.v}]!`)
-                    opcodes.push( screwBase(opcode) )
+                    if (t.v === 'call') opcode = opsRef.indexOf('call')
+                    else opcode = mnemonics.indexOf(t.v)
 
+                    if (opcode < 0) {
+                        // try to locate a defined word
+                        const word = def[t.v]
+                        if (word) {
+                            placeNumber(word.id)
+                        } else {
+                            cerr(`Unknown word: [${t.v}]!`)
+                        }
+                    } else {
+                        opcodes.push( screwBase(opcode) )
+                    }
                     break
             }
         })

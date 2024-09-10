@@ -2,18 +2,24 @@ _.boxGeo = function() {
     log('setting up Geo box...')
 
     const colors = [
-        vec3(.8, .2, .2),
-        vec3(.7, .8, .2),
-        vec3(.1, .8, .2),
-        vec3(.1, .8, .9),
-        vec3(.1, .2, .9),
-        vec3(.3, .5, .9),
-        vec3(.5, .2, .8),
-        vec3(.8, .7, .8),
-        vec3(1, 1, 1),
+        vec4(.8, .2, .2, 1),
+        vec4(.7, .8, .2, 1),
+        vec4(.1, .8, .2, 1),
+        vec4(.1, .8, .9, 1),
+        vec4(.1, .2, .9, 1),
+        vec4(.3, .5, .9, 1),
+        vec4(.5, .2, .8, 1),
+        vec4(.8, .7, .8, 1),
+        vec4(1, 1, 1),
     ]
 
-    geo.precision(25)
+    /*
+    let enops = screwUp(`
+        neogeo plane 
+        neogeo cube 2 scale "cube" name brew'
+    `)
+    geo(enops)
+    */
 
     for (let i = 0; i < 256; i++) {
         const B = 100

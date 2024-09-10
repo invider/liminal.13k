@@ -71,8 +71,10 @@ class SpinnerControl {
     }
 
     screwUp( script ) {
-        const brews = geo( screwUp(script) )
+        const enops = screwUp(script)
+        const brews = geo( enops )
         brews.screw = script
+        log(`enops:[${enops}]`)
         log('screwed geometry:')
         console.dir(brews)
 
