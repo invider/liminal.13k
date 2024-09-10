@@ -1,7 +1,38 @@
+=== kube geometry ===
+kube:
 
-0.5 0.5 0.5 mscale
+-1  1 -1
+ 1  1  1
+-1  1  1
 
+-1  1 -1
+ 1  1 -1
+ 1  1  1
+
+tri tri
+
+reflectY
+
+mpush
+buf
+
+HPI mrotY
+unbuf
+
+HPI mrotZ
+unbuf
+
+mpop
+unbuf
+;
+---------------------
+
+
+=== Octahedron ===
 neogeo
+
+mpush
+0.5 0.5 0.5 mscale
 
 0  -1   0
 0   0  -2
@@ -39,10 +70,12 @@ tri
 
 "modifiedOctahedron" name
 brew
+mpop
+------------------------
 
-neogeo cube "cubeOne" name brew
-neogeo cube 2 scale "cubeTwo" name brew
-neogeo cube 4 scale "cubeThree" name brew
+neogeo kube "cubeOne" name brew
+neogeo kube 1 scale "cubeTwo" name brew
+neogeo kube 2 scale "cubeThree" name brew
 
 -- let's create a tetrahedron
 neogeo sphere "simpleSphereOne" name brew
@@ -50,8 +83,17 @@ neogeo smooth sphere "simpleSphereOne" name brew
 neogeo cylinder "simpleCylinderOne" name brew
 neogeo sharp cylinder "simpleCylinderOne" name brew
 
-mid
-neogeo
+
+mpush mid
+neogeo kube "KubeOne" name brew
+mpop
+
+
+---------------------------------------
+--- cube geometry ---
+kube:
+
+mpush mid
 -1  1 -1
  1  1  1
 -1  1  1
@@ -61,6 +103,8 @@ neogeo
  1  1  1
 
 tri tri
+
+----------------------------
 reflectY
 
 mpush
@@ -74,13 +118,8 @@ unbuf
 
 mpop
 unbuf
-
-"kubik" name brew
-
-test: 2 2 add dump;
-
-test
-test
-test
-test
-
+------------------------------
+"DONE"
+mpop
+;
+---------------------------------------

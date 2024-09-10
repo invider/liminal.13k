@@ -227,15 +227,7 @@ screwUp = (() => {
                     break
                 case '-':
                     const n = inext('-'), nl = lnext()
-                    if (n > 1 && ptr === 1 && nl === n) {
-                        // multi-line comment
-                        skipLine()
-                        let nn = 0
-                        do {
-                            nn = inext('-') - 1
-                            skipLine()
-                        } while(c && nn !== n)
-                    } else if (n > 0) {
+                    if (n > 0) {
                         skipLine()
                     } else {
                         // just a sing
@@ -362,7 +354,6 @@ screwUp = (() => {
                     opcodes.push( screwBase(opcode) )    // new def opcode
                     opcodes.push( screwBase(newDef.id) ) // def id
 
-                    console.dir(t)
                     console.dir(`#${opcode}[${screwBase(opcode)}]: new word @[${newDef.id}][${newDef.name}]`)
                     break
 

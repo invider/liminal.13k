@@ -1,8 +1,36 @@
+=== kube geometry ===
+kube:
 
-neogeo cube 8 2 8 stretch "cell" 8 2 8 bounds name brew
+-1  1 -1
+ 1  1  1
+-1  1  1
+
+-1  1 -1
+ 1  1 -1
+ 1  1  1
+
+tri tri
+
+reflectY
+
+mpush
+buf
+
+HPI mrotY
+unbuf
+
+HPI mrotZ
+unbuf
+
+mpop
+unbuf
+;
+---------------------
+
+neogeo kube 8 2 8 stretch "cell" 8 2 8 bounds name brew
 
 -- floppy parts
-neogeo cube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name brew
+neogeo kube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name brew
 
 mpush
 neogeo
@@ -18,7 +46,7 @@ mpush
 neogeo
 0.5 0.35 0.11 mscale
 -0.2 2 0 translate
-cube
+kube
 "shutter" name brew
 mpop
 

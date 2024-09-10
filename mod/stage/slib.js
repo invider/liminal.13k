@@ -1,1 +1,1 @@
-function zapScrewLib(){geo(` <M(M"M(9I$cellM(M"M(@AB <M!M!N!9I&floppyM"N9M"@AB# M9,O9O9O90'3M OMM 1?I%fdiscABM/,$# N%OCO+0N}M"M 1<I'shutterAB$ =M"8I*connectionAB`)}
+function zapScrewLib(){geo(`K N~N!N~N!N!N!N~N!N!N~N!N~N!N!N~N!N!N!::6#%'3&'4&$&L N MN(N"N(9J$cellN(N"N(ABC N MN!N!O!9J&floppyN"O9N"ABC# N9,P9P9P90'3N PMN 1@J%fdiscBCN/,$# O%PCP+0O}N"N 1N MJ'shutterBC$ >N"8J*connectionBC`)}

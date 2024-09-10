@@ -28,6 +28,7 @@ const opsRef = [
     'scale',
     'stretch',
     'tri',
+    'tuv',
     'plane',
     'cube',
     'sphere',

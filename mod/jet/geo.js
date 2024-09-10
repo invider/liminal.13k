@@ -173,11 +173,19 @@ const ops = [
     },
 
     // geometry assemblers
-    // tri
+    // tri - define a triangle vertex set
     () => {
         for (let i = 0; i < 9; i += 3) {
             z = pop(), y = pop(), x = pop()
             vx(x, y, z)
+        }
+    },
+    // tuv - define a uv coordinates set for the triangle
+    () => {
+        for (let i = 0; i < 6; i += 2) {
+            y = pop()
+            g.u.push( pop() )
+            g.u.push(y)
         }
     },
 
@@ -486,7 +494,7 @@ function defineWords(ops) {
 //       * insert the op name in the opsRef manifest at the matching position (== ops array index)
 //       * bump ghost opcodes limit to match PUSHS opcode index
 //       * don't forget to recompile existing snapshots with ./compile-s!
-const PUSHS = 41,
+const PUSHS = 42,
       DEF   = PUSHS + 1,
       END   = PUSHS + 2,
       CALL  = PUSHS + 3,
@@ -507,6 +515,7 @@ function exec(opcodes) {
                     cdef = null
                 } else {
                     cdef.push(op)
+                    cdef.raw.push(opcodes.raw[i-1])
                 }
             } else {
                 switch(op) {
@@ -520,12 +529,13 @@ function exec(opcodes) {
                     case DEF:
                         log(`new definition #` + def.length)
                         cdef = []
+                        cdef.raw = []
                         def.push(cdef)
                         break
 
                     case CALL:
                         x = pop()
-                        log(`calling #${x}, opcodes:`)
+                        log(`calling #${x}, opcodes: ${def[x].raw.join('')}`)
                         console.dir( def[x] )
                         exec( def[x] )
                         break
