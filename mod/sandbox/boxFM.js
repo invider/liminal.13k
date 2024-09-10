@@ -1,4 +1,11 @@
-let fmPatch = 0, fmOctave = 2, fmTranspose = 0
+let fmPatch = 0,
+    fmOscillator = 0,
+    _fmOsc,
+    fmOctave = 2,
+    fmTranspose = 0
+
+const UNIT_PROP_FADER  = 1,
+      UNIT_INDEX_FADER = 2
 
 class Fader {
 
@@ -12,6 +19,15 @@ class Fader {
 
     fade(val) {
         log(`#${this.id}: !${val}`)
+
+        switch(this.type) {
+            case UNIT_PROP_FADER:
+                this.target[this.index] = val/127
+                break
+            case UNIT_INDEX_FADER:
+                this.target[this.index] = val/127
+                break
+        }
     }
 }
 
@@ -34,6 +50,32 @@ class PatchSelectionFader {
 
         this.lastVal = val
         log('Selected Patch #' + fmPatch)
+    }
+}
+
+class OscillatorSelectionFader {
+
+    constructor(id, patches) {
+        this.id = id
+        this.patches = patches
+    }
+
+    fade(val) {
+        log(`#${this.id}: !${val}`)
+        console.dir(this.patches)
+
+        const patch = this.patches[fmPatch]
+
+        let shift = 1
+        if (val < this.lastVal) shift = -1
+        fmOscillator += shift
+        if (fmOscillator >= patch.length) fmOscillator = 0
+        else if (fmOscillator < 0) fmOscillator = patch.length - 1
+
+        this.lastVal = val
+        log('Selected Oscillator #' + fmOscillator)
+        _fmOsc = patch[fmOscillator]
+        console.dir(_fmOsc)
     }
 }
 
@@ -103,6 +145,14 @@ _.boxFM = (() => {
 
     const midiKeys = [], faders = []
 
+    let ifaders = 0
+    function addFader(fader) {
+        ifaders++
+        faders[fader.id] = fader
+        return fader
+    }
+    addFader( new Fader(1, env, 'vol', UNIT_PROP_FADER) )
+
     function midiON(midiChannel, key, speed) {
         midiOFF(key)
 
@@ -133,10 +183,13 @@ _.boxFM = (() => {
             const fid = e.data[1]
             let fader = faders[fid]
             if (!fader) {
-                if (faders.length === 0) {
-                    fader = faders[fid] = new PatchSelectionFader(fid, fx.p)
+                if (ifaders === 1) {
+                    fader = faders[fid] = addFader( new PatchSelectionFader(fid, fx.p) )
+                } else if (ifaders === 2) {
+                    fader = faders[fid] = addFader( new OscillatorSelectionFader(fid, fx.p) )
                 } else {
-                    fader = faders[fid] = new Fader(fid, [], 1)
+                    fader = faders[fid] = addFader( new Fader(fid, _fmOsc, ifaders, UNIT_INDEX_FADER) )
+                    //fader = faders[fid] = addFader( new Fader() )
                 }
             }
             fader.fade(e.data[2])
