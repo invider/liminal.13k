@@ -79,7 +79,8 @@ unbuf
 
 test: 2 2 add dump;
 
-test call
-test call
-test call
+test
+test
+test
+test
 

@@ -387,14 +387,16 @@ screwUp = (() => {
                     break
                 case ID:
                     // it is either an opcode or a predefined word
-                    if (t.v === 'call') opcode = opsRef.indexOf('call')
-                    else opcode = mnemonics.indexOf(t.v)
+                    opcode = mnemonics.indexOf(t.v)
 
                     if (opcode < 0) {
                         // try to locate a defined word
                         const word = def[t.v]
                         if (word) {
+                            // place the index and generate the call
                             placeNumber(word.id)
+                            opcode = opsRef.indexOf('call')
+                            opcodes.push( screwBase(opcode) )
                         } else {
                             cerr(`Unknown word: [${t.v}]!`)
                         }
