@@ -77,11 +77,10 @@ neogeo kube "cubeOne" name brew
 neogeo kube 1 scale "cubeTwo" name brew
 neogeo kube 2 scale "cubeThree" name brew
 
--- let's create a tetrahedron
-neogeo sphere "simpleSphereOne" name brew
-neogeo smooth sphere "simpleSphereOne" name brew
-neogeo cylinder "simpleCylinderOne" name brew
-neogeo sharp cylinder "simpleCylinderOne" name brew
+-- neogeo sphere "simpleSphereOne" name brew
+-- neogeo smooth sphere "simpleSphereOne" name brew
+-- neogeo cylinder "simpleCylinderOne" name brew
+-- neogeo sharp cylinder "simpleCylinderOne" name brew
 
 
 mpush mid

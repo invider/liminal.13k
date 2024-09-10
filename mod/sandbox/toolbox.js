@@ -1,5 +1,36 @@
 function createSomeBoxes() {
-    const g = geo.unscrewOne( screwUp(`neogeo kube 1 scale "toolbox-cuboid" name brew`) )
+    const g = geo.unscrewOne( screwUp(`
+        === kube geometry ===
+        kube:
+
+        -1  1 -1
+         1  1  1
+        -1  1  1
+
+        -1  1 -1
+         1  1 -1
+         1  1  1
+
+        tri tri
+
+        reflectY
+
+        mpush
+        buf
+
+        HPI mrotY
+        unbuf
+
+        HPI mrotZ
+        unbuf
+
+        mpop
+        unbuf
+        ;
+        ---------------------
+
+        neogeo kube 1 scale "toolbox-cuboid" name brew
+    `) )
     console.dir(g)
 
     for (let i = 0; i < 70; i++) {
