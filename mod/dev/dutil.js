@@ -127,9 +127,9 @@ function nodePickUp(x, y) {
             e.surface.renderOptions = vec4(1, 0, 0, 0)
 
             // tune materials into unique ambient colors
-            const idv3 = id2rgb(_pid)
+            const idv4 = id2rgba(_pid)
             e.surface.m = {
-                a: idv3,
+                a: idv4,
                 d: vec4(.1, .8, .9, 0),
                 s: vec4(1, 1, 1, 0),
                 n: 1, // can't be 0, since can get NaN case in the shader!
@@ -161,11 +161,11 @@ function nodePickUp(x, y) {
     return picked
 }
 
-function id2rgb(id) {
+function id2rgba(id) {
     ir = id % 256
     ig = ((id - ir)/256) % 256
     ib = Math.floor(((id - ir - ig)/(256*256)) % 256)
-    return vec3( ir/255, ig/255, ib/255 )
+    return vec4( ir/255, ig/255, ib/255, 1)
 }
 
 function rgb2id(v) {

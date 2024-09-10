@@ -5,7 +5,7 @@ function zapPlayerStateDump() {
         name: 'playerStateDump',
 
         evo(dt) {
-            if (!debug) return
+            if (!debug || !lab.hero) return
 
             const __ = lab.hero
 

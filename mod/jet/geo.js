@@ -165,7 +165,7 @@ const ops = [
         vxApply((n, i) => (i % 3) == 0? n * x : n)
     },
 
-    // === basic geometries ===
+    // geometry assemblers
     // tri
     () => {
         for (let i = 0; i < 9; i += 3) {
@@ -173,6 +173,8 @@ const ops = [
             vx(x, y, z)
         }
     },
+
+    // === basic geometries ===
     // plane
     () => {
         g.v = g.v.concat([

@@ -79,10 +79,9 @@ class GeoSpinner {
                     geo: g,
                     // TODO should come from material library
                     m: {
-                        a: vec3(.5, .6, .7),
-                        d: vec3(.2, .8, .7),
-                        s: vec3(1, 1, 1),
-                        i: vec4(.2, .7, .5, 0),
+                        a: vec4(.5, .6, .7, .2),
+                        d: vec4(.2, .8, .7, .7),
+                        s: vec4(1, 1, 1, .5),
                         n: 21,
                     },
                 }),

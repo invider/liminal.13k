@@ -7,7 +7,7 @@ _.boxCorkscrew = (() => {
         // move camera back a little
         lab.cam.pos = vec3(0, 5, -5)
         lab.cam._mover = lab.cam.mover
-        kill(lab.cam.mover)
+        if (lab.cam.mover) kill(lab.cam.mover)
 
         lab.cam.attach( new OrbitalControllerPod() )
         lab.cam.lookAt = vec3z()

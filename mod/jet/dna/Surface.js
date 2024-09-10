@@ -60,6 +60,7 @@ class Surface {
         // bind our geometry and materials
 
         // set the material
+        if (this.m.a.length !== 4 || this.m.d.length !== 4 | this.m.s.length !== 4) debugger
         gl.uniform4fv(_ua, this.m.a)
         gl.uniform4fv(_ud, this.m.d)
         gl.uniform4fv(_us, this.m.s)

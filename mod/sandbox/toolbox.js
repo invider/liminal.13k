@@ -1,5 +1,5 @@
 function createSomeBoxes() {
-    const g = geo.unscrewOne( screwUp(`neogeo cube 1 scale "cuboid" name brew`) )
+    const g = geo.unscrewOne( screwUp(`neogeo cube 1 scale "toolbox-cuboid" name brew`) )
     console.dir(g)
 
     for (let i = 0; i < 70; i++) {
@@ -23,10 +23,9 @@ function createSomeBoxes() {
                 new Surface({
                     geo: g,
                     m: {
-                        a: vec3(.4, .4, .4),
-                        d: vec3(.1, .1, .15),
-                        s: vec3(1, 1, 1),
-                        i: vec4(.2, .7, .4, 0),
+                        a: vec4(.4, .4, .4, .2),
+                        d: vec4(.1, .1, .15, .7),
+                        s: vec4(1, 1, 1, .4),
                         n: 10,
                     },
                     

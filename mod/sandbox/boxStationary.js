@@ -28,17 +28,16 @@ _.boxStationary = () => {
 
     // === populate ===
     // create some bodies
-
     const colors = [
-        vec3(.8, .2, .2),
-        vec3(.7, .8, .2),
-        vec3(.1, .8, .2),
-        vec3(.1, .8, .9),
-        vec3(.1, .2, .9),
-        vec3(.3, .5, .9),
-        vec3(.5, .2, .8),
-        vec3(.8, .7, .8),
-        vec3(1, 1, 1),
+        vec4(.8, .2, .2, .8),
+        vec4(.7, .8, .2, .8),
+        vec4(.1, .8, .2, .8),
+        vec4(.1, .8, .9, .8),
+        vec4(.1, .2, .9, .8),
+        vec4(.3, .5, .9, .8),
+        vec4(.5, .2, .8, .8),
+        vec4(.8, .7, .8, .8),
+        vec4(1, 1, 1),
     ]
 
 
@@ -81,10 +80,9 @@ _.boxStationary = () => {
                 new Surface({
                     geo: g,
                     m: {
-                        a: vec3(.5, .6, .7),
+                        a: vec4(.5, .6, .7, .2),
                         d: colors[ Math.floor(rnd() * colors.length) ],
-                        s: vec3(1, 1, 1),
-                        i: vec4(.2, .5, 1, 0),
+                        s: vec4(1, 1, 1, 1),
                         n: 10,
                     },
                 }),
