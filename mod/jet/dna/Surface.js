@@ -6,14 +6,20 @@ class Surface {
         extend(this, {
             name: 'surface',
             rO: vec4(1, 0, 0, 0), // render options
+            /*
             m: {
                 a: vec4(.5, .6, .7, .2),
                 d: vec4(1, 1, 1, 1),
                 s: vec4(1, 1, 1, .5),
                 n: 12,
             },
+            */
             buf: {},
         }, st)
+
+        if (!st.m && st.geo.m) {
+            this.m = st.geo.m
+        }
 
         // create buffers
         let cb = (d) => {

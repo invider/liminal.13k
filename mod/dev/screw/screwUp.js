@@ -47,8 +47,11 @@ screwUp = (() => {
             AN = Math.abs(N),
             x = 1, a, b, c, max,
             s = [], d = []
-        if ((AN * 1000) % 1 > 0) throw  `Unsupported precision: [${N}]`
-        else if ((AN * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
+        if ((AN * 1000) % 1 > 0) {
+            t = 3
+            n = Math.round(N * 1000)
+            console.warn(`Rounding ${N} -> ${n/1000}`)
+        } else if ((AN * 100 ) % 1 > 0) { t = 3; n = N * 1000 }
         else if ((AN * 10  ) % 1 > 0) { t = 2; n = N * 100  }
         else if ( AN % 1         > 0) { t = 1; n = N * 10   }
         a = b = Math.abs(n)

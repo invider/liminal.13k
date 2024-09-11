@@ -6,15 +6,12 @@ class Floppy extends Form {
             _pods: [
                 new Surface({
                     geo: glib.floppy,
-                    m: mlib.floppy
                 }),
                 new Surface({
                     geo: glib.fdisc,
-                    m: mlib.metal
                 }),
                 new Surface({
                     geo: glib.shutter,
-                    m: mlib.metal
                 }),
                 new SolidBoxPod({
                     kind:  EPHEMERAL,

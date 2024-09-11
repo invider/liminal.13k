@@ -1,4 +1,5 @@
 const mlib = {
+    /*
     floppy: {
         a: rgba('10101255'),
         d: rgba('202024AA'),
@@ -11,17 +12,20 @@ const mlib = {
         s: vec4(1, 1, 1, .9),
         n: 15,
     },
+    */
 
     jumpPad: {
         a: vec4(.5, .6, .7, .2),
-        d: rgba('F0550280'),
+        d: rgba('00FFFF80'),
         s: vec4(1, 1, 1, .8),
         n: 20,
     },
+    /*
     cell: {
         a: vec4(.5, .5, .8, .15),
         d: vec4(1, 1, 1, .6),
         s: vec4(1, 1, 1, .8),
         n: 20,
     },
+    */
 }

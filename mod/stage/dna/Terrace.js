@@ -121,7 +121,7 @@ class Terrace extends Frame {
                     _pods: [
                         new Surface({
                             geo: glib.cell,
-                            m: extend({}, mlib.cell, { d: colors[icolor] })
+                            m: extend({}, glib.cell.m, { d: colors[icolor] })
                         }),
                         new SolidBoxPod({
                             hsize: glib.cell.bounds, 
