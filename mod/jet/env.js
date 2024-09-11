@@ -47,7 +47,6 @@ const env = {
     fps: 60,
     vol: .2,
 
-    fogColor:   rgba('1d0722FF'),
 
     // DEBUG
     //groundLevel:    1,

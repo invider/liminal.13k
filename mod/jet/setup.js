@@ -1,5 +1,5 @@
 // shader attributes
-let ctx
+let ctx,
     _a = {},
     _A = [
         'm',
@@ -12,12 +12,12 @@ let ctx
         'udc',
         'upl',
         'upc',
-        'uFogColor',
+        'uF',
         'ua',
         'ud',
         'us',
         'un',
-        'uTexture'
+        'uT'
     ]
 
 function compileShader(src, type) {

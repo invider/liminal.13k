@@ -72,7 +72,7 @@ class Surface {
             // bind texture
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this.tex);
-            gl.uniform1i(_a.uTexture, 0);
+            gl.uniform1i(_a.uT, 0);
         }
 
         // set the shader attributes 

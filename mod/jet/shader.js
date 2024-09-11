@@ -41,12 +41,12 @@ const _fshader = `#version 300 es
 
     // environment
     // ucp - camera position
-    uniform vec4 uOpt, udc, uFogColor, upc[16],
+    uniform vec4 uOpt, udc, uF, upc[16],
         ua, ud, us;
     uniform vec3 ucp, udv, upl[16];
 
     uniform float un;
-    uniform sampler2D uTexture;
+    uniform sampler2D uT;
 
     in vec3 wp, wn, wc;
     in vec2 uw;
@@ -110,7 +110,7 @@ const _fshader = `#version 300 es
         // fog
         float z = gl_FragCoord.z / gl_FragCoord.w;
         // hardcoded fog values
-        float fogAmount = smoothstep(25.0, 125.0, fd);
+        float fA = smoothstep(25.0, 125.0, fd); // fog amount
 
         float opacity = 1.0;
 
@@ -118,12 +118,12 @@ const _fshader = `#version 300 es
                 vec4(
                     // shaded component
                     ua.xyz * ua.w
-                    + (texture(uTexture, uw).xyz * uOpt.z
+                    + (texture(uT, uw).xyz * uOpt.z
                          + ud.xyz * (1.0-uOpt.z)) * dc * ud.w
                     + us.xyz * sc * us.w,
                     opacity) * uOpt.x
                 + vec4(ud.xyz * uOpt.y, 1.0), // wireframe component
-            uFogColor, fogAmount
+            uF, fA
         );
     }
 `

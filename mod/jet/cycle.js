@@ -48,7 +48,8 @@ function drawScene() {
     gl.uniform3fv(_a.upl, env.pl)
     gl.uniform4fv(_a.upc, env.pc)
 
-    gl.uniform4fv(_a.uFogColor, env.fogColor)
+    // tune - fog color
+    gl.uniform4fv(_a.uF, rgba('1d0722FF'))
 
     // draw the scene graph
     lab.draw()
