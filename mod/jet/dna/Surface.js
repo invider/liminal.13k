@@ -5,7 +5,7 @@ class Surface {
     constructor(st) {
         extend(this, {
             name: 'surface',
-            renderOptions: vec4(1, 0, 0, 0),
+            rO: vec4(1, 0, 0, 0), // render options
             m: {
                 a: vec4(.5, .6, .7, .2),
                 d: vec4(1, 1, 1, 1),
@@ -56,8 +56,8 @@ class Surface {
         gl.uniformMatrix4fv(_a.n, false, nMatrix)
 
         // rendering options
-        if (this.tex) this.renderOptions[2] = 1
-        gl.uniform4fv(_a.uOpt, this.renderOptions)
+        if (this.tex) this.rO[2] = 1
+        gl.uniform4fv(_a.uO, this.rO)
 
         // -------------------------------------
         // bind our geometry and materials
@@ -81,22 +81,22 @@ class Surface {
         this.bindAttribute(this.buf.c, 'vc')
         this.bindAttribute(this.buf.u, 'uv', 2)
 
-        if (this.renderOptions[1]) {
+        //if (this.rO[1]) {
             // render wireframes
-            gl.lineWidth(2)
-            this.bindAttribute(this.buf.w, 'vp')
-            gl.drawArrays(gl.LINES, 0, this.geo.w.length / 3) 
-        } else if (this.buf.faces) {
+            //gl.lineWidth(2)
+            //this.bindAttribute(this.buf.w, 'vp')
+            //gl.drawArrays(gl.LINES, 0, this.geo.w.length / 3) 
+        //} else if (this.buf.faces) {
             // TODO can't support multiple indexes at once,
             //      so obj models MUST be repacked to be index by a sinlge index array
             //      and multiple data buffers
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
-            gl.drawElements(gl.TRIANGLES, this.geo.fc, gl.UNSIGNED_SHORT, 0)
+        //    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
+        //    gl.drawElements(gl.TRIANGLES, this.geo.fc, gl.UNSIGNED_SHORT, 0)
 
             //if (debug) env.stat.polygons += this.geo.fc / 3
-        } else {
+        //} else {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vc)
             //if (debug) env.stat.polygons += this.geo.vc / 3
-        }
+        //}
     }
 }

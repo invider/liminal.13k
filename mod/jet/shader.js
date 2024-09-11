@@ -41,7 +41,7 @@ const _fshader = `#version 300 es
 
     // environment
     // ucp - camera position
-    uniform vec4 uOpt, udc, uF, upc[16],
+    uniform vec4 uO, udc, uF, upc[16],
         ua, ud, us;
     uniform vec3 ucp, udv, upl[16];
 
@@ -78,7 +78,7 @@ const _fshader = `#version 300 es
             dr /= pd;
 
             // attenuation (TODO include as a part of point light vec4 coords?)
-            float attenuation = 1.0 / (
+            float a = 1.0 / (
                 .2 // constant component for infinite dist
                 + 0.001 * pd*pd // quadratic factor
             );
@@ -87,17 +87,17 @@ const _fshader = `#version 300 es
             float l = max(
                 dot(WN, dr),
                 0.0
-            ) * upc[i].w * attenuation;
+            ) * upc[i].w * a;
             dc = dc + upc[i].xyz * l;
 
             // accumulate specular
             vec3 hv = normalize(dr + eye);  // point light half-vector
 
-            float specular = pow(
+            float c = pow(
                 max( dot(WN, hv), 0.0 ), un
-            ) * upc[i].w * attenuation;
+            ) * upc[i].w * a;
 
-            sc = sc + upc[i].xyz * specular;
+            sc = sc + upc[i].xyz * c;
         }
 
         // directional specular
@@ -112,17 +112,15 @@ const _fshader = `#version 300 es
         // hardcoded fog values
         float fA = smoothstep(25.0, 125.0, fd); // fog amount
 
-        float opacity = 1.0;
-
         oc = mix(
                 vec4(
                     // shaded component
                     ua.xyz * ua.w
-                    + (texture(uT, uw).xyz * uOpt.z
-                         + ud.xyz * (1.0-uOpt.z)) * dc * ud.w
+                    + (texture(uT, uw).xyz * uO.z
+                         + ud.xyz * (1.0-uO.z)) * dc * ud.w
                     + us.xyz * sc * us.w,
-                    opacity) * uOpt.x
-                + vec4(ud.xyz * uOpt.y, 1.0), // wireframe component
+                    1.0) * uO.x,               // 1.0 - hardcoded opacity
+                // + vec4(ud.xyz * uO.y, 1.0), // wireframe component
             uF, fA
         );
     }
