@@ -44,33 +44,33 @@ class Surface {
         // adjust to the world coordinates
 
         // set current model matrix
-        gl.uniformMatrix4fv(_m, false, mMatrix)
+        gl.uniformMatrix4fv(_a.m, false, mMatrix)
 
         // calculate the normal matrix out of the model one (=> invert => transpose)
         mat4.copy(wMatrix, mMatrix)
         mat4.invert(wMatrix)
         mat4.transpose(nMatrix, wMatrix)
-        gl.uniformMatrix4fv(_n, false, nMatrix)
+        gl.uniformMatrix4fv(_a.n, false, nMatrix)
 
         // rendering options
         if (this.tex) this.renderOptions[2] = 1
-        gl.uniform4fv(_uOpt, this.renderOptions)
+        gl.uniform4fv(_a.uOpt, this.renderOptions)
 
         // -------------------------------------
         // bind our geometry and materials
 
         // set the material
         if (this.m.a.length !== 4 || this.m.d.length !== 4 | this.m.s.length !== 4) debugger
-        gl.uniform4fv(_ua, this.m.a)
-        gl.uniform4fv(_ud, this.m.d)
-        gl.uniform4fv(_us, this.m.s)
-        gl.uniform1f(_un, this.m.n)
+        gl.uniform4fv(_a.ua, this.m.a)
+        gl.uniform4fv(_a.ud, this.m.d)
+        gl.uniform4fv(_a.us, this.m.s)
+        gl.uniform1f(_a.un, this.m.n)
 
         if (this.tex) {
             // bind texture
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this.tex);
-            gl.uniform1i(_uTexture, 0);
+            gl.uniform1i(_a.uTexture, 0);
         }
 
         // set the shader attributes 

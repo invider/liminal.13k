@@ -433,7 +433,7 @@ const mat4 = {
             a[n+3] = bx * a1w + by * a2w + bz * a3w + bw * a4w
         }
 
-        return this
+        return mat4
     },
 
     // invert a 4x4 matrix

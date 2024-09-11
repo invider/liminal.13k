@@ -565,20 +565,21 @@ function exec(opcodes) {
                                 
                         } else {
                             // DEBUG vm
-                            if (debug) {
-                                const fn = ops[op]
-                                if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
-                            }
+                            //if (debug) {
+                            //    const fn = ops[op]
+                            //    if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                            //}
                             ops[op]()
                         }
                 }
             }
         }
     } catch(e) {
-        log(`@${i-1}: #${op}`)
-        log(opcodes.raw.join(''))
-        console.dir(opcodes)
-        log(opcodes.map(op => opsRef[op]).join('\n'))
+        // DEBUG vm
+        //log(`@${i-1}: #${op}`)
+        //log(opcodes.raw.join(''))
+        //console.dir(opcodes)
+        //log(opcodes.map(op => opsRef[op]).join('\n'))
         throw e
     }
     return brews

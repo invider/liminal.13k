@@ -1,4 +1,25 @@
 // shader attributes
+let ctx
+    _a = {},
+    _A = [
+        'm',
+        'n',
+        'v',
+        'p',
+        'uOpt',
+        'ucp',
+        'udv',
+        'udc',
+        'upl',
+        'upc',
+        'uFogColor',
+        'ua',
+        'ud',
+        'us',
+        'un',
+        'uTexture'
+    ]
+/*
 let _m, _n, _v, _p,
     _uOpt,
     _ucp,
@@ -12,7 +33,7 @@ let _m, _n, _v, _p,
     _us,
     _un,
     _uTexture,
-    ctx
+*/
 
 function compileShader(src, type) {
     //const src = document.getElementById(id).innerHTML
@@ -43,6 +64,8 @@ function setupShaders() {
 }
 
 function setupUniforms() {
+    _A.forEach(u => _a[u] = gl.getUniformLocation(glProg, u))
+    /*
     _m = gl.getUniformLocation(glProg, 'm')
     _n = gl.getUniformLocation(glProg, 'n')
     _v = gl.getUniformLocation(glProg, 'v')
@@ -60,6 +83,7 @@ function setupUniforms() {
     _us = gl.getUniformLocation(glProg, 'us')
     _un = gl.getUniformLocation(glProg, 'un')
     _uTexture = gl.getUniformLocation(glProg, 'uTexture')
+    */
 }
 
 function setupStage() {

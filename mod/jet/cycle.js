@@ -32,23 +32,23 @@ function drawScene() {
 
     // setup up the view and projection transformations
     // TODO merge view and projection into the pv matrix and get it from the camera
-    gl.uniformMatrix4fv(_p, false, lab.cam.projectionMatrix())
-    gl.uniformMatrix4fv(_v, false, lab.cam.viewMatrix())
-    gl.uniform3fv(_ucp, lab.cam.pos)
+    gl.uniformMatrix4fv(_a.p, false, lab.cam.projectionMatrix())
+    gl.uniformMatrix4fv(_a.v, false, lab.cam.viewMatrix())
+    gl.uniform3fv(_a.ucp, lab.cam.pos)
 
     // TODO precalc in _dirLight buffer and use that instead?
     const rnv = vec3.clone(env.dv)
     vec3.scale(rnv, -1)
     vec3.n(rnv)
 
-    gl.uniform3fv(_udv, rnv)
-    gl.uniform4fv(_udc, env.dc)
+    gl.uniform3fv(_a.udv, rnv)
+    gl.uniform4fv(_a.udc, env.dc)
 
     // set point light uniforms
-    gl.uniform3fv(_upl, env.pl)
-    gl.uniform4fv(_upc, env.pc)
+    gl.uniform3fv(_a.upl, env.pl)
+    gl.uniform4fv(_a.upc, env.pc)
 
-    gl.uniform4fv(_uFogColor, env.fogColor)
+    gl.uniform4fv(_a.uFogColor, env.fogColor)
 
     // draw the scene graph
     lab.draw()
