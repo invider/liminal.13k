@@ -255,14 +255,17 @@ screwUp = (() => {
                     break
 
                 default:
-                    if (c >= '0' && c <= '9') {
+                    if ((c >= '0' && c <= '9') || c === '.') {
                         let x = 0
-                        x = char2Digit(c)
 
-                        c = getc()
-                        while(c && c >= '0' && c <= '9') {
-                            x = x * 10 + char2Digit(c)
+                        if (c !== '.') {
+                            x = char2Digit(c)
+
                             c = getc()
+                            while(c && c >= '0' && c <= '9') {
+                                x = x * 10 + char2Digit(c)
+                                c = getc()
+                            }
                         }
 
                         if (c === '.') {

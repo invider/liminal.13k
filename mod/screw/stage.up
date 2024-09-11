@@ -48,17 +48,18 @@ mt
 ;
 
 --- material ---
-0.5     0.6     0.7     0.2   -- ambient
-1       0.5       0       0.8   -- diffuse
-1       1       1       0.8   -- specular
-20                            -- shininess
+.9      .54     .14     0.15
+.7      .2       .1     0.4
+ 1       1        1     0.4
+.5       1       1        1
+8                            -- shininess
 "pad" mt
 
 --- material ---
-1      0.2     0.3      0.2   -- ambient
-0.9      0       0      0.4   -- diffuse
-1      0.2     0.5      0.8   -- specular
-20                            -- shininess
+.5      .5     .55  .1 
+.5      .5     .55  .3
+ 1      .7     .8    .4
+10                            -- shininess
 "blk" mt
 
 
