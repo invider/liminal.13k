@@ -325,7 +325,7 @@ screwUp = (() => {
 
             function tryNumberCompaction() {
                 if (numSequence.length === 0) return // nothing to compact
-                console.log('found a compaction queue: ' + numSequence.length)
+                // console.log('found a compaction queue: ' + numSequence.length)
 
                 const nqueue = []
                 const last = numSequence.pop()
@@ -395,15 +395,16 @@ screwUp = (() => {
                     let iop = opsRef.indexOf('push1i')
                     iop += (snum.x - 1) * 4 + snum.t
                     snum.iop = iop
+
+                    if (!notSequenced) {
+                        console.log(`@${snum.at}: #${iop}/${opsRef[iop]} ${t.v}`
+                              + ` T${snum.t}/X${snum.x} - `
+                              + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
+                        sequenceNumber(snum)
+                    }
                     opcodes.push( screwBase(iop) )
                     snum.s.forEach(e => opcodes.push(e))
 
-                    if (!notSequenced) {
-                        //console.log(`@${snum.at}: #${iop}/${opsRef[iop]} ${t.v}`
-                        //      + ` T${snum.t}/X${snum.x} - `
-                        //      + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
-                        sequenceNumber(snum)
-                    }
                 } catch (e) {
                     cerr(e.toString(), t)
                 }

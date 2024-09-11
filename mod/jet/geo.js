@@ -1,6 +1,12 @@
 // === geo library ===
-const glib = {}, gix = [], dat = {}
-
+const glib = {}, gix = [], dat = {}, mlib = {
+    jumpPad: {
+        a: vec4(.5, .6, .7, .2),
+        d: rgba('00FFFF80'),
+        s: vec4(1, 1, 1, .8),
+        n: 20,
+    },
+}
 
 const geo = (() => {
 
@@ -15,8 +21,12 @@ let g,                      // current geo form
 let s = [], m = [], b = [] // value and matrix stacks
 
 function pop() {
-    if (debug) if (s.length === 0) throw 'Empty stack!'
+    //if (debug) if (s.length === 0) throw 'Empty stack!'
     return s.pop()
+}
+
+function peek() {
+    return s[s.length - 1]
 }
 
 function popV4() {
@@ -198,12 +208,18 @@ const ops = [
     },
     // mt - define the suggested material
     () => {
-        g.m = {
+        let N, t = 0
+        if (typeof peek() === 'string') {
+            N = pop()
+            t = 1
+        }
+        w = {
             n: pop(),
             s: popV4(),
             d: popV4(),
             a: popV4(),
         }
+        t? mlib[N] = w : g.m = w
     },
 
     // === basic geometries ===

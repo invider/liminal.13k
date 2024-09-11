@@ -45,8 +45,7 @@ class Terrace extends Frame {
         })
 
         // activate the jumppad
-        cell.dir = rnd() * PI2
-        cell.surface.m = mlib.jumpPad
+        cell.surface.m = mlib.pad
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this
                 || runner.mt[1] > -10
@@ -115,7 +114,7 @@ class Terrace extends Frame {
 
                 let h = this.cellHHeight
                 const cell = this.attach( new Form({
-                    name: `${this.name}/platform[${ix+1}:${iz+1}]`,
+                    //name: `${this.name}/platform[${ix+1}:${iz+1}]`,
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
                     _pods: [
