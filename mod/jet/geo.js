@@ -1,7 +1,6 @@
 // === geo library ===
-const glib = {}, gix = []
+const glib = {}, gix = [], dat = {}
 
-let _gUV                    // enable UV generation
 
 const geo = (() => {
 
@@ -18,6 +17,14 @@ let s = [], m = [], b = [] // value and matrix stacks
 function pop() {
     if (debug) if (s.length === 0) throw 'Empty stack!'
     return s.pop()
+}
+
+function popV4() {
+    w = pop()
+    z = pop()
+    y = pop()
+    x = pop()
+    return vec4(x, y, z, w)
 }
 
 // apply a function for each vertice value
@@ -189,6 +196,15 @@ const ops = [
             g.u.push(y)
         }
     },
+    // mt - define the suggested material
+    () => {
+        g.m = {
+            n: pop(),
+            s: popV4(),
+            d: popV4(),
+            a: popV4(),
+        }
+    },
 
     // === basic geometries ===
     // plane
@@ -357,6 +373,11 @@ const ops = [
     // === finalizer ===
     // bounds
     () => { g.bounds = pv3() },
+    // dat - define data array
+    () => {
+        x = pop()
+        dat[x] = [].concat(s)
+    },
     // name
     () => { g.name = pop() },
     // brew
@@ -457,52 +478,13 @@ function unscrewOpcodes(rawcodes) {
 }
 
 /*
-// TODO
-function rerr(msg) {
-    throw new Error(`Screw Runtime Error: ${msg}`)
-}
-function defineWords(ops) {
-    let st = EMOD, word
-    const rops = []
-
-    for (let i = 0; i < ops.length; i++) {
-        const op = ops[i]
-        if (st) {
-            // do definition
-            if (op.t === END) {
-                st = EMOD
-            } else if (op.t === DEF) {
-                rerr(`Can't define a word [${op.v}] inside another word!`)
-            } else {
-                word.push(op)
-            }
-        } else {
-            // filter define and runtime ops
-            switch(op.t) {
-                case DEF:
-                    st = DMOD
-                    word = []
-                    word.name = op.v
-                    def[op.v] = word
-                    break
-                case END:
-                    rerr(`Unexpected end of a definition`)
-                    break
-                default:
-                    rops.push(op)
-            }
-        }
-    }
-    return rops
-}
-*/
-
 // HOWTO introduce a new op
 //       * include the operator function into the ops array in geo
 //       * insert the op name in the opsRef manifest at the matching position (== ops array index)
 //       * bump ghost opcodes limit to match PUSHS opcode index
 //       * don't forget to recompile existing snapshots with ./compile-s!
-const PUSHS = 39,
+*/
+const PUSHS = 41,
       DEF   = PUSHS + 1,
       END   = PUSHS + 2,
       CALL  = PUSHS + 3,
@@ -512,7 +494,7 @@ function exec(opcodes) {
     const len = opcodes.length
     let op, i = 0, n, buf
     // DEBUG vm
-    //try {
+    try {
         while (i < len) {
             op = opcodes[i++]
 
@@ -520,6 +502,9 @@ function exec(opcodes) {
                 // in definition mode
                 if (op === END) {
                     // definition is done
+                    console.log('#' + (def.length-1) + ' - NEW WORD IS DEFINED!')
+                    console.dir(cdef)
+                    console.log(cdef.map(op => op + '/' + opsRef[op]).join(' '))
                     cdef = null
                 } else {
                     cdef.push(op)
@@ -542,6 +527,7 @@ function exec(opcodes) {
 
                     case CALL:
                         x = pop()
+                        console.log('calling #' + x)
                         exec( def[x] )
                         break
 
@@ -550,13 +536,12 @@ function exec(opcodes) {
                     //    break
                     default:
                         if (op >= PUSHV + 16) {
-                            console.log('unscrewing a sequence! #' + op)
                             let o = op - PUSHV - 16,
                                 x = floor(o / 4) + 1,
                                 t = o % 4,
                                 c = 93 ** x,
                                 l = opcodes[i++], n, k, j
-                            console.log('type: ' + t + ' length: ' + x + ' slen: ' + l)
+                            console.log(`[!] unscrewing a sequence t:${t}/x:${x} of ${l} elements`)
 
                             for (k = 0; k < l; k++) {
                                 n = opcodes[i++]
@@ -585,23 +570,25 @@ function exec(opcodes) {
                                 
                         } else {
                             // DEBUG vm
-                            //if (debug) {
-                            //    const fn = ops[op]
-                            //    if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
-                            //}
+                            if (debug) {
+                                const fn = ops[op]
+                                if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
+                            }
                             ops[op]()
                         }
                 }
             }
         }
-    //} catch(e) {
+    } catch(e) {
         // DEBUG vm
-        //log(`@${i-1}: #${op}`)
-        //log(opcodes.raw.join(''))
-        //console.dir(opcodes)
+        log(`[!!!] ERROR @${i-1}: #${op}/${opsRef[op]}`)
+        log(opcodes.raw.join(''))
+        console.dir(opcodes)
         //log(opcodes.map(op => opsRef[op]).join('\n'))
-        //throw e
-    //}
+        console.log('definitions:')
+        console.dir(def)
+        throw e
+    }
     return brews
 }
 

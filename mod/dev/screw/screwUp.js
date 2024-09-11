@@ -311,7 +311,7 @@ screwUp = (() => {
         let idef = 0
         const def = {}
         const opcodes = []
-        const numSequence = []
+        let numSequence = []
 
         tk.forEach(t => {
 
@@ -322,11 +322,12 @@ screwUp = (() => {
 
             function tryNumberCompaction() {
                 if (numSequence.length === 0) return // nothing to compact
+                console.log('found a compaction queue: ' + numSequence.length)
 
                 const nqueue = []
                 const last = numSequence.pop()
                 nqueue.push(last)
-                while (numSequence.length > 0) {
+                while (numSequence.length > 0 && nqueue.length < BASE) {
                     const next = numSequence.pop()
                     if (next.t === last.t) {
                         // the same type of number
@@ -339,9 +340,9 @@ screwUp = (() => {
 
                 if (nqueue.length > 3) {
                     // have the compaction candidate sequence!
-                    console.dir(nqueue)
                     const len = nqueue.reduce((acc, num) => acc + num.s.length + 1, 0)
-                    console.log('### to compact: ' + nqueue.length + ' ' + len + ' bytes')
+                    console.log('### found numbers to compact: ' + nqueue.length + ' -> ' + len + ' bytes')
+                    console.dir(nqueue)
                     for (let i = 0; i < len; i++) opcodes.pop() // throw away the previous sequence
                     const firstNum = nqueue[0]
                     const vectorOpCode = firstNum.iop + 16
@@ -352,13 +353,41 @@ screwUp = (() => {
                         num.s.forEach(e => opcodes.push(e))
                     }
                 }
+                numSequence = []
 
-                if (numSequence.length > 0) return tryNumberCompaction() // try to compact the next bunch of numbers in the queue
+                /*
+                if (numSequence.length > 0) {
+                    console.log('eating more of the number compaction queue: ' + numSequence.length)
+                    return tryNumberCompaction() // try to compact the next bunch of numbers in the queue
+                }
+                */
+            }
+
+            function sequenceNumber(snum) {
+                if (numSequence.length === 0) {
+                    // start a new compaction sequence
+                    numSequence.push(snum)
+                } else {
+                    const last = numSequence[0]
+                    if (numSequence.length < BASE && last.t === snum.t && last.x === snum.x) {
+                        // the number is compatible with the existing sequence
+                        // and there is still space left
+                        numSequence.push(snum)
+                    } else {
+                        // the number is incompatible with the sequence
+                        // try to compact and clean the existing one
+                        tryNumberCompaction()
+
+                        // and start the new
+                        numSequence.push(snum)
+                    }
+                }
             }
 
             function placeNumber(v, notSequenced) {
                 try {
                     const snum = screwBaseNumber(v)
+                    snum.v = v
                     snum.at = opcodes.length
                     let iop = opsRef.indexOf('push1i')
                     iop += (snum.x - 1) * 4 + snum.t
@@ -367,10 +396,10 @@ screwUp = (() => {
                     snum.s.forEach(e => opcodes.push(e))
 
                     if (!notSequenced) {
-                        console.log(`@${snum.at}: #${iop}/${opsRef[iop]} ${t.v}`
-                              + ` T${snum.t}/X${snum.x} - `
-                              + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
-                        numSequence.push(snum)
+                        //console.log(`@${snum.at}: #${iop}/${opsRef[iop]} ${t.v}`
+                        //      + ` T${snum.t}/X${snum.x} - `
+                        //      + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
+                        sequenceNumber(snum)
                     }
                 } catch (e) {
                     cerr(e.toString(), t)
@@ -395,7 +424,7 @@ screwUp = (() => {
 
                     opcode = opsRef.indexOf('def')
                     opcodes.push( screwBase(opcode) )    // new def opcode
-                    opcodes.push( screwBase(newDef.id) ) // def id
+                    //opcodes.push( screwBase(newDef.id) ) // def id - good only for debug
 
                     console.dir(`#${opcode}[${screwBase(opcode)}]: new word @[${newDef.id}][${newDef.name}]`)
                     break

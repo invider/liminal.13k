@@ -1,3 +1,7 @@
+====================
+=    PRIMITIVES    =
+====================
+
 === kube geometry ===
 kube:
 
@@ -27,19 +31,89 @@ unbuf
 ;
 ---------------------
 
-neogeo mpush kube 8 1 8 stretch "cell" 8 1 8 bounds name mpop brew
 
--- floppy parts
-neogeo mpush kube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name mpop brew
+
+===================
+=    MATERIALS    =
+===================
+
+=== metal material definition ===
+metal:
+dump
+0.63    0.63    0.63    0.32  -- ambient
+0.63    0.63    0.63    0.32  -- diffuse
+1       1       1       0.9   -- specular
+10
+mt
+;
+
+
+
+==================
+=    GEOMETRY    =
+==================
+
+=== cell ===
+neogeo
+mpush
+kube
+8 1 8 stretch
+
+--- material ---
+0.06    0.06    0.07    0.32  -- ambient
+0.13    0.13    0.14    0.65  -- diffuse
+1       1       1       0.3   -- specular
+20                            -- shininess
+mt
+
+8 1 8 bounds
+"cell" name
+mpop
+brew
+
+=== jump pad ===
+neogeo
+mpush
+kube 8 1 8
+stretch
+8 1 8 bounds
+"pad" name
+mpop
+brew
+
+
+=== floppy disk ===
+neogeo
+mpush
+kube
+1 1 0.1 stretch
+
+--- material ---
+0.06    0.06    0.07    0.32  -- ambient
+0.13    0.13    0.14    0.65  -- diffuse
+1       1       1       0.3   -- specular
+20                            -- shininess
+mt
+
+2 2.5 2 bounds
+
+"floppy" name
+mpop
+brew
+
 
 mpush
 neogeo
-25 precision
 0.25 0.25 0.25 mscale
 HPI mrotY
 0 0.45 0 translate
-circle "fdisc" name brew
+
+25 precision
+circle
 15 precision
+
+metal
+"fdisc" name brew
 mpop
 
 mpush
@@ -49,8 +123,12 @@ buf
 0.5 0.35 0.11 mscale
 -0.2 2 0 translate
 unbuf
+
+metal
 "shutter" name brew
 mpop
+
+
 
 -- debug --
 neogeo mpush kube 0.8 scale "connection" name mpop brew

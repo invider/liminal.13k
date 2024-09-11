@@ -29,12 +29,14 @@ const opsRef = [
     'stretch',
     'tri',
     'tuv',
+    'mt',           // define the material
     'plane',
     //'sphere',
     //'cylinder',
     'circle',
 
     'bounds',
+    'dat',
     'name',
     'brew',
     'brewWires',
