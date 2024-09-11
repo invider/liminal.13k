@@ -16,6 +16,20 @@ _commands = {
     },
     _backfaces: 'turn backfaces on and off',
 
+    tween: function() {
+        const platform = lab.hero.lastPlatform
+
+        lab.tw.inc({
+            tar: platform.pos,
+            p: 2,
+            v1: platform.pos[2],
+            v2: platform.pos[2] + 5,
+            t: 5,
+            f: _tw.inOut,
+        })
+    },
+    _tween: 'test tweening',
+
     help: function(cmd) {
         const dir = {}
         for (c in _commands) {
