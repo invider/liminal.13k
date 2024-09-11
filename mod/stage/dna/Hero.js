@@ -45,7 +45,8 @@ class Hero extends Frame {
                 break
             case 2:
                 // redeploy on the last touched jumppad
-                vec3.copy(this.pos, this.lastPad.pos)
+                if (this.lastPad) vec3.copy(this.pos, this.lastPad.pos)
+                else vec3.copy(this.pos, this._initialPos)
                 this.pos[1] += 15
                 vec3.set(this.mt, 0, 0, 0)
                 this.HD = 0
