@@ -18,6 +18,7 @@ class MegaCity {
         })
     }
 
+    /*
     // search for the city edge in the provided direction as related to the hero
     edge(dir, basePos) {
         let edge = 0, edges = this.edges, e
@@ -54,6 +55,7 @@ class MegaCity {
         })
         return Math.abs(edge)
     }
+    */
 
     isClaimed(pos, hsize) {
         return this.blocks.filter(b => b.porous.touch(
@@ -123,8 +125,10 @@ class MegaCity {
             hsize: vec3(TSIZE, THEIGHT, TSIZE),
         }))
         this.blocks.push(t)
-        this.edges = [t, t, t, t, t] }
+        //this.edges = [t, t, t, t, t]
+    }
 
+    /*
     edgeGenesis(dir) {
         const edge = this.edge(dir, vec3.clone(lab.hero.pos))
         if (edge < MIN_EDGE_TRIGGER) {
@@ -132,14 +136,17 @@ class MegaCity {
             const edgeBlock = this.edges[dir]
 
             // TODO do with fandom steps
-            const cn = edgeBlock.sf(1 + floor(mrnd() * 8))
+            const cn = edgeBlock.sf(4 + floor(mrnd() * 8))
             if (cn) return this.zone(cn)
         }
     }
+    */
 
     genesisBomb() {
+        let cn = lab.hero.lastPlatform.__.sf(1 + floor(mrnd() * 9))
+        if (cn) return this.zone(cn)
         // we prefer to build westward
-        if (!this.edgeGenesis(W)) if (!this.edgeGenesis(N)) this.edgeGenesis(S)
+        //if (!this.edgeGenesis(W)) if (!this.edgeGenesis(N)) this.edgeGenesis(S)
     }
 
     evo(dt) {

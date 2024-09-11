@@ -7,7 +7,7 @@ class Hero extends Frame {
             hh: 1,
             HD: 0,
 
-            eY: 1.5,
+            eY: 2,
             tiltAngle: 0,
             minTilt: -PI/2,
             maxTilt:  PI/2,
@@ -22,7 +22,7 @@ class Hero extends Frame {
         st._pods = augment(st._pods, [
             new FPSMovementControllerPod(),
             new SolidBoxPod({
-                hsize: vec3(.7, 1.5, .7), 
+                hsize: vec3(.7, 2, .7), 
             }),
         ])
         st._traits = augment(st._traits, [ attitudeTrait ])

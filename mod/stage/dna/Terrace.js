@@ -66,13 +66,13 @@ class Terrace extends Frame {
     // search free connection
     sf(d) {
         if (d) {
-            // log('looking for links @' + this.name)
+            log(`search deeper ${d} @${this.name}`)
             // select a random linked connection
             const cn = mrnd.elem(this.connections.filter(cn => cn.target))
             if (cn) return cn.target.sf(d - 1)
             else return this.sf(d - 1)
         } 
-        // log('selecting free @' + this.name)
+        log('selecting free @' + this.name)
         // select a free connection
         return mrnd.elem(this.connections.filter(cn => cn.isFree()))
     }
@@ -114,7 +114,7 @@ class Terrace extends Frame {
 
                 let h = this.cellHHeight
                 const cell = this.attach( new Form({
-                    //name: `${this.name}/platform[${ix+1}:${iz+1}]`,
+                    name: `${this.name}/platform[${ix+1}:${iz+1}]`,
                     pos: vec3(x+s, np[1]+h + yShift, z+s),
 
                     _pods: [
@@ -149,18 +149,13 @@ class Terrace extends Frame {
                         }
                     }
                 } else {
-                    // do we need a floppy here?
-                    const FLOPPY_LEVEL = 0.37
-                    const BX = 21, BY = 17, BZ = 14, FQ = .01
-                    const dataDensity = snoise(BX + cell.pos[0] * FQ, BY + cell.pos[2] * FQ, BZ)
-                    if (dataDensity < FLOPPY_LEVEL) {
-                         const p = vec3.iadd(cell.pos, vec3(0, 5, 0))
-                        // DEBUG floppy placement
-                        // log('creating floppy at ' + p[0] + ':' + p[2])
+                    // tune - floppy seeding level
+                    if (snoise(21 + cell.pos[0] * .02, 17 + cell.pos[2] * .02, 14) < .4) {
+                         const p = vec3.iadd(cell.pos, vec3(0, 4.2, 0))
                         lab.attach( new Floppy({
                             pos:      p,
                             reactive: 1,
-                            c:        13 + floor(mrnd() * 400),
+                            c:        100 + floor(mrnd() * 540),
                         }))
                     }
                 }
