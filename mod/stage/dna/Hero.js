@@ -32,7 +32,7 @@ class Hero extends Frame {
     }
 
     reset() {
-        log('=== TERMINAL FALL ===') 
+        //log('=== TERMINAL FALL ===') 
         switch(env.resetMode) {
             case 0:
                 // full map restore
@@ -44,10 +44,11 @@ class Hero extends Frame {
                 this.mt[1] = 0
                 break
             case 2:
-                // redeploy on the last touched platform
-                vec3.copy(this.pos, this.lastPlatform.pos)
+                // redeploy on the last touched jumppad
+                vec3.copy(this.pos, this.lastPad.pos)
                 this.pos[1] += 15
-                this.mt[1] = 0
+                vec3.set(this.mt, 0, 0, 0)
+                this.HD = 0
                 break
         }
     }

@@ -1,4 +1,3 @@
-
 // Runnable Mega-City 13 Block
 class Terrace extends Frame {
 
@@ -45,13 +44,17 @@ class Terrace extends Frame {
         })
 
         // activate the jumppad
-        cell.surface.m = mlib.pad
+        cell.surface.m = mlib.blk
+        cell.evo = function() {
+            if (lab.hero.HD < 500) this.surface.m = mlib.blk
+            else this.surface.m = mlib.pad
+        }
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this
                 || runner.mt[1] > -10
-                || runner.HD < 100) return
-            runner.HD -= 100
-            runner.lastJumpPad = this
+                || runner.HD < 500) return
+            runner.HD -= 500
+            runner.lastJumpPad = runner.lastPad = this
             defer(() => {
                 // push - push direction is a bad idea
                 const dy = JUMP_PAD_PUSH
@@ -150,7 +153,7 @@ class Terrace extends Frame {
                     }
                 } else {
                     // tune - floppy seeding level
-                    if (snoise(21 + cell.pos[0] * .02, 17 + cell.pos[2] * .02, 14) < .4) {
+                    if (snoise(21 + cell.pos[0] * .4, 17 + cell.pos[2] * .4, 14) < .4) {
                          const p = vec3.iadd(cell.pos, vec3(0, 4.2, 0))
                         lab.attach( new Floppy({
                             pos:      p,

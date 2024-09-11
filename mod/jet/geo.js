@@ -1,12 +1,5 @@
 // === geo library ===
-const glib = {}, gix = [], dat = {}, mlib = {
-    jumpPad: {
-        a: vec4(.5, .6, .7, .2),
-        d: rgba('00FFFF80'),
-        s: vec4(1, 1, 1, .8),
-        n: 20,
-    },
-}
+const glib = {}, gix = [], dat = {}, mlib = {}
 
 const geo = (() => {
 
