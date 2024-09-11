@@ -19,21 +19,6 @@ let ctx
         'un',
         'uTexture'
     ]
-/*
-let _m, _n, _v, _p,
-    _uOpt,
-    _ucp,
-    _udv,
-    _udc,
-    _upl,
-    _upc,
-    _uFogColor,
-    _ua,
-    _ud,
-    _us,
-    _un,
-    _uTexture,
-*/
 
 function compileShader(src, type) {
     //const src = document.getElementById(id).innerHTML
@@ -65,25 +50,6 @@ function setupShaders() {
 
 function setupUniforms() {
     _A.forEach(u => _a[u] = gl.getUniformLocation(glProg, u))
-    /*
-    _m = gl.getUniformLocation(glProg, 'm')
-    _n = gl.getUniformLocation(glProg, 'n')
-    _v = gl.getUniformLocation(glProg, 'v')
-    _p = gl.getUniformLocation(glProg, 'p')
-
-    _uOpt = gl.getUniformLocation(glProg, 'uOpt')
-    _ucp = gl.getUniformLocation(glProg, 'ucp')
-    _udv = gl.getUniformLocation(glProg, 'udv')
-    _udc = gl.getUniformLocation(glProg, 'udc')
-    _upl = gl.getUniformLocation(glProg, 'upl')
-    _upc = gl.getUniformLocation(glProg, 'upc')
-    _uFogColor = gl.getUniformLocation(glProg, 'uFogColor')
-    _ua = gl.getUniformLocation(glProg, 'ua')
-    _ud = gl.getUniformLocation(glProg, 'ud')
-    _us = gl.getUniformLocation(glProg, 'us')
-    _un = gl.getUniformLocation(glProg, 'un')
-    _uTexture = gl.getUniformLocation(glProg, 'uTexture')
-    */
 }
 
 function setupStage() {
@@ -137,7 +103,7 @@ window.onload = () => {
         }
     } else {
         // zap directly, so they not be optimized
-        zapAudioController()
+        // zapAudioController()
         zapTextures()
         zapScrewLib()
         zapPreStage()

@@ -16,20 +16,23 @@ class Surface {
         }, st)
 
         // create buffers
-        this.buf.v = this.createBuffer(this.geo.v)
-        this.buf.n = this.createBuffer(this.geo.n)
-        this.buf.w = this.createBuffer(this.geo.w)
-        this.buf.c = this.createBuffer(this.geo.c)
-        this.buf.u = this.createBuffer(this.geo.u)
-        this.buf.f = this.createBuffer(this.geo.f, gl.ELEMENT_ARRAY_BUFFER)
-    }
-
-    createBuffer(data, type) {
-        if (!data) return
-        const buf = gl.createBuffer()
-        gl.bindBuffer(type || gl.ARRAY_BUFFER, buf)
-        gl.bufferData(type || gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
-        return buf
+        let cb = (d) => {
+            if (d) {
+                const b = gl.createBuffer()
+                gl.bindBuffer(gl.ARRAY_BUFFER, b)
+                gl.bufferData(gl.ARRAY_BUFFER, d, gl.STATIC_DRAW)
+                return b
+            }
+        }
+        for (let b of this.geo.B) {
+            this.buf[b] = cb(this.geo[b])
+        }
+        //this.buf.v = this.createBuffer(this.geo.v)
+        //this.buf.n = this.createBuffer(this.geo.n)
+        //this.buf.w = this.createBuffer(this.geo.w)
+        //this.buf.c = this.createBuffer(this.geo.c)
+        //this.buf.u = this.createBuffer(this.geo.u)
+        //this.buf.f = this.createBuffer(this.geo.f, gl.ELEMENT_ARRAY_BUFFER)
     }
 
     bindAttribute(buf, name, n) {
@@ -60,7 +63,6 @@ class Surface {
         // bind our geometry and materials
 
         // set the material
-        if (this.m.a.length !== 4 || this.m.d.length !== 4 | this.m.s.length !== 4) debugger
         gl.uniform4fv(_a.ua, this.m.a)
         gl.uniform4fv(_a.ud, this.m.d)
         gl.uniform4fv(_a.us, this.m.s)
@@ -91,10 +93,10 @@ class Surface {
             gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.buf.faces)
             gl.drawElements(gl.TRIANGLES, this.geo.fc, gl.UNSIGNED_SHORT, 0)
 
-            if (debug) env.stat.polygons += this.geo.fc / 3
+            //if (debug) env.stat.polygons += this.geo.fc / 3
         } else {
             gl.drawArrays(gl.TRIANGLES, 0, this.geo.vc)
-            if (debug) env.stat.polygons += this.geo.vc / 3
+            //if (debug) env.stat.polygons += this.geo.vc / 3
         }
     }
 }

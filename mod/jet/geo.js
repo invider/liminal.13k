@@ -89,9 +89,10 @@ const ops = [
         g = {
             v: [], // vertices
             n: [], // normals
-            f: [], // faces 
+            //f: [], // faces 
             c: [], // colors
             u: [], // uvs
+            B: ['v', 'n', 'c', 'u'],
         }
     },
     // drop
@@ -391,12 +392,14 @@ const ops = [
         if (g.c.length > 0) g.c = new Float32Array(g.c)
         else g.c = null
 
+        /*
         if (g.f.length === 0) {
             g.f = null
         } else {
             g.f = new Uint16Array(g.f)
             g.fc = g.f.length
         }
+        */
 
         if (g.n.length === 0) {
             g.n = new Float32Array( calcNormals(g.v, S) ) 
@@ -404,6 +407,7 @@ const ops = [
             g.n = new Float32Array(g.n) 
         }
 
+        /*
         // DEBUG vertex stat
         if (debug) {
             if (!this.vc) this.vc = 0
@@ -417,7 +421,7 @@ const ops = [
 
             env.dump['Geometry Library'] = `${this.gc} (${this.pc} polygons)`
         }
-
+        */
         gix.push(g)
         if (g.name) glib[g.name] = g
         brews.push(g)
@@ -440,7 +444,7 @@ const
 
 function unscrewRune(r) {
     let n = r.charCodeAt(0)
-    if (debug) if (n > 196) throw `Corrupted rune: [${r}]`
+    //if (debug) if (n > 196) throw `Corrupted rune: [${r}]`
     if (n > 96) n--
     if (n > 92) n--
     return n - 32
@@ -508,7 +512,7 @@ function exec(opcodes) {
     const len = opcodes.length
     let op, i = 0, n, buf
     // DEBUG vm
-    try {
+    //try {
         while (i < len) {
             op = opcodes[i++]
 
@@ -531,7 +535,6 @@ function exec(opcodes) {
                         break
 
                     case DEF:
-                        log(`new definition #` + def.length)
                         cdef = []
                         cdef.raw = []
                         def.push(cdef)
@@ -539,8 +542,6 @@ function exec(opcodes) {
 
                     case CALL:
                         x = pop()
-                        log(`calling #${x}, opcodes: ${def[x].raw.join('')}`)
-                        console.dir( def[x] )
                         exec( def[x] )
                         break
 
@@ -574,14 +575,14 @@ function exec(opcodes) {
                 }
             }
         }
-    } catch(e) {
+    //} catch(e) {
         // DEBUG vm
         //log(`@${i-1}: #${op}`)
         //log(opcodes.raw.join(''))
         //console.dir(opcodes)
         //log(opcodes.map(op => opsRef[op]).join('\n'))
-        throw e
-    }
+        //throw e
+    //}
     return brews
 }
 

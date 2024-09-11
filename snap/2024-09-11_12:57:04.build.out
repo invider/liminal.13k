@@ -1,0 +1,387 @@
+Indexing source files...
+Indexing in ./mod
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liminal</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="./dev/cmd.js"></script>
+        <script src="./dev/com/FreeMovementControllerPod.js"></script>
+        <script src="./dev/commands.js"></script>
+        <script src="./dev/com/OrbitalControllerPod.js"></script>
+        <script src="./dev/debug.js"></script>
+        <script src="./dev/dna/CityMap.js"></script>
+        <script src="./dev/dna/HUD.js"></script>
+        <script src="./dev/dna/playerStateDump.js"></script>
+        <script src="./dev/dna/stageStat.js"></script>
+        <script src="./dev/dutil.js"></script>
+        <script src="./dev/expect.js"></script>
+        <script src="./dev/fx.js"></script>
+        <script src="./dev/img.js"></script>
+        <script src="./dev/obj.js"></script>
+        <script src="./dev/screenshotController.js"></script>
+        <script src="./dev/screw/corkscrew.js"></script>
+        <script src="./dev/screw/dsl.js"></script>
+        <script src="./dev/screw/GeoSpinner.js"></script>
+        <script src="./dev/screw/ops.js"></script>
+        <script src="./dev/screw/screwUp.js"></script>
+        <script src="./dev/screw/SpinnerControl.js"></script>
+        <script src="./dev/termit/js/termit.js"></script>
+        <script src="./dev/termit/js/termitSetup.js"></script>
+        <script src="./dry/math.js"></script>
+        <script src="./dry/util.js"></script>
+        <script src="./dry/zap.js"></script>
+        <script src="./ext/gif.js"></script>
+        <script src="./gif.worker.js"></script>
+        <script src="./jet/com/attitudeTrait.js"></script>
+        <script src="./jet/com/FPSMovementControllerPod.js"></script>
+        <script src="./jet/com/SolidBoxPod.js"></script>
+        <script src="./jet/com/SolidSpherePod.js"></script>
+        <script src="./jet/cycle.js"></script>
+        <script src="./jet/dna/Camera.js"></script>
+        <script src="./jet/dna/Form.js"></script>
+        <script src="./jet/dna/Surface.js"></script>
+        <script src="./jet/env.js"></script>
+        <script src="./jet/geo.js"></script>
+        <script src="./jet/ken/pnoise.js"></script>
+        <script src="./jet/setup.js"></script>
+        <script src="./jet/shader.js"></script>
+        <script src="./jet/texture.js"></script>
+        <script src="./jet/trap.js"></script>
+        <script src="./sandbox/banner.js"></script>
+        <script src="./sandbox/boxCorkscrew.js"></script>
+        <script src="./sandbox/boxCube.js"></script>
+        <script src="./sandbox/boxCubesUV.js"></script>
+        <script src="./sandbox/boxFM.js"></script>
+        <script src="./sandbox/boxGeo.js"></script>
+        <script src="./sandbox/boxObj.js"></script>
+        <script src="./sandbox/boxOne.js"></script>
+        <script src="./sandbox/boxScrew.js"></script>
+        <script src="./sandbox/boxStationary.js"></script>
+        <script src="./sandbox/toolbox.js"></script>
+        <script src="./stage/com/collidableTrait.js"></script>
+        <script src="./stage/default.js"></script>
+        <script src="./stage/dna/Connection.js"></script>
+        <script src="./stage/dna/Floppy.js"></script>
+        <script src="./stage/dna/Hero.js"></script>
+        <script src="./stage/dna/MegaCity.js"></script>
+        <script src="./stage/dna/Terrace.js"></script>
+        <script src="./stage/glib.js"></script>
+        <script src="./stage/mlib.js"></script>
+        <script src="./stage/preStage.js"></script>
+        <script src="./stage/slib.js"></script>
+        <script src="./stage/sutil.js"></script>
+        <script src="./stage/tune.js"></script>
+        <script src="./support/dna/WireMesh.js"></script>
+    </head>
+    <body oncontextmenu="return false;">
+        <canvas id="gc"></canvas>
+        <canvas id="hc"></canvas>
+    </body>
+</html>
+'./.stage.tmp' -> './index.html'
+Cleaning...
+Screwing...
+Compiling screw source: 
+======================================
+=== kube geometry ===
+kube:
+
+-1  1 -1
+ 1  1  1
+-1  1  1
+
+-1  1 -1
+ 1  1 -1
+ 1  1  1
+
+tri tri
+
+reflectY
+
+mpush
+buf
+
+HPI mrotY
+unbuf
+
+HPI mrotZ
+unbuf
+
+mpop
+unbuf
+;
+---------------------
+
+neogeo mpush kube 8 1 8 stretch "cell" 8 1 8 bounds name mpop brew
+
+-- floppy parts
+neogeo mpush kube 1 1 0.1 stretch "floppy" 2 2.5 2 bounds name mpop brew
+
+mpush
+neogeo
+25 precision
+0.25 0.25 0.25 mscale
+HPI mrotY
+0 0.45 0 translate
+circle "fdisc" name brew
+15 precision
+mpop
+
+mpush
+neogeo
+kube
+buf
+0.5 0.35 0.11 mscale
+-0.2 2 0 translate
+unbuf
+"shutter" name brew
+mpop
+
+-- debug --
+neogeo mpush kube 0.8 scale "connection" name mpop brew
+
+
+--------------------------------------
+'#40[H]: new word @[0][kube]'
+[H K~K!K~K!K!K!K~K!K!K~K!K~K!K!K~K!K!K!::6#%'3&'4&$&I #K JK(K!K(9G$cellK(K!K(>?$@ #K JK!K!L!9G&floppyK"L9K">?$@# K9,M9M9M90'3K MMK 1=G%fdisc?@K/,$# K J%L%MCM+0L}K"K 1&G'shutter?@$ #K JL(8G*connection?$@]
+======================================
+Saving to [./mod/stage/slib.js]
+function zapScrewLib(){geo(`H K~K!K~K!K!K!K~K!K!K~K!K~K!K!K~K!K!K!::6#%'3&'4&$&I #K JK(K!K(9G$cellK(K!K(>?$@ #K JK!K!L!9G&floppyK"L9K">?$@# K9,M9M9M90'3K MMK 1=G%fdisc?@K/,$# K J%L%MCM+0L}K"K 1&G'shutter?@$ #K JL(8G*connection?$@`)}
+232	./mod/stage/slib.js
+Staging the Package...
+'./mod/style.css' -> './dist/stage/style.css'
+'./mod/html/index.html' -> './dist/stage/index.html'
+'./mod/dry' -> './dist/stage/dry'
+'./mod/dry/math.js' -> './dist/stage/dry/math.js'
+'./mod/dry/util.js' -> './dist/stage/dry/util.js'
+'./mod/dry/zap.js' -> './dist/stage/dry/zap.js'
+'./mod/jet' -> './dist/stage/jet'
+'./mod/jet/setup.js' -> './dist/stage/jet/setup.js'
+'./mod/jet/env.js' -> './dist/stage/jet/env.js'
+'./mod/jet/shader.js' -> './dist/stage/jet/shader.js'
+'./mod/jet/trap.js' -> './dist/stage/jet/trap.js'
+'./mod/jet/geo.js' -> './dist/stage/jet/geo.js'
+'./mod/jet/cycle.js' -> './dist/stage/jet/cycle.js'
+'./mod/jet/texture.js' -> './dist/stage/jet/texture.js'
+'./mod/jet/com' -> './dist/stage/jet/com'
+'./mod/jet/com/FPSMovementControllerPod.js' -> './dist/stage/jet/com/FPSMovementControllerPod.js'
+'./mod/jet/com/SolidSpherePod.js' -> './dist/stage/jet/com/SolidSpherePod.js'
+'./mod/jet/com/attitudeTrait.js' -> './dist/stage/jet/com/attitudeTrait.js'
+'./mod/jet/com/SolidBoxPod.js' -> './dist/stage/jet/com/SolidBoxPod.js'
+'./mod/jet/dna' -> './dist/stage/jet/dna'
+'./mod/jet/dna/Surface.js' -> './dist/stage/jet/dna/Surface.js'
+'./mod/jet/dna/Camera.js' -> './dist/stage/jet/dna/Camera.js'
+'./mod/jet/dna/Form.js' -> './dist/stage/jet/dna/Form.js'
+'./mod/jet/ken' -> './dist/stage/jet/ken'
+'./mod/jet/ken/pnoise.js' -> './dist/stage/jet/ken/pnoise.js'
+'./mod/stage' -> './dist/stage/stage'
+'./mod/stage/default.js' -> './dist/stage/stage/default.js'
+'./mod/stage/mlib.js' -> './dist/stage/stage/mlib.js'
+'./mod/stage/glib.js' -> './dist/stage/stage/glib.js'
+'./mod/stage/tune.js' -> './dist/stage/stage/tune.js'
+'./mod/stage/slib.js' -> './dist/stage/stage/slib.js'
+'./mod/stage/sutil.js' -> './dist/stage/stage/sutil.js'
+'./mod/stage/preStage.js' -> './dist/stage/stage/preStage.js'
+'./mod/stage/dna' -> './dist/stage/stage/dna'
+'./mod/stage/dna/Hero.js' -> './dist/stage/stage/dna/Hero.js'
+'./mod/stage/dna/Floppy.js' -> './dist/stage/stage/dna/Floppy.js'
+'./mod/stage/dna/Terrace.js' -> './dist/stage/stage/dna/Terrace.js'
+'./mod/stage/dna/MegaCity.js' -> './dist/stage/stage/dna/MegaCity.js'
+'./mod/stage/dna/Connection.js' -> './dist/stage/stage/dna/Connection.js'
+'./mod/stage/com' -> './dist/stage/stage/com'
+'./mod/stage/com/collidableTrait.js' -> './dist/stage/stage/com/collidableTrait.js'
+Fixing the Package...
+/home/shock/dna/pub/liminal.13k/dist/stage/jet
+Changing debug flag to 0...
+Removing comment lines from shaders...
+/home/shock/dna/pub/liminal.13k
+==============
+=   Minify   =
+==============
+=== Loading [./dist/stage] ===
+ * loaded [./dist/stage/dry/math.js]:	16309b
+ * loaded [./dist/stage/dry/util.js]:	2197b
+ * loaded [./dist/stage/dry/zap.js]:	2351b
+ * loaded [./dist/stage/index.html]:	265b
+ * loaded [./dist/stage/jet/com/FPSMovementControllerPod.js]:	2847b
+ * loaded [./dist/stage/jet/com/SolidBoxPod.js]:	3926b
+ * loaded [./dist/stage/jet/com/SolidSpherePod.js]:	378b
+ * loaded [./dist/stage/jet/com/attitudeTrait.js]:	1495b
+ * loaded [./dist/stage/jet/cycle.js]:	2081b
+ * loaded [./dist/stage/jet/dna/Camera.js]:	1742b
+ * loaded [./dist/stage/jet/dna/Form.js]:	471b
+ * loaded [./dist/stage/jet/dna/Surface.js]:	3448b
+ * loaded [./dist/stage/jet/env.js]:	2102b
+ * loaded [./dist/stage/jet/geo.js]:	15628b
+ * loaded [./dist/stage/jet/ken/pnoise.js]:	1851b
+ * loaded [./dist/stage/jet/setup.js]:	2670b
+ * loaded [./dist/stage/jet/shader.js]:	2872b
+ * loaded [./dist/stage/jet/texture.js]:	2700b
+ * loaded [./dist/stage/jet/trap.js]:	1596b
+ * loaded [./dist/stage/stage/com/collidableTrait.js]:	1106b
+ * loaded [./dist/stage/stage/default.js]:	604b
+ * loaded [./dist/stage/stage/dna/Connection.js]:	2308b
+ * loaded [./dist/stage/stage/dna/Floppy.js]:	839b
+ * loaded [./dist/stage/stage/dna/Hero.js]:	7131b
+ * loaded [./dist/stage/stage/dna/MegaCity.js]:	4362b
+ * loaded [./dist/stage/stage/dna/Terrace.js]:	6704b
+ * loaded [./dist/stage/stage/glib.js]:	0b
+ * loaded [./dist/stage/stage/mlib.js]:	522b
+ * loaded [./dist/stage/stage/preStage.js]:	173b
+ * loaded [./dist/stage/stage/slib.js]:	232b
+ * loaded [./dist/stage/stage/sutil.js]:	306b
+ * loaded [./dist/stage/stage/tune.js]:	587b
+ * loaded [./dist/stage/style.css]:	171b
+-------------------------------------------
+   Total : 91974b
+-------------------------------------------
+ * saving [./dist/targetX/zap.js]
+
+=== Minified Stats ===
+=== Loading [./dist/targetX] ===
+ * loaded [./dist/targetX/zap.js]:	32590b
+-------------------------------------------
+   Total : 32590b
+-------------------------------------------
+'./dist/stage/index.html' -> './dist/targetX/index.html'
+'./dist/stage/style.css' -> './dist/targetX/style.css'
+==============
+=    GULP    =
+==============
+[12:57:06] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[12:57:06] Starting 'buildXC'...
+[12:57:06] Finished 'buildXC' after 41 ms
+[12:57:06] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[12:57:06] Starting 'buildXH'...
+[12:57:06] Finished 'buildXH' after 32 ms
+[12:57:07] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[12:57:07] Starting 'buildY'...
+[12:57:07] Finished 'buildY' after 862 ms
+[12:57:08] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[12:57:08] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[12:57:08] Starting 'buildZ'...
+[12:57:08] Finished 'buildZ' after 142 ms
+Indexing in ./dist/stage
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liminal</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="./dry/math.js"></script>
+        <script src="./dry/util.js"></script>
+        <script src="./dry/zap.js"></script>
+        <script src="./jet/com/attitudeTrait.js"></script>
+        <script src="./jet/com/FPSMovementControllerPod.js"></script>
+        <script src="./jet/com/SolidBoxPod.js"></script>
+        <script src="./jet/com/SolidSpherePod.js"></script>
+        <script src="./jet/cycle.js"></script>
+        <script src="./jet/dna/Camera.js"></script>
+        <script src="./jet/dna/Form.js"></script>
+        <script src="./jet/dna/Surface.js"></script>
+        <script src="./jet/env.js"></script>
+        <script src="./jet/geo.js"></script>
+        <script src="./jet/ken/pnoise.js"></script>
+        <script src="./jet/setup.js"></script>
+        <script src="./jet/shader.js"></script>
+        <script src="./jet/texture.js"></script>
+        <script src="./jet/trap.js"></script>
+        <script src="./prezap.js"></script>
+        <script src="./stage/com/collidableTrait.js"></script>
+        <script src="./stage/default.js"></script>
+        <script src="./stage/dna/Connection.js"></script>
+        <script src="./stage/dna/Floppy.js"></script>
+        <script src="./stage/dna/Hero.js"></script>
+        <script src="./stage/dna/MegaCity.js"></script>
+        <script src="./stage/dna/Terrace.js"></script>
+        <script src="./stage/glib.js"></script>
+        <script src="./stage/mlib.js"></script>
+        <script src="./stage/preStage.js"></script>
+        <script src="./stage/slib.js"></script>
+        <script src="./stage/sutil.js"></script>
+        <script src="./stage/tune.js"></script>
+    </head>
+    <body>
+        <canvas id="gc"></canvas>
+        <canvas id="hc"></canvas>
+    </body>
+</html>
+'./.stage.tmp' -> './index.html'
+=== Closure Compiler ===
+=============
+=    ZIP    =
+=============
+Creating the archive from [./dist/targetX] => [liminalx.zip]
+/home/shock/dna/pub/liminal.13k/dist/targetX
+  adding: index.html (deflated 33%)
+  adding: style.css (deflated 13%)
+  adding: zap.js (deflated 62%)
+renamed 'liminalx.zip' -> '../liminalx.zip'
+/home/shock/dna/pub/liminal.13k
+---------------------------------
+Test unpackaging of [liminalx.zip]...
+Archive:  liminalx.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+     196  Defl:N      131  33% 2024-09-11 12:57 51df1a77  index.html
+     112  Defl:N       97  13% 2024-09-11 12:57 b7491df2  style.css
+   32590  Defl:N    12314  62% 2024-09-11 12:57 e4c27003  zap.js
+--------          -------  ---                            -------
+   32898            12542  62%                            3 files
+Archive:  liminalx.zip
+  inflating: liminalx.zip.out/index.html  
+  inflating: liminalx.zip.out/style.css  
+  inflating: liminalx.zip.out/zap.js  
+/home/shock/dna/pub/liminal.13k
+Creating the archive from [./dist/targetY] => [liminaly.zip]
+/home/shock/dna/pub/liminal.13k/dist/targetY
+  adding: index.html (deflated 33%)
+  adding: style.css (deflated 13%)
+  adding: zap.js (deflated 64%)
+renamed 'liminaly.zip' -> '../liminaly.zip'
+/home/shock/dna/pub/liminal.13k
+---------------------------------
+Test unpackaging of [liminaly.zip]...
+Archive:  liminaly.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+     196  Defl:N      131  33% 2024-09-11 12:57 51df1a77  index.html
+     112  Defl:N       97  13% 2024-09-11 12:57 b7491df2  style.css
+   36947  Defl:N    13320  64% 2024-09-11 12:57 5973cf6c  zap.js
+--------          -------  ---                            -------
+   37255            13548  64%                            3 files
+Archive:  liminaly.zip
+  inflating: liminaly.zip.out/index.html  
+  inflating: liminaly.zip.out/style.css  
+  inflating: liminaly.zip.out/zap.js  
+/home/shock/dna/pub/liminal.13k
+Creating the archive from [./dist/targetZ] => [liminalz.zip]
+/home/shock/dna/pub/liminal.13k/dist/targetZ
+  adding: index.html (deflated 33%)
+  adding: style.css (deflated 13%)
+  adding: zap.js (stored 0%)
+renamed 'liminalz.zip' -> '../liminalz.zip'
+/home/shock/dna/pub/liminal.13k
+---------------------------------
+Test unpackaging of [liminalz.zip]...
+Archive:  liminalz.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+     196  Defl:N      131  33% 2024-09-11 12:57 51df1a77  index.html
+     112  Defl:N       97  13% 2024-09-11 12:57 b7491df2  style.css
+       0  Stored        0   0% 2024-09-11 12:57 00000000  zap.js
+--------          -------  ---                            -------
+     308              228  26%                            3 files
+Archive:  liminalz.zip
+  inflating: liminalz.zip.out/index.html  
+  inflating: liminalz.zip.out/style.css  
+ extracting: liminalz.zip.out/zap.js  
+/home/shock/dna/pub/liminal.13k
+-------------------------------
+12998	./dist/liminalx.zip
+14004	./dist/liminaly.zip
+684	./dist/liminalz.zip
+13K	./dist/liminalx.zip
+14K	./dist/liminaly.zip
+684	./dist/liminalz.zip
+-------------------------------
