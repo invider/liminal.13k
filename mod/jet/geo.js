@@ -549,7 +549,26 @@ function exec(opcodes) {
                     //    s.push(unscrewNumber(opcodes[i++]))
                     //    break
                     default:
-                        if (op >= PUSHV) {
+                        if (op >= PUSHV + 16) {
+                            console.log('unscrewing a sequence! #' + op)
+                            let o = op - PUSHV - 16,
+                                x = floor(o / 4) + 1,
+                                t = o % 4,
+                                c = 93 ** x,
+                                l = opcodes[i++], n, k, j
+                            console.log('type: ' + t + ' length: ' + x + ' slen: ' + l)
+
+                            for (k = 0; k < l; k++) {
+                                n = opcodes[i++]
+                                for (j = 1; j < x; j++) {
+                                    n = n + (93 ** j) * opcodes[i++]
+                                }
+                                if (n >= floor(c/2)) n -= c
+                                s.push(n / (10**t))
+                                console.log(`#${k}: ${n/(10**t)}`)
+                            }
+
+                        } else if (op >= PUSHV) {
                             let o = op - PUSHV,
                                 x = floor(o / 4) + 1,
                                 t = o % 4,

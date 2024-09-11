@@ -311,6 +311,7 @@ screwUp = (() => {
         let idef = 0
         const def = {}
         const opcodes = []
+        const numSequence = []
 
         tk.forEach(t => {
 
@@ -319,24 +320,66 @@ screwUp = (() => {
                 throw `${msg} @${at.l+1}.${at.p+1}:\n${lines[at.l]}\n${lpad('', at.p)}^`
             }
 
-            function placeNumber(v) {
+            function tryNumberCompaction() {
+                if (numSequence.length === 0) return // nothing to compact
+
+                const nqueue = []
+                const last = numSequence.pop()
+                nqueue.push(last)
+                while (numSequence.length > 0) {
+                    const next = numSequence.pop()
+                    if (next.t === last.t) {
+                        // the same type of number
+                        nqueue.unshift(next)
+                    } else {
+                        numSequence.push(next)
+                        break
+                    }
+                }
+
+                if (nqueue.length > 3) {
+                    // have the compaction candidate sequence!
+                    console.dir(nqueue)
+                    const len = nqueue.reduce((acc, num) => acc + num.s.length + 1, 0)
+                    console.log('### to compact: ' + nqueue.length + ' ' + len + ' bytes')
+                    for (let i = 0; i < len; i++) opcodes.pop() // throw away the previous sequence
+                    const firstNum = nqueue[0]
+                    const vectorOpCode = firstNum.iop + 16
+                    console.log('op code: ' + vectorOpCode)
+                    opcodes.push( screwBase(vectorOpCode) )
+                    opcodes.push( screwBase(nqueue.length) ) 
+                    for (let num of nqueue) {
+                        num.s.forEach(e => opcodes.push(e))
+                    }
+                }
+
+                if (numSequence.length > 0) return tryNumberCompaction() // try to compact the next bunch of numbers in the queue
+            }
+
+            function placeNumber(v, notSequenced) {
                 try {
                     const snum = screwBaseNumber(v)
+                    snum.at = opcodes.length
                     let iop = opsRef.indexOf('push1i')
                     iop += (snum.x - 1) * 4 + snum.t
+                    snum.iop = iop
                     opcodes.push( screwBase(iop) )
                     snum.s.forEach(e => opcodes.push(e))
-                    /*
-                    console.log(`#${iop}/${opsRef[iop]} ${t.v}`
-                          + ` T${snum.t}/X${snum.x}: `
-                          + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
-                    */
+
+                    if (!notSequenced) {
+                        console.log(`@${snum.at}: #${iop}/${opsRef[iop]} ${t.v}`
+                              + ` T${snum.t}/X${snum.x} - `
+                              + `[${snum.s.join('')}] = [${snum.d.join(',')}]`)
+                        numSequence.push(snum)
+                    }
                 } catch (e) {
                     cerr(e.toString(), t)
                 }
             }
 
             let opcode
+
+            if (t.t !== NUM) tryNumberCompaction()
             switch(t.t) {
                 case END:
                     opcode = opsRef.indexOf('end')
@@ -385,7 +428,7 @@ screwUp = (() => {
                         const word = def[t.v]
                         if (word) {
                             // place the index and generate the call
-                            placeNumber(word.id)
+                            placeNumber(word.id, true)
                             opcode = opsRef.indexOf('call')
                             opcodes.push( screwBase(opcode) )
                         } else {

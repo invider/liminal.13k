@@ -51,11 +51,11 @@ Lets explore how that is done!
 
 --- And Subheaders ---
 
--------------------------------------
+=====================================
 Comments could be multi-line.
 
-Just use horizontal strips of - or =
--------------------------------------
+Just use horizontal strips of =
+=====================================
 
 ========================
 But make sure to match
@@ -79,21 +79,50 @@ This one, however, will
 =   Geometry   =
 ================
 
+=== kube geometry ===
+kube:
+
+-1  1 -1
+ 1  1  1
+-1  1  1
+
+-1  1 -1
+ 1  1 -1
+ 1  1  1
+
+tri tri
+
+reflectY
+
+mpush
+buf
+
+HPI mrotY
+unbuf
+
+HPI mrotZ
+unbuf
+
+mpop
+unbuf
+;
+---------------------
+
 -- Lets have some simple geometry
 
 == Cube
 -- To generate a cube, simply declare a geometry,
--- generate cube vertices with "cube" command
+-- generate cube vertices with "kube" command
 -- and brew the result
 
-neogeo cube brew
+neogeo kube brew
 
 
 == Named Bigger Cube
 
 -- it is a good practice to name your meshes for future reference
 -- lets make the next cube bigger and assign a name to it
-neogeo cube 2 scale "Named Cube" name brew
+neogeo kube 2 scale "Named Cube" name brew
 
 -- we put the number 2 first
 -- and then execute the command that will use that number
@@ -111,16 +140,16 @@ neogeo cube 2 scale "Named Cube" name brew
 -- neogeo tetrahedron 2 scale "Tetrahedron One" name brew
 
 -- and a sphere
-neogeo sphere "Sphere One" name brew
+-- neogeo sphere "Sphere One" name brew
 
 -- and a smooth sphere
-neogeo smooth sphere "simpleSphereOne" name brew
+-- neogeo smooth sphere "simpleSphereOne" name brew
 
 -- a cylinder (will be smooth since the flag was set by the previous sphere)
-neogeo cylinder "simpleCylinderOne" name brew
+-- neogeo cylinder "simpleCylinderOne" name brew
 
 -- and now make one that is sharp and not smooth
-neogeo sharp cylinder "simpleCylinderOne" name brew
+-- neogeo sharp cylinder "simpleCylinderOne" name brew
 
 
 
@@ -154,7 +183,7 @@ brew
 ====================================
 =       Commands Reference         =
 ====================================
-----------------------------------------------------------------------
+======================================================================
 neogeo - start mesh generation
 brew - bake the mesh into it's final form
 name - set the name to the current mesh
@@ -190,4 +219,4 @@ stratchZ
 
 dump - print out current stack and geo transformation matrix
 dumpv - print out current vertices array
-----------------------------------------------------------------------
+======================================================================
