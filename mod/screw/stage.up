@@ -117,7 +117,7 @@ kube
 20                            -- shininess
 mt
 
-2 2.5 2 bounds
+3 2.5 3 bounds
 
 "floppy" name
 mpop
@@ -155,7 +155,3 @@ mpop
 -- debug --
 neogeo mpush kube 0.8 scale "connection" name mpop brew
 
-
-10 20 30 40
-"test"
-dat
