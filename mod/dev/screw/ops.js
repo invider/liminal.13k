@@ -30,7 +30,7 @@ const opsRef = [
     'tri',
     'tuv',
     'mt',           // define the material
-    'plane',
+    //'plane',
     //'sphere',
     //'cylinder',
     'circle',

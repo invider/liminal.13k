@@ -310,11 +310,10 @@ screwUp = (() => {
     }
     */
 
+
     function compile(tk) {
-        let idef = 0
-        const def = {}
-        const opcodes = []
-        let numSequence = []
+        let idef = 0, numSequence = []
+        const def = {}, opcodes = [], used = {}
 
         tk.forEach(t => {
 
@@ -468,11 +467,18 @@ screwUp = (() => {
                             cerr(`Unknown word: [${t.v}]!`)
                         }
                     } else {
+                        used[t.v] = used[t.v]? used[t.v] + 1 : 1
                         opcodes.push( screwBase(opcode) )
                     }
                     break
             }
         })
+
+        console.log('Not used instructions: ')
+        mnemonics.forEach(m => {
+            if (!used[m]) console.log(`? [${m}]`)
+        })
+
         return opcodes.join('')
     }
 

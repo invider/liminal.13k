@@ -223,6 +223,7 @@ const ops = [
     },
 
     // === basic geometries ===
+    /*
     // plane
     () => {
         g.v = g.v.concat([
@@ -230,6 +231,7 @@ const ops = [
             -1, 0,-1, -1, 0, 1,  1, 0, 1
         ])
     },
+    */
 
     // === complex geometries ===
     /*
@@ -500,7 +502,7 @@ function unscrewOpcodes(rawcodes) {
 //       * bump ghost opcodes limit to match PUSHS opcode index
 //       * don't forget to recompile existing snapshots with ./compile-s!
 */
-const PUSHS = 41,
+const PUSHS = 40,
       DEF   = PUSHS + 1,
       END   = PUSHS + 2,
       CALL  = PUSHS + 3,
