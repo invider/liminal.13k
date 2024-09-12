@@ -42,7 +42,7 @@ class Hero extends Frame {
         vec3.set(this.mt, 0, 0, 0)
         this.HD = this.DD = 0
         this._f = true
-        fx(4)
+        fx(5) // fall sfx
     }
 
     onImpact(src) {
@@ -52,8 +52,8 @@ class Hero extends Frame {
             // got a floppy
             this.HD += src.c
             this.DD += src.c
-            // TODO play some sfx and feedback text
-            for (let i = 0; i < src.c/180; i++) setTimeout(() => fx(2), i * 500)
+            // loading sfx
+            for (let i = 0; i < src.c/180; i++) setTimeout(() => fx(3), i * 500)
             kill(src)
         }
     }
@@ -65,6 +65,9 @@ class Hero extends Frame {
 
     evo(dt) {
         super.evo(dt)
+
+        // uploading and downloading
+
 
         const mt = this.mt,
               mtx = this.mtx,
@@ -89,7 +92,7 @@ class Hero extends Frame {
 
         if (this.grounded && this.HD > 13312) {
             // ALERT!!! OVERLOAD!!!
-            this.jump(3)
+            this.jump(4)
         }
 
 
@@ -128,7 +131,7 @@ class Hero extends Frame {
                     if (this._f) {
                         // the hero has landed
                         this._f = false
-                        fx(5)
+                        fx(6) // landing sfx
                     }
                 }
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
@@ -220,7 +223,7 @@ class Hero extends Frame {
 
     jump(x) {
         this.mt[1] += JUMP_SPEED
-        fx(x)
+        fx(x) // jump sfx
     }
 
     /*

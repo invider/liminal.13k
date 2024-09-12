@@ -24,7 +24,7 @@ class FPSMovementControllerPod {
         switch(action) {
             case JUMP:
                 if (__.grounded) {
-                    __.jump(6)
+                    __.jump(7)
                 }
                 break
             case FORWARD:

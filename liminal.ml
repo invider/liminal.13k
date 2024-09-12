@@ -1,36 +1,28 @@
-
 === liminal gap tracer ===
 
---- phase III - advanced features and procedural generation ---
-> minify the package to fit 13k space budget
-> random placement of block connection points
-> disable connection points which are already in contact
-> multiple block sizes
-> megacity growth in multiple directions but with westward preference
-> leveling blocks based on a noise function
-> texture and noises atlas visualization
-> megacity block structure visualization
-> noise-based block structure and multiple cell types (gaps, platforms, obstacle cells, monotliths)
-> noise-based floppies seeding
-> jump pads and huge block gaps on jump connections
+>>> Phase IV - 13k Release
+> sfx for major events
+> sfx sequencing
+> display hints
+> overload message
+> death fade out and final score
+> new game/restart menu
+
+>>> bonus
+> music track
+
 
 > make jumps the function of speed - run fast to jump higher
-> autorun
 > gamepad support
 
 --- phase IV - polish ---
 
 
 === zap framework ===
-> tweening
-> fog
-> multiple lights support
 > spotlight
 > bump mapping
 > smog (like fog, only below, after certain DY shift)
 > 3d mini-font
-> sfx generator #sound
-> sfx controller #sound
 > synth engine #sound
 > sequencer #sound
 -- nice to have
@@ -39,11 +31,27 @@
 > .mtl loader #tooling
 
 > figure out point light diffuse dark spots (when turn?)
-> handle "the user has exited the lock before this request was completed"
 > handle WebGL lost context issue 
 
 
 === fossil ===
+VVV phase III - advanced features and procedural generation ---
+V noise-based floppies seeding
+V jump pads and huge block gaps on jump connections
+V handle "the user has exited the lock before this request was completed"
+V tweening
+V fog
+V multiple lights support
+V sfx generator #sound
+V sfx controller #sound
+V minify the package to fit 13k space budget
+V random placement of block connection points
+V disable connection points which are already in contact
+V multiple block sizes
+V megacity growth in multiple directions
+V leveling blocks based on a noise function
+V texture and noises atlas visualization
+V megacity block structure visualization
 V hex2vec3/4 color translation
 V complex transformations in geo generator
 V orbiting camera
