@@ -112,7 +112,7 @@ class MegaCity {
 
         const block = this.claimBlock(p, hsize, cn)
         if (!block) {
-            cn.state = 2 // BLOCKED
+            cn.deactivate() // BLOCKED
             log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
             log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))

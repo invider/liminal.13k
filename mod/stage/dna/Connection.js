@@ -1,7 +1,3 @@
-const FREE      = 0,
-      LINKED    = 1,
-      BLOCKED   = 2
-      
 class Connection {
 
     constructor(st) {
@@ -33,7 +29,7 @@ class Connection {
 
     join(block) {
         this.target = block
-        this.state = LINKED
+        this.state = 1 // LINKED
         if (debug && this.sphere) {
             this.sphere.surface.m.a = vec4(1, 0, 0, .2)
             this.sphere.surface.m.d = vec4(1, 0, 0, .7)
@@ -42,7 +38,7 @@ class Connection {
     }
 
     deactivate() {
-        this.state = BLOCKED // can't grow in that direction
+        this.state = 2 // can't grow in that direction
         if (debug && this.sphere) {
             this.sphere.surface.m.a = vec4(1, 1, 0, .2)
             this.sphere.surface.m.d = vec4(1, 1, 0, .7)
@@ -84,8 +80,8 @@ class Connection {
             case 4: s = 'E'; break;
         }
         switch(this.state) {
-            case LINKED: t = '='; break;
-            case BLOCKED: t = '+'; break;
+            case 1: t = '='; break;
+            case 2: t = '+'; break;
             default: t = '-'; break;
         }
         return `${t}${t}${s}${t}${t}`
