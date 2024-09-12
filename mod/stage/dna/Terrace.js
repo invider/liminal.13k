@@ -39,13 +39,15 @@ class Terrace extends Frame {
         pos[0] += shift * dx
         pos[2] += shift * dz
         const cn = this.connections[dir] = new Connection({
-            src: this,
-            cell, pos, dir,
-        })
+                src: this,
+                cell, pos, dir,
+            }),
+            e = dst(pos, 7, .1, 4, 10)
+        if (e < 2) return // limit the number of jumppads
 
         // activate the jumppad
         cell.m = mlib.blk
-        cell.d = 360 * floor(mrnd() * 4 + 1)
+        cell.d = 360 * (e + 1)
 
         cell.evo = function() {
             if (lab.hero.HD < this.d) this.surface.m = mlib.blk
