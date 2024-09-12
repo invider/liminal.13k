@@ -33,25 +33,12 @@ class Hero extends Frame {
 
     reset() {
         //log('=== TERMINAL FALL ===') 
-        switch(env.resetMode) {
-            case 0:
-                // full map restore
-                break
-            case 1:
-                // reset to starting point
-                vec3.copy(this.pos, this._initialPos)
-                // reset the momentum so we are no longer in the terminal fall!
-                this.mt[1] = 0
-                break
-            case 2:
-                // redeploy on the last touched jumppad
-                if (this.lastPad) vec3.copy(this.pos, this.lastPad.pos)
-                else vec3.copy(this.pos, this._initialPos)
-                this.pos[1] += 15
-                vec3.set(this.mt, 0, 0, 0)
-                this.HD = 0
-                break
-        }
+        // redeploy on the last touched jumppad
+        if (this.lastPad) vec3.copy(this.pos, this.lastPad.pos)
+        else vec3.copy(this.pos, this._initialPos)
+        this.pos[1] += 15
+        vec3.set(this.mt, 0, 0, 0)
+        this.HD = 0
     }
 
     onImpact(src) {
@@ -147,7 +134,6 @@ class Hero extends Frame {
                 vec3.set(mty, 0, STEP_UP_SPEED, 0)
                 vec3.scad(this.pos, mty, dt)
                 if (this.detectCollisions(mtx) > 1) {
-                    log('step hit hard!')
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
                 }

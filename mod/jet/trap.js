@@ -10,7 +10,7 @@ trap.register = function(eventName, fn) {
 
 window.onkeydown = (e) => {
     if (e.repeat) return
-    //fx.touch()
+    fx.touch()
 
     /*
     switch(e.code) {
@@ -44,7 +44,7 @@ window.onkeyup = (e) => {
 
 window.onmousedown = (e) => {
     if (env.paused || env.disabled) return
-    //fx.touch()
+    fx.touch()
     trap('mdn', e)
     if (lab.broker) lab.broker.onMouseDown(e)
 }

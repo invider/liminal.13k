@@ -72,13 +72,14 @@ class MegaCity {
 
         const b = lab.attach( new Terrace({
             _$: this,
-            name: 'terrace' + (++_trid),
+            // DEBUG terrace creation
+            // name: 'terrace' + (++_trid),
             _connection: connection,
             pos, hsize,
         }))
         this.blocks.push(b)
         //log(`[!] NEW ${b.toString()}`)
-        log(`[!] NEW ${b.name}`)
+        //log(`[!] NEW ${b.name}`)
         return b
     }
 
@@ -106,16 +107,16 @@ class MegaCity {
         p[1] += hsize[1] + q[4] - 2
         p[2] += (gap + hsize[2]) * dz
 
-        log(`density @[${cn.pos[0]}:${cn.pos[1]}:${cn.pos[2]}]:`)
-        log(` * size: ${1 + q[0]}:${1 + q[1]}:${BHEIGHT + q[2]}`)
-        log(` * gap: ${gap}, shift:${q[4] - 2}`)
+        //log(`density @[${cn.pos[0]}:${cn.pos[1]}:${cn.pos[2]}]:`)
+        //log(` * size: ${1 + q[0]}:${1 + q[1]}:${BHEIGHT + q[2]}`)
+        //log(` * gap: ${gap}, shift:${q[4] - 2}`)
 
         const block = this.claimBlock(p, hsize, cn)
         if (!block) {
             cn.deactivate() // BLOCKED
-            log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
+            //log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
-            log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
+            //log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
             return block
         }
     }
