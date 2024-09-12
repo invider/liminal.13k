@@ -1,12 +1,16 @@
 let _trid = 0
 
 const BASE_BLOCK_SIZE = 1,
-      VAR_BLOCK_SIZE = 7,
+      VAR_BLOCK_SIZE = 15,
       CELL_HSIZE = 8,
       TSIZE = 32,
       THEIGHT = 8
 
 const mrnd = LNGSource(7)
+
+function dst(v, s, f, q) {
+    return floor(snoise(v[0]*f, v[1]*f, (v[2]+s)*f) * q)
+}
 
 class MegaCity {
 
@@ -73,7 +77,8 @@ class MegaCity {
             pos, hsize,
         }))
         this.blocks.push(b)
-        log(`[!] NEW ${b.toString()}`)
+        //log(`[!] NEW ${b.toString()}`)
+        log(`[!] NEW ${b.name}`)
         return b
     }
 
@@ -85,22 +90,29 @@ class MegaCity {
 
     // zoning for the specified connection
     zone(cn) {
-        const p = vec3.clone(cn.pos)
-        const dx = dirDX(cn.dir),
+        let q = [], d = dat.nfq
+        for (let i = 0; i < 18; i += 3) {
+            q.push( dst(cn.pos, d[i], d[i+1], d[i+2]) )
+        }
+        log(`density @[${cn.pos[0]}:${cn.pos[1]}:${cn.pos[2]}]:`)
+        for (let e of q) log(' * ' + e)
+
+        const p = vec3.clone(cn.pos),
+              dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
-              bw = (BASE_BLOCK_SIZE + floor(mrnd() * VAR_BLOCK_SIZE)) * CELL_HSIZE,
-              bd = (BASE_BLOCK_SIZE + floor(mrnd() * VAR_BLOCK_SIZE)) * CELL_HSIZE,
-              hsize = vec3(bw, THEIGHT + floor(mrnd() * 4), bd)
-        const gap = floor(mrnd()*10) * CELL_HSIZE/2
+              bw = (BASE_BLOCK_SIZE + q[0]) * CELL_HSIZE,
+              bd = (BASE_BLOCK_SIZE + q[1]) * CELL_HSIZE,
+              hsize = vec3(bw, THEIGHT + q[2], bd),
+              gap = q[3] * CELL_HSIZE/2
         p[0] += (gap + hsize[0]) * dx
-        p[1] += hsize[1] + floor(mrnd() * 5 - 2)
+        p[1] += hsize[1] + q[4] - 2
         p[2] += (gap + hsize[2]) * dz
 
         const block = this.claimBlock(p, hsize, cn)
         if (!block) {
-            // log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
+            log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
-            // log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
+            log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
             return block
         }
     }
@@ -118,14 +130,13 @@ class MegaCity {
 
     init() {
         // our first terrace
-        const t = lab.attach( new Terrace({
+        let t = lab.attach( new Terrace({
             _$: this,
-            name: 'terrace' + (++_trid),
             pos:   vec3(0,  0, 0),
             hsize: vec3(TSIZE, THEIGHT, TSIZE),
         }))
         this.blocks.push(t)
-        //this.edges = [t, t, t, t, t]
+        this.T = t._ls[0]
     }
 
     /*
@@ -143,10 +154,9 @@ class MegaCity {
     */
 
     genesisBomb() {
-        let cn = lab.hero.lastPlatform.__.sf(1 + floor(mrnd() * 9))
+        let p = lab.hero.lastPlatform || this.T,
+            cn = p.__.sf(1 + floor(rnd() * 9))
         if (cn) return this.zone(cn)
-        // we prefer to build westward
-        //if (!this.edgeGenesis(W)) if (!this.edgeGenesis(N)) this.edgeGenesis(S)
     }
 
     evo(dt) {

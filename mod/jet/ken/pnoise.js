@@ -63,6 +63,7 @@ function pnoise(x, y, z) {
 }
 
 function snoise(x, y, z) {
-    const v = pnoise(x, y, z)
-    return (v + 1)/2
+    let v = (pnoise(abs(x), abs(y), abs(z)) + 1) / 2
+    if (v < 0 || v > 1) debugger
+    return v
 }

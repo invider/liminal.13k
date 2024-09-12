@@ -44,16 +44,19 @@ class Terrace extends Frame {
         })
 
         // activate the jumppad
-        cell.surface.m = mlib.blk
+        cell.m = mlib.blk
+        cell.d = floor(80 + mrnd() * 640)
+
         cell.evo = function() {
-            if (lab.hero.HD < 500) this.surface.m = mlib.blk
+            if (lab.hero.HD < this.d) this.surface.m = mlib.blk
             else this.surface.m = mlib.pad
         }
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this
                 || runner.mt[1] > -10
-                || runner.HD < 500) return
-            runner.HD -= 500
+                || runner.pos[1] < this.pos[1]
+                || runner.HD < this.d) return
+            runner.HD -= this.d
             runner.lastJumpPad = runner.lastPad = this
             defer(() => {
                 // push - push direction is a bad idea
@@ -90,7 +93,6 @@ class Terrace extends Frame {
         // create connections
         // x4 for this terrace configuration
 
-        let count = 0
         const gapChance = .2,
               s  = CELL_HSIZE,
               iw = floor(this.hsize[0]/s),
@@ -103,34 +105,18 @@ class Terrace extends Frame {
                 if (mrnd() < gapChance) continue // got a gap
 
                 // sky block
-
                 // checkerboard pattern
                 const colors = [
-                    vec4(.2, .2, .2, .9),
-                    vec4(.2, .6, .8, .9),
-                ]
-                const icolor = ((iz % 2) + (ix % 2)) % 2
-
-                const yShift = floor(rnd() * 3)
-
-                let h = this.cellHHeight
-                const cell = this.attach( new Form({
-                    name: `${this.name}/platform[${ix+1}:${iz+1}]`,
-                    pos: vec3(x+s, np[1]+h + yShift, z+s),
-
-                    _pods: [
-                        new Surface({
-                            geo: glib.cell,
-                            m: extend({}, glib.cell.m, { d: colors[icolor] })
-                        }),
-                        new SolidBoxPod({
-                            hsize: glib.cell.bounds, 
-                        }),
+                        vec4(.2, .2, .2, .9),
+                        vec4(.2, .6, .8, .9),
                     ],
-                }))
+                    icolor = ((iz % 2) + (ix % 2)) % 2,
+                    yShift = floor(rnd() * 3)
 
+                let h = this.cellHHeight,
+                    pos = vec3(x+s, np[1]+h + yShift, z+s),
+                    dir = 0, p
                 // are we at the edge?
-                let dir = 0
                 if (iz === 0)           dir = 1
                 else if (ix === 0)      dir = 2
                 else if (iz === id - 1) dir = 3
@@ -139,20 +125,19 @@ class Terrace extends Frame {
                     // got the edge and it is not a gap!
                     // TODO check that the cell type is passable and not a gap or a building
                     if (!this.connections[dir]) {
-                        //log('got the edge at: ' + ix + ':' + iz + ' -> ' + dir)
                         switch(dir) {
                             case 1: case 3:
-                                if (ix >= fw) this.createConnection(cell, vec3.clone(cell.pos), dir)
+                                if (ix < fw) dir = 0 // too early to create connection
                                 break
                             case 2: case 4:
-                                if (iz >= fd) this.createConnection(cell, vec3.clone(cell.pos), dir)
+                                if (iz < fd) dir = 0 // it's too early
                                 break
                         }
-                    }
+                    } else dir = 0
                 } else {
                     // tune - floppy seeding level
-                    if (snoise(21 + cell.pos[0] * .4, 17 + cell.pos[2] * .4, 14) < .4) {
-                         const p = vec3.iadd(cell.pos, vec3(0, 4.2, 0))
+                    if (snoise(21 + pos[0] * .4, 17 + pos[2] * .4, 14) < .4) {
+                        p = vec3.iadd(pos, vec3(0, 4.2, 0))
                         lab.attach( new Floppy({
                             pos:      p,
                             reactive: 1,
@@ -160,7 +145,20 @@ class Terrace extends Frame {
                         }))
                     }
                 }
-                count ++
+                const cell = this.attach( new Form({
+                    name: `${this.name}/platform[${ix+1}:${iz+1}]`,
+                    pos,
+                    _pods: [
+                        new Surface({
+                            geo: dir? glib.pad : glib.cell,
+                            m: dir? mlib.blk : extend({}, glib.cell.m, { d: colors[icolor] })
+                        }),
+                        new SolidBoxPod({
+                            hsize: dir? glib.pad.bounds : glib.cell.bounds, 
+                        }),
+                    ],
+                }))
+                if (dir) this.createConnection(cell, vec3.clone(cell.pos), dir)
             }
         }
     }

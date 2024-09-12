@@ -50,8 +50,8 @@ class CityMap {
         const size = 640
         const rgba = noiseData({
             size,
-            x: 17, y: 21, z: 2,
-            fq: .1
+            x: 9, y: 7, z: 7,
+            fq: .01
         })
         const idata = new ImageData(new Uint8ClampedArray(rgba), size, size)
         idata.name = 'noise'

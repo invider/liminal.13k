@@ -6,6 +6,7 @@ _.defaultStage = () => {
 
     lab.attach( new MegaCity() )
 
+
     lab.freeCam = lab.cam
     // create hero cam
     lab.attach( new Camera({
@@ -16,10 +17,11 @@ _.defaultStage = () => {
     let hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
-        pos:  vec3(0, 10, 5),
+        pos:  vec3(-8, 15, 21),
         _pods: [ lab.cam ],
     }))
     hero.yaw(-PI*.5)
+
 
     trap.register('terminalFall', () => {
         // handle hero death
