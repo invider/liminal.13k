@@ -1,7 +1,7 @@
-const _tw = {
-    linear: (t) => t,
-    inOut: (t) => t > 0.5 ? 4*Math.pow((t-1),3)+1 : 4*Math.pow(t,3),
-}
+const _tw = [
+    (t) => t,
+    (t) => t > 0.5 ? 4*Math.pow((t-1),3)+1 : 4*Math.pow(t,3),
+]
 
 class Tween extends Frame {
 
@@ -12,10 +12,10 @@ class Tween extends Frame {
 
     evo(dt) {
         super.evo(dt)
-        for (let e of this._ls) {
-            let v = e.f((env.time - e.s)/e.t)
-            e.tar[e.p] = e.v1 + (e.v2 - e.v1) * v
-            if (v >= 1) kill(e)
+        for (let w of this._ls) {
+            let v = w.f((env.time - w.s)/w.t)
+            w.e[w.p] = w.v1 + (w.v2 - w.v1) * v
+            if (v >= 1) kill(w)
         }
     }
 

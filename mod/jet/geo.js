@@ -106,13 +106,13 @@ const ops = [
         }
     },
     // drop
-    () => { pop() },
+    //() => { pop() },
     // swap
-    () => {
-        x = pop(), y = pop()
-        s.push(x)
-        s.push(y)
-    },
+    //() => {
+    //    x = pop(), y = pop()
+    //    s.push(x)
+    //    s.push(y)
+    //},
     // mpush
     () => { m.push( mat4.clone(M) ) },
     // mpop
@@ -127,27 +127,27 @@ const ops = [
     // HPI
     () => { s.push( PI/2 ) },
     // add
-    () => { s.push( pop() + pop() ) },
+    //() => { s.push( pop() + pop() ) },
     // sub
-    () => {
-        x = pop()
-        s.push( pop() - x )
-    },
+    //() => {
+    //    x = pop()
+    //    s.push( pop() - x )
+    //},
     // mul
-    () => {
-        s.push( pop() * pop() )
-    },
+    //() => {
+    //    s.push( pop() * pop() )
+    //},
     // div
-    () => {
-        const x = pop()
-        s.push( pop() / x )
-    },
-    // precision
+    //() => {
+    //    const x = pop()
+    //    s.push( pop() / x )
+    //},
+    //precision
     () => { P = pop() },
     // smooth
-    () => { S = 1 },
+    //() => { S = 1 },
     // sharp
-    () => { S = 0 },
+    //() => { S = 0 },
 
     // === modifiers ===
     // mid - set identity matrix
@@ -495,7 +495,7 @@ function unscrewOpcodes(rawcodes) {
 //       * bump ghost opcodes limit to match PUSHS opcode index
 //       * don't forget to recompile existing snapshots with ./compile-s!
 */
-const PUSHS = 40,
+const PUSHS = 31,
       DEF   = PUSHS + 1,
       END   = PUSHS + 2,
       CALL  = PUSHS + 3,
@@ -513,9 +513,9 @@ function exec(opcodes) {
                 // in definition mode
                 if (op === END) {
                     // definition is done
-                    console.log('#' + (def.length-1) + ' - NEW WORD IS DEFINED!')
-                    console.dir(cdef)
-                    console.log(cdef.map(op => op + '/' + opsRef[op]).join(' '))
+                    //console.log('#' + (def.length-1) + ' - NEW WORD IS DEFINED!')
+                    //console.dir(cdef)
+                    //console.log(cdef.map(op => op + '/' + opsRef[op]).join(' '))
                     cdef = null
                 } else {
                     cdef.push(op)
@@ -538,7 +538,8 @@ function exec(opcodes) {
 
                     case CALL:
                         x = pop()
-                        console.log('calling #' + x)
+                        // DEBUG calls
+                        // console.log('calling #' + x)
                         exec( def[x] )
                         break
 
@@ -552,7 +553,7 @@ function exec(opcodes) {
                                 t = o % 4,
                                 c = 93 ** x,
                                 l = opcodes[i++], n, k, j
-                            console.log(`[!] unscrewing a sequence t:${t}/x:${x} of ${l} elements`)
+                            // console.log(`[!] unscrewing a sequence t:${t}/x:${x} of ${l} elements`)
 
                             for (k = 0; k < l; k++) {
                                 n = opcodes[i++]
@@ -561,7 +562,8 @@ function exec(opcodes) {
                                 }
                                 if (n >= floor(c/2)) n -= c
                                 s.push(n / (10**t))
-                                console.log(`#${k}: ${n/(10**t)}`)
+                                // DEBUG number parsing
+                                //console.log(`#${k}: ${n/(10**t)}`)
                             }
 
                         } else if (op >= PUSHV) {
@@ -580,7 +582,7 @@ function exec(opcodes) {
                             //return n/10
                                 
                         } else {
-                            // DEBUG vm
+                            // DEBUG vm ops
                             //if (debug) {
                             //    const fn = ops[op]
                             //    if (!fn) throw `no function for op [${op}] - [${opsRef[op]}]`
@@ -614,6 +616,7 @@ function unscrew(enops) {
     return exec( unscrewOpcodes( enops.split('') ) )
 }
 
+/*
 if (debug) {
 
     function unscrewOne(enops) {
@@ -638,5 +641,7 @@ if (debug) {
 } else {
     return unscrew
 }
+*/
+return unscrew
 
 })()

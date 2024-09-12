@@ -143,10 +143,12 @@ class Terrace extends Frame {
                             reactive: 1,
                             c:        100 + floor(mrnd() * 540),
                         }))
+
                     }
                 }
                 const cell = this.attach( new Form({
-                    name: `${this.name}/platform[${ix+1}:${iz+1}]`,
+                    // DEBUG name
+                    //name: `${this.name}/platform[${ix+1}:${iz+1}]`,
                     pos,
                     _pods: [
                         new Surface({
@@ -159,6 +161,16 @@ class Terrace extends Frame {
                     ],
                 }))
                 if (dir) this.createConnection(cell, vec3.clone(cell.pos), dir)
+                // animate
+                if (this._connection) {
+                    let w = pos[1] - 60 - 20*rnd()
+                    lab.tw.inc({ e: pos, p: 1,
+                        v1: w,
+                        v2: pos[1],
+                        t: 7, f: _tw[1]
+                    })
+                    pos[1] = w
+                }
             }
         }
     }
@@ -174,6 +186,7 @@ class Terrace extends Frame {
         }
     }
 
+    /*
     toString() {
         const links = this.connections.filter(cn => cn).map(cn => {
             if (cn.state === LINKED) return '='
@@ -188,4 +201,5 @@ class Terrace extends Frame {
 
         return `${this.name}[${links}] @${floor(this.pos[0])}:${floor(this.pos[1])}:${floor(this.pos[2])}${origin}`
     }
+    */
 }

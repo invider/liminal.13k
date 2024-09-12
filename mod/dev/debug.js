@@ -1,5 +1,5 @@
 function zapDebug() {
-    if (!debug) return
+    if (debug || !debug) return
 
     lab.attach( new HUD() )
 
@@ -29,20 +29,21 @@ function zapDebug() {
     // extend screw VM with extensions and debug opcodes
 
     // ring
+    const PR = 25
     geo.ops.push(() => {
         const ir = pop(), v = [], w = []
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / gSpherePrecision,
+        for (let lon = 0; lon < PR; lon++) {
+            let phi = (lon * PI2) / PR,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
+        for (let lon = 0; lon < PR; lon++) {
 
                 let at = lon * 3,
-                    at2 = ((lon + 1) % gSpherePrecision) * 3
+                    at2 = ((lon + 1) % PR) * 3
 
                 w.push(
                     v[at2],    0,  v[at2+2],
@@ -81,17 +82,17 @@ function zapDebug() {
     geo.ops.push(() => {
         const v = [], w = []
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
-            let phi = (lon * PI2) / gSpherePrecision,
+        for (let lon = 0; lon < PR; lon++) {
+            let phi = (lon * PI2) / PR,
                 c = cos(phi),
                 s = sin(phi)
             v.push(c, 1, s)
         }
 
-        for (let lon = 0; lon < gSpherePrecision; lon++) {
+        for (let lon = 0; lon < PR; lon++) {
 
                 let at = lon * 3,
-                    at2 = ((lon + 1) % gSpherePrecision) * 3
+                    at2 = ((lon + 1) % PR) * 3
 
                 w.push(
                     0,  1,  0,
@@ -103,7 +104,7 @@ function zapDebug() {
                     v[at],  -1,  v[at+2]
                 )
         }
-        g.v = g.v.concat(w)
+        //g.v = g.v.concat(w)
     })
 
 

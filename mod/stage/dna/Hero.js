@@ -56,7 +56,7 @@ class Hero extends Frame {
 
     onImpact(src) {
         this.lastCollider = src
-        if (debug) env.dump.lastCollider = src.name
+        //if (debug) env.dump.lastCollider = src.name
         if (src instanceof Floppy) {
             // got a floppy
             this.HD += src.c
@@ -66,8 +66,7 @@ class Hero extends Frame {
     }
 
     detectCollisions(mv) {
-        if (debug) env.dump.Impact = 'None'
-
+        //if (debug) env.dump.Impact = 'None'
         return lab.collide(this.solid, mv)
     }
 
@@ -101,7 +100,7 @@ class Hero extends Frame {
         const ms2 = MAX_SPEED * MAX_SPEED
         const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
         const speedF = 1 + speedOverflow2 * OVERSPEED_FACTOR
-        if (debug) env.dump.frictionV = friction * speedF
+        // if (debug) env.dump.frictionV = friction * speedF
         vec3.scale(fv, friction * speedF)
         if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
         if (abs(fv[2]) > abs(mt[2])) fv[2] = mt[2]
@@ -175,6 +174,7 @@ class Hero extends Frame {
             }
         }
 
+        /*
         // apply global restrains (DEBUG)
         if (env.groundLevel && this.pos[1] < this.hh) {
             // hit the ground
@@ -182,6 +182,7 @@ class Hero extends Frame {
             mt[1] = 0
             this.grounded = true
         }
+        */
 
         /*
         this.pos[0] += this.dx

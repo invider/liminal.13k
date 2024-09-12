@@ -1,16 +1,24 @@
+/*
 let aux
 const fx = (() => {
 
-let aout, dt, R
+let aout, dt, R, zzfx
 
 const
+*/
+    /*
     smp = [],  // samples
     // SFX source functions
     f = [
         // noise
         () => 2*rnd() - 1,
     ],
+    */
+    //x = [
+    //    [.5,,334,.03,.29,.5,,1.1,-1,61,429,.06,.02,,13,.1,,.65,.29,,-1499],
+   // ]
 
+    /*
     // patch route structure
     TARGET    = 0,    // target oscillator, -1 if a carrier oscillator
     TYPE      = 1,    // wave type
@@ -59,7 +67,9 @@ const
         ],
     ],
     ch = []
+*/
 
+/*
 // === SFX ===
 function createSample(s, f) {
     // create aux buffer and copy rendered data
@@ -70,19 +80,33 @@ function createSample(s, f) {
     for (let i = 0; i < 9*R; i++) d[i] = s(i, f)
     smp.push(b)
 }
+*/
 
 function touch() {
     if (!aux || aux.state === 'suspended') {
         aux = new AudioContext()
         aout = aux.destination
-        R    = aux.sampleRate
+        //R    = aux.sampleRate
         dt   = 1/R
 
         // generate samples - one for each sample function
         f.map(x => createSample(x))
     }
+    zzfx=(p=1,k=.05,b=220,e=0,r=0,t=.1,q=0,D=1,u=0,y=0,v=0,z=0,l=0,E=0,A=0,F=0,c=0,w=1,m=0,B=0
+    ,N=0)=>{let M=Math,d=2*M.PI,R=44100,G=u*=500*d/R/R,C=b*=(1-k+2*k*M.random(k=[]))*d/R,
+    g=0,H=0,a=0,n=1,I=0,J=0,f=0,h=N<0?-1:1,x=d*h*N*2/R,L=M.cos(x),Z=M.sin,K=Z(x)/4,O=1+K,
+    X=-2*L/O,Y=(1-K)/O,P=(1+h*L)/2/O,Q=-(h+L)/O,S=P,T=0,U=0,V=0,W=0;e=R*e+9;m*=R;r*=R;t*=
+    R;c*=R;y*=500*d/R**3;A*=d/R;v*=d/R;z*=R;l=R*l|0;p*=env.vol;for(h=e+m+r+t+c|0;a<h;k[a++]
+    =f*p)++J%(100*F|0)||(f=q?1<q?2<q?3<q?Z(g**3):M.max(M.min(M.tan(g),1),-1):1-(2*g/d%2+2)
+    %2:1-4*M.abs(M.round(g/d)-g/d):Z(g),f=(l?1-B+B*Z(d*a/l):1)*(f<0?-1:1)*M.abs(f)**D*(a<
+    e?a/e:a<e+m?1-(a-e)/m*(1-w):a<e+m+r?w:a<h-c?(h-a-c)/t*w:0),f=c?f/2+(c>a?0:(a<h-c?1:(h
+    -a)/c)*k[a-c|0]/2/p):f,N?f=W=S*T+Q*(T=U)+P*(U=f)-Y*V-X*(V=W):0),x=(b+=u+=y)*M.cos(A*
+    H++),g+=x+x*E*Z(a**5),n&&++n>z&&(b+=v,C+=v,n=0),!l||++I%l||(b=C,u=G,n=n||1);p=aux.
+    createBuffer(1,h,R);p.getChannelData(0).set(k);b=aux.createBufferSource();
+    b.buffer=p;b.connect(aux.destination);b.start()}
 }
 
+/*
 function play(note, fq, at, len, ipatch) {
     // create the patch routing table
     const routes = [], gains = []
@@ -171,7 +195,9 @@ function play(note, fq, at, len, ipatch) {
 function playin(note, fq, delay, len, patch) {
     return play(note, fq, aux.currentTime + delay, len, patch)
 }
+*/
 
+/*
 function off(id) {
     const n = ch[id], at = aux.currentTime
     n.patch.forEach((patch, i) => {
@@ -184,6 +210,7 @@ function off(id) {
         ch[id] = null
     }, 5000)
 }
+*/
 
 /*
 function createChannel(n) {
@@ -219,7 +246,12 @@ function createChannel(n) {
 }
 */
 
+/*
 const sfx = (n) => {
+    zzfx(...x[n])
+}
+*/
+    /*
     const bufs = aux.createBufferSource(),
           gain = aux.createGain()
     bufs.buffer = smp[n]
@@ -228,25 +260,17 @@ const sfx = (n) => {
 
     gain.connect(aout)
     bufs.start(0)
-}
+    */
 
-extend(sfx, {
-    p,
+
+/*
+return extend(sfx, {
     touch,
-    play,
-    playin,
-    off,
+    //p,
+    //play,
+    //playin,
+    //off,
 })
-return sfx
 
 })()
-
-function zapAudioController() {
-    // TODO move to trap
-    trap.register('mdn', (e) => {
-        fx.touch()
-    })
-    trap.register('keyDown', (e) => {
-        fx.touch()
-    })
-}
+*/
