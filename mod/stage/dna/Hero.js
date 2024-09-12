@@ -13,6 +13,7 @@ class Hero extends Frame {
             minTilt: -PI/2,
             maxTilt:  PI/2,
 
+            _f:       true,
             _pos:     vec3z(),
             mt: vec3z(),
             mtx:      vec3z(),
@@ -40,6 +41,8 @@ class Hero extends Frame {
         this.pos[1] += 15
         vec3.set(this.mt, 0, 0, 0)
         this.HD = this.DD = 0
+        this._f = true
+        fx(5)
     }
 
     onImpact(src) {
@@ -50,7 +53,8 @@ class Hero extends Frame {
             this.HD += src.c
             this.DD += src.c
             // TODO play some sfx and feedback text
-            fx(11) // pick up floppy sfx
+            for (let i = 0; i < src.c/180; i++) setTimeout(() => fx(3), i * 500)
+            //fx(11) // pick up floppy sfx
             kill(src)
         }
     }
@@ -74,6 +78,7 @@ class Hero extends Frame {
         if (pym > 0 && mt[1] < 0) {
             // reached the peak
             this.lastJumpPad = null
+            this._f = true
         }
         if (mt[1] < -TERMINAL_VELOCITY) {
             mt[1] = -TERMINAL_VELOCITY
@@ -115,6 +120,10 @@ class Hero extends Frame {
                 if (mt[1] < 0) {
                     this.grounded = true
                     this.lastPlatform = this.lastCollider
+                    if (this._f) {
+                        this._f = false
+                        fx(7)
+                    }
                 }
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
                 // TODO do a feedback or hit recoil when and on the ground?
