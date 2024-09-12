@@ -6,6 +6,7 @@ class Hero extends Frame {
             // strangeSolid: true, // DEBUG - hide wireframes for the hero
             hh: 1,
             HD: 0,
+            DD: 0,
 
             eY: 2,
             tiltAngle: 0,
@@ -38,7 +39,7 @@ class Hero extends Frame {
         else vec3.copy(this.pos, this._initialPos)
         this.pos[1] += 15
         vec3.set(this.mt, 0, 0, 0)
-        this.HD = 0
+        this.HD = this.DD = 0
     }
 
     onImpact(src) {
@@ -47,7 +48,9 @@ class Hero extends Frame {
         if (src instanceof Floppy) {
             // got a floppy
             this.HD += src.c
+            this.DD += src.c
             // TODO play some sfx and feedback text
+            fx(11) // pick up floppy sfx
             kill(src)
         }
     }

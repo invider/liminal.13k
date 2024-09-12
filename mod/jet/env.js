@@ -39,7 +39,7 @@ const flags = {},
 const env = {
     time: 0,
     //fps: 60,
-    vol: .2,
+    vol: .5,
 
     // DEBUG
     //groundLevel:    1,

@@ -1,23 +1,28 @@
 const fx = (() => {
 
-let aux, zzfx
+let aux, aO, zzfx, R
 
 const
     x = [
         //[.5,,334,.03,.29,.5,,1.1,-1,61,429,.06,.02,,13,.1,,.65,.29,,-1499],
-        [1.5,,109,.02,.04,.21,3,.7,1,-1,150,.01,-0.01,.5,,.5,,.52,.06,,-1697],
+        [1.5,,109,.02,.04,.21,3,.7,1,-1,150,.01,-0.01,.5,,.5,,.52,.06,,-1697], // jump
         [,,579,,.02,.16,,.9,-9,34.9,,,.02,.4,7.9,,.01,.87],
+        [.3,,183,.02,.12,.06,1,.7,5,9,,,,,1,,.01,.61,.13,,101],
     ]
 
 return extend(
     (n) => {
-        if (zzfx) zzfx(...x[n])
+        if (!fx) return
+        if (n >= 10) zx(...dd[n-10])
+        else zx(...x[n])
     }, {
         touch: () => {
             if (!aux || aux.state === 'suspended') {
                 aux = new AudioContext()
+                aO = aux.destination
+                R = aux.sampleRate
             }
-            zzfx=(p=1,k=.05,b=220,e=0,r=0,t=.1,q=0,D=1,u=0,y=0,v=0,z=0,l=0,E=0,A=0,F=0,c=0,w=1,m=0,B=0
+            zx=(p=1,k=.05,b=220,e=0,r=0,t=.1,q=0,D=1,u=0,y=0,v=0,z=0,l=0,E=0,A=0,F=0,c=0,w=1,m=0,B=0
             ,N=0)=>{let M=Math,d=2*M.PI,R=44100,G=u*=500*d/R/R,C=b*=(1-k+2*k*M.random(k=[]))*d/R,
             g=0,H=0,a=0,n=1,I=0,J=0,f=0,h=N<0?-1:1,x=d*h*N*2/R,L=M.cos(x),Z=M.sin,K=Z(x)/4,O=1+K,
             X=-2*L/O,Y=(1-K)/O,P=(1+h*L)/2/O,Q=-(h+L)/O,S=P,T=0,U=0,V=0,W=0;e=R*e+9;m*=R;r*=R;t*=
@@ -28,7 +33,39 @@ return extend(
             -a)/c)*k[a-c|0]/2/p):f,N?f=W=S*T+Q*(T=U)+P*(U=f)-Y*V-X*(V=W):0),x=(b+=u+=y)*M.cos(A*
             H++),g+=x+x*E*Z(a**5),n&&++n>z&&(b+=v,C+=v,n=0),!l||++I%l||(b=C,u=G,n=n||1);p=aux.
             createBuffer(1,h,R);p.getChannelData(0).set(k);b=aux.createBufferSource();
-            b.buffer=p;b.connect(aux.destination);b.start()}
+            b.buffer=p;b.connect(aO);b.start()}
+        },
+        up: (T) => {
+            if (!aux) return
+            // create aux buffer and copy rendered data
+            let L = T*R,
+                b = aux.createBuffer(1, L, R),
+                d = b.getChannelData(0),
+                i = 0, t, j = 0, f1, f2
+
+            function fq(t) {
+                j--
+                if (j < 0) {
+                    j = 2000 + 4000 * rnd()
+                    f1 = 200 + 400 * rnd()
+                    f2 = 200 + 400 * rnd()
+                }
+                return (((t * 50) % 1) < .5)? f1 : f2
+            }
+
+            while (i < L) {
+                t = i/R
+                d[i++] = Math.sign(Math.sin(PI2 * fq(t) * t))
+            }
+
+            const bufs = aux.createBufferSource(),
+                  gain = aux.createGain()
+            bufs.buffer = b
+            gain.gain.value = env.vol * 0.05
+            bufs.connect(gain)
+
+            gain.connect(aO)
+            bufs.start(0)
         }
     }
 )
@@ -36,7 +73,7 @@ return extend(
 })()
 
     /*
-    smp = [],  // samples
+    smp = [],  // aamples
     // SFX source functions
     f = [
         // noise

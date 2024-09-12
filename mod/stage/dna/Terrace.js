@@ -45,7 +45,7 @@ class Terrace extends Frame {
 
         // activate the jumppad
         cell.m = mlib.blk
-        cell.d = floor(80 + mrnd() * 640)
+        cell.d = floor(360 + mrnd() * 640)
 
         cell.evo = function() {
             if (lab.hero.HD < this.d) this.surface.m = mlib.blk
@@ -56,12 +56,13 @@ class Terrace extends Frame {
                 || runner.mt[1] > -10
                 || runner.pos[1] < this.pos[1]
                 || runner.HD < this.d) return
+            runner.lastJumpPad = runner.lastPad = this
+
             defer(() => {
                 // push - push direction is a bad idea
                 const dy = JUMP_PAD_PUSH
                 runner.HD -= this.d
-                runner.lastJumpPad = runner.lastPad = this
-                fx(0)
+                fx.up(1 + this.d/250)
 
                 runner.mt[0] += dx
                 runner.mt[1] += dy

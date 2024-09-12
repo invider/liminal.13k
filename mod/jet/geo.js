@@ -1,5 +1,5 @@
 // === geo library ===
-const glib = {}, gix = [], dat = {}, mlib = {}
+const glib = {}, gix = [], dat = {}, dd = [], mlib = {}
 
 const geo = (() => {
 
@@ -388,6 +388,8 @@ const ops = [
     () => {
         x = pop()
         dat[x] = [].concat(s)
+        dd.push(dat[x])
+        s = []
     },
     // name
     () => { g.name = pop() },
