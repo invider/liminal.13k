@@ -87,6 +87,12 @@ class Hero extends Frame {
             }
         }
 
+        if (this.grounded && this.HD > 13312) {
+            // ALERT!!! OVERLOAD!!!
+            this.jump()
+        }
+
+
         // apply horizontal friction
         const friction = this.grounded? FRICTION : AIR_RESISTENCE
         const fv = vec3.n( vec3.clone(mt) )
@@ -212,6 +218,12 @@ class Hero extends Frame {
         this.tiltAngle = clamp(this.tiltAngle + phi, this.minTilt, this.maxTilt)
     }
 
+    jump() {
+        this.mt[1] += JUMP_SPEED
+        fx(6)
+    }
+
+    /*
     use() {
         const hits = this.cam.pick()
         hits.sort((a, b) => {
@@ -225,5 +237,6 @@ class Hero extends Frame {
             console.dir(hit.__)
         }
     }
+    */
 
 }

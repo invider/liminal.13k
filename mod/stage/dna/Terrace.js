@@ -137,12 +137,12 @@ class Terrace extends Frame {
                     // tune - floppy seeding level
                     const e = dst(pos, 7, .1, 17, 1)
                     //log('e: ' + e)
-                    if (e < 8) {
+                    if (e < 9) {
                         p = vec3.iadd(pos, vec3(0, 4.2, 0))
                         lab.attach( new Floppy({
                             pos:      p,
                             reactive: 1,
-                            c:        100 + floor(mrnd() * 540),
+                            c:        360 * (floor(mrnd() * 4) + 1),
                         }))
                     }
                 }
