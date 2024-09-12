@@ -1,25 +1,11 @@
 const fx = (() => {
+let aux, aO, zx, R
 
-let aux, aO, zzfx, R
-
-const
-    x = [
-        [1.5,,109,.02,.04,.21,3,.7,1,-1,150,.01,-0.01,.5,,.5,,.52,.06,,-1697], // jump
-        [,,579,,.02,.16,,.9,-9,34.9,,,.02,.4,7.9,,.01,.87],
-        [.3,,183,.02,.12,.06,1,.7,5,9,,,,,1,,.01,.61,.13,,101],
-        [,,495,.01,.08,.04,1,3.2,6,,,,,1.2,,.3,.01,.68,.05],  // floppy ziiig
-        [,,223,,.1,.18,,1.2,,,494,.06,,.2,39,,,.57,.03,,-1498], // denied
-        [2.4,,65,.03,.09,.46,1,3.5,2,-5,,,.13,1.3,,.9,.43,.31,.26,.04], // terminal fall - 5
-        [1.1,,11,,.03,.01,,2.6,,40,-50,.13,,,42,,,.53,.37,.15,-773], // wow
-        [2.5,,444,.01,.05,.05,4,2.3,-5,,,,.06,1.7,,.4,.07,.9,.04,.29,-2496], // land 7
-        [.5,,334,.03,.29,.5,,1.1,-1,61,429,.06,.02,,13,.1,,.65,.29,,-1499]
-    ]
 
 return extend(
     (n) => {
-        if (!fx) return
-        if (n >= 10) zx(...dd[n-10])
-        else zx(...x[n])
+        if (!zx) return
+        zx(...dd[n])
     }, {
         touch: () => {
             if (!aux || aux.state === 'suspended') {
@@ -39,6 +25,11 @@ return extend(
             H++),g+=x+x*E*Z(a**5),n&&++n>z&&(b+=v,C+=v,n=0),!l||++I%l||(b=C,u=G,n=n||1);p=aux.
             createBuffer(1,h,R);p.getChannelData(0).set(k);b=aux.createBufferSource();
             b.buffer=p;b.connect(aO);b.start()}
+
+            // normalize sfx arrays
+            for (let i = 1; i < dd.length; i++) {
+                for (let j = 0; j < dd[i].length; j++) if (dd[i][j] === 0) dd[i][j] = undefined
+            }
         },
         up: (T) => {
             if (!aux) return

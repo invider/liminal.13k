@@ -6,7 +6,6 @@ class FPSMovementControllerPod {
 
     constructor(st) {
         extend(this, dfSMCP, st)
-
         this.pushers = new Float32Array(SHIFT_ROLL+1)
     }
 
@@ -26,6 +25,7 @@ class FPSMovementControllerPod {
             case JUMP:
                 if (__.grounded) {
                     __.mt[1] += JUMP_SPEED
+                    fx(6)
                 }
                 break
             case FORWARD:

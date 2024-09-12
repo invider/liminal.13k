@@ -53,9 +53,9 @@ class Terrace extends Frame {
         }
         cell.onTouch = function(runner) {
             if (runner.lastJumpPad === this
-                || runner.mt[1] > -10
-                || runner.pos[1] < this.pos[1]
-                || runner.HD < this.d) return
+                    || runner.mt[1] > -10
+                    || runner.pos[1] < this.pos[1]
+                    || runner.HD < this.d) return
             runner.lastJumpPad = runner.lastPad = this
 
             defer(() => {

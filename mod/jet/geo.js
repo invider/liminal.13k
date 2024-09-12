@@ -386,9 +386,14 @@ const ops = [
     () => { g.bounds = pv3() },
     // dat - define data array
     () => {
-        x = pop()
-        dat[x] = [].concat(s)
-        dd.push(dat[x])
+        y = 0
+        if (typeof peek() === 'string') {
+            x = pop()
+            y = 1
+        }
+        w = [].concat(s)
+        dd.push(w)
+        if (y) dat[x] = w
         s = []
     },
     // name

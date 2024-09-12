@@ -42,7 +42,7 @@ class Hero extends Frame {
         vec3.set(this.mt, 0, 0, 0)
         this.HD = this.DD = 0
         this._f = true
-        fx(5)
+        fx(4)
     }
 
     onImpact(src) {
@@ -53,8 +53,7 @@ class Hero extends Frame {
             this.HD += src.c
             this.DD += src.c
             // TODO play some sfx and feedback text
-            for (let i = 0; i < src.c/180; i++) setTimeout(() => fx(3), i * 500)
-            //fx(11) // pick up floppy sfx
+            for (let i = 0; i < src.c/180; i++) setTimeout(() => fx(2), i * 500)
             kill(src)
         }
     }
@@ -121,8 +120,9 @@ class Hero extends Frame {
                     this.grounded = true
                     this.lastPlatform = this.lastCollider
                     if (this._f) {
+                        // the hero has landed
                         this._f = false
-                        fx(7)
+                        fx(5)
                     }
                 }
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
