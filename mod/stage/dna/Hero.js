@@ -63,10 +63,10 @@ class Hero extends Frame {
         const mt = this.mt,
               mtx = this.mtx,
               mty = this.mty,
-              mtz = this.mtz
+              mtz = this.mtz,
+              pym = mt[1]
 
         // apply gravity
-        const pym = mt[1]
         mt[1] -= GRAVITY * dt
         if (pym > 0 && mt[1] < 0) {
             // reached the peak
@@ -76,7 +76,7 @@ class Hero extends Frame {
             mt[1] = -TERMINAL_VELOCITY
 
             if (this.pos[1] < this.lastPlatform.pos[1] - TERMINAL_SHIFT) {
-                trap('terminalFall')
+                this.reset()
             }
         }
 
@@ -114,7 +114,7 @@ class Hero extends Frame {
                     this.lastPlatform = this.lastCollider
                 }
                 vec3.copy(this.pos, this._pos) // rewind the y-motion
-                // TODO do a feedback or hit recoil when land on the ground?
+                // TODO do a feedback or hit recoil when and on the ground?
                 mt[1] = 0 // reset y momentum
             }
         }

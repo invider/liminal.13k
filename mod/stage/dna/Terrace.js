@@ -56,11 +56,12 @@ class Terrace extends Frame {
                 || runner.mt[1] > -10
                 || runner.pos[1] < this.pos[1]
                 || runner.HD < this.d) return
-            runner.HD -= this.d
-            runner.lastJumpPad = runner.lastPad = this
             defer(() => {
                 // push - push direction is a bad idea
                 const dy = JUMP_PAD_PUSH
+                runner.HD -= this.d
+                runner.lastJumpPad = runner.lastPad = this
+                fx(0)
 
                 runner.mt[0] += dx
                 runner.mt[1] += dy

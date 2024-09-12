@@ -57,15 +57,15 @@ function drawScene() {
 
 
 function draw(dt) {
-    if (dt > .01) {
+    //if (dt > .01) {
         // accumulate FPS
-        ifps[nfps++] = 1/dt
-        if (nfps > 59) {
-            nfps = 0
+        //ifps[nfps++] = 1/dt
+        //if (nfps > 59) {
+        //    nfps = 0
             // update the average FPS value
-            env.fps = (ifps.reduce((v, acc) => acc + v) / ifps.length) << 0
-        }
-    }
+        //    env.fps = (ifps.reduce((v, acc) => acc + v) / ifps.length) << 0
+        //}
+    //}
 
     // clear 2D canvas
     ctx.clearRect(0, 0, hc.width, hc.height)

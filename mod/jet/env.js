@@ -1,7 +1,7 @@
 const debug = 1
 
-let nfps = 0
-const ifps = []
+//let nfps = 0
+//const ifps = []
 
 const flags = {},
     // keyboard controls
@@ -22,7 +22,7 @@ const flags = {},
 
     // collider bounding volumes
     HIT_BOX       = 1,
-    HIT_SPHERE    = 2,
+    //HIT_SPHERE    = 2,
     // collider kinds
     EPHEMERAL     = 0,
     HARD          = 1,
@@ -38,9 +38,8 @@ const flags = {},
 
 const env = {
     time: 0,
-    fps: 60,
+    //fps: 60,
     vol: .2,
-
 
     // DEBUG
     //groundLevel:    1,

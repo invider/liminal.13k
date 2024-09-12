@@ -96,9 +96,9 @@ class SolidBoxPod {
             case HIT_BOX:
                 solid.fixBounds() // TODO precalculate?
                 return intersectHitboxes(this, solid)
-            case HIT_SPHERE:
-                const sdist = squareDistPoint(solid.wpos, this.min, this.max)
-                return (sdist <= solid.r * solid.r)
+            //case HIT_SPHERE:
+            //    const sdist = squareDistPoint(solid.wpos, this.min, this.max)
+            //    return (sdist <= solid.r * solid.r)
         }
     }
 

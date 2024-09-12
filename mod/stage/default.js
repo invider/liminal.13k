@@ -21,11 +21,4 @@ _.defaultStage = () => {
         _pods: [ lab.cam ],
     }))
     hero.yaw(-PI*.5)
-
-
-    trap.register('terminalFall', () => {
-        // handle hero death
-        hero.reset()
-    })
-
 }
