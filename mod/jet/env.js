@@ -34,43 +34,42 @@ const flags = {},
     N             = 1,
     W             = 2,
     S             = 3,
-    E             = 4
+    E             = 4,
+    env = {
+        time: 0,
+        //fps: 60,
+        vol: .5,
 
-const env = {
-    time: 0,
-    //fps: 60,
-    vol: .5,
+        // DEBUG
+        //groundLevel:    1,
+        //showHitboxes:   1,
 
-    // DEBUG
-    //groundLevel:    1,
-    //showHitboxes:   1,
+        bind: [
+            '',
+            // movement controls
+            'KeyW',        // 1..4 - WASD movements
+            'KeyA',
+            'KeyS',
+            'KeyD',
+            'ArrowUp',     // 5  - look up
+            'ArrowLeft',   // 6  - turn left
+            'ArrowDown',   // 7  - look down
+            'ArrowRight',  // 8  - turn right
+            'Space',       // 9  - jump
+            //'KeyE',      // 10-11 - fly up and down 
+            //'KeyC',        
+            //'Delete',    // 12 - roll left
+            //'PageDown',  // 13 - roll right
+        ],
 
-    bind: [
-        '',
-        // movement controls
-        'KeyW',        // 1..4 - WASD movements
-        'KeyA',
-        'KeyS',
-        'KeyD',
-        'ArrowUp',     // 5  - look up
-        'ArrowLeft',   // 6  - turn left
-        'ArrowDown',   // 7  - look down
-        'ArrowRight',  // 8  - turn right
-        'Space',       // 9  - jump
-        //'KeyE',      // 10-11 - fly up and down 
-        //'KeyC',        
-        //'Delete',    // 12 - roll left
-        //'PageDown',  // 13 - roll right
-    ],
+        dv: vec3(1, -.5, .7),  // directional light vector
+        dc: vec4(1, 1, 1, .8), // directional light color
 
-    dv: vec3(1, -.5, .7),  // directional light vector
-    dc: vec4(1, 1, 1, .8), // directional light color
+        pl: [],
+        pc: [],
 
-    pl: [],
-    pc: [],
-
-    backfaces: 0,
-}
+        backfaces: 0,
+    }
 for (let i = 0; i < 48; i++) env.pl[i] = env.pc[i] = 0
 for (let i = 49; i < 64; i++) env.pc[0] = 0
 

@@ -1,3 +1,8 @@
+let _up = [
+    [ 0, 0, 0.5, 180,  1 ],
+    [ 0, 0, 1,   360, -1 ],
+], _gr = 0
+
 class Hero extends Frame {
 
     constructor(st) {
@@ -50,10 +55,7 @@ class Hero extends Frame {
         //if (debug) env.dump.lastCollider = src.name
         if (src instanceof Floppy) {
             // got a floppy
-            this.HD += src.c
-            this.DD += src.c
-            // loading sfx
-            for (let i = 0; i < src.c/180; i++) setTimeout(() => fx(3), i * 500)
+            _up[0][0] += src.c
             kill(src)
         }
     }
@@ -67,7 +69,19 @@ class Hero extends Frame {
         super.evo(dt)
 
         // uploading and downloading
-
+        _up.forEach((e, i)=> {
+            if (e[0] > 0 && e[1] < 0) {
+                // time for action!
+                let c = e[0] > e[3]? e[3] : e[0]
+                e[0] -= c
+                this.HD += c * e[4] // increase or reduce
+                if (i) this.DD += c // increase upload value
+                e[1] = e[2]         // reset the timer
+                i? fx.up(1) : fx(3)
+            } else {
+                e[1] -= dt
+            }
+        })
 
         const mt = this.mt,
               mtx = this.mtx,
@@ -95,14 +109,14 @@ class Hero extends Frame {
             this.jump(4)
         }
 
-
         // apply horizontal friction
-        const friction = this.grounded? FRICTION : AIR_RESISTENCE
-        const fv = vec3.n( vec3.clone(mt) )
+        let hm = 0
+        const friction = this.grounded? FRICTION : AIR_RESISTENCE,
+              ms2 = MAX_SPEED * MAX_SPEED,
+              speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0),
+              speedF = 1 + speedOverflow2 * OVERSPEED_FACTOR,
+              fv = vec3.n( vec3.clone(mt) )
         fv[1] = 0 // remove the Y component - applying in horizontal plane only 
-        const ms2 = MAX_SPEED * MAX_SPEED
-        const speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0)
-        const speedF = 1 + speedOverflow2 * OVERSPEED_FACTOR
         // if (debug) env.dump.frictionV = friction * speedF
         vec3.scale(fv, friction * speedF)
         if (abs(fv[0]) > abs(mt[0])) fv[0] = mt[0] // goes to 0
@@ -157,8 +171,8 @@ class Hero extends Frame {
                 if (this.detectCollisions(mtx) > 1) {
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
-                }
-            }
+                } 
+            } else hm++
         }
 
         // === move z ===
@@ -178,8 +192,16 @@ class Hero extends Frame {
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
                 }
-            }
+            } else hm++
         }
+
+        if (this.grounded && hm) {
+            _gr += dt
+            if (_gr > .25) {
+                fx(8)
+                _gr = 0
+            }
+        } else _gr = 0
 
         /*
         // apply global restrains (DEBUG)
@@ -212,9 +234,13 @@ class Hero extends Frame {
         // show the status/HUD
         ctx.fillStyle = '#e06a10'
         ctx.textBaseline = 'top'
+        ctx.font = "28px monospace"
+
+        ctx.textAlign = 'left'
+        ctx.fillText(`Data Collected: ${this.HD}Kb`, 20, 20)
+
         ctx.textAlign = 'right'
-        ctx.font = "32px monospace"
-        ctx.fillText(`Data Collected: ${this.HD}Kb`, hc.width-20, 20)
+        ctx.fillText(`Data Uploaded: ${this.DD}Kb`, hc.width-20, 20)
     }
 
     tilt(phi) {

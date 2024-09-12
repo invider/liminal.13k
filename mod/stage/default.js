@@ -1,6 +1,4 @@
 _.defaultStage = () => {
-    if (debug) log('setting up the MegaCity 13')
-
     // introduce collision detection to the lab nodes
     extend(lab, collidableTrait)
 
@@ -20,5 +18,5 @@ _.defaultStage = () => {
         pos:  vec3(-8, 15, 21),
         _pods: [ lab.cam ],
     }))
-    hero.yaw(-PI*.5)
+    hero.yaw(-PI)
 }
