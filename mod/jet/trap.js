@@ -70,6 +70,6 @@ document.onpointerlockchange = (e) => {
         env.mouseLock = true
     } else {
         env.mouseLock = false
-        env.pointerReleaseTime = Date.now()
+        env.prt = Date.now()
     }
 }

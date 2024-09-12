@@ -156,6 +156,7 @@ vec3.icross = function(a, b) {
     )
 }
 
+/*
 vec3.fromSpherical = function(r, theta, phi) {
     const v = new Float32Array(3)
     v[0] = r * sin(theta) * cos(phi)
@@ -171,6 +172,7 @@ vec3.toSpherical = function(v) {
     w[2] = Math.atan2(v[1], v[2])
     return w
 }
+*/
 
 // rotate 3D vector counterclockwise around x-axis
 vec3.rotX = function(v, theta) {
@@ -550,11 +552,13 @@ function calcNormals(v, smooth) {
             v13 = vec3.isub(v1, v3),
             nv = vec3.n( vec3.icross(v12, v13) )
 
+        /*
         if (smooth) {
             indexVertex(v1, i,     nv)
             indexVertex(v2, i + 3, nv)
             indexVertex(v3, i + 6, nv)
         }
+        */
 
         // push the same normal for all 3 vertices
         n.push(nv[0], nv[1], nv[2])
@@ -562,6 +566,7 @@ function calcNormals(v, smooth) {
         n.push(nv[0], nv[1], nv[2])
     }
 
+    /*
     if (smooth) {
         for (let i = 0; i < w.length; i++) {
             const leadIndex = w[i]
@@ -579,6 +584,7 @@ function calcNormals(v, smooth) {
             n[i*3+2] = an[2]
         }
     }
+    */
 
     return n
 }

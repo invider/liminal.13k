@@ -2,6 +2,7 @@ class Connection {
 
     constructor(st) {
         extend(this, st)
+        /*
         if (debug) {
             const r = 1.5
 
@@ -25,24 +26,29 @@ class Connection {
                 ],
             }))
         }
+        */
     }
 
     join(block) {
         this.target = block
         this.state = 1 // LINKED
+        /*
         if (debug && this.sphere) {
             this.sphere.surface.m.a = vec4(1, 0, 0, .2)
             this.sphere.surface.m.d = vec4(1, 0, 0, .7)
         }
+        */
         return block
     }
 
     deactivate() {
         this.state = 2 // can't grow in that direction
+        /*
         if (debug && this.sphere) {
             this.sphere.surface.m.a = vec4(1, 1, 0, .2)
             this.sphere.surface.m.d = vec4(1, 1, 0, .7)
         }
+        */
     }
 
     isFree() {
@@ -70,6 +76,7 @@ class Connection {
         }
     }
 
+    /*
     // DEBUG
     toString(reverse) {
         let s, t, d = reverse? this.srcDir() : this.dir
@@ -86,4 +93,5 @@ class Connection {
         }
         return `${t}${t}${s}${t}${t}`
     }
+    */
 }
