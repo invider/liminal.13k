@@ -54,6 +54,8 @@ function setupUniforms() {
 
 function setupStage() {
     // setup the stage
+    _.defaultStage()
+    /*
     let stageFn = _.defaultStage
     if (debug) {
         if (location.hash.startsWith('#box')) {
@@ -71,7 +73,9 @@ function setupStage() {
         }
     }
     if (stageFn) stageFn()
-    trap('stage')
+    */
+    //stageFn()
+    //trap('stage')
 }
 
 function setupGL() {
@@ -91,29 +95,28 @@ window.onload = () => {
     hc= document.getElementById('hc')
     ctx = hc.getContext('2d')
 
-    if (!gl) alert('No WebGL!')
+    //if (!gl) alert('No WebGL!')
 
     setupGL()
 
     // run zaps
-    if (debug) {
-        for (let prop in window) if (prop.startsWith('zap')) {
-            log(`Zapping [${prop}]!`)
-            window[prop]()
-        }
-    } else {
+    //if (debug) {
+    //    for (let prop in window) if (prop.startsWith('zap')) {
+    //        log(`Zapping [${prop}]!`)
+    //        window[prop]()
+    //    }
+    //} else {
         // zap directly, so they not be optimized
         // zapAudioController()
         zapTextures()
         zapScrewLib()
         zapPreStage()
-    }
-
+    //}
     setupStage()
 
     window.onresize = expandCanvas
     expandCanvas()
-    trap('start')
+    // trap('start')
     _lt = Date.now()
     cycle()
 }
