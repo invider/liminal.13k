@@ -1,5 +1,5 @@
 let _up = [
-    [ 0, 0, 0.5, 180,  1 ],
+    [ 0, 0, 0.5, 360,  1 ],
     [ 0, 0, 1,   360, -1 ],
 ], _gr = 0
 
@@ -77,7 +77,11 @@ class Hero extends Frame {
                 this.HD += c * e[4] // increase or reduce
                 if (i) this.DD += c // increase upload value
                 e[1] = e[2]         // reset the timer
-                i? fx.up(1) : fx(3)
+                if (i) fx.up(1)
+                else {
+                    fx(3)
+                    if (rnd() < .3) setTimeout(() => fx(3), 150)
+                }
             } else {
                 e[1] -= dt
             }
@@ -172,6 +176,7 @@ class Hero extends Frame {
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
                 } 
+                hm++
             } else hm++
         }
 
@@ -192,6 +197,7 @@ class Hero extends Frame {
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
                 }
+                hm++
             } else hm++
         }
 
@@ -199,9 +205,9 @@ class Hero extends Frame {
             _gr += dt
             if (_gr > .25) {
                 fx(8)
-                _gr = 0
+                _gr -= .25
             }
-        } else _gr = 0
+        }
 
         /*
         // apply global restrains (DEBUG)

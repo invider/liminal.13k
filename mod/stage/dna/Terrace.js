@@ -45,7 +45,7 @@ class Terrace extends Frame {
 
         // activate the jumppad
         cell.m = mlib.blk
-        cell.d = floor(360 + mrnd() * 640)
+        cell.d = 360 * floor(mrnd() * 4 + 1)
 
         cell.evo = function() {
             if (lab.hero.HD < this.d) this.surface.m = mlib.blk
@@ -57,6 +57,9 @@ class Terrace extends Frame {
                     || runner.pos[1] < this.pos[1]
                     || runner.HD < this.d) return
             runner.lastJumpPad = runner.lastPad = this
+            this.surface.m = mlib.bak
+            this.onTouch = null
+            this.zombie = true
 
             defer(() => {
                 // push - push direction is a bad idea
@@ -136,7 +139,7 @@ class Terrace extends Frame {
                     } else dir = 0
                 } else {
                     // tune - floppy seeding level
-                    const e = dst(pos, 7, .1, 17, 1)
+                    const e = dst(pos, 7, .1, 18, 1)
                     //log('e: ' + e)
                     if (e < 9) {
                         p = vec3.iadd(pos, vec3(0, 4.2, 0))
