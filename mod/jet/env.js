@@ -69,31 +69,8 @@ const env = {
     pl: [],
     pc: [],
 
-    backfaces: true,
+    backfaces: 0,
 }
-for (let i = 0; i < 48; i++) {
-    env.pl[i] = env.pc[i] = 0
-}
-for (let i = 49; i < 64; i++) {
-    env.pc[0] = 0
-}
-/*
-env.pl[0] = 0
-env.pl[1] = 10
-env.pl[2] = 0
-
-env.pc[0] = 0
-env.pc[1] = 0
-env.pc[2] = 1
-env.pc[3] = 1
-
-env.pl[3] = -11
-env.pl[4] = 10
-env.pl[5] = 70
-
-env.pc[4] = 1
-env.pc[5] = 0
-env.pc[6] = 0
-env.pc[7] = 1
-*/
+for (let i = 0; i < 48; i++) env.pl[i] = env.pc[i] = 0
+for (let i = 49; i < 64; i++) env.pc[0] = 0
 

@@ -236,7 +236,7 @@ screwUp = (() => {
                         // just a sing
                         sign = -1
                         let nc = nextc()
-                        if (!(nc >= '0' && nc <= '9')) xerr('Number is expected!')
+                        if ((!(nc >= '0' && nc <= '9') && nc !== '.')) xerr('Number is expected!')
                     }
                     break
                 case '=':

@@ -176,7 +176,7 @@ mpush
 neogeo
 0.25 0.25 0.25 mscale
 HPI mrotY
-0 0.45 0 translate
+0 -.45 0 translate
 
 25 precision
 circle
