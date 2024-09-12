@@ -91,9 +91,6 @@ class Terrace extends Frame {
         let np = vec3.isub(this.pos, this.hsize),
             xp = vec3.iadd(this.pos, this.hsize)
 
-        // create connections
-        // x4 for this terrace configuration
-
         const gapChance = .2,
               s  = CELL_HSIZE,
               iw = floor(this.hsize[0]/s),
@@ -137,14 +134,15 @@ class Terrace extends Frame {
                     } else dir = 0
                 } else {
                     // tune - floppy seeding level
-                    if (snoise(21 + pos[0] * .4, 17 + pos[2] * .4, 14) < .4) {
+                    const e = dst(pos, 7, .1, 17, 1)
+                    //log('e: ' + e)
+                    if (e < 8) {
                         p = vec3.iadd(pos, vec3(0, 4.2, 0))
                         lab.attach( new Floppy({
                             pos:      p,
                             reactive: 1,
                             c:        100 + floor(mrnd() * 540),
                         }))
-
                     }
                 }
                 const cell = this.attach( new Form({
@@ -164,11 +162,11 @@ class Terrace extends Frame {
                 if (dir) this.createConnection(cell, vec3.clone(cell.pos), dir)
                 // animate
                 if (this._connection) {
-                    let w = pos[1] - 60 - 20*rnd()
+                    let w = pos[1] - 100
                     lab.tw.inc({ e: pos, p: 1,
                         v1: w,
                         v2: pos[1],
-                        t: 7, f: _tw[1]
+                        t: 5 + rnd() * 2, f: _tw[1]
                     })
                     pos[1] = w
                 }

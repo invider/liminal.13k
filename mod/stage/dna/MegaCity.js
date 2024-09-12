@@ -8,8 +8,8 @@ const BASE_BLOCK_SIZE = 1,
 
 const mrnd = LNGSource(7)
 
-function dst(v, s, f, q) {
-    return floor(((snoise(v[0]*f, v[1]*f, (v[2]+s)*f) * 10) % 1)* q)
+function dst(v, s, f, q, e) {
+    return floor(((snoise(v[0]*f, v[1]*f, (v[2]+s)*f) * e) % 1) * q)
 }
 
 class MegaCity {
@@ -93,7 +93,7 @@ class MegaCity {
     zone(cn) {
         let q = [], d = dat.nfq
         for (let i = 0; i < 18; i += 3) {
-            q.push( dst(cn.pos, d[i], d[i+1], d[i+2]) )
+            q.push( dst(cn.pos, d[i], d[i+1], d[i+2], 10) )
         }
 
         const p = vec3.clone(cn.pos),
