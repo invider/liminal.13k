@@ -4,12 +4,12 @@ const BASE_BLOCK_SIZE = 1,
       VAR_BLOCK_SIZE = 15,
       CELL_HSIZE = 8,
       TSIZE = 32,
-      THEIGHT = 8
+      BHEIGHT = 8
 
 const mrnd = LNGSource(7)
 
 function dst(v, s, f, q) {
-    return floor(snoise(v[0]*f, v[1]*f, (v[2]+s)*f) * q)
+    return floor(((snoise(v[0]*f, v[1]*f, (v[2]+s)*f) * 10) % 1)* q)
 }
 
 class MegaCity {
@@ -94,22 +94,25 @@ class MegaCity {
         for (let i = 0; i < 18; i += 3) {
             q.push( dst(cn.pos, d[i], d[i+1], d[i+2]) )
         }
-        log(`density @[${cn.pos[0]}:${cn.pos[1]}:${cn.pos[2]}]:`)
-        for (let e of q) log(' * ' + e)
 
         const p = vec3.clone(cn.pos),
               dx = dirDX(cn.dir),
               dz = dirDZ(cn.dir),
               bw = (BASE_BLOCK_SIZE + q[0]) * CELL_HSIZE,
               bd = (BASE_BLOCK_SIZE + q[1]) * CELL_HSIZE,
-              hsize = vec3(bw, THEIGHT + q[2], bd),
+              hsize = vec3(bw, BHEIGHT + q[2], bd),
               gap = q[3] * CELL_HSIZE/2
         p[0] += (gap + hsize[0]) * dx
         p[1] += hsize[1] + q[4] - 2
         p[2] += (gap + hsize[2]) * dz
 
+        log(`density @[${cn.pos[0]}:${cn.pos[1]}:${cn.pos[2]}]:`)
+        log(` * size: ${1 + q[0]}:${1 + q[1]}:${BHEIGHT + q[2]}`)
+        log(` * gap: ${gap}, shift:${q[4] - 2}`)
+
         const block = this.claimBlock(p, hsize, cn)
         if (!block) {
+            cn.state = 2 // BLOCKED
             log(cn.src.name + ': unable to claim the block @' + dumpPS(p, hsize))
         } else {
             log(cn.src.name + ': successfully claimed the block @' + dumpPS(p, hsize))
@@ -133,7 +136,7 @@ class MegaCity {
         let t = lab.attach( new Terrace({
             _$: this,
             pos:   vec3(0,  0, 0),
-            hsize: vec3(TSIZE, THEIGHT, TSIZE),
+            hsize: vec3(TSIZE, BHEIGHT, TSIZE),
         }))
         this.blocks.push(t)
         this.T = t._ls[0]
