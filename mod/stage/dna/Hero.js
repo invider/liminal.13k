@@ -89,7 +89,7 @@ class Hero extends Frame {
 
         if (this.grounded && this.HD > 13312) {
             // ALERT!!! OVERLOAD!!!
-            this.jump()
+            this.jump(3)
         }
 
 
@@ -218,9 +218,9 @@ class Hero extends Frame {
         this.tiltAngle = clamp(this.tiltAngle + phi, this.minTilt, this.maxTilt)
     }
 
-    jump() {
+    jump(x) {
         this.mt[1] += JUMP_SPEED
-        fx(6)
+        fx(x)
     }
 
     /*
