@@ -10,6 +10,7 @@ lab.attach({
                 tw.n($, 'fade', 0, 1, 1, _tw[1], () => {
                     env.paused = 1
                     $.roll(3)
+                    _ht = []
                     //$.redeploy()
                 })
                 break

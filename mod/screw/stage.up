@@ -210,7 +210,6 @@ metal
 mpop
 
 
-
 -- debug --
-neogeo mpush kube 0.8 scale "connection" name mpop brew
+-- neogeo mpush kube 0.8 scale "connection" name mpop brew
 

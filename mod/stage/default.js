@@ -18,8 +18,11 @@ _.defaultStage = () => {
         _pods: [ lab.cam ],
     }))
     //hero.yaw(-PI)
-    
+
     defer(() => {
-        _hi('Collect data', 7, 1)
-    }, 3)
+        _hi('Collect Data', 7, 1)
+    }, 4)
+    defer(() => {
+        _hi('Unlock jump pads with data', 7, 1)
+    }, 16)
 }

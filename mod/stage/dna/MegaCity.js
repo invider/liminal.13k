@@ -16,7 +16,6 @@ class MegaCity {
 
     constructor() {
         extend(this, {
-            name: 'city',
             blocks: [],
             lG: 0,
         })

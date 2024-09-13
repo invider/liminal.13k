@@ -9,7 +9,7 @@ let _up = [
         'center',
     ],
     _2a = (v) => (floor(v * 255)).toString(16).padStart(2, '0'),
-    _ht = [], _h, h,
+    _ht = [], _h, h, _hl = 0,
     _hi = (m, t, b) => {
         _ht = _ht.filter(h => h.t > 0)
         _h = {
@@ -104,6 +104,14 @@ class Hero extends Frame {
                 h.y += h.dy * dt
                 h.t -= dt
             }
+        }
+        if (_hl === 0 && this.HD > 1400 && env.time > 20) {
+            _hi('Jump on orange pads to upload', 7, 1)
+            _hl = 1
+        }
+        if (_hl === 1 && this.HD >=9999) {
+            _hi("Do not exceed your capacity! Keep it under 13MB!", 7, 1)
+            _hl = 2
         }
 
         // uploading and downloading

@@ -84,8 +84,6 @@ class FPSMovementControllerPod {
     onMouseDown(e) {
         if (e.button == 0) {
             if (!env.mouseLock) captureMouse()
-        } else if (e.button == 2) {
-            this.__.use()
         }
     }
 
