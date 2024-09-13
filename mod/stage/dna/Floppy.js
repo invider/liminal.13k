@@ -22,9 +22,7 @@ class Floppy extends Form {
     }
 
     evo(dt) {
-        this.rot[0] += this.rotSpeed[0] * dt
-        this.rot[1] += this.rotSpeed[1] * dt 
-        this.rot[2] += this.rotSpeed[2] * dt 
+        for (let i = 0; i < 3; i++) this.rot[i] += this.rotSpeed[i] * dt
     }
 
 }

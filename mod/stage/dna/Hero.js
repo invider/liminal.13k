@@ -264,7 +264,10 @@ class Hero extends Frame {
 
         if (this.HD > K) {
             ctx.textAlign = _S[3]
-            if (env.time % 1 < .5) ctx.fillText(`DATA OVERLOAD!!! EXCEEDED 13Mb!!!`, hc.width*.5, hc.height*.7)
+            if (env.time % 1 < .5) {
+                ctx.fillText(`DATA OVERLOAD!!! STORAGE EXCEEDED 13Mb!!!`, hc.width*.5, hc.height*.7)
+                ctx.fillText(`Jump on the closest orange pad to upload!`, hc.width*.5, hc.height*.78)
+            }
         }
     }
 
