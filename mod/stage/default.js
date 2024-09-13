@@ -11,11 +11,11 @@ _.defaultStage = () => {
     }))
 
     // the hero time!
-    let hero = lab.attach( new Hero({
+    hero = lab.attach( new Hero({
         name: 'hero',
         type: 'superhero',
         pos:  vec3(-8, 15, 21),
         _pods: [ lab.cam ],
     }))
-    hero.yaw(-PI)
+    //hero.yaw(-PI)
 }

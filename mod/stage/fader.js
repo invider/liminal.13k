@@ -6,9 +6,6 @@ lab.attach({
         let $ = this
         this.R = r
         switch(r) {
-            case 0:
-                env.paused = 1
-                break
             case 2:
                 tw.n($, 'fade', 0, 1, 1, _tw[1], () => {
                     env.paused = 1
@@ -17,13 +14,8 @@ lab.attach({
                 })
                 break
             case 3:
-                log('score overall')
-                log('and press any key')
                 break
         }
-    },
-
-    evo: function(dt) {
     },
 
     redraw: function() {
@@ -34,17 +26,19 @@ lab.attach({
         }
         switch(this.R) {
             case 3:
-                ctx.fillStyle = '#e06a10'
+                ctx.font = env.fnt
+                ctx.fillStyle = env.cl
                 ctx.textBaseline = 'top'
-                ctx.font = "28px monospace"
+                ctx.textAlign = 'center'
 
-                ctx.textAlign = 'left'
-                ctx.fillText(`Data Collected: ${lab.hero.HD}Kb`, 20, 20)
+                let cy = hc.height * .3,
+                    cx = hc.width * .5
+                ctx.fillText(`Data Run is Over`, cx, cy)
+                cy += 50
+                ctx.fillText(`Uploaded: ${Math.round(hero.DD/102.4)/10}Mb`, cx, cy)
 
-                ctx.textAlign = 'right'
-                ctx.fillText(`Data Uploaded: ${lab.hero.DD}Kb`, hc.width-20, 20)
-
-                ctx.fillText(`Press Any Key`, hc.width*.5, hc.height*.5)
+                cy = hc.height * .7
+                if (env.time % 1 > .5) ctx.fillText(`Press Any Key`, hc.width*.5, cy)
                 break
         }
     },
@@ -53,12 +47,9 @@ lab.attach({
         let $ = this
         switch(this.R) {
             case 3:
-                log('scheduling redeploy')
                 lab.hero.redeploy()
                 env.paused = 0
-                tw.n($, 'fade', 1, 0, 1, _tw[1], () => {
-                    log('launching')
-                })
+                tw.n($, 'fade', 1, 0, 1, _tw[1], () => {})
                 this.R = 0
                 break
         }

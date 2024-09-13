@@ -35,7 +35,12 @@ const flags = {},
     W             = 2,
     S             = 3,
     E             = 4,
+    K             = 13312,
     env = {
+        key: 'liminal-gap-runner/score',
+        fnt: '28px monospace',
+        cl: '#e06a10',
+
         time: 0,
         //fps: 60,
         vol: .5,

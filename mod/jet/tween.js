@@ -25,7 +25,6 @@ class Tween extends Frame {
     }
 
 }
-
-tw = lab.attach(new Tween({
+lab.tw = tw = new Tween({
     name: 'tw'
-}))
+})

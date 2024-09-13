@@ -1,7 +1,7 @@
 let _up = [
     [ 0, 0, 0.5, 360,  1 ],
     [ 0, 0, 1,   360, -1 ],
-], _gr = 0
+], _gr = 0, _score, _ilt = 0
 
 class Hero extends Frame {
 
@@ -116,7 +116,7 @@ class Hero extends Frame {
             }
         }
 
-        if (this.grounded && this.HD > 13312) {
+        if (this.grounded && this.HD > K) {
             // ALERT!!! OVERLOAD!!!
             this.jump(4)
         }
@@ -246,15 +246,20 @@ class Hero extends Frame {
         super.draw()
 
         // show the status/HUD
-        ctx.fillStyle = '#e06a10'
+        ctx.font = env.fnt
+        ctx.fillStyle = env.cl
         ctx.textBaseline = 'top'
-        ctx.font = "28px monospace"
 
         ctx.textAlign = 'left'
-        ctx.fillText(`Data Collected: ${this.HD}Kb`, 20, 20)
+        ctx.fillText(`Collected: ${this.HD}Kb`, 20, 20)
 
         ctx.textAlign = 'right'
-        ctx.fillText(`Data Uploaded: ${this.DD}Kb`, hc.width-20, 20)
+        ctx.fillText(`Uploaded: ${this.DD}Kb`, hc.width-20, 20)
+
+        if (this.HD > K) {
+            ctx.textAlign = 'center'
+            if (env.time % 1 < .5) ctx.fillText(`DATA OVERLOAD!!! EXCEEDED 13Mb!!!`, hc.width*.5, hc.height*.7)
+        }
     }
 
     tilt(phi) {

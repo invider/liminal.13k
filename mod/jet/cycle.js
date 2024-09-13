@@ -1,10 +1,10 @@
-let gl, glProg,
+let gl, glP,
     gc, hc,
     _lt
 
 function evo(dt) {
-    if (env.paused) return
-    lab.evo(dt)
+    lab.tw.evo(dt)
+    if (!env.paused) lab.evo(dt)
 }
 
 function drawScene() {

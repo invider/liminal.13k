@@ -35,7 +35,7 @@ class Surface {
 
     bindAttribute(buf, name, n) {
         if (!buf) return
-        const _attr = gl.getAttribLocation(glProg, name)
+        const _attr = gl.getAttribLocation(glP, name)
         gl.enableVertexAttribArray(_attr)
         gl.bindBuffer(gl.ARRAY_BUFFER, buf)
         gl.vertexAttribPointer(_attr, n || 3, gl.FLOAT, false, 0, 0)

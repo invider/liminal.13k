@@ -28,28 +28,27 @@ function compileShader(src, type) {
     gl.compileShader(shader)
 
     if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader
-    else {
-        err(`#${type?'frag':'vert'}: ` + gl.getShaderInfoLog(shader))
-    }
+    //else {
+    //    err(`#${type?'frag':'vert'}: ` + gl.getShaderInfoLog(shader))
+    //}
 }
 
 function setupShaders() {
     const v = compileShader(_vshader, 0)
     const f = compileShader(_fshader, 1)
 
-    glProg = gl.createProgram()
-    gl.attachShader(glProg, v)
-    gl.attachShader(glProg, f)
-    gl.linkProgram(glProg)
+    glP = gl.createProgram()
+    gl.attachShader(glP, v)
+    gl.attachShader(glP, f)
+    gl.linkProgram(glP)
 
-    if (!gl.getProgramParameter(glProg, gl.LINK_STATUS)) {
-        // TODO show the link error
-        err(gl.getProgramInfoLog(glProg))
-    }
+    //if (!gl.getProgramParameter(glP, gl.LINK_STATUS)) {
+    //    err(gl.getProgramInfoLog(glP))
+    //}
 }
 
 function setupUniforms() {
-    _A.forEach(u => _a[u] = gl.getUniformLocation(glProg, u))
+    _A.forEach(u => _a[u] = gl.getUniformLocation(glP, u))
 }
 
 function setupStage() {
@@ -81,7 +80,7 @@ function setupStage() {
 function setupGL() {
     setupShaders()
     setupUniforms()
-    gl.useProgram(glProg)
+    gl.useProgram(glP)
 }
 
 window.onload = () => {
