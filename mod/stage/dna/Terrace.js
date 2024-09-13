@@ -8,22 +8,22 @@ class Terrace extends Frame {
         if (this._connection) {
             this.connections[this._connection.srcDir()] = this._connection
             this._connection.join(this)
-            let p = this.plg = vec3.iadd(this.pos, vec3(0, 20, 0)) // point light source
-
+            /*
             // activate next light source
+            let p = this.plg = vec3.iadd(this.pos, vec3(0, 20, 0)) // point light source
             _ilt ++
             if (_ilt >= env.pl.length/4) _ilt = 0
-            let j = _ilt * 3,
-                c = dst(this.pos, 1, .1, 8, 10)
+            let j = _ilt * 3
             env.pl[j++] = p[0]
             env.pl[j++] = p[1]
             env.pl[j  ] = p[2]
 
             j = _ilt * 4
-            env.pc[j++] = c&1
-            env.pc[j++] = c&2 >> 1
-            env.pc[j++] = c&4 >> 2
-            env.pc[j  ] = 1
+            env.pc[j++] =  1
+            env.pc[j++] = .8
+            env.pc[j++] =  1
+            env.pc[j  ] =  1
+            */
         }
         this.shape()
 

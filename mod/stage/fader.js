@@ -13,8 +13,6 @@ lab.attach({
                     //$.redeploy()
                 })
                 break
-            case 3:
-                break
         }
     },
 
@@ -28,8 +26,8 @@ lab.attach({
             case 3:
                 ctx.font = env.fnt
                 ctx.fillStyle = env.cl
-                ctx.textBaseline = 'top'
-                ctx.textAlign = 'center'
+                ctx.textBaseline = _S[0]
+                ctx.textAlign = _S[3]
 
                 let cy = hc.height * .3,
                     cx = hc.width * .5

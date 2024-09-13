@@ -1,7 +1,13 @@
 let _up = [
     [ 0, 0, 0.5, 360,  1 ],
     [ 0, 0, 1,   360, -1 ],
-], _gr = 0, _score, _ilt = 0
+], _gr = 0, _score, _ilt = 0,
+_S = [
+    'top',
+    'left',
+    'right',
+    'center',
+]
 
 class Hero extends Frame {
 
@@ -68,7 +74,7 @@ class Hero extends Frame {
         }
     }
 
-    detectCollisions(mv) {
+    dCl(mv) {
         //if (debug) env.dump.Impact = 'None'
         return lab.collide(this.solid, mv)
     }
@@ -150,7 +156,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mty, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            if (this.detectCollisions(mty)) {
+            if (this.dCl(mty)) {
                 if (mt[1] < 0) {
                     this.grounded = true
                     this.lastPlatform = this.lastCollider
@@ -171,7 +177,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mtx, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            const cl = this.detectCollisions(mtx)
+            const cl = this.dCl(mtx)
             if (cl === HIT_HARD) {
                 vec3.copy(this.pos, this._pos) // rewind the x-motion
                 // TODO do a feedback or hit recoil like in dronepolis?
@@ -180,7 +186,7 @@ class Hero extends Frame {
                 // TODO figure how to avoid getting stuck as a result
                 vec3.set(mty, 0, STEP_UP_SPEED, 0)
                 vec3.scad(this.pos, mty, dt)
-                if (this.detectCollisions(mtx) > 1) {
+                if (this.dCl(mtx) > 1) {
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
                 } 
@@ -192,7 +198,7 @@ class Hero extends Frame {
         vec3.copy(this._pos, this.pos)
         vec3.scad(this.pos, mtz, dt)
         if (!vec3.equals(this.pos, this._pos)) {
-            const cl = this.detectCollisions(mtz)
+            const cl = this.dCl(mtz)
             if (cl === HIT_HARD) {
                 vec3.copy(this.pos, this._pos)
                 // TODO do a feedback or hit recoil like in dronepolis?
@@ -201,7 +207,7 @@ class Hero extends Frame {
                 // TODO figure how to avoid getting stuck as a result
                 vec3.set(mty, 0, STEP_UP_SPEED, 0)
                 vec3.scad(this.pos, mty, dt)
-                if (this.detectCollisions(mtz) > 1) {
+                if (this.dCl(mtz) > 1) {
                     // rollback
                     vec3.copy(this.pos, this._pos) // rewind the step motion
                 }
@@ -248,16 +254,16 @@ class Hero extends Frame {
         // show the status/HUD
         ctx.font = env.fnt
         ctx.fillStyle = env.cl
-        ctx.textBaseline = 'top'
+        ctx.textBaseline = _S[0]
 
-        ctx.textAlign = 'left'
+        ctx.textAlign = _S[1]
         ctx.fillText(`Collected: ${this.HD}Kb`, 20, 20)
 
-        ctx.textAlign = 'right'
+        ctx.textAlign = _S[2]
         ctx.fillText(`Uploaded: ${this.DD}Kb`, hc.width-20, 20)
 
         if (this.HD > K) {
-            ctx.textAlign = 'center'
+            ctx.textAlign = _S[3]
             if (env.time % 1 < .5) ctx.fillText(`DATA OVERLOAD!!! EXCEEDED 13Mb!!!`, hc.width*.5, hc.height*.7)
         }
     }
@@ -286,5 +292,4 @@ class Hero extends Frame {
         }
     }
     */
-
 }
