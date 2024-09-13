@@ -1,7 +1,7 @@
 let _up = [
     [ 0, 0, 0.5, 360,  1 ],
     [ 0, 0, 1,   360, -1 ],
-], _gr = 0, _score, _ilt = 0,
+], _gr = 0, _score, _ilt = 0, _ht = []
 _S = [
     'top',
     'left',
@@ -270,6 +270,10 @@ class Hero extends Frame {
                 ctx.fillText(`Jump on the closest orange pad to upload!`, hc.width*.5, hc.height*.78)
             }
         }
+        for (h of _ht) {
+            ctx.textAlign = _S[2]
+            ctx.fillText(h.t, h.x, h.y)
+        }
     }
 
     tilt(phi) {
@@ -277,7 +281,7 @@ class Hero extends Frame {
     }
 
     jump(x) {
-        this.mt[1] += JUMP_SPEED
+        this.mt[1] += 20 // tune - jump speed
         fx(x) // jump sfx
     }
 

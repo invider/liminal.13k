@@ -67,14 +67,14 @@ class MegaCity {
         )).length
     }
 
-    claimBlock(pos, hsize, connection) {
+    claimBlock(pos, hsize, cn) {
         if (this.isClaimed(pos, hsize)) return
 
         const b = lab.attach( new Terrace({
             _$: this,
             // DEBUG terrace creation
             // name: 'terrace' + (++_trid),
-            _connection: connection,
+            _c: cn,
             pos, hsize,
         }))
         this.blocks.push(b)

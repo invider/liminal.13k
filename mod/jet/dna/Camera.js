@@ -42,6 +42,7 @@ class Camera extends Frame {
         return m
     }
 
+    /*
     pick() {
         // calculate the proper ray vector
         const cdir = vec3.clone(this.dir)
@@ -56,5 +57,6 @@ class Camera extends Frame {
             }
         }, [])
     }
+    */
 
 }

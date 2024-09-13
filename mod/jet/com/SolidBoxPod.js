@@ -107,6 +107,7 @@ class SolidBoxPod {
         return this.max[1] - solid.min[1]
     }
 
+    /*
     // ray intersection
     touchRay(p, d) {
         let tmin = 0,
@@ -148,4 +149,5 @@ class SolidBoxPod {
             hitPoint: hp,
         }
     }
+    */
 }

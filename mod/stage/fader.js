@@ -18,7 +18,7 @@ lab.attach({
 
     redraw: function() {
         if (this.fade) {
-            let style = '#000000' + (floor(this.fade * 255)).toString(16).padStart(2, '0')
+            let style = '#170526' + (floor(this.fade * 255)).toString(16).padStart(2, '0')
             ctx.fillStyle = style
             ctx.fillRect(0, 0, hc.width, hc.height)
         }
@@ -49,6 +49,7 @@ lab.attach({
                 env.paused = 0
                 tw.n($, 'fade', 1, 0, 1, _tw[1], () => {})
                 this.R = 0
+                fx(2)
                 break
         }
     }

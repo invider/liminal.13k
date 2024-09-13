@@ -5,9 +5,9 @@ class Terrace extends Frame {
         super(st)
         this.cellHHeight = 1.5
         this.connections = []
-        if (this._connection) {
-            this.connections[this._connection.srcDir()] = this._connection
-            this._connection.join(this)
+        if (this._c) {
+            this.connections[this._c.srcDir()] = this._c
+            this._c.join(this)
             /*
             // activate next light source
             let p = this.plg = vec3.iadd(this.pos, vec3(0, 20, 0)) // point light source
@@ -82,7 +82,7 @@ class Terrace extends Frame {
 
             defer(() => {
                 // push - push direction is a bad idea
-                const dy = JUMP_PAD_PUSH
+                const dy = 45 // tune - jumpPad push
                 _up[1][0] += this.d
                 //runner.HD -= this.d
                 //fx.up(1 + this.d/250)
@@ -169,7 +169,7 @@ class Terrace extends Frame {
                             reactive: 1,
                             c:        360 * (floor(mrnd() * 4) + 1),
                         }))
-                        if (this._connection) {
+                        if (this._c) {
                             let w = p[1] - 100
                             tw.n(p, 1, w, p[1], 5 * rnd() * 2, _tw[1])
                             p[1] = w
@@ -195,7 +195,7 @@ class Terrace extends Frame {
                 }))
                 if (dir) this.createConnection(cell, vec3.clone(cell.pos), dir, j, e)
                 // animate
-                if (this._connection) {
+                if (this._c) {
                     let w = pos[1] - 100
                     tw.n(pos, 1, w, pos[1], 5 * rnd() * 2, _tw[1])
                     //tw.inc({ e: pos, p: 1,
@@ -229,8 +229,8 @@ class Terrace extends Frame {
         }).join('')
 
         let origin = ''
-        if (this._connection) {
-            origin = '\n * ' + this._connection.toString(1) + ' ' + this._connection.src.toString()
+        if (this._c) {
+            origin = '\n * ' + this._c.toString(1) + ' ' + this._c.src.toString()
         }
 
         return `${this.name}[${links}] @${floor(this.pos[0])}:${floor(this.pos[1])}:${floor(this.pos[2])}${origin}`

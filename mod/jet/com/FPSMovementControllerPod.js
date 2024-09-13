@@ -40,24 +40,24 @@ class FPSMovementControllerPod {
 
             // keyboard look
             case LOOK_LEFT:
-                __.yaw(-TURN_SPEED * dt)
+                __.yaw(-2.5 * dt) // tune - turn speed
                 break
             case LOOK_RIGHT:
-                __.yaw(TURN_SPEED * dt)
+                __.yaw(2.5* dt)
                 break
             case LOOK_UP:
-                __.tilt(-TILT_SPEED * dt)
+                __.tilt(-1.75* dt)
                 break
             case LOOK_DOWN:
-                __.tilt(TILT_SPEED * dt)
+                __.tilt(1.75* dt)
                 break
 
             // mouse look
             case SHIFT_YAW:
-                __.yaw(MOUSE_TURN_SPEED * factor * dt)
+                __.yaw(.14 * factor * dt) // tune - mouse turn speed
                 break
             case SHIFT_PITCH:
-                __.tilt(-MOUSE_TILT_SPEED * factor * dt)
+                __.tilt(-.14* factor * dt) // tune - mouse tilt speed
                 break
         }
     }
