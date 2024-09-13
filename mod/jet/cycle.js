@@ -66,11 +66,11 @@ function draw(dt) {
         //    env.fps = (ifps.reduce((v, acc) => acc + v) / ifps.length) << 0
         //}
     //}
-
     // clear 2D canvas
     ctx.clearRect(0, 0, hc.width, hc.height)
 
     drawScene()
+    lab.fader.redraw()
 }
 
 function cycle() {

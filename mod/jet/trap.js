@@ -9,8 +9,10 @@ trap.register = function(eventName, fn) {
 }
 
 window.onkeydown = (e) => {
-    if (e.repeat) return
+    // hardcode some touches
     fx.touch()
+    lab.fader.touch(e)
+    if (e.repeat) return
 
     /*
     switch(e.code) {
@@ -20,7 +22,6 @@ window.onkeydown = (e) => {
     }
     if (env.paused) return
     */
-
     trap('keyDown', e)
 
     if (env.paused || env.disabled) return
@@ -43,15 +44,15 @@ window.onkeyup = (e) => {
 }
 
 window.onmousedown = (e) => {
-    if (env.paused || env.disabled) return
     fx.touch()
     trap('mdn', e)
+    if (env.paused || env.disabled) return
     if (lab.broker) lab.broker.onMouseDown(e)
 }
 
 window.onmouseup = (e) => {
-    if (env.paused || env.disabled) return
     trap('mup', e)
+    if (env.paused || env.disabled) return
     if (lab.broker) lab.broker.onMouseUp(e)
 }
 

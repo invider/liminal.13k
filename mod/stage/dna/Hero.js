@@ -9,11 +9,12 @@ class Hero extends Frame {
 
         const df = {
             // strangeSolid: true, // DEBUG - hide wireframes for the hero
+            s:  0,
             hh: 1,
             HD: 0,
             DD: 0,
 
-            eY: 2,
+            eY: 2.5,
             tiltAngle: 0,
             minTilt: -PI/2,
             maxTilt:  PI/2,
@@ -38,15 +39,22 @@ class Hero extends Frame {
         this._initialPos = vec3.clone(this.pos)
     }
 
-    reset() {
-        //log('=== TERMINAL FALL ===') 
+    redeploy() {
         // redeploy on the last touched jumppad
-        if (this.lastPad) vec3.copy(this.pos, this.lastPad.pos)
-        else vec3.copy(this.pos, this._initialPos)
-        this.pos[1] += 15
-        vec3.set(this.mt, 0, 0, 0)
-        this.HD = this.DD = 0
-        this._f = true
+        let $ = this
+        if ($.lastPad) vec3.copy($.pos, $.lastPad.pos)
+        else vec3.copy($.pos, $._initialPos)
+        $.pos[1] += 15
+        vec3.set($.mt, 0, 0, 0)
+        $.HD = $.DD = _up[0][0] = _up[1][0] = 0
+        $._f = true
+        $.st = 0
+    }
+
+    reset() {
+        if (this.st > 0) return
+        this.st = 1
+        lab.fader.roll(2) // fade out and show the score
         fx(5) // fall sfx
     }
 

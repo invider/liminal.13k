@@ -89,10 +89,13 @@ class Terrace extends Frame {
         return mrnd.elem(this.connections.filter(cn => cn.isFree()))
     }
 
-    freeConnectionTowards(dir) {
+    /*
+    // free connections towards
+    fct(dir) {
         const cn = this.connections[dir]
         if (cn) return cn.selfWhenFree()
     }
+    */
 
     shape() {
         let np = vec3.isub(this.pos, this.hsize),
@@ -142,7 +145,6 @@ class Terrace extends Frame {
                 } else {
                     // tune - floppy seeding level
                     const e = dst(pos, 7, .1, 18, 1)
-                    //log('e: ' + e)
                     if (e < 9) {
                         p = vec3.iadd(pos, vec3(0, 4.2, 0))
                         lab.attach( new Floppy({
@@ -170,11 +172,12 @@ class Terrace extends Frame {
                 // animate
                 if (this._connection) {
                     let w = pos[1] - 100
-                    lab.tw.inc({ e: pos, p: 1,
-                        v1: w,
-                        v2: pos[1],
-                        t: 5 + rnd() * 2, f: _tw[1]
-                    })
+                    tw.n(pos, 1, w, pos[1], 5 * rnd() * 2, _tw[1])
+                    //tw.inc({ e: pos, p: 1,
+                    //    v1: w,
+                    //    v2: pos[1],
+                    //    t: 5 + rnd() * 2, f: _tw[1]
+                    //})
                     pos[1] = w
                 }
             }

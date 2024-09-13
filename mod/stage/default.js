@@ -4,7 +4,6 @@ _.defaultStage = () => {
 
     lab.attach( new MegaCity() )
 
-
     lab.freeCam = lab.cam
     // create hero cam
     lab.attach( new Camera({

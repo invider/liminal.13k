@@ -5,7 +5,8 @@ let aux, aO, zx, R, vol
 return extend(
     (n) => {
         if (!zx) return
-        log(`#${n-2} vol: ${dd[1][n-2]}`)
+        // debug volume
+        //log(`#${n-2} vol: ${dd[1][n-2]}`)
         vol = env.vol * dd[1][n-2]
         zx(...dd[n])
     }, {
