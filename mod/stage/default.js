@@ -18,4 +18,8 @@ _.defaultStage = () => {
         _pods: [ lab.cam ],
     }))
     //hero.yaw(-PI)
+    
+    defer(() => {
+        _hi('Collect data', 7, 1)
+    }, 3)
 }

@@ -18,8 +18,8 @@ function wrap(fn1, fn2) {
     }
 }
 
-function defer(fn) {
-    setTimeout(fn, 0)
+function defer(fn, t) {
+    setTimeout(fn, t*1000 || 0)
 }
 
 function expandCanvas() {

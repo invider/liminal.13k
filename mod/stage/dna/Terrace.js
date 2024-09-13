@@ -84,6 +84,7 @@ class Terrace extends Frame {
                 // push - push direction is a bad idea
                 const dy = 45 // tune - jumpPad push
                 _up[1][0] += this.d
+                _hi(`Uploading ${this.d}Kb...`, 3)
                 //runner.HD -= this.d
                 //fx.up(1 + this.d/250)
 

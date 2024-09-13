@@ -9,16 +9,19 @@ let _up = [
         'center',
     ],
     _2a = (v) => (floor(v * 255)).toString(16).padStart(2, '0'),
-    _ht = [], h
-    _hi = (m, t) => {
+    _ht = [], _h, h,
+    _hi = (m, t, b) => {
         _ht = _ht.filter(h => h.t > 0)
-        _ht.push({
+        _h = {
             m,
             x: hc.width  - 20,
             y: hc.height + 20,
             dy: -hc.height * .1,
             t,
-        })
+        }
+        _ht.push(_h)
+        if (b) fx(2)
+        return _h
     }
 
 
@@ -96,9 +99,11 @@ class Hero extends Frame {
         super.evo(dt)
 
         for(h of _ht) {
-            //h.x += h.dx
-            h.y += h.dy * dt
-            h.t -= dt
+            if (h.d > 0) h.d -= dt
+            else {
+                h.y += h.dy * dt
+                h.t -= dt
+            }
         }
 
         // uploading and downloading
