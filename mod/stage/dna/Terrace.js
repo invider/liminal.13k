@@ -168,6 +168,11 @@ class Terrace extends Frame {
                             reactive: 1,
                             c:        360 * (floor(mrnd() * 4) + 1),
                         }))
+                        if (this._connection) {
+                            let w = p[1] - 100
+                            tw.n(p, 1, w, p[1], 5 * rnd() * 2, _tw[1])
+                            p[1] = w
+                        }
                     }
                 }
                 const cell = this.attach( new Form({
