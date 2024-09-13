@@ -19,13 +19,11 @@ class FPSMovementControllerPod {
 
     push(action, factor, dt) {
         const __ = this.__
-        const speed = dt * (__.grounded? ACCELERATION : AIR_ACCELERATION)
+        const speed = dt * (__.grounded? 280 : 20) // tune - acceleration : air-acceleration
 
         switch(action) {
             case JUMP:
-                if (__.grounded) {
-                    __.jump(7)
-                }
+                if (__.grounded) __.jump(7)
                 break
             case FORWARD:
                 vec3.scad(__.mt, __.dir, -speed)

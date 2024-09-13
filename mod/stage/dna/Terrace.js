@@ -47,7 +47,7 @@ class Terrace extends Frame {
         */
     }
 
-    createConnection(cell, pos, dir) {
+    createConnection(cell, pos, dir, j, e) {
         //log('connecting ' + dir + ' at ' + pos[0] + ':' + pos[2])
         const shift = CELL_HSIZE,
             dx = dirDX(dir),
@@ -56,14 +56,15 @@ class Terrace extends Frame {
         pos[2] += shift * dz
         const cn = this.connections[dir] = new Connection({
                 src: this,
+                _j:  1,
                 cell, pos, dir,
-            }),
-            e = dst(pos, 7, .1, 4, 10)
-        if (e < 2) return // limit the number of jumppads
+        })
+        if (!j) return
 
         // activate the jumppad
         cell.m = mlib.blk
-        cell.d = 360 * (e + 1)
+        cell.d = 720 * e
+        cn._j = 1.2
 
         cell.evo = function() {
             if (lab.hero.HD < this.d) this.surface.m = mlib.blk
@@ -175,21 +176,24 @@ class Terrace extends Frame {
                         }
                     }
                 }
+
+                let e = dst(pos, 7, .1, 4, 10),  // jumppad field
+                    j = dir && (e >= 2)? 1 : 0   // jumppad flag
                 const cell = this.attach( new Form({
                     // DEBUG name
                     //name: `${this.name}/platform[${ix+1}:${iz+1}]`,
                     pos,
                     _pods: [
                         new Surface({
-                            geo: dir? glib.pad : glib.cell,
-                            m: dir? mlib.blk : extend({}, glib.cell.m, { d: colors[icolor] })
+                            geo: j? glib.pad : glib.cell,
+                            m: j? mlib.blk : extend({}, glib.cell.m, { d: colors[icolor] })
                         }),
                         new SolidBoxPod({
-                            hsize: dir? glib.pad.bounds : glib.cell.bounds, 
+                            hsize: j? glib.pad.bounds : glib.cell.bounds, 
                         }),
                     ],
                 }))
-                if (dir) this.createConnection(cell, vec3.clone(cell.pos), dir)
+                if (dir) this.createConnection(cell, vec3.clone(cell.pos), dir, j, e)
                 // animate
                 if (this._connection) {
                     let w = pos[1] - 100

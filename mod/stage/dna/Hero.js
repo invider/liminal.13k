@@ -107,17 +107,18 @@ class Hero extends Frame {
               mtz = this.mtz,
               pym = mt[1]
 
-        // apply gravity
-        mt[1] -= GRAVITY * dt
+        // apply gravity - tune gravity
+        mt[1] -= 30 * dt
         if (pym > 0 && mt[1] < 0) {
             // reached the peak
             this.lastJumpPad = null
             this._f = true
         }
-        if (mt[1] < -TERMINAL_VELOCITY) {
-            mt[1] = -TERMINAL_VELOCITY
+        if (mt[1] < -96) {
+            mt[1] = -96 // tune - terminal velocity
 
-            if (this.pos[1] < this.lastPlatform.pos[1] - TERMINAL_SHIFT) {
+            // tune - terminal shift
+            if (this.pos[1] < this.lastPlatform.pos[1] - 100) {
                 this.reset()
             }
         }
@@ -129,10 +130,10 @@ class Hero extends Frame {
 
         // apply horizontal friction
         let hm = 0
-        const friction = this.grounded? FRICTION : AIR_RESISTENCE,
-              ms2 = MAX_SPEED * MAX_SPEED,
+        const friction = this.grounded? 1.2 : .3,  // tune - friction : air-resistence
+              ms2 = 30 * 30,  // tune max speed
               speedOverflow2 = Math.max(mt[0]*mt[0] + mt[2]*mt[2] - ms2, 0),
-              speedF = 1 + speedOverflow2 * OVERSPEED_FACTOR,
+              speedF = 1 + speedOverflow2 * .005, // tune overspeed factor
               fv = vec3.n( vec3.clone(mt) )
         fv[1] = 0 // remove the Y component - applying in horizontal plane only 
         // if (debug) env.dump.frictionV = friction * speedF

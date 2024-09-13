@@ -4,7 +4,7 @@
 
 === noise frequency data ===
 .5      .08     6     -- width
-.7      .06     8    -- depth
+.7      .06     8     -- depth
 .2      .04     4     -- height
 .6      .003    8     -- gap
 .3      .005    7     -- vertical shift

@@ -59,14 +59,14 @@ const _fshader = `#version 300 es
 
         // directional diffuse
         // TODO expand into a 3-component vector with dir light colors included
-        float diffuseDirectionalLambert = max(
+        float dd = max(
             dot(WN, udv),
             0.0
         ) * udc.w;
 
         // calculate directional diffuse color component
         vec3 dc = vec3(0.0, 0.0, 0.0);
-        dc = dc + udc.xyz * diffuseDirectionalLambert;
+        dc = dc + udc.xyz * dd;
 
         vec3 sc = vec3(0.0, 0.0, 0.0);  // specular color accumulator
         vec3 eye = normalize(ucp - wp);

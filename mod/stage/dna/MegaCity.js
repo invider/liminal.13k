@@ -102,7 +102,7 @@ class MegaCity {
               bw = (BASE_BLOCK_SIZE + q[0]) * CELL_HSIZE,
               bd = (BASE_BLOCK_SIZE + q[1]) * CELL_HSIZE,
               hsize = vec3(bw, BHEIGHT + q[2], bd),
-              gap = q[3] * CELL_HSIZE/2
+              gap = q[3] * cn._j * CELL_HSIZE/2
         p[0] += (gap + hsize[0]) * dx
         p[1] += hsize[1] + q[4] - 2
         p[2] += (gap + hsize[2]) * dz
