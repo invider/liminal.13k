@@ -110,7 +110,7 @@ const _fshader = `#version 300 es
         // fog
         float z = gl_FragCoord.z / gl_FragCoord.w;
         // hardcoded fog values
-        float fA = smoothstep(25.0, 125.0, fd); // fog amount
+        float fA = smoothstep(30.0, 140.0, fd); // fog amount
 
         oc = mix(
                 vec4(

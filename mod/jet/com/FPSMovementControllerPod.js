@@ -19,7 +19,7 @@ class FPSMovementControllerPod {
 
     push(action, factor, dt) {
         const __ = this.__
-        const speed = dt * (__.grounded? 280 : 20) // tune - acceleration : air-acceleration
+        const speed = dt * (__.grounded? 320 : 30) // tune - acceleration : air-acceleration
 
         switch(action) {
             case JUMP:

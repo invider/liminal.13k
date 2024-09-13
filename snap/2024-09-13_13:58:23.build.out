@@ -1,0 +1,1387 @@
+Indexing source files...
+Indexing in ./mod
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liminal</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="./dev/cmd.js"></script>
+        <script src="./dev/com/FreeMovementControllerPod.js"></script>
+        <script src="./dev/commands.js"></script>
+        <script src="./dev/com/OrbitalControllerPod.js"></script>
+        <script src="./dev/debug.js"></script>
+        <script src="./dev/dna/CityMap.js"></script>
+        <script src="./dev/dna/HUD.js"></script>
+        <script src="./dev/dna/playerStateDump.js"></script>
+        <script src="./dev/dna/stageStat.js"></script>
+        <script src="./dev/dutil.js"></script>
+        <script src="./dev/expect.js"></script>
+        <script src="./dev/img.js"></script>
+        <script src="./dev/obj.js"></script>
+        <script src="./dev/screenshotController.js"></script>
+        <script src="./dev/screw/corkscrew.js"></script>
+        <script src="./dev/screw/dsl.js"></script>
+        <script src="./dev/screw/GeoSpinner.js"></script>
+        <script src="./dev/screw/ops.js"></script>
+        <script src="./dev/screw/screwUp.js"></script>
+        <script src="./dev/screw/SpinnerControl.js"></script>
+        <script src="./dev/termit/js/termit.js"></script>
+        <script src="./dev/termit/js/termitSetup.js"></script>
+        <script src="./dry/math.js"></script>
+        <script src="./dry/util.js"></script>
+        <script src="./dry/zap.js"></script>
+        <script src="./ext/gif.js"></script>
+        <script src="./gif.worker.js"></script>
+        <script src="./jet/com/attitudeTrait.js"></script>
+        <script src="./jet/com/FPSMovementControllerPod.js"></script>
+        <script src="./jet/com/SolidBoxPod.js"></script>
+        <script src="./jet/cycle.js"></script>
+        <script src="./jet/dna/Camera.js"></script>
+        <script src="./jet/dna/Form.js"></script>
+        <script src="./jet/dna/Surface.js"></script>
+        <script src="./jet/env.js"></script>
+        <script src="./jet/fx.js"></script>
+        <script src="./jet/geo.js"></script>
+        <script src="./jet/ken/pnoise.js"></script>
+        <script src="./jet/setup.js"></script>
+        <script src="./jet/shader.js"></script>
+        <script src="./jet/trap.js"></script>
+        <script src="./jet/tween.js"></script>
+        <script src="./sandbox/banner.js"></script>
+        <script src="./sandbox/boxCorkscrew.js"></script>
+        <script src="./sandbox/boxCube.js"></script>
+        <script src="./sandbox/boxCubesUV.js"></script>
+        <script src="./sandbox/boxFM.js"></script>
+        <script src="./sandbox/boxGeo.js"></script>
+        <script src="./sandbox/boxObj.js"></script>
+        <script src="./sandbox/boxOne.js"></script>
+        <script src="./sandbox/boxScrew.js"></script>
+        <script src="./sandbox/boxStationary.js"></script>
+        <script src="./sandbox/toolbox.js"></script>
+        <script src="./stage/com/collidableTrait.js"></script>
+        <script src="./stage/default.js"></script>
+        <script src="./stage/dna/Connection.js"></script>
+        <script src="./stage/dna/Floppy.js"></script>
+        <script src="./stage/dna/Hero.js"></script>
+        <script src="./stage/dna/MegaCity.js"></script>
+        <script src="./stage/dna/Terrace.js"></script>
+        <script src="./stage/fader.js"></script>
+        <script src="./stage/preStage.js"></script>
+        <script src="./stage/slib.js"></script>
+        <script src="./stage/sutil.js"></script>
+        <script src="./stage/tune.js"></script>
+        <script src="./support/dna/WireMesh.js"></script>
+        <script src="./support/SolidSpherePod.js"></script>
+        <script src="./support/texture.js"></script>
+    </head>
+    <body oncontextmenu="return false;">
+        <canvas id="gc"></canvas>
+        <canvas id="hc"></canvas>
+    </body>
+</html>
+'./.stage.tmp' -> './index.html'
+Cleaning...
+Screwing...
+Compiling screw source: 
+======================================
+==================
+=      DATA      =
+==================
+
+=== noise frequency data ===
+.5      .08     6     -- width
+.7      .06     8     -- depth
+.2      .04     4     -- height
+.6      .003    8     -- gap
+.3      .005    7     -- vertical shift
+.6      .007    8     -- ???
+
+"nfq" dat
+
+===================
+=       SFX       =
+===================
+
+-- sfx volumes
+--     floppy                 land     jump    step
+.4      .2      .3      .3    1.5       .4      .2      .5
+dat
+
+.3  0  183  .02  .12  .06  1  .7  5  9  0  0  0  0  1  0  .01  .61  .13  0  101 -- tone -- menu select (2)
+dat
+
+0  0  495 .01  .08  .04  1  3.2  6  0  0  0  0  1.2  0  .3  .01  .68  .05 -- floppy zigg (3)
+dat
+
+0  0  223  0  .1  .18  0  1.2  0 0 494 .06  0 .2  39  0  0  .57  .03  0  -1498 -- overload alarm (4)
+dat
+
+2.4  0  65  .03  .09  .46  1  3.5  2  -5  0  0  .13  1.3  0  .9  .43  .31  .26  .04 -- terminal fall (5)
+dat
+
+-- 2.5  0  444  .01  .05  .05  4  2.3  -5  0  0  0  .06  1.7  0  .4  .07  .9  .04  .29  -2496 -- land (6)
+1.4 0  138  0  .01  .02  0  1.3  0  -32  -44  0  0  0  53  0  0  .58  .03 -- land (5)
+dat
+
+1.1  0  60  .03  .06  .15  1  2.9  0  25  0  0  0  .8  0  .1  0  .79  .05  0  -898 -- jump (7)
+dat
+
+.6  0  172  .03  .01  .01  3  2.8  -0.1  .1  -55  .03  .01  .8  9.9  .1  0  .6  .01  .04  -1487 -- step (8)
+dat
+
+-- [.8,,225,.06,.29,.39,,2.4,,,-89,.08,.09,,,,,,.29,,-530]   -- another upload sequence
+-- [1.4,,138,,.01,.02,,1.3,,-32,-94,,,,53,,,.58,.03]         -- step
+-- [,,183,.04,.18,.49,1,3.6,2,,,,.08,,27,.1,,.62,.19,,-1057] -- windy noise
+-- 1.1,,256,.01,.27,.17,,3,,-23,-86,.05,.02,,49,,,.56,.13,.31,-1409] -- robot select
+
+
+====================
+=    PRIMITIVES    =
+====================
+
+=== kube geometry ===
+kube:
+
+-1  1 -1
+ 1  1  1
+-1  1  1
+
+-1  1 -1
+ 1  1 -1
+ 1  1  1
+
+tri tri
+
+reflectY
+
+mpush
+buf
+
+HPI mrotY
+unbuf
+
+HPI mrotZ
+unbuf
+
+mpop
+unbuf
+;
+---------------------
+
+
+
+===================
+=    MATERIALS    =
+===================
+
+=== metal material definition ===
+metal:
+0.63    0.63    0.63    0.32  -- ambient
+0.63    0.63    0.63    0.32  -- diffuse
+1       1       1       0.9   -- specular
+10
+mt
+;
+
+--- material ---
+.9      .54     .14     0.15
+.7      .2       .1     0.4
+ 1       1        1     0.4
+.5       1       1        1
+8                            -- shininess
+"pad" mt
+
+--- material ---
+.32     .22    .20   .2
+.4      .3     .2    .4
+ 1       1      1    .6
+7
+"blk" mt
+
+--- material ---
+.5      .5     .5   .1 
+.5      .5     .5   .3
+ 1      .6     .8   .5
+20
+"bak" mt
+
+
+
+
+==================
+=    GEOMETRY    =
+==================
+
+=== cell ===
+neogeo
+mpush
+kube
+8 1 8 stretch
+
+--- material ---
+0.5     0.5     0.8     0.2   -- ambient
+0.5     0.6     0.7     0.6   -- diffuse
+0.7     1       1       0.8   -- specular
+21                            -- shininess
+mt
+
+8 1 8 bounds
+"cell" name
+mpop
+brew
+
+=== jump pad ===
+neogeo
+mpush
+kube 8 2 8
+stretch
+
+--- material ---
+0.5     0.6     0.7     0.2   -- ambient
+1       0.2     0       0.8   -- diffuse
+1       1       1       0.8   -- specular
+20                            -- shininess
+mt
+
+8 2 8 bounds
+"pad" name
+mpop
+brew
+
+
+=== floppy disk ===
+neogeo
+mpush
+kube
+1 1 0.1 stretch
+
+--- material ---
+0.06    0.06    0.07    0.32  -- ambient
+0.13    0.13    0.14    0.65  -- diffuse
+1       1       1       0.3   -- specular
+20                            -- shininess
+mt
+
+3 2.5 3 bounds
+
+"floppy" name
+mpop
+brew
+
+
+mpush
+neogeo
+0.25 0.25 0.25 mscale
+HPI mrotY
+0 -.45 0 translate
+
+25 precision
+circle
+15 precision
+
+metal
+"fdisc" name brew
+mpop
+
+mpush
+neogeo
+kube
+buf
+0.5 0.35 0.11 mscale
+-0.2 2 0 translate
+unbuf
+
+metal
+"shutter" name brew
+mpop
+
+
+-- debug --
+-- neogeo mpush kube 0.8 scale "connection" name mpop brew
+
+
+--------------------------------------
+@0: #36/push1f 0.5 T1/X1 - [%] = [5]
+@2: #37/push1d 0.08 T2/X1 - [(] = [8]
+@4: #35/push1i 6 T0/X1 - [&] = [6]
+@6: #36/push1f 0.7 T1/X1 - ['] = [7]
+@8: #37/push1d 0.06 T2/X1 - [&] = [6]
+@10: #35/push1i 8 T0/X1 - [(] = [8]
+@12: #36/push1f 0.2 T1/X1 - ["] = [2]
+@14: #37/push1d 0.04 T2/X1 - [$] = [4]
+@16: #35/push1i 4 T0/X1 - [$] = [4]
+@18: #36/push1f 0.6 T1/X1 - [&] = [6]
+@20: #38/push1u 0.003 T3/X1 - [#] = [3]
+@22: #35/push1i 8 T0/X1 - [(] = [8]
+@24: #36/push1f 0.3 T1/X1 - [#] = [3]
+@26: #38/push1u 0.005 T3/X1 - [%] = [5]
+@28: #35/push1i 7 T0/X1 - ['] = [7]
+@30: #36/push1f 0.6 T1/X1 - [&] = [6]
+@32: #38/push1u 0.007 T3/X1 - ['] = [7]
+@34: #35/push1i 8 T0/X1 - [(] = [8]
+@42: #36/push1f 0.4 T1/X1 - [$] = [4]
+@44: #36/push1f 0.2 T1/X1 - ["] = [2]
+@46: #36/push1f 0.3 T1/X1 - [#] = [3]
+@48: #36/push1f 0.3 T1/X1 - [#] = [3]
+@50: #36/push1f 1.5 T1/X1 - [/] = [15]
+@52: #36/push1f 0.4 T1/X1 - [$] = [4]
+@54: #36/push1f 0.2 T1/X1 - ["] = [2]
+@56: #36/push1f 0.5 T1/X1 - [%] = [5]
+### found numbers to compact: 8 -> 16 bytes
+[
+  { t: 1, x: 1, d: [ 4 ], s: [ '$' ], S: '$', v: 0.4, at: 42, iop: 36 },
+  { t: 1, x: 1, d: [ 2 ], s: [ '"' ], S: '"', v: 0.2, at: 44, iop: 36 },
+  { t: 1, x: 1, d: [ 3 ], s: [ '#' ], S: '#', v: 0.3, at: 46, iop: 36 },
+  { t: 1, x: 1, d: [ 3 ], s: [ '#' ], S: '#', v: 0.3, at: 48, iop: 36 },
+  {
+    t: 1,
+    x: 1,
+    d: [ 15 ],
+    s: [ '/' ],
+    S: '/',
+    v: 1.5,
+    at: 50,
+    iop: 36
+  },
+  { t: 1, x: 1, d: [ 4 ], s: [ '$' ], S: '$', v: 0.4, at: 52, iop: 36 },
+  { t: 1, x: 1, d: [ 2 ], s: [ '"' ], S: '"', v: 0.2, at: 54, iop: 36 },
+  { t: 1, x: 1, d: [ 5 ], s: [ '%' ], S: '%', v: 0.5, at: 56, iop: 36 }
+]
+op code: 52
+@53: #36/push1f 0.3 T1/X1 - [#] = [3]
+@55: #35/push1i 0 T0/X1 - [ ] = [0]
+@57: #39/push2i 183 T0/X2 - [|!] = [90,1]
+@60: #37/push1d 0.02 T2/X1 - ["] = [2]
+@62: #42/push2u 0.12000000000000001 T3/X2 - [;!] = [27,1]
+@65: #37/push1d 0.06 T2/X1 - [&] = [6]
+@67: #35/push1i 1 T0/X1 - [!] = [1]
+@69: #36/push1f 0.7 T1/X1 - ['] = [7]
+@71: #35/push1i 5 T0/X1 - [%] = [5]
+@73: #35/push1i 9 T0/X1 - [)] = [9]
+@75: #35/push1i 0 T0/X1 - [ ] = [0]
+@77: #35/push1i 0 T0/X1 - [ ] = [0]
+@79: #35/push1i 0 T0/X1 - [ ] = [0]
+@81: #35/push1i 0 T0/X1 - [ ] = [0]
+@83: #35/push1i 1 T0/X1 - [!] = [1]
+@85: #35/push1i 0 T0/X1 - [ ] = [0]
+@87: #37/push1d 0.01 T2/X1 - [!] = [1]
+### found numbers to compact: 8 -> 16 bytes
+[
+  { t: 0, x: 1, d: [ 5 ], s: [ '%' ], S: '%', v: 5, at: 71, iop: 35 },
+  { t: 0, x: 1, d: [ 9 ], s: [ ')' ], S: ')', v: 9, at: 73, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 75, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 77, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 79, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 81, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 83, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 85, iop: 35 }
+]
+op code: 51
+@83: #41/push2d 0.61 T2/X2 - [^ ] = [61,0]
+@86: #37/push1d 0.13 T2/X1 - [-] = [13]
+@88: #35/push1i 0 T0/X1 - [ ] = [0]
+@90: #39/push2i 101 T0/X2 - [(!] = [8,1]
+@94: #35/push1i 0 T0/X1 - [ ] = [0]
+@96: #35/push1i 0 T0/X1 - [ ] = [0]
+@98: #39/push2i 495 T0/X2 - [>%] = [30,5]
+@101: #37/push1d 0.01 T2/X1 - [!] = [1]
+@103: #37/push1d 0.08 T2/X1 - [(] = [8]
+@105: #37/push1d 0.04 T2/X1 - [$] = [4]
+@107: #35/push1i 1 T0/X1 - [!] = [1]
+@109: #36/push1f 3.2 T1/X1 - [@] = [32]
+@111: #35/push1i 6 T0/X1 - [&] = [6]
+@113: #35/push1i 0 T0/X1 - [ ] = [0]
+@115: #35/push1i 0 T0/X1 - [ ] = [0]
+@117: #35/push1i 0 T0/X1 - [ ] = [0]
+@119: #35/push1i 0 T0/X1 - [ ] = [0]
+@121: #36/push1f 1.2 T1/X1 - [,] = [12]
+### found numbers to compact: 5 -> 10 bytes
+[
+  { t: 0, x: 1, d: [ 6 ], s: [ '&' ], S: '&', v: 6, at: 111, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 113, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 115, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 117, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 119, iop: 35 }
+]
+op code: 51
+@120: #35/push1i 0 T0/X1 - [ ] = [0]
+@122: #36/push1f 0.3 T1/X1 - [#] = [3]
+@124: #37/push1d 0.01 T2/X1 - [!] = [1]
+@126: #42/push2u 0.6799999999999999 T3/X2 - [='] = [29,7]
+@129: #37/push1d 0.05 T2/X1 - [%] = [5]
+@132: #35/push1i 0 T0/X1 - [ ] = [0]
+@134: #35/push1i 0 T0/X1 - [ ] = [0]
+@136: #39/push2i 223 T0/X2 - [E"] = [37,2]
+@139: #35/push1i 0 T0/X1 - [ ] = [0]
+@141: #36/push1f 0.1 T1/X1 - [!] = [1]
+@143: #37/push1d 0.18 T2/X1 - [2] = [18]
+@145: #35/push1i 0 T0/X1 - [ ] = [0]
+@147: #36/push1f 1.2 T1/X1 - [,] = [12]
+@149: #35/push1i 0 T0/X1 - [ ] = [0]
+@151: #35/push1i 0 T0/X1 - [ ] = [0]
+@153: #39/push2i 494 T0/X2 - [=%] = [29,5]
+@156: #37/push1d 0.06 T2/X1 - [&] = [6]
+@158: #35/push1i 0 T0/X1 - [ ] = [0]
+@160: #36/push1f 0.2 T1/X1 - ["] = [2]
+@162: #35/push1i 39 T0/X1 - [G] = [39]
+@164: #35/push1i 0 T0/X1 - [ ] = [0]
+@166: #35/push1i 0 T0/X1 - [ ] = [0]
+@168: #42/push2u 0.5700000000000001 T3/X2 - [,&] = [12,6]
+@171: #37/push1d 0.03 T2/X1 - [#] = [3]
+@173: #35/push1i 0 T0/X1 - [ ] = [0]
+@175: #39/push2i -1498 T0/X2 - [un] = [83,76]
+@179: #36/push1f 2.4 T1/X1 - [8] = [24]
+@181: #35/push1i 0 T0/X1 - [ ] = [0]
+@183: #39/push2i 65 T0/X2 - [c ] = [65,0]
+@186: #37/push1d 0.03 T2/X1 - [#] = [3]
+@188: #37/push1d 0.09 T2/X1 - [)] = [9]
+@190: #41/push2d 0.46 T2/X2 - [N ] = [46,0]
+@193: #35/push1i 1 T0/X1 - [!] = [1]
+@195: #36/push1f 3.5 T1/X1 - [C] = [35]
+@197: #35/push1i 2 T0/X1 - ["] = [2]
+@199: #35/push1i -5 T0/X1 - [z] = [88]
+@201: #35/push1i 0 T0/X1 - [ ] = [0]
+@203: #35/push1i 0 T0/X1 - [ ] = [0]
+@205: #37/push1d 0.13 T2/X1 - [-] = [13]
+### found numbers to compact: 4 -> 8 bytes
+[
+  { t: 0, x: 1, d: [ 2 ], s: [ '"' ], S: '"', v: 2, at: 197, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 88 ],
+    s: [ 'z' ],
+    S: 'z',
+    v: -5,
+    at: 199,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 201, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 203, iop: 35 }
+]
+op code: 51
+@205: #36/push1f 1.3 T1/X1 - [-] = [13]
+@207: #35/push1i 0 T0/X1 - [ ] = [0]
+@209: #36/push1f 0.9 T1/X1 - [)] = [9]
+@211: #42/push2u 0.43000000000000005 T3/X2 - [Z$] = [58,4]
+@214: #37/push1d 0.31 T2/X1 - [?] = [31]
+@216: #37/push1d 0.26 T2/X1 - [:] = [26]
+@218: #37/push1d 0.04 T2/X1 - [$] = [4]
+@221: #36/push1f 1.4 T1/X1 - [.] = [14]
+@223: #35/push1i 0 T0/X1 - [ ] = [0]
+@225: #39/push2i 138 T0/X2 - [M!] = [45,1]
+@228: #35/push1i 0 T0/X1 - [ ] = [0]
+@230: #37/push1d 0.01 T2/X1 - [!] = [1]
+@232: #37/push1d 0.02 T2/X1 - ["] = [2]
+@234: #35/push1i 0 T0/X1 - [ ] = [0]
+@236: #36/push1f 1.3 T1/X1 - [-] = [13]
+@238: #35/push1i 0 T0/X1 - [ ] = [0]
+@240: #35/push1i -32 T0/X1 - [^] = [61]
+@242: #35/push1i -44 T0/X1 - [Q] = [49]
+@244: #35/push1i 0 T0/X1 - [ ] = [0]
+@246: #35/push1i 0 T0/X1 - [ ] = [0]
+@248: #35/push1i 0 T0/X1 - [ ] = [0]
+@250: #39/push2i 53 T0/X2 - [U ] = [53,0]
+### found numbers to compact: 6 -> 12 bytes
+[
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 238, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 61 ],
+    s: [ '^' ],
+    S: '^',
+    v: -32,
+    at: 240,
+    iop: 35
+  },
+  {
+    t: 0,
+    x: 1,
+    d: [ 49 ],
+    s: [ 'Q' ],
+    S: 'Q',
+    v: -44,
+    at: 242,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 244, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 246, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 248, iop: 35 }
+]
+op code: 51
+@249: #35/push1i 0 T0/X1 - [ ] = [0]
+@251: #35/push1i 0 T0/X1 - [ ] = [0]
+@253: #42/push2u 0.58 T3/X2 - [6&] = [22,6]
+@256: #37/push1d 0.03 T2/X1 - [#] = [3]
+@259: #42/push2u 1.1 T3/X2 - [o+] = [77,11]
+@262: #35/push1i 0 T0/X1 - [ ] = [0]
+@264: #39/push2i 60 T0/X2 - [] ] = [60,0]
+@267: #37/push1d 0.03 T2/X1 - [#] = [3]
+@269: #37/push1d 0.06 T2/X1 - [&] = [6]
+@271: #42/push2u 0.15000000000000002 T3/X2 - [Y!] = [57,1]
+@274: #35/push1i 1 T0/X1 - [!] = [1]
+@276: #36/push1f 2.9 T1/X1 - [=] = [29]
+@278: #35/push1i 0 T0/X1 - [ ] = [0]
+@280: #35/push1i 25 T0/X1 - [9] = [25]
+@282: #35/push1i 0 T0/X1 - [ ] = [0]
+@284: #35/push1i 0 T0/X1 - [ ] = [0]
+@286: #35/push1i 0 T0/X1 - [ ] = [0]
+@288: #36/push1f 0.8 T1/X1 - [(] = [8]
+### found numbers to compact: 5 -> 10 bytes
+[
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 278, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 25 ],
+    s: [ '9' ],
+    S: '9',
+    v: 25,
+    at: 280,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 282, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 284, iop: 35 },
+  { t: 0, x: 1, d: [ 0 ], s: [ ' ' ], S: ' ', v: 0, at: 286, iop: 35 }
+]
+op code: 51
+@287: #35/push1i 0 T0/X1 - [ ] = [0]
+@289: #36/push1f 0.1 T1/X1 - [!] = [1]
+@291: #35/push1i 0 T0/X1 - [ ] = [0]
+@293: #42/push2u 0.7899999999999999 T3/X2 - [N(] = [46,8]
+@296: #37/push1d 0.05 T2/X1 - [%] = [5]
+@298: #35/push1i 0 T0/X1 - [ ] = [0]
+@300: #39/push2i -898 T0/X2 - [@u] = [32,83]
+@304: #36/push1f 0.6 T1/X1 - [&] = [6]
+@306: #35/push1i 0 T0/X1 - [ ] = [0]
+@308: #39/push2i 172 T0/X2 - [q!] = [79,1]
+@311: #37/push1d 0.03 T2/X1 - [#] = [3]
+@313: #37/push1d 0.01 T2/X1 - [!] = [1]
+@315: #37/push1d 0.01 T2/X1 - [!] = [1]
+@317: #35/push1i 3 T0/X1 - [#] = [3]
+@319: #36/push1f 2.8 T1/X1 - [<] = [28]
+@321: #36/push1f -0.1 T1/X1 - [~] = [92]
+@323: #36/push1f 0.1 T1/X1 - [!] = [1]
+@325: #39/push2i -55 T0/X2 - [F~] = [38,92]
+@328: #37/push1d 0.03 T2/X1 - [#] = [3]
+@330: #37/push1d 0.01 T2/X1 - [!] = [1]
+@332: #36/push1f 0.8 T1/X1 - [(] = [8]
+@334: #40/push2f 9.9 T1/X2 - [&!] = [6,1]
+@337: #36/push1f 0.1 T1/X1 - [!] = [1]
+@339: #35/push1i 0 T0/X1 - [ ] = [0]
+@341: #36/push1f 0.6 T1/X1 - [&] = [6]
+@343: #37/push1d 0.01 T2/X1 - [!] = [1]
+@345: #37/push1d 0.04 T2/X1 - [$] = [4]
+@347: #39/push2i -1487 T0/X2 - [!o] = [1,77]
+'#32[@]: new word @[0][kube]'
+@352: #35/push1i -1 T0/X1 - [~] = [92]
+@354: #35/push1i 1 T0/X1 - [!] = [1]
+@356: #35/push1i -1 T0/X1 - [~] = [92]
+@358: #35/push1i 1 T0/X1 - [!] = [1]
+@360: #35/push1i 1 T0/X1 - [!] = [1]
+@362: #35/push1i 1 T0/X1 - [!] = [1]
+@364: #35/push1i -1 T0/X1 - [~] = [92]
+@366: #35/push1i 1 T0/X1 - [!] = [1]
+@368: #35/push1i 1 T0/X1 - [!] = [1]
+@370: #35/push1i -1 T0/X1 - [~] = [92]
+@372: #35/push1i 1 T0/X1 - [!] = [1]
+@374: #35/push1i -1 T0/X1 - [~] = [92]
+@376: #35/push1i 1 T0/X1 - [!] = [1]
+@378: #35/push1i 1 T0/X1 - [!] = [1]
+@380: #35/push1i -1 T0/X1 - [~] = [92]
+@382: #35/push1i 1 T0/X1 - [!] = [1]
+@384: #35/push1i 1 T0/X1 - [!] = [1]
+@386: #35/push1i 1 T0/X1 - [!] = [1]
+### found numbers to compact: 18 -> 36 bytes
+[
+  {
+    t: 0,
+    x: 1,
+    d: [ 92 ],
+    s: [ '~' ],
+    S: '~',
+    v: -1,
+    at: 352,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 354, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 92 ],
+    s: [ '~' ],
+    S: '~',
+    v: -1,
+    at: 356,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 358, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 360, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 362, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 92 ],
+    s: [ '~' ],
+    S: '~',
+    v: -1,
+    at: 364,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 366, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 368, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 92 ],
+    s: [ '~' ],
+    S: '~',
+    v: -1,
+    at: 370,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 372, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 92 ],
+    s: [ '~' ],
+    S: '~',
+    v: -1,
+    at: 374,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 376, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 378, iop: 35 },
+  {
+    t: 0,
+    x: 1,
+    d: [ 92 ],
+    s: [ '~' ],
+    S: '~',
+    v: -1,
+    at: 380,
+    iop: 35
+  },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 382, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 384, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 386, iop: 35 }
+]
+op code: 51
+'#32[@]: new word @[1][metal]'
+@387: #41/push2d 0.63 T2/X2 - [a ] = [63,0]
+@390: #41/push2d 0.63 T2/X2 - [a ] = [63,0]
+@393: #41/push2d 0.63 T2/X2 - [a ] = [63,0]
+@396: #37/push1d 0.32 T2/X1 - [@] = [32]
+@398: #41/push2d 0.63 T2/X2 - [a ] = [63,0]
+@401: #41/push2d 0.63 T2/X2 - [a ] = [63,0]
+@404: #41/push2d 0.63 T2/X2 - [a ] = [63,0]
+@407: #37/push1d 0.32 T2/X1 - [@] = [32]
+@409: #35/push1i 1 T0/X1 - [!] = [1]
+@411: #35/push1i 1 T0/X1 - [!] = [1]
+@413: #35/push1i 1 T0/X1 - [!] = [1]
+@415: #36/push1f 0.9 T1/X1 - [)] = [9]
+@417: #35/push1i 10 T0/X1 - [*] = [10]
+@421: #36/push1f 0.9 T1/X1 - [)] = [9]
+@423: #41/push2d 0.54 T2/X2 - [V ] = [54,0]
+@426: #42/push2u 0.14 T3/X2 - [O!] = [47,1]
+@429: #42/push2u 0.15000000000000002 T3/X2 - [Y!] = [57,1]
+@432: #36/push1f 0.7 T1/X1 - ['] = [7]
+@434: #36/push1f 0.2 T1/X1 - ["] = [2]
+@436: #36/push1f 0.1 T1/X1 - [!] = [1]
+@438: #36/push1f 0.4 T1/X1 - [$] = [4]
+@440: #35/push1i 1 T0/X1 - [!] = [1]
+### found numbers to compact: 4 -> 8 bytes
+[
+  {
+    t: 1,
+    x: 1,
+    d: [ 7 ],
+    s: [ "'" ],
+    S: "'",
+    v: 0.7,
+    at: 432,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 2 ],
+    s: [ '"' ],
+    S: '"',
+    v: 0.2,
+    at: 434,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 1 ],
+    s: [ '!' ],
+    S: '!',
+    v: 0.1,
+    at: 436,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 4 ],
+    s: [ '$' ],
+    S: '$',
+    v: 0.4,
+    at: 438,
+    iop: 36
+  }
+]
+op code: 52
+@440: #35/push1i 1 T0/X1 - [!] = [1]
+@442: #35/push1i 1 T0/X1 - [!] = [1]
+@444: #36/push1f 0.4 T1/X1 - [$] = [4]
+@446: #36/push1f 0.5 T1/X1 - [%] = [5]
+@448: #35/push1i 1 T0/X1 - [!] = [1]
+@450: #35/push1i 1 T0/X1 - [!] = [1]
+@452: #35/push1i 1 T0/X1 - [!] = [1]
+@454: #35/push1i 8 T0/X1 - [(] = [8]
+### found numbers to compact: 4 -> 8 bytes
+[
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 448, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 450, iop: 35 },
+  { t: 0, x: 1, d: [ 1 ], s: [ '!' ], S: '!', v: 1, at: 452, iop: 35 },
+  { t: 0, x: 1, d: [ 8 ], s: [ '(' ], S: '(', v: 8, at: 454, iop: 35 }
+]
+op code: 51
+@460: #37/push1d 0.32 T2/X1 - [@] = [32]
+@462: #37/push1d 0.22 T2/X1 - [6] = [22]
+@464: #36/push1f 0.2 T1/X1 - ["] = [2]
+@466: #36/push1f 0.2 T1/X1 - ["] = [2]
+@468: #36/push1f 0.4 T1/X1 - [$] = [4]
+@470: #36/push1f 0.3 T1/X1 - [#] = [3]
+@472: #36/push1f 0.2 T1/X1 - ["] = [2]
+@474: #36/push1f 0.4 T1/X1 - [$] = [4]
+@476: #35/push1i 1 T0/X1 - [!] = [1]
+### found numbers to compact: 6 -> 12 bytes
+[
+  {
+    t: 1,
+    x: 1,
+    d: [ 2 ],
+    s: [ '"' ],
+    S: '"',
+    v: 0.2,
+    at: 464,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 2 ],
+    s: [ '"' ],
+    S: '"',
+    v: 0.2,
+    at: 466,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 4 ],
+    s: [ '$' ],
+    S: '$',
+    v: 0.4,
+    at: 468,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 3 ],
+    s: [ '#' ],
+    S: '#',
+    v: 0.3,
+    at: 470,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 2 ],
+    s: [ '"' ],
+    S: '"',
+    v: 0.2,
+    at: 472,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 4 ],
+    s: [ '$' ],
+    S: '$',
+    v: 0.4,
+    at: 474,
+    iop: 36
+  }
+]
+op code: 52
+@474: #35/push1i 1 T0/X1 - [!] = [1]
+@476: #35/push1i 1 T0/X1 - [!] = [1]
+@478: #36/push1f 0.6 T1/X1 - [&] = [6]
+@480: #35/push1i 7 T0/X1 - ['] = [7]
+@488: #36/push1f 0.5 T1/X1 - [%] = [5]
+@490: #36/push1f 0.5 T1/X1 - [%] = [5]
+@492: #36/push1f 0.5 T1/X1 - [%] = [5]
+@494: #36/push1f 0.1 T1/X1 - [!] = [1]
+@496: #36/push1f 0.5 T1/X1 - [%] = [5]
+@498: #36/push1f 0.5 T1/X1 - [%] = [5]
+@500: #36/push1f 0.5 T1/X1 - [%] = [5]
+@502: #36/push1f 0.3 T1/X1 - [#] = [3]
+@504: #35/push1i 1 T0/X1 - [!] = [1]
+### found numbers to compact: 8 -> 16 bytes
+[
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 488,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 490,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 492,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 1 ],
+    s: [ '!' ],
+    S: '!',
+    v: 0.1,
+    at: 494,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 496,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 498,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 500,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 3 ],
+    s: [ '#' ],
+    S: '#',
+    v: 0.3,
+    at: 502,
+    iop: 36
+  }
+]
+op code: 52
+@500: #36/push1f 0.6 T1/X1 - [&] = [6]
+@502: #36/push1f 0.8 T1/X1 - [(] = [8]
+@504: #36/push1f 0.5 T1/X1 - [%] = [5]
+@506: #35/push1i 20 T0/X1 - [4] = [20]
+@519: #35/push1i 8 T0/X1 - [(] = [8]
+@521: #35/push1i 1 T0/X1 - [!] = [1]
+@523: #35/push1i 8 T0/X1 - [(] = [8]
+@526: #36/push1f 0.5 T1/X1 - [%] = [5]
+@528: #36/push1f 0.5 T1/X1 - [%] = [5]
+@530: #36/push1f 0.8 T1/X1 - [(] = [8]
+@532: #36/push1f 0.2 T1/X1 - ["] = [2]
+@534: #36/push1f 0.5 T1/X1 - [%] = [5]
+@536: #36/push1f 0.6 T1/X1 - [&] = [6]
+@538: #36/push1f 0.7 T1/X1 - ['] = [7]
+@540: #36/push1f 0.6 T1/X1 - [&] = [6]
+@542: #36/push1f 0.7 T1/X1 - ['] = [7]
+@544: #35/push1i 1 T0/X1 - [!] = [1]
+### found numbers to compact: 9 -> 18 bytes
+[
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 526,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 528,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 8 ],
+    s: [ '(' ],
+    S: '(',
+    v: 0.8,
+    at: 530,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 2 ],
+    s: [ '"' ],
+    S: '"',
+    v: 0.2,
+    at: 532,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 534,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 6 ],
+    s: [ '&' ],
+    S: '&',
+    v: 0.6,
+    at: 536,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 7 ],
+    s: [ "'" ],
+    S: "'",
+    v: 0.7,
+    at: 538,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 6 ],
+    s: [ '&' ],
+    S: '&',
+    v: 0.6,
+    at: 540,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 7 ],
+    s: [ "'" ],
+    S: "'",
+    v: 0.7,
+    at: 542,
+    iop: 36
+  }
+]
+op code: 52
+@539: #35/push1i 1 T0/X1 - [!] = [1]
+@541: #36/push1f 0.8 T1/X1 - [(] = [8]
+@543: #35/push1i 21 T0/X1 - [5] = [21]
+@546: #35/push1i 8 T0/X1 - [(] = [8]
+@548: #35/push1i 1 T0/X1 - [!] = [1]
+@550: #35/push1i 8 T0/X1 - [(] = [8]
+@567: #35/push1i 8 T0/X1 - [(] = [8]
+@569: #35/push1i 2 T0/X1 - ["] = [2]
+@571: #35/push1i 8 T0/X1 - [(] = [8]
+@574: #36/push1f 0.5 T1/X1 - [%] = [5]
+@576: #36/push1f 0.6 T1/X1 - [&] = [6]
+@578: #36/push1f 0.7 T1/X1 - ['] = [7]
+@580: #36/push1f 0.2 T1/X1 - ["] = [2]
+@582: #35/push1i 1 T0/X1 - [!] = [1]
+### found numbers to compact: 4 -> 8 bytes
+[
+  {
+    t: 1,
+    x: 1,
+    d: [ 5 ],
+    s: [ '%' ],
+    S: '%',
+    v: 0.5,
+    at: 574,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 6 ],
+    s: [ '&' ],
+    S: '&',
+    v: 0.6,
+    at: 576,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 7 ],
+    s: [ "'" ],
+    S: "'",
+    v: 0.7,
+    at: 578,
+    iop: 36
+  },
+  {
+    t: 1,
+    x: 1,
+    d: [ 2 ],
+    s: [ '"' ],
+    S: '"',
+    v: 0.2,
+    at: 580,
+    iop: 36
+  }
+]
+op code: 52
+@582: #36/push1f 0.2 T1/X1 - ["] = [2]
+@584: #35/push1i 0 T0/X1 - [ ] = [0]
+@586: #36/push1f 0.8 T1/X1 - [(] = [8]
+@588: #35/push1i 1 T0/X1 - [!] = [1]
+@590: #35/push1i 1 T0/X1 - [!] = [1]
+@592: #35/push1i 1 T0/X1 - [!] = [1]
+@594: #36/push1f 0.8 T1/X1 - [(] = [8]
+@596: #35/push1i 20 T0/X1 - [4] = [20]
+@599: #35/push1i 8 T0/X1 - [(] = [8]
+@601: #35/push1i 2 T0/X1 - ["] = [2]
+@603: #35/push1i 8 T0/X1 - [(] = [8]
+@619: #35/push1i 1 T0/X1 - [!] = [1]
+@621: #35/push1i 1 T0/X1 - [!] = [1]
+@623: #36/push1f 0.1 T1/X1 - [!] = [1]
+@626: #37/push1d 0.06 T2/X1 - [&] = [6]
+@628: #37/push1d 0.06 T2/X1 - [&] = [6]
+@630: #42/push2u 0.07 T3/X2 - [h ] = [70,0]
+@633: #37/push1d 0.32 T2/X1 - [@] = [32]
+@635: #37/push1d 0.13 T2/X1 - [-] = [13]
+@637: #37/push1d 0.13 T2/X1 - [-] = [13]
+@639: #42/push2u 0.14 T3/X2 - [O!] = [47,1]
+@642: #41/push2d 0.65 T2/X2 - [c ] = [65,0]
+@645: #35/push1i 1 T0/X1 - [!] = [1]
+@647: #35/push1i 1 T0/X1 - [!] = [1]
+@649: #35/push1i 1 T0/X1 - [!] = [1]
+@651: #36/push1f 0.3 T1/X1 - [#] = [3]
+@653: #35/push1i 20 T0/X1 - [4] = [20]
+@656: #35/push1i 3 T0/X1 - [#] = [3]
+@658: #36/push1f 2.5 T1/X1 - [9] = [25]
+@660: #35/push1i 3 T0/X1 - [#] = [3]
+@676: #37/push1d 0.25 T2/X1 - [9] = [25]
+@678: #37/push1d 0.25 T2/X1 - [9] = [25]
+@680: #37/push1d 0.25 T2/X1 - [9] = [25]
+@685: #35/push1i 0 T0/X1 - [ ] = [0]
+@687: #37/push1d -0.45 T2/X1 - [P] = [48]
+@689: #35/push1i 0 T0/X1 - [ ] = [0]
+@692: #35/push1i 25 T0/X1 - [9] = [25]
+@696: #35/push1i 15 T0/X1 - [/] = [15]
+@718: #36/push1f 0.5 T1/X1 - [%] = [5]
+@720: #37/push1d 0.35 T2/X1 - [C] = [35]
+@722: #37/push1d 0.11 T2/X1 - [+] = [11]
+@725: #36/push1f -0.2 T1/X1 - [}] = [91]
+@727: #35/push1i 2 T0/X1 - ["] = [2]
+@729: #35/push1i 0 T0/X1 - [ ] = [0]
+Not used instructions: 
+? [mid]
+? [mrotX]
+? [reflectX]
+? [reflectZ]
+? [scale]
+? [tuv]
+? [ring]
+? [tetrahedron]
+? [cone]
+? [dump]
+? [dumpv]
+[D%E(C&D'E&C(D"E$C$D&F#C(D#F%C'D&F'C(?#nfq7T($"##/$"%7D#C G|!E"J;!E&C!D'S(%)    ! E!I^ E-C G(!7C C G>%E!E(E$C!D@S%&    D,C D#E!J='E%7C C GE"C D!E2C D,C C G=%E&C D"CGC C J,&E#C Gun7D8C Gc E#E)IN C!DCS$"z  E-D-C D)JZ$E?E:E$7D.C GM!C E!E"C D-S& ^Q   GU C C J6&E#7Jo+C G] E#E&JY!C!D=S% 9   D(C D!C JN(E%C G@u7D&C Gq!E#E!E!C#D<D~D!GF~E#E!D(H&!D!C D&E!E$G!o7@S2~!~!!!~!!~!~!!~!!!22.!#%+$%,$"$A@Ia Ia Ia E@Ia Ia Ia E@C!C!C!D)C*4AD)IV JO!JY!T$'"!$C!C!C!D$D%S$!!!(?#pad4E@E6T&""$#"$C!C!C!D&C'?#blk4T(%%%!%%%#C!D&D(D%C4?#bak4 !C BC(C!C(1T)%%("%&'&'C!C!D(C54C(C!C(6?$cell8"9 !C BC(C"C(1T$%&'"C!D"C D(C!C!C!D(C44C(C"C(6?#pad8"9 !C BC!C!D!1E&E&Jh E@E-E-JO!Ic C!C!C!D#C44C#D9C#6?&floppy8"9! E9E9E9(%+C EPC )C9&5C/&C!B?%fdisc89"! C B#D%ECE+(D}C"C )$C!B?'shutter89"]
+======================================
+Saving to [./mod/stage/slib.js]
+function zapScrewLib(){geo(`D%E(C&D'E&C(D"E$C$D&F#C(D#F%C'D&F'C(?#nfq7T($"##/$"%7D#C G|!E"J;!E&C!D'S(%)    ! E!I^ E-C G(!7C C G>%E!E(E$C!D@S%&    D,C D#E!J='E%7C C GE"C D!E2C D,C C G=%E&C D"CGC C J,&E#C Gun7D8C Gc E#E)IN C!DCS$"z  E-D-C D)JZ$E?E:E$7D.C GM!C E!E"C D-S& ^Q   GU C C J6&E#7Jo+C G] E#E&JY!C!D=S% 9   D(C D!C JN(E%C G@u7D&C Gq!E#E!E!C#D<D~D!GF~E#E!D(H&!D!C D&E!E$G!o7@S2~!~!!!~!!~!~!!~!!!22.!#%+$%,$"$A@Ia Ia Ia E@Ia Ia Ia E@C!C!C!D)C*4AD)IV JO!JY!T$'"!$C!C!C!D$D%S$!!!(?#pad4E@E6T&""$#"$C!C!C!D&C'?#blk4T(%%%!%%%#C!D&D(D%C4?#bak4 !C BC(C!C(1T)%%("%&'&'C!C!D(C54C(C!C(6?$cell8"9 !C BC(C"C(1T$%&'"C!D"C D(C!C!C!D(C44C(C"C(6?#pad8"9 !C BC!C!D!1E&E&Jh E@E-E-JO!Ic C!C!C!D#C44C#D9C#6?&floppy8"9! E9E9E9(%+C EPC )C9&5C/&C!B?%fdisc89"! C B#D%ECE+(D}C"C )$C!B?'shutter89"`)}
+779	./mod/stage/slib.js
+Staging the Package...
+'./mod/style.css' -> './dist/stage/style.css'
+'./mod/html/index.html' -> './dist/stage/index.html'
+'./mod/dry' -> './dist/stage/dry'
+'./mod/dry/math.js' -> './dist/stage/dry/math.js'
+'./mod/dry/util.js' -> './dist/stage/dry/util.js'
+'./mod/dry/zap.js' -> './dist/stage/dry/zap.js'
+'./mod/jet' -> './dist/stage/jet'
+'./mod/jet/fx.js' -> './dist/stage/jet/fx.js'
+'./mod/jet/geo.js' -> './dist/stage/jet/geo.js'
+'./mod/jet/setup.js' -> './dist/stage/jet/setup.js'
+'./mod/jet/env.js' -> './dist/stage/jet/env.js'
+'./mod/jet/shader.js' -> './dist/stage/jet/shader.js'
+'./mod/jet/tween.js' -> './dist/stage/jet/tween.js'
+'./mod/jet/cycle.js' -> './dist/stage/jet/cycle.js'
+'./mod/jet/trap.js' -> './dist/stage/jet/trap.js'
+'./mod/jet/com' -> './dist/stage/jet/com'
+'./mod/jet/com/FPSMovementControllerPod.js' -> './dist/stage/jet/com/FPSMovementControllerPod.js'
+'./mod/jet/com/SolidBoxPod.js' -> './dist/stage/jet/com/SolidBoxPod.js'
+'./mod/jet/com/attitudeTrait.js' -> './dist/stage/jet/com/attitudeTrait.js'
+'./mod/jet/dna' -> './dist/stage/jet/dna'
+'./mod/jet/dna/Camera.js' -> './dist/stage/jet/dna/Camera.js'
+'./mod/jet/dna/Surface.js' -> './dist/stage/jet/dna/Surface.js'
+'./mod/jet/dna/Form.js' -> './dist/stage/jet/dna/Form.js'
+'./mod/jet/ken' -> './dist/stage/jet/ken'
+'./mod/jet/ken/pnoise.js' -> './dist/stage/jet/ken/pnoise.js'
+'./mod/stage' -> './dist/stage/stage'
+'./mod/stage/default.js' -> './dist/stage/stage/default.js'
+'./mod/stage/tune.js' -> './dist/stage/stage/tune.js'
+'./mod/stage/slib.js' -> './dist/stage/stage/slib.js'
+'./mod/stage/preStage.js' -> './dist/stage/stage/preStage.js'
+'./mod/stage/fader.js' -> './dist/stage/stage/fader.js'
+'./mod/stage/sutil.js' -> './dist/stage/stage/sutil.js'
+'./mod/stage/dna' -> './dist/stage/stage/dna'
+'./mod/stage/dna/Connection.js' -> './dist/stage/stage/dna/Connection.js'
+'./mod/stage/dna/Hero.js' -> './dist/stage/stage/dna/Hero.js'
+'./mod/stage/dna/MegaCity.js' -> './dist/stage/stage/dna/MegaCity.js'
+'./mod/stage/dna/Floppy.js' -> './dist/stage/stage/dna/Floppy.js'
+'./mod/stage/dna/Terrace.js' -> './dist/stage/stage/dna/Terrace.js'
+'./mod/stage/com' -> './dist/stage/stage/com'
+'./mod/stage/com/collidableTrait.js' -> './dist/stage/stage/com/collidableTrait.js'
+Fixing the Package...
+/home/shock/dna/pub/liminal.13k/dist/stage/jet
+Changing debug flag to 0...
+Removing comment lines from shaders...
+/home/shock/dna/pub/liminal.13k
+==============
+=   Minify   =
+==============
+=== Loading [./dist/stage] ===
+ * loaded [./dist/stage/dry/math.js]:	16351b
+ * loaded [./dist/stage/dry/util.js]:	2195b
+ * loaded [./dist/stage/dry/zap.js]:	2351b
+ * loaded [./dist/stage/index.html]:	265b
+ * loaded [./dist/stage/jet/com/FPSMovementControllerPod.js]:	2770b
+ * loaded [./dist/stage/jet/com/SolidBoxPod.js]:	3946b
+ * loaded [./dist/stage/jet/com/attitudeTrait.js]:	1495b
+ * loaded [./dist/stage/jet/cycle.js]:	2152b
+ * loaded [./dist/stage/jet/dna/Camera.js]:	1756b
+ * loaded [./dist/stage/jet/dna/Form.js]:	471b
+ * loaded [./dist/stage/jet/dna/Surface.js]:	3332b
+ * loaded [./dist/stage/jet/env.js]:	1868b
+ * loaded [./dist/stage/jet/fx.js]:	8511b
+ * loaded [./dist/stage/jet/geo.js]:	16740b
+ * loaded [./dist/stage/jet/ken/pnoise.js]:	1852b
+ * loaded [./dist/stage/jet/setup.js]:	2682b
+ * loaded [./dist/stage/jet/shader.js]:	2687b
+ * loaded [./dist/stage/jet/trap.js]:	1662b
+ * loaded [./dist/stage/jet/tween.js]:	571b
+ * loaded [./dist/stage/stage/com/collidableTrait.js]:	1106b
+ * loaded [./dist/stage/stage/default.js]:	590b
+ * loaded [./dist/stage/stage/dna/Connection.js]:	2307b
+ * loaded [./dist/stage/stage/dna/Floppy.js]:	672b
+ * loaded [./dist/stage/stage/dna/Hero.js]:	9854b
+ * loaded [./dist/stage/stage/dna/MegaCity.js]:	4748b
+ * loaded [./dist/stage/stage/dna/Terrace.js]:	8053b
+ * loaded [./dist/stage/stage/fader.js]:	1507b
+ * loaded [./dist/stage/stage/preStage.js]:	173b
+ * loaded [./dist/stage/stage/slib.js]:	779b
+ * loaded [./dist/stage/stage/sutil.js]:	306b
+ * loaded [./dist/stage/stage/tune.js]:	128b
+ * loaded [./dist/stage/style.css]:	171b
+-------------------------------------------
+   Total : 104051b
+-------------------------------------------
+ * saving [./dist/targetX/zap.js]
+
+=== Minified Stats ===
+=== Loading [./dist/targetX] ===
+ * loaded [./dist/targetX/zap.js]:	31291b
+-------------------------------------------
+   Total : 31291b
+-------------------------------------------
+'./dist/stage/index.html' -> './dist/targetX/index.html'
+'./dist/stage/style.css' -> './dist/targetX/style.css'
+==============
+=    GULP    =
+==============
+[13:58:24] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[13:58:24] Starting 'buildXC'...
+[13:58:25] Finished 'buildXC' after 39 ms
+[13:58:25] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[13:58:25] Starting 'buildXH'...
+[13:58:25] Finished 'buildXH' after 32 ms
+[13:58:25] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[13:58:25] Starting 'buildY'...
+[13:58:26] Finished 'buildY' after 725 ms
+[13:58:26] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[13:58:27] Using gulpfile ~/dna/pub/liminal.13k/gulpfile.js
+[13:58:27] Starting 'buildZ'...
+[13:58:27] Finished 'buildZ' after 89 ms
+Indexing in ./dist/stage
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liminal</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="./dry/math.js"></script>
+        <script src="./dry/util.js"></script>
+        <script src="./dry/zap.js"></script>
+        <script src="./jet/com/attitudeTrait.js"></script>
+        <script src="./jet/com/FPSMovementControllerPod.js"></script>
+        <script src="./jet/com/SolidBoxPod.js"></script>
+        <script src="./jet/cycle.js"></script>
+        <script src="./jet/dna/Camera.js"></script>
+        <script src="./jet/dna/Form.js"></script>
+        <script src="./jet/dna/Surface.js"></script>
+        <script src="./jet/env.js"></script>
+        <script src="./jet/fx.js"></script>
+        <script src="./jet/geo.js"></script>
+        <script src="./jet/ken/pnoise.js"></script>
+        <script src="./jet/setup.js"></script>
+        <script src="./jet/shader.js"></script>
+        <script src="./jet/trap.js"></script>
+        <script src="./jet/tween.js"></script>
+        <script src="./prezap.js"></script>
+        <script src="./stage/com/collidableTrait.js"></script>
+        <script src="./stage/default.js"></script>
+        <script src="./stage/dna/Connection.js"></script>
+        <script src="./stage/dna/Floppy.js"></script>
+        <script src="./stage/dna/Hero.js"></script>
+        <script src="./stage/dna/MegaCity.js"></script>
+        <script src="./stage/dna/Terrace.js"></script>
+        <script src="./stage/fader.js"></script>
+        <script src="./stage/preStage.js"></script>
+        <script src="./stage/slib.js"></script>
+        <script src="./stage/sutil.js"></script>
+        <script src="./stage/tune.js"></script>
+    </head>
+    <body>
+        <canvas id="gc"></canvas>
+        <canvas id="hc"></canvas>
+    </body>
+</html>
+'./.stage.tmp' -> './index.html'
+=== Closure Compiler ===
+=============
+=    ZIP    =
+=============
+Creating the archive from [./dist/targetX] => [liminalx.zip]
+/home/shock/dna/pub/liminal.13k/dist/targetX
+  adding: index.html (deflated 33%)
+  adding: style.css (deflated 13%)
+  adding: zap.js (deflated 60%)
+renamed 'liminalx.zip' -> '../liminalx.zip'
+/home/shock/dna/pub/liminal.13k
+---------------------------------
+Test unpackaging of [liminalx.zip]...
+Archive:  liminalx.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+     196  Defl:N      131  33% 2024-09-13 13:58 51df1a77  index.html
+     112  Defl:N       97  13% 2024-09-13 13:58 b7491df2  style.css
+   31291  Defl:N    12625  60% 2024-09-13 13:58 04b9dfe7  zap.js
+--------          -------  ---                            -------
+   31599            12853  59%                            3 files
+Archive:  liminalx.zip
+  inflating: liminalx.zip.out/index.html  
+  inflating: liminalx.zip.out/style.css  
+  inflating: liminalx.zip.out/zap.js  
+/home/shock/dna/pub/liminal.13k
+Creating the archive from [./dist/targetY] => [liminaly.zip]
+/home/shock/dna/pub/liminal.13k/dist/targetY
+  adding: index.html (deflated 33%)
+  adding: style.css (deflated 13%)
+  adding: zap.js (deflated 61%)
+renamed 'liminaly.zip' -> '../liminaly.zip'
+/home/shock/dna/pub/liminal.13k
+---------------------------------
+Test unpackaging of [liminaly.zip]...
+Archive:  liminaly.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+     196  Defl:N      131  33% 2024-09-13 13:58 51df1a77  index.html
+     112  Defl:N       97  13% 2024-09-13 13:58 b7491df2  style.css
+   34861  Defl:N    13578  61% 2024-09-13 13:58 437e41fb  zap.js
+--------          -------  ---                            -------
+   35169            13806  61%                            3 files
+Archive:  liminaly.zip
+  inflating: liminaly.zip.out/index.html  
+  inflating: liminaly.zip.out/style.css  
+  inflating: liminaly.zip.out/zap.js  
+/home/shock/dna/pub/liminal.13k
+Creating the archive from [./dist/targetZ] => [liminalz.zip]
+/home/shock/dna/pub/liminal.13k/dist/targetZ
+  adding: index.html (deflated 33%)
+  adding: style.css (deflated 13%)
+  adding: zap.js (stored 0%)
+renamed 'liminalz.zip' -> '../liminalz.zip'
+/home/shock/dna/pub/liminal.13k
+---------------------------------
+Test unpackaging of [liminalz.zip]...
+Archive:  liminalz.zip
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+     196  Defl:N      131  33% 2024-09-13 13:58 51df1a77  index.html
+     112  Defl:N       97  13% 2024-09-13 13:58 b7491df2  style.css
+       0  Stored        0   0% 2024-09-13 13:58 00000000  zap.js
+--------          -------  ---                            -------
+     308              228  26%                            3 files
+Archive:  liminalz.zip
+  inflating: liminalz.zip.out/index.html  
+  inflating: liminalz.zip.out/style.css  
+ extracting: liminalz.zip.out/zap.js  
+/home/shock/dna/pub/liminal.13k
+-------------------------------
+13309	./dist/liminalx.zip
+14262	./dist/liminaly.zip
+684	./dist/liminalz.zip
+13K	./dist/liminalx.zip
+14K	./dist/liminaly.zip
+684	./dist/liminalz.zip
+-------------------------------

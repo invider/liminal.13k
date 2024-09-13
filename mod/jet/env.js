@@ -68,7 +68,7 @@ const flags = {},
         ],
 
         dv: vec3(1, -.5, .7),  // directional light vector
-        dc: vec4(1, 1, 1, .8), // directional light color
+        dc: vec4(1, 1, 1, 1), // directional light color
 
         pl: [],
         pc: [],
