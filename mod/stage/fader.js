@@ -18,7 +18,7 @@ lab.attach({
 
     redraw: function() {
         if (this.fade) {
-            let style = '#170526' + (floor(this.fade * 255)).toString(16).padStart(2, '0')
+            let style = '#170526' + _2a(this.fade)
             ctx.fillStyle = style
             ctx.fillRect(0, 0, hc.width, hc.height)
         }

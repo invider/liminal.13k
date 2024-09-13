@@ -1,13 +1,26 @@
 let _up = [
-    [ 0, 0, 0.5, 360,  1 ],
-    [ 0, 0, 1,   360, -1 ],
-], _gr = 0, _score, _ilt = 0, _ht = []
-_S = [
-    'top',
-    'left',
-    'right',
-    'center',
-]
+        [ 0, 0, 0.5, 360,  1 ],
+        [ 0, 0, 1,   360, -1 ],
+    ], _gr = 0, _score, _ilt = 0,
+    _S = [
+        'top',
+        'left',
+        'right',
+        'center',
+    ],
+    _2a = (v) => (floor(v * 255)).toString(16).padStart(2, '0'),
+    _ht = [], h
+    _hi = (m, t) => {
+        _ht = _ht.filter(h => h.t > 0)
+        _ht.push({
+            m,
+            x: hc.width  - 20,
+            y: hc.height + 20,
+            dy: -hc.height * .1,
+            t,
+        })
+    }
+
 
 class Hero extends Frame {
 
@@ -81,6 +94,12 @@ class Hero extends Frame {
 
     evo(dt) {
         super.evo(dt)
+
+        for(h of _ht) {
+            //h.x += h.dx
+            h.y += h.dy * dt
+            h.t -= dt
+        }
 
         // uploading and downloading
         _up.forEach((e, i)=> {
@@ -271,8 +290,9 @@ class Hero extends Frame {
             }
         }
         for (h of _ht) {
+            ctx.fillStyle = env.cl + _2a(clamp(h.t, 0, 1))
             ctx.textAlign = _S[2]
-            ctx.fillText(h.t, h.x, h.y)
+            ctx.fillText(h.m, h.x, h.y)
         }
     }
 
